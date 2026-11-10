@@ -319,3 +319,11 @@ code { font-size: .85em; background: var(--accent-soft); padding: 1px 4px; borde
 @media screen and (max-width: 900px) { .keg-pick, .tabs { padding: 0 16px; } }
 /* Di ponsel, tab Hasil dan LPK tampil di atas panel isian */
 @media screen and (max-width: 900px) { body:not([data-tab="data"]) .main { order: -1; } }
+/* Rumus dan keterangan simbol */
+.paper .eq { text-align: center; margin: 8px 0 10px; font-size: 13pt; }
+.paper .eq math { font-family: "Cambria Math", "STIX Two Math", "Latin Modern Math", serif; }
+.paper table.ket { width: auto; margin: 0 0 10px; font-size: 12pt; }
+.paper table.ket td { border: 0; padding: 1px 6px 1px 0; vertical-align: top; }
+.paper table.ket td:first-child { min-width: 1.6cm; }
+.paper table.ket.lv2 { margin-left: 1.27cm; } .paper table.ket.lv3 { margin-left: 1.9cm; }
+.paper p.ket-head { margin: 4px 0 2px; }

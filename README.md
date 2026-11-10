@@ -83,7 +83,7 @@ tests/                     uji rumus dan contoh file patroli SMART
 ## Menambah kegiatan PEH baru
 
 1. Tambahkan kategori level 1 baru di `datamodel/metode-teknis.json` (di bawah `metodeteknis`), lalu jalankan `python3 tools/build_datamodel.py`.
-2. Rumus yang bisa dipakai kegiatan lain masuk ke `js/core/stats.js`; rumus khusus masuk ke folder kegiatan.
+2. Rumus yang bisa dipakai kegiatan lain masuk ke `js/core/stats.js`; rumus khusus masuk ke folder kegiatan. Untuk menampilkan rumus beserta simbolnya di LPK, pakai `PEHRumus` (`js/core/rumus.js`): `blockHtml(...)` untuk persamaan dan `ketHtml(...)` untuk daftar keterangan simbol. Keduanya tampil sebagai MathML di pratinjau dan menjadi equation asli Word saat diunduh.
 3. Buat folder `kegiatan/<nama>/` dengan berkas definisi yang memanggil `PEH.daftar({...})`. Contoh lengkap: `kegiatan/raptor/raptor.js`. Fungsi yang perlu disediakan:
 
 | Fungsi | Kegunaan |
