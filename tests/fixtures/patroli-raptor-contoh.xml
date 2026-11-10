@@ -1,0 +1,460 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!-- Contoh ekspor patroli SMART untuk uji impor. Data perjumpaan dari LPK Resort Piong Juni 2021; KOORDINAT DAN TANGGAL PER PLOT FIKTIF. -->
+<ns2:patrol xmlns:ns2="http://www.smartconservationsoftware.org/xml/1.0/patrol" id="CONTOH-RAPTOR-PIONG-2021" patrolType="GROUND" startDate="2021-06-10" endDate="2021-06-14" isArmed="false">
+  <ns2:objective value="Inventarisasi dan Sebaran Raptor"/>
+  <ns2:mandate value="Metode Teknis"/>
+  <ns2:legs id="leg1" startDate="2021-06-10" endDate="2021-06-14">
+    <ns2:transportType value="Jalan kaki"/>
+    <ns2:members givenName="Mohamad" familyName="Alwi, SP" employeeId="198203202001121002" isLeader="true" isPilot="false"/>
+    <ns2:members givenName="Ade Hadi" familyName="Pramono, S.Hut" employeeId="" isLeader="false" isPilot="false"/>
+    <ns2:days date="2021-06-10" startTime="07:00:00" endTime="15:00:00" restMinutes="0">
+      <ns2:waypoints id="1" x="118.00000" y="-8.25000" time="07:00:00">
+        <ns2:observations categoryKey="metodeteknis.inventarisasiraptor.titikpengamatan.">
+          <ns2:attributes attributeKey="noplot"><ns2:sValue>JP01</ns2:sValue></ns2:attributes>
+          <ns2:attributes attributeKey="jarijariplotm"><ns2:dValue>500.0</ns2:dValue></ns2:attributes>
+          <ns2:attributes attributeKey="jalurpengamatan"><ns2:itemKey>jalurpendakian</ns2:itemKey></ns2:attributes>
+          <ns2:attributes attributeKey="cuaca"><ns2:itemKey>cerah</ns2:itemKey></ns2:attributes>
+        </ns2:observations>
+      </ns2:waypoints>
+      <ns2:waypoints id="2" x="118.01000" y="-8.24600" time="07:01:00">
+        <ns2:observations categoryKey="metodeteknis.inventarisasiraptor.titikpengamatan.">
+          <ns2:attributes attributeKey="noplot"><ns2:sValue>JP02</ns2:sValue></ns2:attributes>
+          <ns2:attributes attributeKey="jarijariplotm"><ns2:dValue>500.0</ns2:dValue></ns2:attributes>
+          <ns2:attributes attributeKey="jalurpengamatan"><ns2:itemKey>jalurpendakian</ns2:itemKey></ns2:attributes>
+          <ns2:attributes attributeKey="cuaca"><ns2:itemKey>cerah</ns2:itemKey></ns2:attributes>
+        </ns2:observations>
+      </ns2:waypoints>
+      <ns2:waypoints id="3" x="118.02000" y="-8.24200" time="07:02:00">
+        <ns2:observations categoryKey="metodeteknis.inventarisasiraptor.titikpengamatan.">
+          <ns2:attributes attributeKey="noplot"><ns2:sValue>JP03</ns2:sValue></ns2:attributes>
+          <ns2:attributes attributeKey="jarijariplotm"><ns2:dValue>500.0</ns2:dValue></ns2:attributes>
+          <ns2:attributes attributeKey="jalurpengamatan"><ns2:itemKey>jalurpendakian</ns2:itemKey></ns2:attributes>
+          <ns2:attributes attributeKey="cuaca"><ns2:itemKey>cerah</ns2:itemKey></ns2:attributes>
+        </ns2:observations>
+      </ns2:waypoints>
+      <ns2:waypoints id="4" x="118.03000" y="-8.23800" time="07:03:00">
+        <ns2:observations categoryKey="metodeteknis.inventarisasiraptor.titikpengamatan.">
+          <ns2:attributes attributeKey="noplot"><ns2:sValue>JP04</ns2:sValue></ns2:attributes>
+          <ns2:attributes attributeKey="jarijariplotm"><ns2:dValue>500.0</ns2:dValue></ns2:attributes>
+          <ns2:attributes attributeKey="jalurpengamatan"><ns2:itemKey>jalurpendakian</ns2:itemKey></ns2:attributes>
+          <ns2:attributes attributeKey="cuaca"><ns2:itemKey>cerah</ns2:itemKey></ns2:attributes>
+        </ns2:observations>
+      </ns2:waypoints>
+      <ns2:waypoints id="5" x="118.04000" y="-8.23400" time="07:04:00">
+        <ns2:observations categoryKey="metodeteknis.inventarisasiraptor.titikpengamatan.">
+          <ns2:attributes attributeKey="noplot"><ns2:sValue>JP05</ns2:sValue></ns2:attributes>
+          <ns2:attributes attributeKey="jarijariplotm"><ns2:dValue>500.0</ns2:dValue></ns2:attributes>
+          <ns2:attributes attributeKey="jalurpengamatan"><ns2:itemKey>jalurpendakian</ns2:itemKey></ns2:attributes>
+          <ns2:attributes attributeKey="cuaca"><ns2:itemKey>cerah</ns2:itemKey></ns2:attributes>
+        </ns2:observations>
+      </ns2:waypoints>
+      <ns2:waypoints id="6" x="118.05000" y="-8.23000" time="07:05:00">
+        <ns2:observations categoryKey="metodeteknis.inventarisasiraptor.titikpengamatan.">
+          <ns2:attributes attributeKey="noplot"><ns2:sValue>JP06</ns2:sValue></ns2:attributes>
+          <ns2:attributes attributeKey="jarijariplotm"><ns2:dValue>500.0</ns2:dValue></ns2:attributes>
+          <ns2:attributes attributeKey="jalurpengamatan"><ns2:itemKey>jalurpendakian</ns2:itemKey></ns2:attributes>
+          <ns2:attributes attributeKey="cuaca"><ns2:itemKey>cerah</ns2:itemKey></ns2:attributes>
+        </ns2:observations>
+      </ns2:waypoints>
+      <ns2:waypoints id="7" x="118.06000" y="-8.22600" time="07:06:00">
+        <ns2:observations categoryKey="metodeteknis.inventarisasiraptor.titikpengamatan.">
+          <ns2:attributes attributeKey="noplot"><ns2:sValue>JP07</ns2:sValue></ns2:attributes>
+          <ns2:attributes attributeKey="jarijariplotm"><ns2:dValue>500.0</ns2:dValue></ns2:attributes>
+          <ns2:attributes attributeKey="jalurpengamatan"><ns2:itemKey>jalurpendakian</ns2:itemKey></ns2:attributes>
+          <ns2:attributes attributeKey="cuaca"><ns2:itemKey>cerah</ns2:itemKey></ns2:attributes>
+        </ns2:observations>
+      </ns2:waypoints>
+      <ns2:waypoints id="8" x="118.07000" y="-8.22200" time="07:07:00">
+        <ns2:observations categoryKey="metodeteknis.inventarisasiraptor.titikpengamatan.">
+          <ns2:attributes attributeKey="noplot"><ns2:sValue>JP08</ns2:sValue></ns2:attributes>
+          <ns2:attributes attributeKey="jarijariplotm"><ns2:dValue>500.0</ns2:dValue></ns2:attributes>
+          <ns2:attributes attributeKey="jalurpengamatan"><ns2:itemKey>jalurpendakian</ns2:itemKey></ns2:attributes>
+          <ns2:attributes attributeKey="cuaca"><ns2:itemKey>cerah</ns2:itemKey></ns2:attributes>
+        </ns2:observations>
+      </ns2:waypoints>
+      <ns2:waypoints id="9" x="118.08000" y="-8.21800" time="07:08:00">
+        <ns2:observations categoryKey="metodeteknis.inventarisasiraptor.titikpengamatan.">
+          <ns2:attributes attributeKey="noplot"><ns2:sValue>JP09</ns2:sValue></ns2:attributes>
+          <ns2:attributes attributeKey="jarijariplotm"><ns2:dValue>500.0</ns2:dValue></ns2:attributes>
+          <ns2:attributes attributeKey="jalurpengamatan"><ns2:itemKey>jalurpendakian</ns2:itemKey></ns2:attributes>
+          <ns2:attributes attributeKey="cuaca"><ns2:itemKey>cerah</ns2:itemKey></ns2:attributes>
+        </ns2:observations>
+      </ns2:waypoints>
+      <ns2:waypoints id="10" x="118.09000" y="-8.21400" time="07:09:00">
+        <ns2:observations categoryKey="metodeteknis.inventarisasiraptor.titikpengamatan.">
+          <ns2:attributes attributeKey="noplot"><ns2:sValue>JP10</ns2:sValue></ns2:attributes>
+          <ns2:attributes attributeKey="jarijariplotm"><ns2:dValue>500.0</ns2:dValue></ns2:attributes>
+          <ns2:attributes attributeKey="jalurpengamatan"><ns2:itemKey>jalurpendakian</ns2:itemKey></ns2:attributes>
+          <ns2:attributes attributeKey="cuaca"><ns2:itemKey>cerah</ns2:itemKey></ns2:attributes>
+        </ns2:observations>
+      </ns2:waypoints>
+      <ns2:waypoints id="11" x="118.01100" y="-8.24600" time="10:23:00">
+        <ns2:observations categoryKey="metodeteknis.inventarisasiraptor.perjumpaanraptor.">
+          <ns2:attributes attributeKey="noplot"><ns2:sValue>JP02</ns2:sValue></ns2:attributes>
+          <ns2:attributes attributeKey="jenissatwa"><ns2:itemKey>burung.alapalapsapifalcomoluccensis.</ns2:itemKey></ns2:attributes>
+          <ns2:attributes attributeKey="jumlahdewasa"><ns2:dValue>2.0</ns2:dValue></ns2:attributes>
+          <ns2:attributes attributeKey="jumlahanakan"><ns2:dValue>0.0</ns2:dValue></ns2:attributes>
+          <ns2:attributes attributeKey="jarakkesatwam"><ns2:dValue>300.0</ns2:dValue></ns2:attributes>
+          <ns2:attributes attributeKey="azimuth"><ns2:dValue>107.0</ns2:dValue></ns2:attributes>
+          <ns2:attributes attributeKey="aktivitasraptor"><ns2:itemKey>soaring</ns2:itemKey></ns2:attributes>
+          <ns2:attributes attributeKey="penggunaanruang"><ns2:itemKey>atastajuk</ns2:itemKey></ns2:attributes>
+          <ns2:attributes attributeKey="tiperuang"><ns2:itemKey>terbuka</ns2:itemKey></ns2:attributes>
+          <ns2:attributes attributeKey="tipetutupanlahan"><ns2:itemKey>savana</ns2:itemKey></ns2:attributes>
+          <ns2:attributes attributeKey="ketinggianmdpl"><ns2:dValue>250.0</ns2:dValue></ns2:attributes>
+        </ns2:observations>
+      </ns2:waypoints>
+      <ns2:waypoints id="12" x="118.03100" y="-8.23800" time="10:55:00">
+        <ns2:observations categoryKey="metodeteknis.inventarisasiraptor.perjumpaanraptor.">
+          <ns2:attributes attributeKey="noplot"><ns2:sValue>JP04</ns2:sValue></ns2:attributes>
+          <ns2:attributes attributeKey="jenissatwa"><ns2:itemKey>burung.elangularjaripendekcircaetusgallicus.</ns2:itemKey></ns2:attributes>
+          <ns2:attributes attributeKey="jumlahdewasa"><ns2:dValue>1.0</ns2:dValue></ns2:attributes>
+          <ns2:attributes attributeKey="jumlahanakan"><ns2:dValue>0.0</ns2:dValue></ns2:attributes>
+          <ns2:attributes attributeKey="jarakkesatwam"><ns2:dValue>450.0</ns2:dValue></ns2:attributes>
+          <ns2:attributes attributeKey="azimuth"><ns2:dValue>175.0</ns2:dValue></ns2:attributes>
+          <ns2:attributes attributeKey="aktivitasraptor"><ns2:itemKey>soaring</ns2:itemKey></ns2:attributes>
+          <ns2:attributes attributeKey="penggunaanruang"><ns2:itemKey>atastajuk</ns2:itemKey></ns2:attributes>
+          <ns2:attributes attributeKey="tiperuang"><ns2:itemKey>terbuka</ns2:itemKey></ns2:attributes>
+          <ns2:attributes attributeKey="tipetutupanlahan"><ns2:itemKey>savana</ns2:itemKey></ns2:attributes>
+          <ns2:attributes attributeKey="ketinggianmdpl"><ns2:dValue>353.0</ns2:dValue></ns2:attributes>
+        </ns2:observations>
+      </ns2:waypoints>
+    </ns2:days>
+    <ns2:days date="2021-06-11" startTime="07:00:00" endTime="15:00:00" restMinutes="0">
+      <ns2:waypoints id="13" x="118.10000" y="-8.21000" time="07:10:00">
+        <ns2:observations categoryKey="metodeteknis.inventarisasiraptor.titikpengamatan.">
+          <ns2:attributes attributeKey="noplot"><ns2:sValue>JP11</ns2:sValue></ns2:attributes>
+          <ns2:attributes attributeKey="jarijariplotm"><ns2:dValue>500.0</ns2:dValue></ns2:attributes>
+          <ns2:attributes attributeKey="jalurpengamatan"><ns2:itemKey>jalurpendakian</ns2:itemKey></ns2:attributes>
+          <ns2:attributes attributeKey="cuaca"><ns2:itemKey>cerah</ns2:itemKey></ns2:attributes>
+        </ns2:observations>
+      </ns2:waypoints>
+      <ns2:waypoints id="14" x="118.11000" y="-8.20600" time="07:11:00">
+        <ns2:observations categoryKey="metodeteknis.inventarisasiraptor.titikpengamatan.">
+          <ns2:attributes attributeKey="noplot"><ns2:sValue>JP12</ns2:sValue></ns2:attributes>
+          <ns2:attributes attributeKey="jarijariplotm"><ns2:dValue>500.0</ns2:dValue></ns2:attributes>
+          <ns2:attributes attributeKey="jalurpengamatan"><ns2:itemKey>jalurpendakian</ns2:itemKey></ns2:attributes>
+          <ns2:attributes attributeKey="cuaca"><ns2:itemKey>cerah</ns2:itemKey></ns2:attributes>
+        </ns2:observations>
+      </ns2:waypoints>
+      <ns2:waypoints id="15" x="118.12000" y="-8.20200" time="07:12:00">
+        <ns2:observations categoryKey="metodeteknis.inventarisasiraptor.titikpengamatan.">
+          <ns2:attributes attributeKey="noplot"><ns2:sValue>JP13</ns2:sValue></ns2:attributes>
+          <ns2:attributes attributeKey="jarijariplotm"><ns2:dValue>500.0</ns2:dValue></ns2:attributes>
+          <ns2:attributes attributeKey="jalurpengamatan"><ns2:itemKey>jalurpendakian</ns2:itemKey></ns2:attributes>
+          <ns2:attributes attributeKey="cuaca"><ns2:itemKey>cerah</ns2:itemKey></ns2:attributes>
+        </ns2:observations>
+      </ns2:waypoints>
+      <ns2:waypoints id="16" x="118.13000" y="-8.19800" time="07:13:00">
+        <ns2:observations categoryKey="metodeteknis.inventarisasiraptor.titikpengamatan.">
+          <ns2:attributes attributeKey="noplot"><ns2:sValue>JP14</ns2:sValue></ns2:attributes>
+          <ns2:attributes attributeKey="jarijariplotm"><ns2:dValue>500.0</ns2:dValue></ns2:attributes>
+          <ns2:attributes attributeKey="jalurpengamatan"><ns2:itemKey>jalurpendakian</ns2:itemKey></ns2:attributes>
+          <ns2:attributes attributeKey="cuaca"><ns2:itemKey>cerah</ns2:itemKey></ns2:attributes>
+        </ns2:observations>
+      </ns2:waypoints>
+      <ns2:waypoints id="17" x="118.14000" y="-8.19400" time="07:14:00">
+        <ns2:observations categoryKey="metodeteknis.inventarisasiraptor.titikpengamatan.">
+          <ns2:attributes attributeKey="noplot"><ns2:sValue>JP15</ns2:sValue></ns2:attributes>
+          <ns2:attributes attributeKey="jarijariplotm"><ns2:dValue>500.0</ns2:dValue></ns2:attributes>
+          <ns2:attributes attributeKey="jalurpengamatan"><ns2:itemKey>jalurpendakian</ns2:itemKey></ns2:attributes>
+          <ns2:attributes attributeKey="cuaca"><ns2:itemKey>cerah</ns2:itemKey></ns2:attributes>
+        </ns2:observations>
+      </ns2:waypoints>
+      <ns2:waypoints id="18" x="118.15000" y="-8.19000" time="07:15:00">
+        <ns2:observations categoryKey="metodeteknis.inventarisasiraptor.titikpengamatan.">
+          <ns2:attributes attributeKey="noplot"><ns2:sValue>JP16</ns2:sValue></ns2:attributes>
+          <ns2:attributes attributeKey="jarijariplotm"><ns2:dValue>500.0</ns2:dValue></ns2:attributes>
+          <ns2:attributes attributeKey="jalurpengamatan"><ns2:itemKey>jalurpendakian</ns2:itemKey></ns2:attributes>
+          <ns2:attributes attributeKey="cuaca"><ns2:itemKey>cerah</ns2:itemKey></ns2:attributes>
+        </ns2:observations>
+      </ns2:waypoints>
+      <ns2:waypoints id="19" x="118.16000" y="-8.18600" time="07:16:00">
+        <ns2:observations categoryKey="metodeteknis.inventarisasiraptor.titikpengamatan.">
+          <ns2:attributes attributeKey="noplot"><ns2:sValue>JP17</ns2:sValue></ns2:attributes>
+          <ns2:attributes attributeKey="jarijariplotm"><ns2:dValue>500.0</ns2:dValue></ns2:attributes>
+          <ns2:attributes attributeKey="jalurpengamatan"><ns2:itemKey>jalurpendakian</ns2:itemKey></ns2:attributes>
+          <ns2:attributes attributeKey="cuaca"><ns2:itemKey>cerah</ns2:itemKey></ns2:attributes>
+        </ns2:observations>
+      </ns2:waypoints>
+      <ns2:waypoints id="20" x="118.17000" y="-8.18200" time="07:17:00">
+        <ns2:observations categoryKey="metodeteknis.inventarisasiraptor.titikpengamatan.">
+          <ns2:attributes attributeKey="noplot"><ns2:sValue>JP18</ns2:sValue></ns2:attributes>
+          <ns2:attributes attributeKey="jarijariplotm"><ns2:dValue>500.0</ns2:dValue></ns2:attributes>
+          <ns2:attributes attributeKey="jalurpengamatan"><ns2:itemKey>jalurpendakian</ns2:itemKey></ns2:attributes>
+          <ns2:attributes attributeKey="cuaca"><ns2:itemKey>cerah</ns2:itemKey></ns2:attributes>
+        </ns2:observations>
+      </ns2:waypoints>
+      <ns2:waypoints id="21" x="118.18000" y="-8.17800" time="07:18:00">
+        <ns2:observations categoryKey="metodeteknis.inventarisasiraptor.titikpengamatan.">
+          <ns2:attributes attributeKey="noplot"><ns2:sValue>JP19</ns2:sValue></ns2:attributes>
+          <ns2:attributes attributeKey="jarijariplotm"><ns2:dValue>500.0</ns2:dValue></ns2:attributes>
+          <ns2:attributes attributeKey="jalurpengamatan"><ns2:itemKey>jalurpendakian</ns2:itemKey></ns2:attributes>
+          <ns2:attributes attributeKey="cuaca"><ns2:itemKey>cerah</ns2:itemKey></ns2:attributes>
+        </ns2:observations>
+      </ns2:waypoints>
+      <ns2:waypoints id="22" x="118.16100" y="-8.18600" time="08:11:00">
+        <ns2:observations categoryKey="metodeteknis.inventarisasiraptor.perjumpaanraptor.">
+          <ns2:attributes attributeKey="noplot"><ns2:sValue>JP17</ns2:sValue></ns2:attributes>
+          <ns2:attributes attributeKey="jenissatwa"><ns2:itemKey>burung.elangbonelliaquilafasciata.</ns2:itemKey></ns2:attributes>
+          <ns2:attributes attributeKey="jumlahdewasa"><ns2:dValue>1.0</ns2:dValue></ns2:attributes>
+          <ns2:attributes attributeKey="jumlahanakan"><ns2:dValue>0.0</ns2:dValue></ns2:attributes>
+          <ns2:attributes attributeKey="jarakkesatwam"><ns2:dValue>450.0</ns2:dValue></ns2:attributes>
+          <ns2:attributes attributeKey="azimuth"><ns2:dValue>340.0</ns2:dValue></ns2:attributes>
+          <ns2:attributes attributeKey="aktivitasraptor"><ns2:itemKey>soaring</ns2:itemKey></ns2:attributes>
+          <ns2:attributes attributeKey="penggunaanruang"><ns2:itemKey>atastajuk</ns2:itemKey></ns2:attributes>
+          <ns2:attributes attributeKey="tiperuang"><ns2:itemKey>terbuka</ns2:itemKey></ns2:attributes>
+          <ns2:attributes attributeKey="tipetutupanlahan"><ns2:itemKey>savana</ns2:itemKey></ns2:attributes>
+          <ns2:attributes attributeKey="ketinggianmdpl"><ns2:dValue>1896.0</ns2:dValue></ns2:attributes>
+        </ns2:observations>
+      </ns2:waypoints>
+      <ns2:waypoints id="23" x="118.18100" y="-8.17800" time="10:52:00">
+        <ns2:observations categoryKey="metodeteknis.inventarisasiraptor.perjumpaanraptor.">
+          <ns2:attributes attributeKey="noplot"><ns2:sValue>JP19</ns2:sValue></ns2:attributes>
+          <ns2:attributes attributeKey="jenissatwa"><ns2:itemKey>burung.alapalapsapifalcomoluccensis.</ns2:itemKey></ns2:attributes>
+          <ns2:attributes attributeKey="jumlahdewasa"><ns2:dValue>2.0</ns2:dValue></ns2:attributes>
+          <ns2:attributes attributeKey="jumlahanakan"><ns2:dValue>0.0</ns2:dValue></ns2:attributes>
+          <ns2:attributes attributeKey="jarakkesatwam"><ns2:dValue>450.0</ns2:dValue></ns2:attributes>
+          <ns2:attributes attributeKey="azimuth"><ns2:dValue>165.0</ns2:dValue></ns2:attributes>
+          <ns2:attributes attributeKey="aktivitasraptor"><ns2:itemKey>soaring</ns2:itemKey></ns2:attributes>
+          <ns2:attributes attributeKey="penggunaanruang"><ns2:itemKey>atastajuk</ns2:itemKey></ns2:attributes>
+          <ns2:attributes attributeKey="tiperuang"><ns2:itemKey>terbuka</ns2:itemKey></ns2:attributes>
+          <ns2:attributes attributeKey="tipetutupanlahan"><ns2:itemKey>savana</ns2:itemKey></ns2:attributes>
+          <ns2:attributes attributeKey="ketinggianmdpl"><ns2:dValue>2160.0</ns2:dValue></ns2:attributes>
+        </ns2:observations>
+      </ns2:waypoints>
+      <ns2:waypoints id="24" x="118.18100" y="-8.17800" time="13:54:00">
+        <ns2:observations categoryKey="metodeteknis.inventarisasiraptor.perjumpaanraptor.">
+          <ns2:attributes attributeKey="noplot"><ns2:sValue>JP19</ns2:sValue></ns2:attributes>
+          <ns2:attributes attributeKey="jenissatwa"><ns2:itemKey>burung.elangtikuselanuscaeruleus.</ns2:itemKey></ns2:attributes>
+          <ns2:attributes attributeKey="jumlahdewasa"><ns2:dValue>1.0</ns2:dValue></ns2:attributes>
+          <ns2:attributes attributeKey="jumlahanakan"><ns2:dValue>0.0</ns2:dValue></ns2:attributes>
+          <ns2:attributes attributeKey="jarakkesatwam"><ns2:dValue>200.0</ns2:dValue></ns2:attributes>
+          <ns2:attributes attributeKey="azimuth"><ns2:dValue>311.0</ns2:dValue></ns2:attributes>
+          <ns2:attributes attributeKey="aktivitasraptor"><ns2:itemKey>hovering</ns2:itemKey></ns2:attributes>
+          <ns2:attributes attributeKey="penggunaanruang"><ns2:itemKey>atastajuk</ns2:itemKey></ns2:attributes>
+          <ns2:attributes attributeKey="tiperuang"><ns2:itemKey>terbuka</ns2:itemKey></ns2:attributes>
+          <ns2:attributes attributeKey="tipetutupanlahan"><ns2:itemKey>savana</ns2:itemKey></ns2:attributes>
+          <ns2:attributes attributeKey="ketinggianmdpl"><ns2:dValue>2000.0</ns2:dValue></ns2:attributes>
+        </ns2:observations>
+      </ns2:waypoints>
+      <ns2:waypoints id="25" x="118.18100" y="-8.17800" time="11:10:00">
+        <ns2:observations categoryKey="metodeteknis.inventarisasiraptor.perjumpaanraptor.">
+          <ns2:attributes attributeKey="noplot"><ns2:sValue>JP19</ns2:sValue></ns2:attributes>
+          <ns2:attributes attributeKey="jenissatwa"><ns2:itemKey>burung.sikepmaduasiapernisptilorhynchus.</ns2:itemKey></ns2:attributes>
+          <ns2:attributes attributeKey="jumlahdewasa"><ns2:dValue>1.0</ns2:dValue></ns2:attributes>
+          <ns2:attributes attributeKey="jumlahanakan"><ns2:dValue>0.0</ns2:dValue></ns2:attributes>
+          <ns2:attributes attributeKey="jarakkesatwam"><ns2:dValue>420.0</ns2:dValue></ns2:attributes>
+          <ns2:attributes attributeKey="azimuth"><ns2:dValue>238.0</ns2:dValue></ns2:attributes>
+          <ns2:attributes attributeKey="aktivitasraptor"><ns2:itemKey>soaring</ns2:itemKey></ns2:attributes>
+          <ns2:attributes attributeKey="penggunaanruang"><ns2:itemKey>atastajuk</ns2:itemKey></ns2:attributes>
+          <ns2:attributes attributeKey="tiperuang"><ns2:itemKey>terbuka</ns2:itemKey></ns2:attributes>
+          <ns2:attributes attributeKey="tipetutupanlahan"><ns2:itemKey>savana</ns2:itemKey></ns2:attributes>
+          <ns2:attributes attributeKey="ketinggianmdpl"><ns2:dValue>2000.0</ns2:dValue></ns2:attributes>
+        </ns2:observations>
+      </ns2:waypoints>
+    </ns2:days>
+    <ns2:days date="2021-06-12" startTime="07:00:00" endTime="15:00:00" restMinutes="0">
+      <ns2:waypoints id="26" x="118.19000" y="-8.17400" time="07:19:00">
+        <ns2:observations categoryKey="metodeteknis.inventarisasiraptor.titikpengamatan.">
+          <ns2:attributes attributeKey="noplot"><ns2:sValue>DO01</ns2:sValue></ns2:attributes>
+          <ns2:attributes attributeKey="jarijariplotm"><ns2:dValue>500.0</ns2:dValue></ns2:attributes>
+          <ns2:attributes attributeKey="jalurpengamatan"><ns2:itemKey>jalaninspeksi</ns2:itemKey></ns2:attributes>
+          <ns2:attributes attributeKey="cuaca"><ns2:itemKey>cerah</ns2:itemKey></ns2:attributes>
+        </ns2:observations>
+      </ns2:waypoints>
+      <ns2:waypoints id="27" x="118.20000" y="-8.17000" time="07:20:00">
+        <ns2:observations categoryKey="metodeteknis.inventarisasiraptor.titikpengamatan.">
+          <ns2:attributes attributeKey="noplot"><ns2:sValue>DO02</ns2:sValue></ns2:attributes>
+          <ns2:attributes attributeKey="jarijariplotm"><ns2:dValue>500.0</ns2:dValue></ns2:attributes>
+          <ns2:attributes attributeKey="jalurpengamatan"><ns2:itemKey>jalaninspeksi</ns2:itemKey></ns2:attributes>
+          <ns2:attributes attributeKey="cuaca"><ns2:itemKey>cerah</ns2:itemKey></ns2:attributes>
+        </ns2:observations>
+      </ns2:waypoints>
+      <ns2:waypoints id="28" x="118.21000" y="-8.16600" time="07:21:00">
+        <ns2:observations categoryKey="metodeteknis.inventarisasiraptor.titikpengamatan.">
+          <ns2:attributes attributeKey="noplot"><ns2:sValue>DO03</ns2:sValue></ns2:attributes>
+          <ns2:attributes attributeKey="jarijariplotm"><ns2:dValue>500.0</ns2:dValue></ns2:attributes>
+          <ns2:attributes attributeKey="jalurpengamatan"><ns2:itemKey>jalaninspeksi</ns2:itemKey></ns2:attributes>
+          <ns2:attributes attributeKey="cuaca"><ns2:itemKey>cerah</ns2:itemKey></ns2:attributes>
+        </ns2:observations>
+      </ns2:waypoints>
+      <ns2:waypoints id="29" x="118.22000" y="-8.16200" time="07:22:00">
+        <ns2:observations categoryKey="metodeteknis.inventarisasiraptor.titikpengamatan.">
+          <ns2:attributes attributeKey="noplot"><ns2:sValue>DO04</ns2:sValue></ns2:attributes>
+          <ns2:attributes attributeKey="jarijariplotm"><ns2:dValue>500.0</ns2:dValue></ns2:attributes>
+          <ns2:attributes attributeKey="jalurpengamatan"><ns2:itemKey>jalaninspeksi</ns2:itemKey></ns2:attributes>
+          <ns2:attributes attributeKey="cuaca"><ns2:itemKey>cerah</ns2:itemKey></ns2:attributes>
+        </ns2:observations>
+      </ns2:waypoints>
+      <ns2:waypoints id="30" x="118.23000" y="-8.15800" time="07:23:00">
+        <ns2:observations categoryKey="metodeteknis.inventarisasiraptor.titikpengamatan.">
+          <ns2:attributes attributeKey="noplot"><ns2:sValue>DO05</ns2:sValue></ns2:attributes>
+          <ns2:attributes attributeKey="jarijariplotm"><ns2:dValue>500.0</ns2:dValue></ns2:attributes>
+          <ns2:attributes attributeKey="jalurpengamatan"><ns2:itemKey>jalaninspeksi</ns2:itemKey></ns2:attributes>
+          <ns2:attributes attributeKey="cuaca"><ns2:itemKey>cerah</ns2:itemKey></ns2:attributes>
+        </ns2:observations>
+      </ns2:waypoints>
+      <ns2:waypoints id="31" x="118.24000" y="-8.15400" time="07:24:00">
+        <ns2:observations categoryKey="metodeteknis.inventarisasiraptor.titikpengamatan.">
+          <ns2:attributes attributeKey="noplot"><ns2:sValue>DO06</ns2:sValue></ns2:attributes>
+          <ns2:attributes attributeKey="jarijariplotm"><ns2:dValue>500.0</ns2:dValue></ns2:attributes>
+          <ns2:attributes attributeKey="jalurpengamatan"><ns2:itemKey>jalaninspeksi</ns2:itemKey></ns2:attributes>
+          <ns2:attributes attributeKey="cuaca"><ns2:itemKey>cerah</ns2:itemKey></ns2:attributes>
+        </ns2:observations>
+      </ns2:waypoints>
+      <ns2:waypoints id="32" x="118.25000" y="-8.15000" time="07:25:00">
+        <ns2:observations categoryKey="metodeteknis.inventarisasiraptor.titikpengamatan.">
+          <ns2:attributes attributeKey="noplot"><ns2:sValue>DO07</ns2:sValue></ns2:attributes>
+          <ns2:attributes attributeKey="jarijariplotm"><ns2:dValue>500.0</ns2:dValue></ns2:attributes>
+          <ns2:attributes attributeKey="jalurpengamatan"><ns2:itemKey>jalaninspeksi</ns2:itemKey></ns2:attributes>
+          <ns2:attributes attributeKey="cuaca"><ns2:itemKey>cerah</ns2:itemKey></ns2:attributes>
+        </ns2:observations>
+      </ns2:waypoints>
+      <ns2:waypoints id="33" x="118.26000" y="-8.14600" time="07:26:00">
+        <ns2:observations categoryKey="metodeteknis.inventarisasiraptor.titikpengamatan.">
+          <ns2:attributes attributeKey="noplot"><ns2:sValue>DO08</ns2:sValue></ns2:attributes>
+          <ns2:attributes attributeKey="jarijariplotm"><ns2:dValue>500.0</ns2:dValue></ns2:attributes>
+          <ns2:attributes attributeKey="jalurpengamatan"><ns2:itemKey>jalaninspeksi</ns2:itemKey></ns2:attributes>
+          <ns2:attributes attributeKey="cuaca"><ns2:itemKey>cerah</ns2:itemKey></ns2:attributes>
+        </ns2:observations>
+      </ns2:waypoints>
+      <ns2:waypoints id="34" x="118.27000" y="-8.14200" time="07:27:00">
+        <ns2:observations categoryKey="metodeteknis.inventarisasiraptor.titikpengamatan.">
+          <ns2:attributes attributeKey="noplot"><ns2:sValue>DO09</ns2:sValue></ns2:attributes>
+          <ns2:attributes attributeKey="jarijariplotm"><ns2:dValue>500.0</ns2:dValue></ns2:attributes>
+          <ns2:attributes attributeKey="jalurpengamatan"><ns2:itemKey>jalaninspeksi</ns2:itemKey></ns2:attributes>
+          <ns2:attributes attributeKey="cuaca"><ns2:itemKey>cerah</ns2:itemKey></ns2:attributes>
+        </ns2:observations>
+      </ns2:waypoints>
+      <ns2:waypoints id="35" x="118.28000" y="-8.13800" time="07:28:00">
+        <ns2:observations categoryKey="metodeteknis.inventarisasiraptor.titikpengamatan.">
+          <ns2:attributes attributeKey="noplot"><ns2:sValue>DO10</ns2:sValue></ns2:attributes>
+          <ns2:attributes attributeKey="jarijariplotm"><ns2:dValue>500.0</ns2:dValue></ns2:attributes>
+          <ns2:attributes attributeKey="jalurpengamatan"><ns2:itemKey>jalaninspeksi</ns2:itemKey></ns2:attributes>
+          <ns2:attributes attributeKey="cuaca"><ns2:itemKey>cerah</ns2:itemKey></ns2:attributes>
+        </ns2:observations>
+      </ns2:waypoints>
+      <ns2:waypoints id="36" x="118.29000" y="-8.13400" time="07:29:00">
+        <ns2:observations categoryKey="metodeteknis.inventarisasiraptor.titikpengamatan.">
+          <ns2:attributes attributeKey="noplot"><ns2:sValue>DO11</ns2:sValue></ns2:attributes>
+          <ns2:attributes attributeKey="jarijariplotm"><ns2:dValue>500.0</ns2:dValue></ns2:attributes>
+          <ns2:attributes attributeKey="jalurpengamatan"><ns2:itemKey>jalaninspeksi</ns2:itemKey></ns2:attributes>
+          <ns2:attributes attributeKey="cuaca"><ns2:itemKey>cerah</ns2:itemKey></ns2:attributes>
+        </ns2:observations>
+      </ns2:waypoints>
+      <ns2:waypoints id="37" x="118.21100" y="-8.16600" time="10:45:00">
+        <ns2:observations categoryKey="metodeteknis.inventarisasiraptor.perjumpaanraptor.">
+          <ns2:attributes attributeKey="noplot"><ns2:sValue>DO03</ns2:sValue></ns2:attributes>
+          <ns2:attributes attributeKey="jenissatwa"><ns2:itemKey>burung.elangbondolhaliasturindus.</ns2:itemKey></ns2:attributes>
+          <ns2:attributes attributeKey="jumlahdewasa"><ns2:dValue>1.0</ns2:dValue></ns2:attributes>
+          <ns2:attributes attributeKey="jumlahanakan"><ns2:dValue>0.0</ns2:dValue></ns2:attributes>
+          <ns2:attributes attributeKey="jarakkesatwam"><ns2:dValue>280.0</ns2:dValue></ns2:attributes>
+          <ns2:attributes attributeKey="azimuth"><ns2:dValue>200.0</ns2:dValue></ns2:attributes>
+          <ns2:attributes attributeKey="aktivitasraptor"><ns2:itemKey>bertengger</ns2:itemKey></ns2:attributes>
+          <ns2:attributes attributeKey="penggunaanruang"><ns2:itemKey>atastajuk</ns2:itemKey></ns2:attributes>
+          <ns2:attributes attributeKey="tiperuang"><ns2:itemKey>terbuka</ns2:itemKey></ns2:attributes>
+          <ns2:attributes attributeKey="tipetutupanlahan"><ns2:itemKey>kebunladang</ns2:itemKey></ns2:attributes>
+          <ns2:attributes attributeKey="ketinggianmdpl"><ns2:dValue>165.0</ns2:dValue></ns2:attributes>
+        </ns2:observations>
+      </ns2:waypoints>
+    </ns2:days>
+    <ns2:days date="2021-06-13" startTime="07:00:00" endTime="15:00:00" restMinutes="0">
+      <ns2:waypoints id="38" x="118.30000" y="-8.13000" time="07:30:00">
+        <ns2:observations categoryKey="metodeteknis.inventarisasiraptor.titikpengamatan.">
+          <ns2:attributes attributeKey="noplot"><ns2:sValue>DO12</ns2:sValue></ns2:attributes>
+          <ns2:attributes attributeKey="jarijariplotm"><ns2:dValue>500.0</ns2:dValue></ns2:attributes>
+          <ns2:attributes attributeKey="jalurpengamatan"><ns2:itemKey>jalaninspeksi</ns2:itemKey></ns2:attributes>
+          <ns2:attributes attributeKey="cuaca"><ns2:itemKey>cerah</ns2:itemKey></ns2:attributes>
+        </ns2:observations>
+      </ns2:waypoints>
+      <ns2:waypoints id="39" x="118.31000" y="-8.12600" time="07:31:00">
+        <ns2:observations categoryKey="metodeteknis.inventarisasiraptor.titikpengamatan.">
+          <ns2:attributes attributeKey="noplot"><ns2:sValue>DO13</ns2:sValue></ns2:attributes>
+          <ns2:attributes attributeKey="jarijariplotm"><ns2:dValue>500.0</ns2:dValue></ns2:attributes>
+          <ns2:attributes attributeKey="jalurpengamatan"><ns2:itemKey>jalaninspeksi</ns2:itemKey></ns2:attributes>
+          <ns2:attributes attributeKey="cuaca"><ns2:itemKey>cerah</ns2:itemKey></ns2:attributes>
+        </ns2:observations>
+      </ns2:waypoints>
+      <ns2:waypoints id="40" x="118.32000" y="-8.12200" time="07:32:00">
+        <ns2:observations categoryKey="metodeteknis.inventarisasiraptor.titikpengamatan.">
+          <ns2:attributes attributeKey="noplot"><ns2:sValue>DO14</ns2:sValue></ns2:attributes>
+          <ns2:attributes attributeKey="jarijariplotm"><ns2:dValue>500.0</ns2:dValue></ns2:attributes>
+          <ns2:attributes attributeKey="jalurpengamatan"><ns2:itemKey>jalaninspeksi</ns2:itemKey></ns2:attributes>
+          <ns2:attributes attributeKey="cuaca"><ns2:itemKey>cerah</ns2:itemKey></ns2:attributes>
+        </ns2:observations>
+      </ns2:waypoints>
+      <ns2:waypoints id="41" x="118.33000" y="-8.11800" time="07:33:00">
+        <ns2:observations categoryKey="metodeteknis.inventarisasiraptor.titikpengamatan.">
+          <ns2:attributes attributeKey="noplot"><ns2:sValue>DO15</ns2:sValue></ns2:attributes>
+          <ns2:attributes attributeKey="jarijariplotm"><ns2:dValue>500.0</ns2:dValue></ns2:attributes>
+          <ns2:attributes attributeKey="jalurpengamatan"><ns2:itemKey>jalaninspeksi</ns2:itemKey></ns2:attributes>
+          <ns2:attributes attributeKey="cuaca"><ns2:itemKey>cerah</ns2:itemKey></ns2:attributes>
+        </ns2:observations>
+      </ns2:waypoints>
+      <ns2:waypoints id="42" x="118.34000" y="-8.11400" time="07:34:00">
+        <ns2:observations categoryKey="metodeteknis.inventarisasiraptor.titikpengamatan.">
+          <ns2:attributes attributeKey="noplot"><ns2:sValue>DO16</ns2:sValue></ns2:attributes>
+          <ns2:attributes attributeKey="jarijariplotm"><ns2:dValue>500.0</ns2:dValue></ns2:attributes>
+          <ns2:attributes attributeKey="jalurpengamatan"><ns2:itemKey>jalaninspeksi</ns2:itemKey></ns2:attributes>
+          <ns2:attributes attributeKey="cuaca"><ns2:itemKey>cerah</ns2:itemKey></ns2:attributes>
+        </ns2:observations>
+      </ns2:waypoints>
+      <ns2:waypoints id="43" x="118.35000" y="-8.11000" time="07:35:00">
+        <ns2:observations categoryKey="metodeteknis.inventarisasiraptor.titikpengamatan.">
+          <ns2:attributes attributeKey="noplot"><ns2:sValue>DO17</ns2:sValue></ns2:attributes>
+          <ns2:attributes attributeKey="jarijariplotm"><ns2:dValue>500.0</ns2:dValue></ns2:attributes>
+          <ns2:attributes attributeKey="jalurpengamatan"><ns2:itemKey>jalaninspeksi</ns2:itemKey></ns2:attributes>
+          <ns2:attributes attributeKey="cuaca"><ns2:itemKey>cerah</ns2:itemKey></ns2:attributes>
+        </ns2:observations>
+      </ns2:waypoints>
+      <ns2:waypoints id="44" x="118.36000" y="-8.10600" time="07:36:00">
+        <ns2:observations categoryKey="metodeteknis.inventarisasiraptor.titikpengamatan.">
+          <ns2:attributes attributeKey="noplot"><ns2:sValue>DO18</ns2:sValue></ns2:attributes>
+          <ns2:attributes attributeKey="jarijariplotm"><ns2:dValue>500.0</ns2:dValue></ns2:attributes>
+          <ns2:attributes attributeKey="jalurpengamatan"><ns2:itemKey>jalaninspeksi</ns2:itemKey></ns2:attributes>
+          <ns2:attributes attributeKey="cuaca"><ns2:itemKey>cerah</ns2:itemKey></ns2:attributes>
+        </ns2:observations>
+      </ns2:waypoints>
+      <ns2:waypoints id="45" x="118.37000" y="-8.10200" time="07:37:00">
+        <ns2:observations categoryKey="metodeteknis.inventarisasiraptor.titikpengamatan.">
+          <ns2:attributes attributeKey="noplot"><ns2:sValue>DO19</ns2:sValue></ns2:attributes>
+          <ns2:attributes attributeKey="jarijariplotm"><ns2:dValue>500.0</ns2:dValue></ns2:attributes>
+          <ns2:attributes attributeKey="jalurpengamatan"><ns2:itemKey>jalaninspeksi</ns2:itemKey></ns2:attributes>
+          <ns2:attributes attributeKey="cuaca"><ns2:itemKey>cerah</ns2:itemKey></ns2:attributes>
+        </ns2:observations>
+      </ns2:waypoints>
+      <ns2:waypoints id="46" x="118.38000" y="-8.09800" time="07:38:00">
+        <ns2:observations categoryKey="metodeteknis.inventarisasiraptor.titikpengamatan.">
+          <ns2:attributes attributeKey="noplot"><ns2:sValue>DO20</ns2:sValue></ns2:attributes>
+          <ns2:attributes attributeKey="jarijariplotm"><ns2:dValue>500.0</ns2:dValue></ns2:attributes>
+          <ns2:attributes attributeKey="jalurpengamatan"><ns2:itemKey>jalaninspeksi</ns2:itemKey></ns2:attributes>
+          <ns2:attributes attributeKey="cuaca"><ns2:itemKey>cerah</ns2:itemKey></ns2:attributes>
+        </ns2:observations>
+      </ns2:waypoints>
+      <ns2:waypoints id="47" x="118.39000" y="-8.09400" time="07:39:00">
+        <ns2:observations categoryKey="metodeteknis.inventarisasiraptor.titikpengamatan.">
+          <ns2:attributes attributeKey="noplot"><ns2:sValue>DO21</ns2:sValue></ns2:attributes>
+          <ns2:attributes attributeKey="jarijariplotm"><ns2:dValue>500.0</ns2:dValue></ns2:attributes>
+          <ns2:attributes attributeKey="jalurpengamatan"><ns2:itemKey>jalaninspeksi</ns2:itemKey></ns2:attributes>
+          <ns2:attributes attributeKey="cuaca"><ns2:itemKey>cerah</ns2:itemKey></ns2:attributes>
+        </ns2:observations>
+      </ns2:waypoints>
+      <ns2:waypoints id="48" x="118.40000" y="-8.09000" time="07:40:00">
+        <ns2:observations categoryKey="metodeteknis.inventarisasiraptor.titikpengamatan.">
+          <ns2:attributes attributeKey="noplot"><ns2:sValue>DO22</ns2:sValue></ns2:attributes>
+          <ns2:attributes attributeKey="jarijariplotm"><ns2:dValue>500.0</ns2:dValue></ns2:attributes>
+          <ns2:attributes attributeKey="jalurpengamatan"><ns2:itemKey>jalaninspeksi</ns2:itemKey></ns2:attributes>
+          <ns2:attributes attributeKey="cuaca"><ns2:itemKey>cerah</ns2:itemKey></ns2:attributes>
+        </ns2:observations>
+      </ns2:waypoints>
+      <ns2:waypoints id="49" x="118.41000" y="-8.08600" time="07:41:00">
+        <ns2:observations categoryKey="metodeteknis.inventarisasiraptor.titikpengamatan.">
+          <ns2:attributes attributeKey="noplot"><ns2:sValue>DO23</ns2:sValue></ns2:attributes>
+          <ns2:attributes attributeKey="jarijariplotm"><ns2:dValue>500.0</ns2:dValue></ns2:attributes>
+          <ns2:attributes attributeKey="jalurpengamatan"><ns2:itemKey>jalaninspeksi</ns2:itemKey></ns2:attributes>
+          <ns2:attributes attributeKey="cuaca"><ns2:itemKey>cerah</ns2:itemKey></ns2:attributes>
+        </ns2:observations>
+      </ns2:waypoints>
+    </ns2:days>
+  </ns2:legs>
+</ns2:patrol>

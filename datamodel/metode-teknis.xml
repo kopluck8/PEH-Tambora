@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!-- Dibuat oleh tools/build_datamodel.py dari datamodel/metode-teknis.json. Jangan disunting langsung. -->
+<!-- Atribut yang SUDAH ADA di Data Model Balai TN Tambora dan hanya dirujuk (tidak didefinisikan ulang): noplot, jenissatwa, jarakkesatwam, azimuth, jenisperjumpaan, jumlahjantan, jumlahbetina, cuaca, keterangan -->
+<DataModel xmlns="http://www.smartconservationsoftware.org/xml/1.0/datamodel">
+  <languages>
+    <language code="in"/>
+    <language code="en"/>
+  </languages>
+  <attributes>
+    <attribute key="jarijariplotm" isrequired="false" type="NUMERIC">
+      <names language_code="in" value="Jari-jari plot (m)"/>
+      <names language_code="en" value="Plot radius (m)"/>
+    </attribute>
+    <attribute key="jalurpengamatan" isrequired="false" type="LIST">
+      <names language_code="in" value="Jalur pengamatan"/>
+      <names language_code="en" value="Survey route"/>
+      <values key="jalurpendakian">
+        <names language_code="in" value="Jalur pendakian"/>
+        <names language_code="en" value="Hiking trail"/>
+      </values>
+      <values key="jalaninspeksi">
+        <names language_code="in" value="Jalan inspeksi"/>
+        <names language_code="en" value="Inspection road"/>
+      </values>
+      <values key="jalurpatroli">
+        <names language_code="in" value="Jalur patroli"/>
+        <names language_code="en" value="Patrol route"/>
+      </values>
+      <values key="lainnya">
+        <names language_code="in" value="Lainnya"/>
+        <names language_code="en" value="Other"/>
+      </values>
+    </attribute>
+    <attribute key="ketinggianmdpl" isrequired="false" type="NUMERIC">
+      <names language_code="in" value="Ketinggian (mdpl)"/>
+      <names language_code="en" value="Elevation (m asl)"/>
+    </attribute>
+    <attribute key="tipetutupanlahan" isrequired="false" type="LIST">
+      <names language_code="in" value="Tipe tutupan lahan"/>
+      <names language_code="en" value="Land cover type"/>
+      <values key="savana">
+        <names language_code="in" value="Savana"/>
+        <names language_code="en" value="Savanna"/>
+      </values>
+      <values key="hutanlahankering">
+        <names language_code="in" value="Hutan lahan kering"/>
+        <names language_code="en" value="Dryland forest"/>
+      </values>
+      <values key="hutanpegunungan">
+        <names language_code="in" value="Hutan pegunungan"/>
+        <names language_code="en" value="Montane forest"/>
+      </values>
+      <values key="semakbelukar">
+        <names language_code="in" value="Semak belukar"/>
+        <names language_code="en" value="Shrubland"/>
+      </values>
+      <values key="kebunladang">
+        <names language_code="in" value="Kebun/ladang masyarakat"/>
+        <names language_code="en" value="Garden/farmland"/>
+      </values>
+      <values key="lahanterbuka">
+        <names language_code="in" value="Lahan terbuka"/>
+        <names language_code="en" value="Open land"/>
+      </values>
+      <values key="lainnya">
+        <names language_code="in" value="Lainnya"/>
+        <names language_code="en" value="Other"/>
+      </values>
+    </attribute>
+    <attribute key="jumlahdewasa" isrequired="false" type="NUMERIC">
+      <names language_code="in" value="Jumlah dewasa"/>
+      <names language_code="en" value="Number of adults"/>
+    </attribute>
+    <attribute key="jumlahanakan" isrequired="false" type="NUMERIC">
+      <names language_code="in" value="Jumlah anak/remaja"/>
+      <names language_code="en" value="Number of juveniles"/>
+    </attribute>
+    <attribute key="aktivitasraptor" isrequired="false" type="LIST">
+      <names language_code="in" value="Aktivitas raptor"/>
+      <names language_code="en" value="Raptor activity"/>
+      <values key="soaring">
+        <names language_code="in" value="Soaring (terbang mengapung)"/>
+        <names language_code="en" value="Soaring"/>
+      </values>
+      <values key="gliding">
+        <names language_code="in" value="Gliding (meluncur horizontal)"/>
+        <names language_code="en" value="Gliding"/>
+      </values>
+      <values key="display">
+        <names language_code="in" value="Display/undulating"/>
+        <names language_code="en" value="Display flight"/>
+      </values>
+      <values key="hovering">
+        <names language_code="in" value="Hovering"/>
+        <names language_code="en" value="Hovering"/>
+      </values>
+      <values key="diving">
+        <names language_code="in" value="Diving (menukik)"/>
+        <names language_code="en" value="Diving"/>
+      </values>
+      <values key="perchhunting">
+        <names language_code="in" value="Berburu sambil bertengger (perch hunting)"/>
+        <names language_code="en" value="Perch hunting"/>
+      </values>
+      <values key="ambushhunting">
+        <names language_code="in" value="Berburu terbang rendah (ambush hunting)"/>
+        <names language_code="en" value="Ambush hunting"/>
+      </values>
+      <values key="bertengger">
+        <names language_code="in" value="Bertengger"/>
+        <names language_code="en" value="Perching"/>
+      </values>
+      <values key="terbang">
+        <names language_code="in" value="Terbang"/>
+        <names language_code="en" value="Flying"/>
+      </values>
+      <values key="kawin">
+        <names language_code="in" value="Kawin"/>
+        <names language_code="en" value="Mating"/>
+      </values>
+      <values key="bersarang">
+        <names language_code="in" value="Bersarang"/>
+        <names language_code="en" value="Nesting"/>
+      </values>
+      <values key="makan">
+        <names language_code="in" value="Makan"/>
+        <names language_code="en" value="Feeding"/>
+      </values>
+      <values key="lainnya">
+        <names language_code="in" value="Lainnya"/>
+        <names language_code="en" value="Other"/>
+      </values>
+    </attribute>
+    <attribute key="penggunaanruang" isrequired="false" type="LIST">
+      <names language_code="in" value="Penggunaan ruang"/>
+      <names language_code="en" value="Space use"/>
+      <values key="atastajuk">
+        <names language_code="in" value="Top (di atas tajuk)"/>
+        <names language_code="en" value="Top (above canopy)"/>
+      </values>
+      <values key="tajuk">
+        <names language_code="in" value="Tajuk"/>
+        <names language_code="en" value="Canopy"/>
+      </values>
+      <values key="bawahtajuk">
+        <names language_code="in" value="Bawah tajuk"/>
+        <names language_code="en" value="Below canopy"/>
+      </values>
+      <values key="permukaantanah">
+        <names language_code="in" value="Permukaan tanah"/>
+        <names language_code="en" value="Ground"/>
+      </values>
+    </attribute>
+    <attribute key="tiperuang" isrequired="false" type="LIST">
+      <names language_code="in" value="Tipe ruang"/>
+      <names language_code="en" value="Space type"/>
+      <values key="terbuka">
+        <names language_code="in" value="Terbuka"/>
+        <names language_code="en" value="Open"/>
+      </values>
+      <values key="tertutup">
+        <names language_code="in" value="Tertutup"/>
+        <names language_code="en" value="Closed"/>
+      </values>
+    </attribute>
+    <attribute key="sarangditemukan" isrequired="false" type="BOOLEAN">
+      <names language_code="in" value="Sarang ditemukan"/>
+      <names language_code="en" value="Nest found"/>
+    </attribute>
+  </attributes>
+  <categories>
+    <category key="metodeteknis" ismultiple="false" isactive="true">
+      <names language_code="in" value="Metode Teknis"/>
+      <names language_code="en" value="Technical Methods"/>
+      <category key="inventarisasiraptor" ismultiple="false" isactive="true">
+        <names language_code="in" value="Inventarisasi dan Sebaran Raptor"/>
+        <names language_code="en" value="Raptor Inventory and Distribution"/>
+        <category key="titikpengamatan" ismultiple="false" isactive="true">
+          <names language_code="in" value="Titik Pengamatan (Plot Point Count)"/>
+          <names language_code="en" value="Point Count Station"/>
+          <attribute attributekey="noplot" isrequired="true" isactive="true"/>
+          <attribute attributekey="jarijariplotm" isrequired="true" isactive="true"/>
+          <attribute attributekey="jalurpengamatan" isrequired="false" isactive="true"/>
+          <attribute attributekey="ketinggianmdpl" isrequired="false" isactive="true"/>
+          <attribute attributekey="tipetutupanlahan" isrequired="false" isactive="true"/>
+          <attribute attributekey="cuaca" isrequired="false" isactive="true"/>
+          <attribute attributekey="keterangan" isrequired="false" isactive="true"/>
+        </category>
+        <category key="perjumpaanraptor" ismultiple="true" isactive="true">
+          <names language_code="in" value="Perjumpaan Raptor"/>
+          <names language_code="en" value="Raptor Encounter"/>
+          <attribute attributekey="noplot" isrequired="true" isactive="true"/>
+          <attribute attributekey="jenissatwa" isrequired="true" isactive="true"/>
+          <attribute attributekey="jumlahdewasa" isrequired="true" isactive="true"/>
+          <attribute attributekey="jumlahanakan" isrequired="false" isactive="true"/>
+          <attribute attributekey="jumlahjantan" isrequired="false" isactive="true"/>
+          <attribute attributekey="jumlahbetina" isrequired="false" isactive="true"/>
+          <attribute attributekey="jarakkesatwam" isrequired="true" isactive="true"/>
+          <attribute attributekey="azimuth" isrequired="false" isactive="true"/>
+          <attribute attributekey="jenisperjumpaan" isrequired="false" isactive="true"/>
+          <attribute attributekey="aktivitasraptor" isrequired="false" isactive="true"/>
+          <attribute attributekey="penggunaanruang" isrequired="false" isactive="true"/>
+          <attribute attributekey="tiperuang" isrequired="false" isactive="true"/>
+          <attribute attributekey="tipetutupanlahan" isrequired="false" isactive="true"/>
+          <attribute attributekey="ketinggianmdpl" isrequired="false" isactive="true"/>
+          <attribute attributekey="sarangditemukan" isrequired="false" isactive="true"/>
+          <attribute attributekey="keterangan" isrequired="false" isactive="true"/>
+        </category>
+      </category>
+    </category>
+  </categories>
+</DataModel>
