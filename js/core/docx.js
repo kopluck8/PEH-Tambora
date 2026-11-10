@@ -302,6 +302,24 @@
       if (tag === "P" && cls.contains("sub")) return [para(el, { spacing: { before: 120, after: 120, line: 360 }, indent: { left: IND } })];
       if (tag === "P" && cls.contains("para")) return [bodyPara(lvOf(el) * IND, runs(el))];
       if (tag === "P") return [para(el, { spacing: { after: 120 } })];
+      if (tag === "P" && cls.contains("ket-head")) return [new D.Paragraph({ indent: { left: lvOf(el) * IND }, keepNext: true, spacing: { before: 60, after: 40 }, children: runs(el) })];
+      // Rumus: equation asli Word dari definisi di data-eq (js/core/rumus.js)
+      if (cls.contains("eq") && el.dataset.eq) {
+        return [new D.Paragraph({ alignment: A.CENTER, keepNext: true, keepLines: true, spacing: { before: 120, after: 120 }, children: [window.PEHRumus.toDocx(JSON.parse(el.dataset.eq), D)] })];
+      }
+      // Keterangan simbol rumus: "D | = | Densitas …" tanpa garis
+      if (tag === "TABLE" && cls.contains("ket")) {
+        const left = lvOf(el) * IND, w0 = 1134, w1 = 340, cw = [w0, w1, st.tw - left - w0 - w1];
+        return [new D.Table({
+          width: { size: st.tw - left, type: D.WidthType.DXA }, indent: { size: left, type: D.WidthType.DXA }, borders: noBorders, columnWidths: cw, layout: D.TableLayoutType.FIXED,
+          rows: [...el.querySelectorAll("tr")].map((tr) => new D.TableRow({ children: [...tr.children].map((td, i) => new D.TableCell({
+            borders: noBorders, width: { size: cw[i], type: D.WidthType.DXA },
+            children: [td.querySelector("[data-eq]")
+              ? new D.Paragraph({ spacing: { after: 40 }, children: [window.PEHRumus.toDocx(JSON.parse(td.querySelector("[data-eq]").dataset.eq), D)] })
+              : para(td, { spacing: { after: 40 }, alignment: i === 2 ? A.JUSTIFIED : A.LEFT })]
+          })) }))
+        }), textPara("", { spacing: { after: 60 } })];
+      }
       if (tag === "TABLE" && cls.contains("kv-plain")) {
         const cw = [2381, 300, st.tw - 2681];
         return [new D.Table({

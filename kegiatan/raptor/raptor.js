@@ -67,9 +67,6 @@
     const minXi = A.baris.length ? Math.min(...A.baris.map((b) => b.Xi)) : 0;
     const minB = A.baris.filter((b) => b.Xi === minXi);
     const plotTxt = A.plotPerjumpaan.length ? daftarKata(A.plotPerjumpaan) : "-";
-    const metodeIDTxt = A.metodeID === "plot"
-      ? "Ragam (S²) dihitung dari jumlah individu pada setiap plot pengamatan (plot tanpa perjumpaan bernilai nol)."
-      : "Ragam (S²) dihitung dengan rumus pada template analisis Balai (Analisa data.xlsx) yang memakai jumlah individu total per jenis.";
     return {
       latar: [
         "Raptor atau burung pemangsa (elang, alap-alap, dan burung hantu) berada di puncak rantai makanan sehingga keberadaan dan kesehatan populasinya mencerminkan kesehatan ekosistem tempat hidupnya. Raptor diakui sebagai spesies indikator karena sensitif terhadap perubahan ekosistem dan rentan terhadap polutan lingkungan, dan seluruh jenis raptor diurnal di Indonesia dilindungi peraturan perundang-undangan.",
@@ -87,12 +84,22 @@
         `Pengumpulan data menggunakan metode point count dengan plot pengamatan berbentuk lingkaran. Titik pengamatan (pusat plot) ditempatkan di sepanjang jalur pengamatan. Jari-jari plot adalah ${num(A.r)} m sehingga jarak antar pusat plot ${num(A.r * 2)} m. Pada setiap plot dicatat jenis raptor, jumlah individu (dewasa dan anak), waktu, jarak dan azimuth perjumpaan, aktivitas, penggunaan ruang, serta tipe tutupan lahan.`,
         `Perjumpaan dengan jarak lebih dari jari-jari plot dicatat sebagai perjumpaan di luar plot dan tidak dimasukkan dalam analisis. Data dicatat menggunakan aplikasi SMART Mobile dengan kategori Metode Teknis > Inventarisasi dan Sebaran Raptor, atau tally sheet.`
       ].join("\n"),
-      analisis: [
-        "1. Kepadatan populasi (Jarvinen, 1978): D = N / A, dengan A = n × π × r², N = jumlah individu raptor di seluruh plot, n = jumlah plot, dan r = jari-jari plot. Kepadatan disajikan dalam individu/ha dan luas yang ditempati satu individu (1 ind/... ha).",
-        `2. Indeks keanekaragaman Shannon-Wiener: H' = −Σ Pi ln Pi, dengan Pi = ni/N. Kriteria: ${A.kritHLabel}.`,
-        "3. Indeks dominansi/kelimpahan relatif: Di = ni/N × 100%. Kriteria: Di < 2% tidak dominan, 2–5% sub dominan, Di ≥ 5% dominan.",
-        `4. Indeks dispersi (Ludwig dan Reynolds, 1988): ID = S²/x̄, dengan x̄ = Σx/n dan S² = (Σx² − (Σx)²/n)/(n − 1). ${metodeIDTxt} Kriteria: ID = 1 sebaran acak, ID > 1 sebaran kelompok, ID < 1 sebaran homogen/merata.`
+      an_pengantar: "Data perjumpaan raptor di dalam plot pengamatan dianalisis untuk mengetahui kepadatan populasi, keanekaragaman jenis, dominansi atau kelimpahan, dan pola sebaran raptor, dengan persamaan sebagai berikut.",
+      an_kepadatan: "Kepadatan populasi menunjukkan jumlah individu raptor per satuan luas plot pengamatan. Kepadatan populasi dalam plot pengamatan dihitung dengan persamaan menurut Jarvinen (1978), sebagai berikut:",
+      an_keragaman: [
+        "Dalam suatu struktur komunitas terdapat lima karakteristik yang dapat diukur, yaitu keanekaragaman, keseragaman, dominansi, kelimpahan, dan pertumbuhan. Menurut sifat komunitas, keanekaragaman ditentukan oleh banyaknya jenis serta kemerataan kelimpahan individu tiap jenis yang dijumpai. Semakin besar nilai keanekaragaman berarti semakin banyak jenis yang dijumpai, dan nilai ini sangat bergantung pada jumlah individu masing-masing jenis.",
+        "Indeks Keanekaragaman (H') dihitung dengan persamaan Shannon-Wiener sebagai berikut:"
       ].join("\n"),
+      an_dominansi: [
+        "Penentuan nilai dominansi berfungsi untuk menetapkan jenis raptor yang dominan, sub dominan, atau tidak dominan dalam plot pengamatan. Adanya dominansi memperlihatkan adanya persaingan dalam pemanfaatan sumber daya dan kondisi lingkungan.",
+        "Indeks dominansi dihitung dengan persamaan dari Simpson (Odum, 1993 dalam Sirait, 2018):"
+      ].join("\n"),
+      an_dispersi: [
+        "Pola sebaran populasi satwa liar secara umum terdiri atas tiga bentuk, yaitu sebaran acak, sebaran kelompok, dan sebaran homogen (merata). Untuk mengetahui pola sebaran raptor, data dianalisis dengan Indeks Dispersi (ID) menurut Ludwig dan Reynolds (1988):"
+      ].join("\n"),
+      an_dispersi_metode: A.metodeID === "plot"
+        ? "Ragam (S²) dihitung dari jumlah individu yang tercatat pada setiap plot pengamatan, dengan plot tanpa perjumpaan bernilai nol."
+        : "Mengikuti template analisis data Balai (Analisa data.xlsx), ragam per jenis dihitung dari jumlah individu total jenis tersebut (Xi), dan ragam seluruh raptor dihitung dari jumlah total individu raptor (N), dengan persamaan berikut:",
       hasil_lokasi: `Pengamatan dilakukan pada ${nTxt(A.n)} plot pengamatan dengan jari-jari ${num(A.r)} m. Satu plot memiliki luas ${num(A.luas.perPlotHa, 1)} ha sehingga luas seluruh plot ${num(A.luas.ha, A.luas.ha % 1 ? 2 : 0)} ha. Raptor dijumpai pada plot ${plotTxt}.${A.luar.length ? ` Sebanyak ${A.luar.length} perjumpaan berada di luar jari-jari plot sehingga tidak dimasukkan dalam analisis.` : ""}${S.catatanLapangan ? " " + S.catatanLapangan : ""}`,
       hasil_jenis: A.S ? `Selama pengamatan dijumpai ${nTxt(A.S)} jenis raptor dengan total ${nTxt(A.N)} individu di dalam plot pengamatan, yaitu ${daftarKata(A.baris.map((b) => `${nmJenis(b)} sebanyak ${b.Xi} individu`))}.` : "Belum ada data perjumpaan raptor.",
       hasil_populasi: A.S ? `Kepadatan populasi raptor secara keseluruhan adalah ${num(A.D.perHa, 4)} individu/ha atau satu individu menempati wilayah seluas ${num(A.D.haPerInd, 2)} ha. Kepadatan tertinggi terdapat pada ${nmJenis(maxB)} sebesar ${dens(maxB.perHa)} ind/ha (${haTxt(maxB.haPerInd)}), sedangkan kepadatan terendah ${minB.length > 1 ? `terdapat pada ${nTxt(minB.length)} jenis` : `pada ${nmJenis(minB[0])}`} sebesar ${dens(minB[0].perHa)} ind/ha (${haTxt(minB[0].haPerInd)}).` : "",
@@ -143,6 +150,79 @@
       <tr><td>Populasi raptor (D)</td><td class="c">${num(A.D.perHa, 4)} ind/ha (${haTxt(A.D.haPerInd)})</td></tr><tr><td>Indeks keanekaragaman (H')</td><td class="c">${f2(A.H)} (${esc(A.kritH)})</td></tr>
       <tr><td>Sx² raptor; x̄ raptor; ID raptor</td><td class="c">${num(A.idGab.s2, 6)}; ${num(A.idGab.mean, 6)}; ${num(A.idGab.id, 6)} (${esc(A.idGab.kriteria)})</td></tr></tbody></table>`;
 
+  /* ---------- Rumus (equation Word dan MathML) ---------- */
+  const Q = window.PEHRumus;
+  const { R, F, Sub, Sup, SubSup, Sum, P } = Q;
+  const xbar = "x̄";
+  const KRIT_H = {
+    template: [[[R("H′"), " ≤ 2"], "keanekaragaman rendah"], [["2 < ", R("H′"), " < 3"], "keanekaragaman sedang"], [[R("H′"), " ≥ 3"], "keanekaragaman tinggi"]],
+    krebs: [[[R("H′"), " < 1"], "keanekaragaman rendah"], [["1 ≤ ", R("H′"), " ≤ 3"], "keanekaragaman sedang"], [[R("H′"), " > 3"], "keanekaragaman tinggi"]]
+  };
+  function metodeAnalisisHtml(A, notes, N) {
+    const tpl = A.metodeID !== "plot";
+    const out = [noteBlock(notes, "an_pengantar"),
+      N.h3("1) Kepadatan Populasi"), noteBlock(notes, "an_kepadatan", 3),
+      Q.blockHtml([R("D = "), F("N", "A")], 3), Q.blockHtml([R("A = n × π × "), Sup("r", "2")], 3),
+      Q.ketHtml([["D", "kepadatan (densitas) populasi raptor (individu/ha)"], ["N", "jumlah total individu raptor di seluruh plot pengamatan"], ["A", "luas plot pengamatan (ha)"], ["n", "jumlah plot pengamatan"], ["r", "jari-jari (radius) plot pengamatan (m)"], ["π", `konstanta ${num(A.pi, 2)}`]], 3),
+      para("Kepadatan juga dinyatakan sebagai luas wilayah yang ditempati satu individu, yaitu A/N (1 individu/… ha).", 3),
+      N.h3("2) Indeks Keanekaragaman (H')"), noteBlock(notes, "an_keragaman", 3),
+      Q.blockHtml([R("H′"), R(" = −"), Sum([Sub("P", "i"), R(" ln "), Sub("P", "i")])], 3), Q.blockHtml([Sub("P", "i"), R(" = "), F(Sub("n", "i"), "N")], 3),
+      Q.ketHtml([[R("H′"), "indeks keanekaragaman Shannon-Wiener"], [Sub("P", "i"), "proporsi individu jenis ke-i terhadap seluruh individu"], [Sub("n", "i"), "jumlah individu jenis ke-i dalam plot pengamatan"], ["N", "jumlah total individu seluruh jenis dalam plot pengamatan"], ["ln", "logaritma natural"]], 3),
+      Q.ketHtml(KRIT_H[A.kritHLabel.startsWith("H' < 1") ? "krebs" : "template"], 3, A.kritHLabel.startsWith("H' < 1") ? "Kriteria menurut Krebs (1989):" : "Kriteria (template analisis data Balai):"),
+      N.h3("3) Indeks Dominansi/Kelimpahan (Di)"), noteBlock(notes, "an_dominansi", 3),
+      Q.blockHtml([Sub("D", "i"), R(" = "), F(Sub("n", "i"), "N"), R(" × 100%")], 3),
+      Q.ketHtml([[Sub("D", "i"), "indeks dominansi jenis ke-i (%)"], [Sub("n", "i"), "jumlah individu jenis ke-i dalam plot pengamatan"], ["N", "jumlah total individu seluruh jenis"]], 3),
+      Q.ketHtml([[[Sub("D", "i"), " < 2%"], "tidak dominan"], [["2% ≤ ", Sub("D", "i"), " < 5%"], "sub dominan"], [[Sub("D", "i"), " ≥ 5%"], "dominan"]], 3, "Kriteria:"),
+      N.h3("4) Indeks Dispersi (ID)"), noteBlock(notes, "an_dispersi", 3),
+      Q.blockHtml([R("ID = "), F(Sup("S", "2"), xbar)], 3), Q.blockHtml([R(xbar + " = "), F(Sum(Sub("x", "i")), "n")], 3),
+      Q.blockHtml([Sup("S", "2"), R(" = "), F([Sum(SubSup("x", "i", "2")), R(" − "), F(Sup(P(Sum(Sub("x", "i"))), "2"), "n")], "n − 1")], 3),
+      Q.ketHtml([["ID", "indeks dispersi"], [Sup("S", "2"), "ragam (varians) jumlah individu per plot"], [xbar, "rata-rata jumlah individu per plot"], [Sub("x", "i"), "jumlah individu teramati pada plot ke-i"], ["n", "jumlah plot pengamatan"]], 3),
+      noteBlock(notes, "an_dispersi_metode", 3)];
+    if (tpl) out.push(
+      Q.blockHtml([SubSup("S", "i", "2"), R(" = "), F([Sup(Sub("X", "i"), "2"), R(" − "), F(Sup(Sub("X", "i"), "4"), "n")], "n − 1")], 3) + Q.blockHtml([Sub(xbar, "i"), R(" = "), F(Sub("X", "i"), "n")], 3),
+      Q.blockHtml([SubSup("S", "raptor", "2"), R(" = "), F([R("N − "), F(Sup("N", "2"), "n")], "n − 1")], 3) + Q.blockHtml([Sub(xbar, "raptor"), R(" = "), F("N", "n")], 3),
+      Q.ketHtml([[Sub("X", "i"), "jumlah individu jenis ke-i"], ["N", "jumlah total individu raptor"], ["n", "jumlah plot pengamatan"]], 3));
+    out.push(Q.ketHtml([["ID = 1", "sebaran acak"], ["ID > 1", "sebaran kelompok"], ["ID < 1", "sebaran homogen/merata"]], 3, "Pola sebaran berdasarkan nilai ID:"));
+    return out.join("");
+  }
+  // Perhitungan dengan angka hasil pengamatan, ditampilkan di bagian Hasil
+  const nn = (v, d) => num(v, d);
+  const haFmt = (v) => num(v, v % 1 ? 2 : 0);
+  function hitungKepadatan(A) {
+    if (!A.S) return "";
+    return para("Perhitungan kepadatan populasi raptor secara keseluruhan:", 3)
+      + Q.blockHtml([R(`A = n × π × `), Sup("r", "2"), R(` = ${nn(A.n)} × ${nn(A.pi, 2)} × `), Sup(nn(A.r), "2"), R(` = ${nn(A.luas.m2)} `), Sup("m", "2"), R(` = ${haFmt(A.luas.ha)} ha`)], 3)
+      + Q.blockHtml([R("D = "), F("N", "A"), R(" = "), F(nn(A.N), haFmt(A.luas.ha)), R(` = ${nn(A.D.perHa, 4)} ind/ha`)], 3)
+      + Q.blockHtml([F("A", "N"), R(" = "), F(haFmt(A.luas.ha), nn(A.N)), R(` = ${nn(A.D.haPerInd, 2)} ha/individu`)], 3);
+  }
+  function hitungKeragaman(A) {
+    if (!A.S) return "";
+    const top = A.baris.reduce((m, b) => (b.Xi > m.Xi ? b : m));
+    return para(`Contoh perhitungan untuk ${esc(top.jenis)}:`, 3)
+      + Q.blockHtml([Sub("P", "i"), R(" = "), F(nn(top.Xi), nn(A.N)), R(` = ${f3(top.pi)}`)], 3)
+      + Q.blockHtml([Sub("P", "i"), R(" ln "), Sub("P", "i"), R(` = ${f3(top.pi)} × ln ${f3(top.pi)} = ${f3(top.piLnPi)}`)], 3)
+      + para("Nilai indeks keanekaragaman seluruh jenis:", 3)
+      + Q.blockHtml([R("H′"), R(" = −"), Sum([Sub("P", "i"), R(" ln "), Sub("P", "i")]), R(` = −(${f2(A.sumPiLnPi)}) = ${f2(A.H)}`)], 3);
+  }
+  function hitungDominansi(A) {
+    if (!A.S) return "";
+    const top = A.baris.reduce((m, b) => (b.Xi > m.Xi ? b : m));
+    return para(`Contoh perhitungan untuk ${esc(top.jenis)}:`, 3)
+      + Q.blockHtml([Sub("D", "i"), R(" = "), F(Sub("n", "i"), "N"), R(" × 100% = "), F(nn(top.Xi), nn(A.N)), R(` × 100% = ${f3(top.di)}%`)], 3);
+  }
+  function hitungDispersi(A) {
+    if (!A.S) return "";
+    const g = A.idGab, out = [para("Perhitungan indeks dispersi seluruh raptor:", 3)];
+    if (A.metodeID === "plot") {
+      out.push(Q.blockHtml([Sup("S", "2"), R(" = "), F([R(nn(g.sx2) + " − "), F(Sup(nn(g.sx), "2"), nn(A.n))], `${nn(A.n)} − 1`), R(` = ${nn(g.s2, 6)}`)], 3));
+    } else {
+      out.push(Q.blockHtml([SubSup("S", "raptor", "2"), R(" = "), F([R(nn(A.N) + " − "), F(Sup(nn(A.N), "2"), nn(A.n))], `${nn(A.n)} − 1`), R(` = ${nn(g.s2, 6)}`)], 3));
+    }
+    out.push(Q.blockHtml([Sub(xbar, "raptor"), R(" = "), F(nn(A.N), nn(A.n)), R(` = ${nn(g.mean, 6)}`)], 3));
+    out.push(Q.blockHtml([R("ID = "), F(nn(g.s2, 6), nn(g.mean, 6)), R(` = ${f3(g.id)}`)], 3));
+    return out.join("");
+  }
+
   /* ---------- LPK ---------- */
   function lpk(A, S, notes) {
     const I = S.identitas, N = numbering(), P = L.DEFAULT_PROFIL;
@@ -161,7 +241,7 @@
       N.h2("b. Waktu Pelaksanaan"), noteBlock(notes, "waktu"),
       N.h2("c. Alat dan Bahan"), para("Alat dan bahan yang digunakan dalam kegiatan ini adalah sebagai berikut:"), N.cap("Alat dan Bahan"), L.alatTable(S.alat),
       N.h2("d. Metode Pelaksanaan/Metode Pengumpulan Data"), noteBlock(notes, "metode"),
-      N.h2("e. Metode Analisis Data"), noteBlock(notes, "analisis"),
+      N.h2("e. Metode Analisis Data"), metodeAnalisisHtml(A, notes, N),
       N.h2("f. Tim Pelaksana"), para("Personil pelaksana kegiatan adalah fungsional Pengendali Ekosistem Hutan lingkup Balai TN Tambora dan staf, sebagaimana tersaji pada tabel berikut:"), N.cap("Daftar Nama Pelaksana Kegiatan"), L.timTable(S.tim),
       N.h2("g. Rincian Anggaran dan Biaya"), para(`Kegiatan ini dibiayai dari ${esc(I.sumberAnggaran || "……")}${I.akun ? `, akun ${esc(I.akun)}` : ""}, dengan jumlah ${esc(L.rupiah(rab.total) || "Rp……")} dengan rincian sebagai berikut:`), N.cap("Rincian Anggaran dan Biaya"), rab.html,
       N.h2("h. Tata Waktu/Jadwal Pelaksanaan"), para("Tahapan dan jadwal pelaksanaan kegiatan adalah sebagai berikut:"), N.cap("Tata Waktu Pelaksanaan Kegiatan"), L.ganttTable(sched));
@@ -169,10 +249,10 @@
     body.push(N.h1("3. Hasil yang dicapai"), N.h2("a. Hasil"),
       N.h3("1) Lokasi dan Plot Pengamatan"), noteBlock(notes, "hasil_lokasi", 3),
       N.h3("2) Jenis Raptor yang Dijumpai"), noteBlock(notes, "hasil_jenis", 3),
-      N.h3("3) Kepadatan Populasi"), noteBlock(notes, "hasil_populasi", 3), N.cap("Rekapitulasi Perjumpaan dan Kepadatan Populasi Raptor pada Plot Pengamatan"), tabPopulasi(A),
-      N.h3("4) Keanekaragaman Jenis"), noteBlock(notes, "hasil_keragaman", 3), N.cap("Indeks Keanekaragaman Jenis Raptor"), tabKeragaman(A),
-      N.h3("5) Dominansi/Kelimpahan"), noteBlock(notes, "hasil_dominansi", 3), N.cap("Indeks Dominansi/Kelimpahan Raptor"), tabDominansi(A),
-      N.h3("6) Pola Sebaran"), noteBlock(notes, "hasil_sebaran", 3), N.cap("Pola Sebaran Raptor"), tabSebaran(A),
+      N.h3("3) Kepadatan Populasi"), noteBlock(notes, "hasil_populasi", 3), hitungKepadatan(A), N.cap("Rekapitulasi Perjumpaan dan Kepadatan Populasi Raptor pada Plot Pengamatan"), tabPopulasi(A),
+      N.h3("4) Keanekaragaman Jenis"), noteBlock(notes, "hasil_keragaman", 3), hitungKeragaman(A), N.cap("Indeks Keanekaragaman Jenis Raptor"), tabKeragaman(A),
+      N.h3("5) Dominansi/Kelimpahan"), noteBlock(notes, "hasil_dominansi", 3), hitungDominansi(A), N.cap("Indeks Dominansi/Kelimpahan Raptor"), tabDominansi(A),
+      N.h3("6) Pola Sebaran"), noteBlock(notes, "hasil_sebaran", 3), hitungDispersi(A), N.cap("Pola Sebaran Raptor"), tabSebaran(A),
       N.h2("b. Pembahasan"), noteBlock(notes, "pembahasan"));
     body.push(N.h1("4. Simpulan dan saran"), N.h2("a. Simpulan"), noteBlock(notes, "kesimpulan"), N.h2("b. Saran"), noteBlock(notes, "saran"),
       N.h1("5. Penutup"), noteBlock(notes, "penutup", 1),
