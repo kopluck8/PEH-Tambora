@@ -1,0 +1,124 @@
+{
+  "_catatan": "Sumber data model SMART kategori 'Metode Teknis' untuk kegiatan teknis PEH. Ubah file ini, lalu jalankan: python3 tools/build_datamodel.py. Atribut dengan 'sudah_ada': true sudah tersedia di Data Model SMART Balai TN Tambora dan dipakai ulang dengan key yang sama.",
+  "versi": "0.1.0",
+  "bahasa": ["in", "en"],
+  "atribut": [
+    { "key": "noplot", "tipe": "TEXT", "sudah_ada": true, "nama": { "in": "No. plot", "en": "Plot number" } },
+    { "key": "jenissatwa", "tipe": "TREE", "sudah_ada": true, "nama": { "in": "Jenis satwa", "en": "Species" },
+      "keterangan": "Pohon jenis satwa di Data Model Balai. Raptor ada di cabang burung.* (mis. burung.elangbondolhaliasturindus.)." },
+    { "key": "jarakkesatwam", "tipe": "NUMERIC", "sudah_ada": true, "nama": { "in": "Jarak ke satwa (m)", "en": "Distance to animal (m)" } },
+    { "key": "azimuth", "tipe": "NUMERIC", "sudah_ada": true, "nama": { "in": "Azimuth (derajat)", "en": "Azimuth (degree)" } },
+    { "key": "jenisperjumpaan", "tipe": "LIST", "sudah_ada": true, "nama": { "in": "Jenis perjumpaan", "en": "Encounter type" } },
+    { "key": "jumlahjantan", "tipe": "NUMERIC", "sudah_ada": true, "nama": { "in": "Jumlah jantan", "en": "Number of males" } },
+    { "key": "jumlahbetina", "tipe": "NUMERIC", "sudah_ada": true, "nama": { "in": "Jumlah betina", "en": "Number of females" } },
+    { "key": "cuaca", "tipe": "LIST", "sudah_ada": true, "nama": { "in": "Cuaca", "en": "Weather" } },
+    { "key": "keterangan", "tipe": "TEXT", "sudah_ada": true, "nama": { "in": "Keterangan", "en": "Remarks" } },
+
+    { "key": "jarijariplotm", "tipe": "NUMERIC", "nama": { "in": "Jari-jari plot (m)", "en": "Plot radius (m)" } },
+    { "key": "jalurpengamatan", "tipe": "LIST", "nama": { "in": "Jalur pengamatan", "en": "Survey route" },
+      "pilihan": [
+        { "key": "jalurpendakian", "in": "Jalur pendakian", "en": "Hiking trail" },
+        { "key": "jalaninspeksi", "in": "Jalan inspeksi", "en": "Inspection road" },
+        { "key": "jalurpatroli", "in": "Jalur patroli", "en": "Patrol route" },
+        { "key": "lainnya", "in": "Lainnya", "en": "Other" }
+      ] },
+    { "key": "ketinggianmdpl", "tipe": "NUMERIC", "nama": { "in": "Ketinggian (mdpl)", "en": "Elevation (m asl)" } },
+    { "key": "tipetutupanlahan", "tipe": "LIST", "nama": { "in": "Tipe tutupan lahan", "en": "Land cover type" },
+      "pilihan": [
+        { "key": "savana", "in": "Savana", "en": "Savanna" },
+        { "key": "hutanlahankering", "in": "Hutan lahan kering", "en": "Dryland forest" },
+        { "key": "hutanpegunungan", "in": "Hutan pegunungan", "en": "Montane forest" },
+        { "key": "semakbelukar", "in": "Semak belukar", "en": "Shrubland" },
+        { "key": "kebunladang", "in": "Kebun/ladang masyarakat", "en": "Garden/farmland" },
+        { "key": "lahanterbuka", "in": "Lahan terbuka", "en": "Open land" },
+        { "key": "lainnya", "in": "Lainnya", "en": "Other" }
+      ] },
+    { "key": "jumlahdewasa", "tipe": "NUMERIC", "nama": { "in": "Jumlah dewasa", "en": "Number of adults" } },
+    { "key": "jumlahanakan", "tipe": "NUMERIC", "nama": { "in": "Jumlah anak/remaja", "en": "Number of juveniles" } },
+    { "key": "aktivitasraptor", "tipe": "LIST", "nama": { "in": "Aktivitas raptor", "en": "Raptor activity" },
+      "pilihan": [
+        { "key": "soaring", "in": "Soaring (terbang mengapung)", "en": "Soaring" },
+        { "key": "gliding", "in": "Gliding (meluncur horizontal)", "en": "Gliding" },
+        { "key": "display", "in": "Display/undulating", "en": "Display flight" },
+        { "key": "hovering", "in": "Hovering", "en": "Hovering" },
+        { "key": "diving", "in": "Diving (menukik)", "en": "Diving" },
+        { "key": "perchhunting", "in": "Berburu sambil bertengger (perch hunting)", "en": "Perch hunting" },
+        { "key": "ambushhunting", "in": "Berburu terbang rendah (ambush hunting)", "en": "Ambush hunting" },
+        { "key": "bertengger", "in": "Bertengger", "en": "Perching" },
+        { "key": "terbang", "in": "Terbang", "en": "Flying" },
+        { "key": "kawin", "in": "Kawin", "en": "Mating" },
+        { "key": "bersarang", "in": "Bersarang", "en": "Nesting" },
+        { "key": "makan", "in": "Makan", "en": "Feeding" },
+        { "key": "lainnya", "in": "Lainnya", "en": "Other" }
+      ] },
+    { "key": "penggunaanruang", "tipe": "LIST", "nama": { "in": "Penggunaan ruang", "en": "Space use" },
+      "pilihan": [
+        { "key": "atastajuk", "in": "Top (di atas tajuk)", "en": "Top (above canopy)" },
+        { "key": "tajuk", "in": "Tajuk", "en": "Canopy" },
+        { "key": "bawahtajuk", "in": "Bawah tajuk", "en": "Below canopy" },
+        { "key": "permukaantanah", "in": "Permukaan tanah", "en": "Ground" }
+      ] },
+    { "key": "tiperuang", "tipe": "LIST", "nama": { "in": "Tipe ruang", "en": "Space type" },
+      "pilihan": [
+        { "key": "terbuka", "in": "Terbuka", "en": "Open" },
+        { "key": "tertutup", "in": "Tertutup", "en": "Closed" }
+      ] },
+    { "key": "sarangditemukan", "tipe": "BOOLEAN", "nama": { "in": "Sarang ditemukan", "en": "Nest found" } }
+  ],
+
+  "kategori": [
+    {
+      "key": "metodeteknis",
+      "nama": { "in": "Metode Teknis", "en": "Technical Methods" },
+      "keterangan": "Kategori level 0 untuk seluruh metode kegiatan teknis jabatan PEH. Setiap metode menjadi satu kategori level 1.",
+      "anak": [
+        {
+          "key": "inventarisasiraptor",
+          "nama": { "in": "Inventarisasi dan Sebaran Raptor", "en": "Raptor Inventory and Distribution" },
+          "keterangan": "Metode point count (plot lingkaran). Template analisis: Analisa data.xlsx; contoh LPK: Resort Piong, Juni 2021.",
+          "kegiatan": "raptor",
+          "anak": [
+            {
+              "key": "titikpengamatan",
+              "nama": { "in": "Titik Pengamatan (Plot Point Count)", "en": "Point Count Station" },
+              "keterangan": "Dicatat sekali di pusat setiap plot, termasuk plot tanpa perjumpaan. Jumlah titik = jumlah plot (n).",
+              "atribut": [
+                { "key": "noplot", "wajib": true },
+                { "key": "jarijariplotm", "wajib": true, "bawaan": 500 },
+                { "key": "jalurpengamatan" },
+                { "key": "ketinggianmdpl" },
+                { "key": "tipetutupanlahan" },
+                { "key": "cuaca" },
+                { "key": "keterangan" }
+              ]
+            },
+            {
+              "key": "perjumpaanraptor",
+              "nama": { "in": "Perjumpaan Raptor", "en": "Raptor Encounter" },
+              "keterangan": "Satu observasi per jenis per perjumpaan. Waktu perjumpaan diambil dari waktu waypoint.",
+              "multiple": true,
+              "atribut": [
+                { "key": "noplot", "wajib": true },
+                { "key": "jenissatwa", "wajib": true },
+                { "key": "jumlahdewasa", "wajib": true },
+                { "key": "jumlahanakan" },
+                { "key": "jumlahjantan" },
+                { "key": "jumlahbetina" },
+                { "key": "jarakkesatwam", "wajib": true },
+                { "key": "azimuth" },
+                { "key": "jenisperjumpaan" },
+                { "key": "aktivitasraptor" },
+                { "key": "penggunaanruang" },
+                { "key": "tiperuang" },
+                { "key": "tipetutupanlahan" },
+                { "key": "ketinggianmdpl" },
+                { "key": "sarangditemukan" },
+                { "key": "keterangan" }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
