@@ -32,6 +32,8 @@
   }
   const waktuTeks = (I, rpk) => (validISO(I.mulai) ? `Kegiatan ${rpk ? "akan dilaksanakan" : "dilaksanakan"} selama ${nTxt(jumlahHari(I.mulai, I.selesai || I.mulai))} hari, mulai tanggal ${periodeSd(I.mulai, I.selesai)}.` : "Tanggal pelaksanaan belum diisi.");
 
+  // Bagian yang memuat tabel boleh dikirim sebagai fungsi agar nomor tabel mengikuti urutan dokumen
+  const isiBagian = (x) => (typeof x === "function" ? x() : x);
   function pendahuluan(N, notes, I, judul, dasarTambahan) {
     return [N.h1("1. Pendahuluan"), N.h2("a. Umum"), noteBlock(notes, "latar"), N.h2("b. Maksud dan Tujuan"), noteBlock(notes, "maksud"), N.h2("c. Ruang Lingkup"), noteBlock(notes, "ruanglingkup"),
       N.h2("d. Dasar"), para(`Dasar pelaksanaan kegiatan ${esc(judul)} adalah sebagai berikut:`), olList(dasar(I, dasarTambahan))].join("\n");
@@ -43,7 +45,7 @@
       N.h2("b. Waktu Pelaksanaan"), noteBlock(notes, "waktu"),
       N.h2("c. Alat dan Bahan"), para(`Alat dan bahan yang ${rpk ? "akan " : ""}digunakan dalam kegiatan ini adalah sebagai berikut:`), N.cap("Alat dan Bahan"), L.alatTable(S.alat),
       N.h2("d. Metode Pelaksanaan/Metode Pengumpulan Data"), noteBlock(notes, "metode"), o.metodeTambahan || "",
-      N.h2("e. Metode Analisis Data"), o.metodeAnalisis || noteBlock(notes, "an_pengantar"),
+      N.h2("e. Metode Analisis Data"), isiBagian(o.metodeAnalisis) || noteBlock(notes, "an_pengantar"),
       N.h2("f. Tim Pelaksana"), para(`Personil pelaksana kegiatan adalah fungsional Pengendali Ekosistem Hutan lingkup Balai TN Tambora dan staf, sebagaimana tersaji pada tabel berikut:`), N.cap("Daftar Nama Pelaksana Kegiatan"), L.timTable(S.tim),
       N.h2("g. Rincian Anggaran dan Biaya"), para(`Kegiatan ini ${rpk ? "akan " : ""}dibiayai dari ${esc(I.sumberAnggaran || "……")}${I.akun ? `, akun ${esc(I.akun)}` : ""}, dengan jumlah ${esc(L.rupiah(rab.total) || "Rp……")} dengan rincian sebagai berikut:`), N.cap("Rincian Anggaran dan Biaya"), rab.html,
       N.h2("h. Tata Waktu/Jadwal Pelaksanaan"), para("Tahapan dan jadwal pelaksanaan kegiatan adalah sebagai berikut:"), N.cap("Tata Waktu Pelaksanaan Kegiatan"), L.ganttTable(jadwal(I, rpk)) || para("Tanggal pelaksanaan belum diisi.")].join("\n");
@@ -57,13 +59,13 @@
     const rab = L.rabTable(S.rab), periodeTxt = periodeSd(I.mulai, I.selesai), tglTtd = tglPanjang(I.tanggalLaporan);
     const judul = I.judul || o.judul, judulLengkap = judulLengkapOf(I, o.judul);
     const body = [L.kopHtml(P), L.titleHtml("LAPORAN", judulLengkap), pendahuluan(N, notes, I, judul, o.dasarTambahan), bagianKegiatan(N, notes, S, o, false)];
-    body.push(N.h1("3. Hasil yang dicapai"), N.h2("a. Hasil"), o.hasil, N.h2("b. Pembahasan"), noteBlock(notes, "pembahasan"));
+    body.push(N.h1("3. Hasil yang dicapai"), N.h2("a. Hasil"), isiBagian(o.hasil), N.h2("b. Pembahasan"), noteBlock(notes, "pembahasan"));
     body.push(N.h1("4. Simpulan dan saran"), N.h2("a. Simpulan"), noteBlock(notes, "kesimpulan"), N.h2("b. Saran"), noteBlock(notes, "saran"),
       N.h1("5. Penutup"), noteBlock(notes, "penutup", 1), L.closingHtml(I.kota, tglTtd, ketua.jabatan || "Ketua Tim,", ketua.nama, ketua.nip),
       L.lampiranIndex(o.lampiranIndex || ["Surat Tugas", "Matriks Data Hasil Kegiatan", "Matriks Analisis Data", "Peta Kerja/Peta Hasil Kegiatan", "Dokumentasi Kegiatan"]));
     body.push(N.h1("LAMPIRAN", "front", true), N.h2("1. Surat Tugas", "lamp"), para("Scan Surat Tugas dilampirkan pada halaman ini.", 1),
-      `<div class="landscape">`, N.h2("2. Matriks Data Hasil Kegiatan", "lamp"), o.lampiranData || para("Data hasil kegiatan dilampirkan pada halaman ini.", 1),
-      N.h2("3. Matriks Analisis Data", "lamp", true), o.lampiranAnalisis || para("Hasil analisis data dilampirkan pada halaman ini.", 1), `</div>`,
+      `<div class="landscape">`, N.h2("2. Matriks Data Hasil Kegiatan", "lamp"), isiBagian(o.lampiranData) || para("Data hasil kegiatan dilampirkan pada halaman ini.", 1),
+      N.h2("3. Matriks Analisis Data", "lamp", true), isiBagian(o.lampiranAnalisis) || para("Hasil analisis data dilampirkan pada halaman ini.", 1), `</div>`,
       N.h2("4. Peta Kerja/Peta Hasil Kegiatan", "lamp", true), o.lampiranPeta || para(`Peta lokasi kegiatan dan sebaran titik ${esc(o.objekPeta || "pengamatan")} dilampirkan pada halaman ini.`, 1),
       N.h2("5. Dokumentasi Kegiatan", "lamp", true), para("Foto pelaksanaan kegiatan dilampirkan pada halaman ini.", 1));
     const cover = L.coverHtml({ jenis: "LAPORAN PELAKSANAAN KEGIATAN", judul: judulLengkap, balai: P.balai, logo: window.PEH_DEFAULT_LOGO, nomorST: I.nomorST, periode: periodeTxt, kota: I.kota, bulanTahun: L.bulanTahun(I.tanggalLaporan || I.selesai) });
@@ -91,7 +93,7 @@
       N.h1("3. Penutup"), noteBlock(notes, "penutup", 1), L.closingHtml(I.kota, tgl, koor.jabatan, koor.nama, koor.nip), L.lampiranIndex(lamp),
       N.h1("LAMPIRAN", "front", true), N.h2("1. Surat Tugas", "lamp"), para("Scan Surat Tugas dilampirkan pada halaman ini.", 1),
       N.h2("2. Peta Kerja (Peta Rencana Pelaksanaan Kegiatan)", "lamp", true), para(`Peta rencana lokasi ${esc(o.objekPeta || "pengamatan")} dilampirkan pada halaman ini.`, 1)];
-    if (o.tallysheet) body.push(`<div class="landscape">`, N.h2("3. Format Isian Data Lapangan (Tally Sheet)", "lamp"), o.tallysheet, `</div>`);
+    if (o.tallysheet) body.push(`<div class="landscape">`, N.h2("3. Format Isian Data Lapangan (Tally Sheet)", "lamp"), isiBagian(o.tallysheet), `</div>`);
     const cover = L.coverHtml({ jenis: "RENCANA PELAKSANAAN KEGIATAN", judul: judulLengkap, balai: P.balai, logo: window.PEH_DEFAULT_LOGO, nomorST: I.nomorST, periode: periodeTxt, kota: I.kota, bulanTahun: L.bulanTahun(I.tanggalRPK || I.mulai) });
     const kv = [["Judul", `Rencana Pelaksanaan Kegiatan ${judulLengkap}`], ["Waktu", periodeTxt || "……"], ["Lokasi", I.lokasi || "……"], ["Pelaksana", "Tim Pelaksana Kegiatan Balai Taman Nasional Tambora"], ["Jumlah Anggaran", L.rupiah(rab.total) || "Rp……"],
       ["Sumber Anggaran", `${I.sumberAnggaran || "……"}${I.akun ? `, Akun ${I.akun}` : ""}`], ["Disusun di", I.kota || "……"], ["Pada Tanggal", tgl || "……"], ["Oleh", koor.jabatan.replace(/,$/, "")]];

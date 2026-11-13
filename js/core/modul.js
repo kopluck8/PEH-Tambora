@@ -377,13 +377,18 @@
     metode(c) { const lv = c.lv; return [blk([R("P = "), F("x", "y"), R(" × 100%")], lv), ket([["P", `persentase ${esc(c.opt.label || "kategori")} (%)`], ["x", `frekuensi satu ${esc(c.opt.label || "kategori")}`], ["y", `jumlah seluruh ${esc(c.opt.satuan || "catatan")}`]], lv)].join(""); },
     narHasil(r, c) {
       if (r.kosong) return `Belum ada catatan ${c.opt.label || "kategori"} ${c.objek}.`;
-      const top = r.rows.slice(0, 3);
+      // Tiga teratas, ditambah kategori lain yang nilainya sama dengan urutan ketiga
+      const top = r.rows.filter((x, i) => i < 3 || x.x === r.rows[2].x);
       return `Dari ${nTxt(r.y)} ${c.opt.satuan || "catatan"}, ${c.opt.label || "kategori"} yang paling banyak adalah ${daftarKata(top.map((x) => `${x.k.toLowerCase()} (${num(x.p, 1)}%)`))}.`;
     },
     hitungHtml(r, c) { if (r.kosong) return ""; const a = r.rows[0]; return blk([R("P = "), F(num(a.x), num(r.y)), R(` × 100% = ${num(a.p, 2)}%`)], c.lv); },
     spec(r, c) { return { head: ["No", L.judul(c.opt.label || "Kategori"), "Frekuensi", "Persentase (%)"], rows: r.rows.map((x, i) => [k(i + 1), t(esc(x.k)), n(x.x, 0), n(x.p, 2)]), total: [[{ t: "Jumlah", cs: 2 }, n(r.y, 0), n(100, 2)]] }; },
     tabel(r, c) { return r.kosong ? [] : [{ cap: c.opt.cap || `Persentase ${L.judul(c.opt.label || "Kategori")} ${L.judul(c.objek)}`, spec: this.spec(r, c) }]; },
-    simpulan(r, c) { return r.kosong ? "" : `${L.cap1(c.opt.label || "kategori")} ${c.objek} yang paling sering tercatat adalah ${r.rows[0].k.toLowerCase()} (${num(r.rows[0].p, 1)}%)`; },
+    simpulan(r, c) {
+      if (r.kosong) return "";
+      const atas = r.rows.filter((x) => x.x === r.rows[0].x);
+      return `${L.cap1(c.opt.label || "kategori")} ${c.objek} yang paling sering tercatat adalah ${daftarKata(atas.map((x) => x.k.toLowerCase()))} (${atas.length > 1 ? "masing-masing " : ""}${num(r.rows[0].p, 1)}%)`;
+    },
     kpi() { return []; }
   };
 

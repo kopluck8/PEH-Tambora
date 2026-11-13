@@ -14,15 +14,8 @@
   const BIJI = ["Banyak", "Sedikit", "Tidak ada", "Tidak tahu"];
   const VEG = ["Cepat", "Lambat", "Tidak ada", "Tidak tahu"];
   const SEBAR = ["Umum", "Kadang-kadang", "Mungkin tidak", "Tidak tahu"];
-  // Jenis yang dinyatakan invasif di LPK IAS Balai (Doropeti, Pancasila, dan Kawinda Toi 2023, termasuk temuan SPTN Wilayah I Kore 2020)
-  const JAI_LPK = ["Ageratum conyzoides", "Bidens pilosa", "Chromolaena odorata", "Crassocephalum crepidioides", "Emilia sonchifolia", "Euphorbia hirta", "Hyptis capitata", "Imperata cylindrica", "Lantana camara", "Mimosa diplotricha", "Momordica balsamina", "Psidium guajava", "Solanum torvum", "Themeda arguens", "Acacia auriculiformis"];
-  // Famili jenis invasif yang belum tercatat familinya di daftar jenis TN Tambora
-  const FAMILI = { ageratum: "Asteraceae", bidens: "Asteraceae", chromolaena: "Asteraceae", crassocephalum: "Asteraceae", emilia: "Asteraceae", euphorbia: "Euphorbiaceae", jatropha: "Euphorbiaceae", hyptis: "Lamiaceae", imperata: "Poaceae", themeda: "Poaceae", ischaemum: "Poaceae", cyperus: "Cyperaceae", lantana: "Verbenaceae", mimosa: "Fabaceae", acacia: "Fabaceae", crotalaria: "Fabaceae", momordica: "Cucurbitaceae", psidium: "Myrtaceae", solanum: "Solanaceae", anacardium: "Anacardiaceae" };
-  const familiDari = (r, t) => (t && t.famili) || FAMILI[String(r.latin || "").trim().split(/\s+/)[0].toLowerCase()] || "";
-  const kunciJenis = (s) => String(s || "").trim().toLowerCase().split(/\s+/).slice(0, 2).join(" ");
-  const SET_JAI = new Set([...JAI_LPK, ...K.taksa.semua.filter((t) => t.invasif).map((t) => t.latin)].map(kunciJenis).filter((x) => x.includes(" ")));
-  const dikenalInvasif = (r) => { const t = K.taksa.cari(r.latin) || K.taksa.cari(r.jenis); return SET_JAI.has(kunciJenis(r.latin)) || (!!t && (t.invasif || SET_JAI.has(kunciJenis(t.latin)))); };
-  // Kolom Invasif menang; bila kosong, jenis dikenali dari daftar di atas dan daftar jenis TN Tambora
+  const { dikenalInvasif, familiDari, kunciJenis } = K;
+  // Kolom Invasif menang; bila kosong, jenis dikenali dari daftar jenis invasif di kegiatan/bersama.js
   const isInv = (r) => { const s = String(r.invasif || "").trim().toLowerCase(); return s === "ya" || (s !== "tidak" && dikenalInvasif(r)); };
   const isiInvasif = (r) => { if (!String(r.invasif || "").trim() && dikenalInvasif(r)) r.invasif = "Ya"; };
   const kolVeg = K.kolVegetasi([{ key: "invasif", label: "Invasif", options: ["Ya", "Tidak"], w: 4 }, KOL.keterangan]).map((c) =>

@@ -227,11 +227,11 @@
         blk([R("INP = KR + FR + DR"), R(" (tiang dan pohon); INP = KR + FR (semai dan pancang)")], lv),
         blk([R("H′ = −"), Sum([Sub("p", "i"), R(" × ln "), Sub("p", "i")]), R(";  "), Sub("p", "i"), R(" = "), F(Sub("n", "i"), "N")], lv),
         ket([["K", "kerapatan (individu/ha)"], ["KR", "kerapatan relatif (%)"], ["F", "frekuensi"], ["FR", "frekuensi relatif (%)"], ["D", "dominansi (m²/ha)"], ["DR", "dominansi relatif (%)"], ["LBDS", "luas bidang dasar batang (m²)"], ["d", "diameter batang setinggi dada (m); bila yang diukur keliling, d = keliling/π"], ["INP", "indeks nilai penting (maksimal 300% untuk tiang dan pohon, 200% untuk semai dan pancang)"], ["H′", "indeks keanekaragaman Shannon-Wiener per tingkat pertumbuhan"], [Sub("n", "i"), "jumlah individu jenis ke-i"], ["N", "jumlah individu seluruh jenis pada tingkat tersebut"]], lv),
-        para(`Tingkat pertumbuhan dan ukuran petak: semai (anakan, tinggi kurang dari 1,5 m) pada petak ${esc(c.opt.ukuranTxt?.semai || `${num(nOr(lu.semai, 4))} m²`)}; pancang (tinggi 1,5 m atau lebih, diameter kurang dari 10 cm) pada petak ${esc(c.opt.ukuranTxt?.pancang || `${num(nOr(lu.pancang, 25))} m²`)}; tiang (diameter 10 cm sampai kurang dari 20 cm) pada petak ${esc(c.opt.ukuranTxt?.tiang || `${num(nOr(lu.tiang, 100))} m²`)}; dan pohon (diameter 20 cm atau lebih) pada petak ${esc(c.opt.ukuranTxt?.pohon || `${num(nOr(lu.pohon, 400))} m²`)}.`, lv)].join("");
+        para(`Tingkat pertumbuhan dan ukuran petak: semai (anakan, tinggi kurang dari 1,5 m) pada petak ${esc(c.opt.ukuranTxt?.semai || `${num(nOr(lu.semai, 4))} m²`)}; pancang (tinggi 1,5 m atau lebih, diameter kurang dari 10 cm) pada petak ${esc(c.opt.ukuranTxt?.pancang || `${num(nOr(lu.pancang, 25))} m²`)}; tiang (diameter 10 cm sampai kurang dari 20 cm) pada petak ${esc(c.opt.ukuranTxt?.tiang || `${num(nOr(lu.tiang, 100))} m²`)}; dan pohon (diameter 20 cm atau lebih) pada petak ${esc(c.opt.ukuranTxt?.pohon || `${num(nOr(lu.pohon, 400))} m²`)}.`, lv), ...(c.opt.kriteriaH ? [para(`Kriteria keanekaragaman: ${(ST.KRITERIA_H[c.opt.kriteriaH] || ST.KRITERIA_H.template).label.replace(/'/g, "′")} (${c.opt.kriteriaH === "krebs" ? "Krebs, 1989" : "template analisis data Balai"}).`, lv)] : [])].join("");
     },
     narHasil(r, c) {
       if (r.kosong) return "Belum ada data vegetasi.";
-      return `Analisis vegetasi pada ${nTxt(r.P)} petak contoh mencatat ${nTxt(r.S)} jenis tumbuhan. ` + r.per.map((v) => `Pada tingkat ${v.tingkat} ditemukan ${v.S} jenis (${v.N} individu); jenis dengan INP tertinggi adalah ${daftarKata(v.rows.slice(0, 3).map((x) => `${nm(x)} dengan INP ${num(x.INP, 2)}%`))}, dengan indeks keanekaragaman H′ ${num(v.H, 2)}.`).join(" ");
+      return `Analisis vegetasi pada ${nTxt(r.P)} petak contoh mencatat ${nTxt(r.S)} jenis tumbuhan. ` + r.per.map((v) => `Pada tingkat ${v.tingkat} ditemukan ${v.S} jenis (${v.N} individu); jenis dengan INP tertinggi adalah ${daftarKata(v.rows.slice(0, 3).map((x) => `${nm(x)} dengan INP ${num(x.INP, 2)}%`))}. Indeks keanekaragaman H′ tingkat ini ${num(v.H, 2)}${c.opt.kriteriaH ? ` (${(ST.KRITERIA_H[c.opt.kriteriaH] || ST.KRITERIA_H.template).fn(v.H).toLowerCase()})` : ""}.`).join(" ");
     },
     hitungHtml(r, c) {
       if (r.kosong) return "";
@@ -724,6 +724,70 @@
     lampiran(r, c) { return r.kosong ? [] : [{ cap: `Rincian Penilaian Keinvasifan ${L.judul(c.objek)}`, spec: this.rinci(r) }]; },
     simpulan(r) { return r.kosong ? "" : `Nilai keinvasifan tertinggi dimiliki ${daftarKata(r.baris.filter((b) => b.total === r.baris[0].total).map((b) => b.nama || b.latin))} (jumlah skor ${r.baris[0].total} dari 15, K = ${num(r.baris[0].K, 1)})`; },
     kpi(r) { return r.kosong ? [] : [[num(r.baris[0].K, 1), "nilai keinvasifan tertinggi"]]; }
+  };
+
+  /* =====================================================================
+   * 20. Intensitas sampling dan jumlah petak contoh (Soerianegara dan Indrawan, 1978)
+   * inp: { panjang (m), lebar (m), luasHa (menggantikan panjang × lebar bila diisi), luasPetak (m²), IS (%), nPetak (petak yang diukur) }
+   * n = A/a × IS ; IS aktual = n × a / A × 100%
+   * ===================================================================== */
+  M.sampling = {
+    judul: "Intensitas Sampling",
+    hitung(inp) {
+      const p = nOr(inp.panjang, 0), l = nOr(inp.lebar, 0), A = nOr(inp.luasHa, 0) * 10000 || p * l;
+      const a = nOr(inp.luasPetak, 0), IS = nOr(inp.IS, 0), nA = nOr(inp.nPetak, 0);
+      return { kosong: !A || !a, A, a, IS, p, l, dariLuas: !!nOr(inp.luasHa, 0), nRencana: A && a && IS ? Math.ceil(Math.round((A / a) * (IS / 100) * 1e6) / 1e6) : null, nA, ISaktual: A && a && nA ? ((nA * a) / A) * 100 : null };
+    },
+    narMetode() { return "Jumlah petak contoh ditentukan dari luas populasi dan intensitas sampling. Soerianegara dan Indrawan (1978) menyarankan intensitas sampling 2% untuk luas 1.000 ha atau lebih dan 5 sampai 10% untuk luas kurang dari 1.000 ha:"; },
+    metode(c, r) {
+      const lv = c.lv, out = [blk([R("n = "), F("A", "a"), R(" × IS")], lv), blk([R("IS aktual = "), F("n × a", "A"), R(" × 100%")], lv),
+        ket([["n", "jumlah petak contoh"], ["A", "luas populasi (m²); untuk jalur pengamatan, A = panjang jalur × lebar jalur"], ["a", "luas satu petak contoh (m²)"], ["IS", "intensitas sampling"]], lv)];
+      if (r && !r.kosong && r.nRencana) out.push(para(`Rencana: A = ${r.dariLuas ? `${numL(r.A / 10000)} ha = ${numL(r.A)} m²` : `${numL(r.p)} m × ${numL(r.l)} m = ${numL(r.A)} m²`}; a = ${numL(r.a)} m²; IS = ${numL(r.IS)}%; n = ${numL(r.A)}/${numL(r.a)} × ${numL(r.IS / 100, 4)} = ${r.nRencana} petak contoh.`, lv));
+      return out.join("");
+    },
+    narHasil(r) {
+      if (r.kosong) return "Luas populasi atau luas petak belum diisi, sehingga intensitas sampling belum dihitung.";
+      const luas = r.dariLuas ? `${numL(r.A / 10000)} ha` : `${numL(r.A)} m² (panjang ${numL(r.p)} m × lebar ${numL(r.l)} m)`;
+      return `Luas populasi yang diwakili adalah ${luas}.${r.nRencana ? ` Dengan intensitas sampling ${numL(r.IS)}% diperlukan ${r.nRencana} petak contoh berukuran ${numL(r.a)} m².` : ""}${r.ISaktual !== null ? ` Jumlah petak yang diukur ${r.nA} petak, sehingga intensitas sampling aktual ${numL(r.ISaktual, 2)}%.` : ""}`;
+    },
+    hitungHtml(r, c) {
+      if (r.kosong) return "";
+      const lv = c.lv, out = [];
+      if (r.nRencana) out.push(blk([R("n = "), F(numL(r.A), numL(r.a)), R(` × ${numL(r.IS / 100, 4)} = ${r.nRencana} petak`)], lv));
+      if (r.ISaktual !== null) out.push(blk([R("IS aktual = "), F(`${r.nA} × ${numL(r.a)}`, numL(r.A)), R(` × 100% = ${numL(r.ISaktual, 2)}%`)], lv));
+      return out.join("");
+    },
+    tabel() { return []; },
+    simpulan() { return ""; },
+    kpi(r) { return r.kosong || r.ISaktual === null ? [] : [[`${numL(r.ISaktual, 1)}%`, "intensitas sampling"]]; }
+  };
+
+  /* =====================================================================
+   * 21. Deskripsi jenis: uraian habitat dan morfologi, status, endemisitas, dan nilai ekonomi per jenis
+   * (bagian "Deskripsi Jenis Tumbuhan Penting" pada LPK 2020)
+   * inp: { rows: [{ jenis, latin, famili, deskripsi, atribut: [[label, nilai]] }] }
+   * ===================================================================== */
+  M.deskripsi = {
+    judul: "Deskripsi Jenis",
+    hitung(inp) {
+      const rows = (inp.rows || []).filter((r) => str(r.jenis) || str(r.latin));
+      return { kosong: !rows.some((r) => str(r.deskripsi)), rows };
+    },
+    narMetode(c) { return `Setiap jenis ${c.objek} dideskripsikan habitat dan morfologinya dari pengamatan lapangan dan literatur, lalu dilengkapi status konservasi, endemisitas, dan nilai ekonominya.`; },
+    metode() { return ""; },
+    narHasil(r, c) {
+      if (r.kosong) return `Deskripsi jenis ${c.objek} belum diisi.`;
+      const titik = (s) => (/[.!?]$/.test(s) ? s : `${s}.`);
+      return [`Ciri morfologi, habitat, status konservasi, endemisitas, dan nilai ekonomi setiap jenis ${c.objek} diuraikan sebagai berikut.`,
+        ...r.rows.map((b, i) => {
+          const at = (b.atribut || []).filter(([, v]) => str(v)).map(([lab, v]) => `${lab}: ${str(v)}`);
+          return `${i + 1}. ${nm(b)}${str(b.famili) ? `, famili ${str(b.famili)}` : ""}.${str(b.deskripsi) ? ` ${titik(str(b.deskripsi))}` : ""}${at.length ? ` ${titik(L.cap1(at.join("; ")))}` : ""}`;
+        })].join("\n");
+    },
+    hitungHtml() { return ""; },
+    tabel() { return []; },
+    simpulan() { return ""; },
+    kpi() { return []; }
   };
 
   /* =====================================================================

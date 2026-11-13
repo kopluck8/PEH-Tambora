@@ -286,9 +286,9 @@
   function rpk(A, S, notes) {
     const N = numbering();
     return window.PEHDok.rpk(S, notes, N, {
-      judul: "Inventarisasi dan Sebaran Raptor", objekPeta: "plot pengamatan raptor", metodeAnalisis: metodeAnalisisHtml(A, notes, N),
+      judul: "Inventarisasi dan Sebaran Raptor", objekPeta: "plot pengamatan raptor", metodeAnalisis: () => metodeAnalisisHtml(A, notes, N),
       dasarTambahan: ["Peraturan Menteri Lingkungan Hidup dan Kehutanan Nomor P.106/MENLHK/SETJEN/KUM.1/12/2018 tentang Jenis Tumbuhan dan Satwa yang Dilindungi;"],
-      tallysheet: window.PEHDok.tallysheet(N, [{ judul: "Titik Pengamatan", kolom: [{ label: "Kode Plot" }, { label: "Tanggal" }, { label: "Jam Mulai" }, { label: "Jam Selesai" }, { label: "X (Bujur)" }, { label: "Y (Lintang)" }, { label: "Ketinggian (mdpl)" }, { label: "Tutupan Lahan" }, { label: "Cuaca" }] },
+      tallysheet: () => window.PEHDok.tallysheet(N, [{ judul: "Titik Pengamatan", kolom: [{ label: "Kode Plot" }, { label: "Tanggal" }, { label: "Jam Mulai" }, { label: "Jam Selesai" }, { label: "X (Bujur)" }, { label: "Y (Lintang)" }, { label: "Ketinggian (mdpl)" }, { label: "Tutupan Lahan" }, { label: "Cuaca" }] },
         { judul: "Perjumpaan Raptor", kolom: KOLOM.filter((c) => !["latin", "jantan", "betina"].includes(c.key)) }], 10)
     });
   }

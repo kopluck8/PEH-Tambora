@@ -47,7 +47,8 @@
   const terbilang = (n) => (Number.isInteger(n) && n >= 0 && n < 1e15 ? kata(n) : String(n));
   const nTxt = (n) => (Number.isInteger(n) && n >= 0 ? `${n.toLocaleString("id-ID")} (${terbilang(n) || "nol"})` : String(n));
   // Angka gaya Indonesia: 0,0027 ; 3.297
-  const num = (v, d = 0) => (Number.isFinite(Number(v)) ? Number(v).toLocaleString("id-ID", { minimumFractionDigits: d, maximumFractionDigits: d }) : "-");
+  // Nilai yang dibulatkan menjadi nol ditulis "0", bukan "-0" (mis. H′ = −Σ p ln p dengan satu jenis)
+  const num = (v, d = 0) => (Number.isFinite(Number(v)) ? (Math.abs(Number(v)) < 0.5 * 10 ** -d ? 0 : Number(v)).toLocaleString("id-ID", { minimumFractionDigits: d, maximumFractionDigits: d }) : "-");
   const numVal = (v) => Number(String(v ?? "").replace(/[^\d,.-]/g, "").replace(/\.(?=\d{3}\b)/g, "").replace(",", ".")) || 0;
   const rp = (n) => Math.round(n || 0).toLocaleString("id-ID");
   const rupiah = (n) => (n ? `Rp${rp(n)},00` : "");

@@ -157,12 +157,12 @@
       gambarNo = 0;
       const N = numbering();
       return D.lpk(S, notes, N, { judul: cfg.judul, dasarTambahan: cfg.teks.dasar || [], objekPeta: cfg.objekPeta || cfg.objek,
-        metodeAnalisis: metodeAnalisis(A, S, notes, N), hasil: hasil(A, S, notes, N), lampiranData: lampiranData(S, N), lampiranAnalisis: lampiranAnalisis(A, S, N), lampiranIndex: cfg.lampiranIndex });
+        metodeAnalisis: () => metodeAnalisis(A, S, notes, N), hasil: () => hasil(A, S, notes, N), lampiranData: () => lampiranData(S, N), lampiranAnalisis: () => lampiranAnalisis(A, S, N), lampiranIndex: cfg.lampiranIndex });
     }
     function rpk(A, S, notes) {
       isi(S);
       const N = numbering();
-      return D.rpk(S, notes, N, { judul: cfg.judul, dasarTambahan: cfg.teks.dasar || [], objekPeta: cfg.objekPeta || cfg.objek, metodeAnalisis: metodeAnalisis(A, S, notes, N, true), tallysheet: D.tallysheet(N, cfg.tabel.filter((t) => !t.tanpaTally)) });
+      return D.rpk(S, notes, N, { judul: cfg.judul, dasarTambahan: cfg.teks.dasar || [], objekPeta: cfg.objekPeta || cfg.objek, metodeAnalisis: () => metodeAnalisis(A, S, notes, N, true), tallysheet: () => D.tallysheet(N, cfg.tabel.filter((t) => !t.tanpaTally)) });
     }
 
     /* ---------- Tab Hasil Analisis ---------- */
