@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <!-- Dibuat oleh tools/build_datamodel.py dari datamodel/metode-teknis.json. Jangan disunting langsung. -->
-<!-- Atribut yang SUDAH ADA di Data Model Balai TN Tambora dan hanya dirujuk (tidak didefinisikan ulang): noplot, jenissatwa, jarakkesatwam, azimuth, jenisperjumpaan, jumlahjantan, jumlahbetina, cuaca, keterangan -->
+<!-- Atribut yang SUDAH ADA di Data Model Balai TN Tambora dan hanya dirujuk (tidak didefinisikan ulang): noplot, jenissatwa, jarakkesatwam, azimuth, jenisperjumpaan, jumlahjantan, jumlahbetina, cuaca, keterangan, jumlah, lokasi, jenistumbuhan, asal, status, usiatemuan, tipetemuan, klasifikasi1te, klasifikasi2te, klasifikasi3, klasifikasi4, klasifikasi01, klasifikasi02 -->
 <DataModel xmlns="http://www.smartconservationsoftware.org/xml/1.0/datamodel">
   <languages>
     <language code="in"/>
@@ -66,6 +66,33 @@
         <names language_code="in" value="Lainnya"/>
         <names language_code="en" value="Other"/>
       </values>
+      <values key="hutanhujan">
+        <names language_code="in" value="Hutan hujan"/>
+      </values>
+      <values key="hutanmusim">
+        <names language_code="in" value="Hutan musim"/>
+      </values>
+      <values key="hutansubpegunungan">
+        <names language_code="in" value="Hutan sub pegunungan"/>
+      </values>
+      <values key="tepisungai">
+        <names language_code="in" value="Tepi sungai"/>
+      </values>
+      <values key="ekotonsavanadanhutan">
+        <names language_code="in" value="Ekoton savana dan hutan"/>
+      </values>
+      <values key="sumberair">
+        <names language_code="in" value="Sumber air"/>
+      </values>
+      <values key="hutancemara">
+        <names language_code="in" value="Hutan cemara"/>
+      </values>
+      <values key="lembah">
+        <names language_code="in" value="Lembah"/>
+      </values>
+      <values key="punggungbukit">
+        <names language_code="in" value="Punggung bukit"/>
+      </values>
     </attribute>
     <attribute key="jumlahdewasa" isrequired="false" type="NUMERIC">
       <names language_code="in" value="Jumlah dewasa"/>
@@ -130,6 +157,15 @@
         <names language_code="in" value="Lainnya"/>
         <names language_code="en" value="Other"/>
       </values>
+      <values key="bersuara">
+        <names language_code="in" value="Bersuara"/>
+      </values>
+      <values key="membawamaterialsarang">
+        <names language_code="in" value="Membawa material sarang"/>
+      </values>
+      <values key="diserangmenyerangburunglain">
+        <names language_code="in" value="Diserang/menyerang burung lain"/>
+      </values>
     </attribute>
     <attribute key="penggunaanruang" isrequired="false" type="LIST">
       <names language_code="in" value="Penggunaan ruang"/>
@@ -166,6 +202,1205 @@
     <attribute key="sarangditemukan" isrequired="false" type="BOOLEAN">
       <names language_code="in" value="Sarang ditemukan"/>
       <names language_code="en" value="Nest found"/>
+    </attribute>
+    <attribute key="notransek" isrequired="false" type="TEXT">
+      <names language_code="in" value="No. transek/jalur"/>
+      <names language_code="en" value="Transect/route number"/>
+    </attribute>
+    <attribute key="kodegrid" isrequired="false" type="TEXT">
+      <names language_code="in" value="Kode grid"/>
+      <names language_code="en" value="Grid code"/>
+    </attribute>
+    <attribute key="kodesarang" isrequired="false" type="TEXT">
+      <names language_code="in" value="Kode sarang"/>
+      <names language_code="en" value="Nest code"/>
+    </attribute>
+    <attribute key="kodepohon" isrequired="false" type="TEXT">
+      <names language_code="in" value="Kode pohon"/>
+      <names language_code="en" value="Tree code"/>
+    </attribute>
+    <attribute key="kodesampel" isrequired="false" type="TEXT">
+      <names language_code="in" value="Kode sampel"/>
+      <names language_code="en" value="Sample code"/>
+    </attribute>
+    <attribute key="jaraksarangm" isrequired="false" type="NUMERIC">
+      <names language_code="in" value="Jarak ke sarang (m)"/>
+      <names language_code="en" value="Distance to nest (m)"/>
+    </attribute>
+    <attribute key="jumlahmuda" isrequired="false" type="NUMERIC">
+      <names language_code="in" value="Jumlah muda"/>
+      <names language_code="en" value="Number of subadults"/>
+    </attribute>
+    <attribute key="sudutkontak" isrequired="false" type="NUMERIC">
+      <names language_code="in" value="Sudut kontak (derajat)"/>
+      <names language_code="en" value="Sighting angle (degree)"/>
+    </attribute>
+    <attribute key="sisitransek" isrequired="false" type="LIST">
+      <names language_code="in" value="Sisi transek"/>
+      <names language_code="en" value="Transect side"/>
+      <values key="kiri">
+        <names language_code="in" value="Kiri"/>
+      </values>
+      <values key="kanan">
+        <names language_code="in" value="Kanan"/>
+      </values>
+    </attribute>
+    <attribute key="panjangtransekm" isrequired="false" type="NUMERIC">
+      <names language_code="in" value="Panjang transek (m)"/>
+      <names language_code="en" value="Transect length (m)"/>
+    </attribute>
+    <attribute key="luasha" isrequired="false" type="NUMERIC">
+      <names language_code="in" value="Luas area sampel (ha)"/>
+      <names language_code="en" value="Sample area (ha)"/>
+    </attribute>
+    <attribute key="tingkatpertumbuhan" isrequired="false" type="LIST">
+      <names language_code="in" value="Tingkat pertumbuhan"/>
+      <names language_code="en" value="Growth stage"/>
+      <values key="semai">
+        <names language_code="in" value="Semai"/>
+      </values>
+      <values key="pancang">
+        <names language_code="in" value="Pancang"/>
+      </values>
+      <values key="tiang">
+        <names language_code="in" value="Tiang"/>
+      </values>
+      <values key="pohon">
+        <names language_code="in" value="Pohon"/>
+      </values>
+      <values key="tumbuhanbawah">
+        <names language_code="in" value="Tumbuhan bawah"/>
+      </values>
+    </attribute>
+    <attribute key="dbhpohoncm" isrequired="false" type="NUMERIC">
+      <names language_code="in" value="Diameter setinggi dada (cm)"/>
+      <names language_code="en" value="Diameter at breast height (cm)"/>
+    </attribute>
+    <attribute key="kelilingcm" isrequired="false" type="NUMERIC">
+      <names language_code="in" value="Keliling batang (cm)"/>
+      <names language_code="en" value="Stem girth (cm)"/>
+    </attribute>
+    <attribute key="tinggipohonm" isrequired="false" type="NUMERIC">
+      <names language_code="in" value="Tinggi pohon (m)"/>
+      <names language_code="en" value="Tree height (m)"/>
+    </attribute>
+    <attribute key="tinggisarangm" isrequired="false" type="NUMERIC">
+      <names language_code="in" value="Tinggi sarang (m)"/>
+      <names language_code="en" value="Nest height (m)"/>
+    </attribute>
+    <attribute key="jaraksumberairm" isrequired="false" type="NUMERIC">
+      <names language_code="in" value="Jarak ke sumber air (m)"/>
+      <names language_code="en" value="Distance to water (m)"/>
+    </attribute>
+    <attribute key="kondisisarang" isrequired="false" type="LIST">
+      <names language_code="in" value="Kondisi sarang"/>
+      <names language_code="en" value="Nest condition"/>
+      <values key="aktifadateluranakaninduk">
+        <names language_code="in" value="Aktif (ada telur/anakan/induk)"/>
+      </values>
+      <values key="aktifmaterialbaru">
+        <names language_code="in" value="Aktif (material baru)"/>
+      </values>
+      <values key="tidakaktif">
+        <names language_code="in" value="Tidak aktif"/>
+      </values>
+      <values key="rusakjatuh">
+        <names language_code="in" value="Rusak/jatuh"/>
+      </values>
+    </attribute>
+    <attribute key="stratatajuk" isrequired="false" type="LIST">
+      <names language_code="in" value="Strata penggunaan ruang"/>
+      <names language_code="en" value="Canopy stratum used"/>
+      <values key="top">
+        <names language_code="in" value="Top"/>
+      </values>
+      <values key="middle">
+        <names language_code="in" value="Middle"/>
+      </values>
+      <values key="low">
+        <names language_code="in" value="Low"/>
+      </values>
+    </attribute>
+    <attribute key="tipeekosistem" isrequired="false" type="LIST">
+      <names language_code="in" value="Tipe ekosistem"/>
+      <names language_code="en" value="Ecosystem type"/>
+      <values key="hutanpamahdataranrendah">
+        <names language_code="in" value="Hutan pamah (dataran rendah)"/>
+      </values>
+      <values key="hutanmusimkering">
+        <names language_code="in" value="Hutan musim/kering"/>
+      </values>
+      <values key="hutanhujantropisdataranrendah">
+        <names language_code="in" value="Hutan hujan tropis dataran rendah"/>
+      </values>
+      <values key="hutanpegununganbawah">
+        <names language_code="in" value="Hutan pegunungan bawah"/>
+      </values>
+      <values key="hutanpegununganatas">
+        <names language_code="in" value="Hutan pegunungan atas"/>
+      </values>
+      <values key="subalpin">
+        <names language_code="in" value="Sub alpin"/>
+      </values>
+      <values key="savana">
+        <names language_code="in" value="Savana"/>
+      </values>
+      <values key="riparian">
+        <names language_code="in" value="Riparian"/>
+      </values>
+      <values key="ekosistemlainnya">
+        <names language_code="in" value="Ekosistem lainnya"/>
+      </values>
+      <values key="padangrumput">
+        <names language_code="in" value="Padang rumput"/>
+      </values>
+      <values key="semakbelukar">
+        <names language_code="in" value="Semak belukar"/>
+      </values>
+    </attribute>
+    <attribute key="tipeekosistempeta" isrequired="false" type="LIST">
+      <names language_code="in" value="Tipe ekosistem (peta)"/>
+      <names language_code="en" value="Ecosystem type (map)"/>
+      <values key="hutanpamahdataranrendah">
+        <names language_code="in" value="Hutan pamah (dataran rendah)"/>
+      </values>
+      <values key="hutanmusimkering">
+        <names language_code="in" value="Hutan musim/kering"/>
+      </values>
+      <values key="hutanhujantropisdataranrendah">
+        <names language_code="in" value="Hutan hujan tropis dataran rendah"/>
+      </values>
+      <values key="hutanpegununganbawah">
+        <names language_code="in" value="Hutan pegunungan bawah"/>
+      </values>
+      <values key="hutanpegununganatas">
+        <names language_code="in" value="Hutan pegunungan atas"/>
+      </values>
+      <values key="subalpin">
+        <names language_code="in" value="Sub alpin"/>
+      </values>
+      <values key="savana">
+        <names language_code="in" value="Savana"/>
+      </values>
+      <values key="riparian">
+        <names language_code="in" value="Riparian"/>
+      </values>
+      <values key="ekosistemlainnya">
+        <names language_code="in" value="Ekosistem lainnya"/>
+      </values>
+    </attribute>
+    <attribute key="tutupanlahanpeta" isrequired="false" type="LIST">
+      <names language_code="in" value="Tutupan lahan (peta)"/>
+      <names language_code="en" value="Land cover (map)"/>
+      <values key="hutan">
+        <names language_code="in" value="Hutan"/>
+      </values>
+      <values key="hutanlahankeringprimer">
+        <names language_code="in" value="Hutan lahan kering primer"/>
+      </values>
+      <values key="hutanlahankeringsekunder">
+        <names language_code="in" value="Hutan lahan kering sekunder"/>
+      </values>
+      <values key="hutantanaman">
+        <names language_code="in" value="Hutan tanaman"/>
+      </values>
+      <values key="semakbelukar">
+        <names language_code="in" value="Semak belukar"/>
+      </values>
+      <values key="savana">
+        <names language_code="in" value="Savana"/>
+      </values>
+      <values key="padangrumput">
+        <names language_code="in" value="Padang rumput"/>
+      </values>
+      <values key="pertanianlahankering">
+        <names language_code="in" value="Pertanian lahan kering"/>
+      </values>
+      <values key="pertanianlahankeringcampursemak">
+        <names language_code="in" value="Pertanian lahan kering campur semak"/>
+      </values>
+      <values key="perkebunan">
+        <names language_code="in" value="Perkebunan"/>
+      </values>
+      <values key="permukiman">
+        <names language_code="in" value="Permukiman"/>
+      </values>
+      <values key="lahanterbuka">
+        <names language_code="in" value="Lahan terbuka"/>
+      </values>
+      <values key="tubuhair">
+        <names language_code="in" value="Tubuh air"/>
+      </values>
+    </attribute>
+    <attribute key="tutupanlahanlapangan" isrequired="false" type="LIST">
+      <names language_code="in" value="Tutupan lahan (lapangan)"/>
+      <names language_code="en" value="Land cover (field)"/>
+      <values key="hutan">
+        <names language_code="in" value="Hutan"/>
+      </values>
+      <values key="hutanlahankeringprimer">
+        <names language_code="in" value="Hutan lahan kering primer"/>
+      </values>
+      <values key="hutanlahankeringsekunder">
+        <names language_code="in" value="Hutan lahan kering sekunder"/>
+      </values>
+      <values key="hutantanaman">
+        <names language_code="in" value="Hutan tanaman"/>
+      </values>
+      <values key="semakbelukar">
+        <names language_code="in" value="Semak belukar"/>
+      </values>
+      <values key="savana">
+        <names language_code="in" value="Savana"/>
+      </values>
+      <values key="padangrumput">
+        <names language_code="in" value="Padang rumput"/>
+      </values>
+      <values key="pertanianlahankering">
+        <names language_code="in" value="Pertanian lahan kering"/>
+      </values>
+      <values key="pertanianlahankeringcampursemak">
+        <names language_code="in" value="Pertanian lahan kering campur semak"/>
+      </values>
+      <values key="perkebunan">
+        <names language_code="in" value="Perkebunan"/>
+      </values>
+      <values key="permukiman">
+        <names language_code="in" value="Permukiman"/>
+      </values>
+      <values key="lahanterbuka">
+        <names language_code="in" value="Lahan terbuka"/>
+      </values>
+      <values key="tubuhair">
+        <names language_code="in" value="Tubuh air"/>
+      </values>
+    </attribute>
+    <attribute key="statusopenarea" isrequired="false" type="LIST">
+      <names language_code="in" value="Status open area"/>
+      <names language_code="en" value="Open area status"/>
+      <values key="nonopenarea">
+        <names language_code="in" value="Non open area"/>
+      </values>
+      <values key="openarea">
+        <names language_code="in" value="Open area"/>
+      </values>
+      <values key="openareaalami">
+        <names language_code="in" value="Open area alami"/>
+      </values>
+      <values key="openareabuatan">
+        <names language_code="in" value="Open area buatan"/>
+      </values>
+    </attribute>
+    <attribute key="penyebabopenarea" isrequired="false" type="LIST">
+      <names language_code="in" value="Penyebab open area"/>
+      <names language_code="en" value="Open area cause"/>
+      <values key="pertanianperladangan">
+        <names language_code="in" value="Pertanian/perladangan"/>
+      </values>
+      <values key="perkebunan">
+        <names language_code="in" value="Perkebunan"/>
+      </values>
+      <values key="permukiman">
+        <names language_code="in" value="Permukiman"/>
+      </values>
+      <values key="bekaskebakaran">
+        <names language_code="in" value="Bekas kebakaran"/>
+      </values>
+      <values key="bekaspembalakan">
+        <names language_code="in" value="Bekas pembalakan"/>
+      </values>
+      <values key="jalanatausarana">
+        <names language_code="in" value="Jalan atau sarana"/>
+      </values>
+      <values key="bencanaalam">
+        <names language_code="in" value="Bencana alam"/>
+      </values>
+      <values key="lainnya">
+        <names language_code="in" value="Lainnya"/>
+      </values>
+    </attribute>
+    <attribute key="zonasikawasan" isrequired="false" type="LIST">
+      <names language_code="in" value="Zona"/>
+      <names language_code="en" value="Management zone"/>
+      <values key="zonainti">
+        <names language_code="in" value="Zona Inti"/>
+      </values>
+      <values key="zonarimba">
+        <names language_code="in" value="Zona Rimba"/>
+      </values>
+      <values key="zonapemanfaatan">
+        <names language_code="in" value="Zona Pemanfaatan"/>
+      </values>
+      <values key="zonatradisional">
+        <names language_code="in" value="Zona Tradisional"/>
+      </values>
+      <values key="zonarehabilitasi">
+        <names language_code="in" value="Zona Rehabilitasi"/>
+      </values>
+      <values key="zonakhusus">
+        <names language_code="in" value="Zona Khusus"/>
+      </values>
+    </attribute>
+    <attribute key="lokasisasaran" isrequired="false" type="LIST">
+      <names language_code="in" value="Lokasi sasaran"/>
+      <names language_code="en" value="Target site"/>
+      <values key="jalurpendakian">
+        <names language_code="in" value="Jalur pendakian"/>
+      </values>
+      <values key="jalurternak">
+        <names language_code="in" value="Jalur ternak"/>
+      </values>
+      <values key="jalansetapak">
+        <names language_code="in" value="Jalan setapak"/>
+      </values>
+      <values key="arealterbuka">
+        <names language_code="in" value="Areal terbuka"/>
+      </values>
+      <values key="bekaskebakaran">
+        <names language_code="in" value="Bekas kebakaran"/>
+      </values>
+      <values key="bataskawasandanladang">
+        <names language_code="in" value="Batas kawasan dan ladang"/>
+      </values>
+      <values key="dekatpermukiman">
+        <names language_code="in" value="Dekat permukiman"/>
+      </values>
+      <values key="tepisungai">
+        <names language_code="in" value="Tepi sungai"/>
+      </values>
+    </attribute>
+    <attribute key="jenisinvasif" isrequired="false" type="BOOLEAN">
+      <names language_code="in" value="Jenis invasif"/>
+      <names language_code="en" value="Invasive species"/>
+    </attribute>
+    <attribute key="carahidup" isrequired="false" type="LIST">
+      <names language_code="in" value="Cara hidup"/>
+      <names language_code="en" value="Life form"/>
+      <values key="epifit">
+        <names language_code="in" value="Epifit"/>
+      </values>
+      <values key="terestrial">
+        <names language_code="in" value="Terestrial"/>
+      </values>
+      <values key="litofit">
+        <names language_code="in" value="Litofit"/>
+      </values>
+    </attribute>
+    <attribute key="pohoninang" isrequired="false" type="TEXT">
+      <names language_code="in" value="Pohon inang"/>
+      <names language_code="en" value="Host tree"/>
+    </attribute>
+    <attribute key="tinggitempelm" isrequired="false" type="NUMERIC">
+      <names language_code="in" value="Tinggi tempel (m)"/>
+      <names language_code="en" value="Attachment height (m)"/>
+    </attribute>
+    <attribute key="fenologi" isrequired="false" type="LIST">
+      <names language_code="in" value="Fenologi"/>
+      <names language_code="en" value="Phenology"/>
+      <values key="vegetatif">
+        <names language_code="in" value="Vegetatif"/>
+      </values>
+      <values key="kuncup">
+        <names language_code="in" value="Kuncup"/>
+      </values>
+      <values key="berbunga">
+        <names language_code="in" value="Berbunga"/>
+      </values>
+      <values key="berbuah">
+        <names language_code="in" value="Berbuah"/>
+      </values>
+    </attribute>
+    <attribute key="aktivitassatwa" isrequired="false" type="LIST">
+      <names language_code="in" value="Aktivitas satwa"/>
+      <names language_code="en" value="Animal activity"/>
+      <values key="makan">
+        <names language_code="in" value="Makan"/>
+      </values>
+      <values key="istirahat">
+        <names language_code="in" value="Istirahat"/>
+      </values>
+      <values key="berjalan">
+        <names language_code="in" value="Berjalan"/>
+      </values>
+      <values key="berlari">
+        <names language_code="in" value="Berlari"/>
+      </values>
+      <values key="minum">
+        <names language_code="in" value="Minum"/>
+      </values>
+      <values key="berkubang">
+        <names language_code="in" value="Berkubang"/>
+      </values>
+      <values key="lainnya">
+        <names language_code="in" value="Lainnya"/>
+      </values>
+      <values key="terbang">
+        <names language_code="in" value="Terbang"/>
+      </values>
+      <values key="bertengger">
+        <names language_code="in" value="Bertengger"/>
+      </values>
+      <values key="berkicau">
+        <names language_code="in" value="Berkicau"/>
+      </values>
+      <values key="soaring">
+        <names language_code="in" value="Soaring"/>
+      </values>
+      <values key="bersarang">
+        <names language_code="in" value="Bersarang"/>
+      </values>
+      <values key="mandi">
+        <names language_code="in" value="Mandi"/>
+      </values>
+      <values key="mencarimakan">
+        <names language_code="in" value="Mencari makan"/>
+      </values>
+      <values key="membuatsarang">
+        <names language_code="in" value="Membuat sarang"/>
+      </values>
+      <values key="bersosialisasi">
+        <names language_code="in" value="Bersosialisasi"/>
+      </values>
+    </attribute>
+    <attribute key="tandakeberadaan" isrequired="false" type="LIST">
+      <names language_code="in" value="Tanda keberadaan"/>
+      <names language_code="en" value="Presence sign"/>
+      <values key="jejakkaki">
+        <names language_code="in" value="Jejak kaki"/>
+      </values>
+      <values key="kotoranonggokan">
+        <names language_code="in" value="Kotoran (onggokan)"/>
+      </values>
+      <values key="bekasmakan">
+        <names language_code="in" value="Bekas makan"/>
+      </values>
+      <values key="garukanranggah">
+        <names language_code="in" value="Garukan ranggah"/>
+      </values>
+      <values key="tempatistirahat">
+        <names language_code="in" value="Tempat istirahat"/>
+      </values>
+      <values key="kubangan">
+        <names language_code="in" value="Kubangan"/>
+      </values>
+      <values key="suara">
+        <names language_code="in" value="Suara"/>
+      </values>
+      <values key="urine">
+        <names language_code="in" value="Urine"/>
+      </values>
+      <values key="perjumpaanlangsung">
+        <names language_code="in" value="Perjumpaan langsung"/>
+      </values>
+      <values key="sarang">
+        <names language_code="in" value="Sarang"/>
+      </values>
+      <values key="buluataubagiantubuh">
+        <names language_code="in" value="Bulu atau bagian tubuh"/>
+      </values>
+      <values key="lainnya">
+        <names language_code="in" value="Lainnya"/>
+      </values>
+      <values key="bekasgarukanataugesekan">
+        <names language_code="in" value="Bekas garukan atau gesekan"/>
+      </values>
+    </attribute>
+    <attribute key="fasefeses" isrequired="false" type="LIST">
+      <names language_code="in" value="Fase kotoran"/>
+      <names language_code="en" value="Dung phase"/>
+      <values key="a">
+        <names language_code="in" value="A"/>
+      </values>
+      <values key="b">
+        <names language_code="in" value="B"/>
+      </values>
+      <values key="c">
+        <names language_code="in" value="C"/>
+      </values>
+      <values key="d">
+        <names language_code="in" value="D"/>
+      </values>
+      <values key="e">
+        <names language_code="in" value="E"/>
+      </values>
+      <values key="f">
+        <names language_code="in" value="F"/>
+      </values>
+    </attribute>
+    <attribute key="perkiraanindividu" isrequired="false" type="NUMERIC">
+      <names language_code="in" value="Perkiraan jumlah individu"/>
+      <names language_code="en" value="Estimated individuals"/>
+    </attribute>
+    <attribute key="tipehabitat" isrequired="false" type="LIST">
+      <names language_code="in" value="Tipe habitat"/>
+      <names language_code="en" value="Habitat type"/>
+      <values key="terestrial">
+        <names language_code="in" value="Terestrial"/>
+      </values>
+      <values key="akuatik">
+        <names language_code="in" value="Akuatik"/>
+      </values>
+      <values key="terestrialdanakuatik">
+        <names language_code="in" value="Terestrial dan akuatik"/>
+      </values>
+    </attribute>
+    <attribute key="daftarmackinnon" isrequired="false" type="NUMERIC">
+      <names language_code="in" value="Daftar MacKinnon ke-"/>
+      <names language_code="en" value="MacKinnon list number"/>
+    </attribute>
+    <attribute key="guildburung" isrequired="false" type="LIST">
+      <names language_code="in" value="Guild pakan"/>
+      <names language_code="en" value="Feeding guild"/>
+      <values key="pemakanbuah">
+        <names language_code="in" value="Pemakan buah"/>
+      </values>
+      <values key="pemakanbiji">
+        <names language_code="in" value="Pemakan biji"/>
+      </values>
+      <values key="pemakanbijidanbuah">
+        <names language_code="in" value="Pemakan biji dan buah"/>
+      </values>
+      <values key="pemakanserangga">
+        <names language_code="in" value="Pemakan serangga"/>
+      </values>
+      <values key="pemakanbuahdanserangga">
+        <names language_code="in" value="Pemakan buah dan serangga"/>
+      </values>
+      <values key="pemakannektar">
+        <names language_code="in" value="Pemakan nektar"/>
+      </values>
+      <values key="pemakandagingraptor">
+        <names language_code="in" value="Pemakan daging (raptor)"/>
+      </values>
+      <values key="pemakanikan">
+        <names language_code="in" value="Pemakan ikan"/>
+      </values>
+      <values key="pemakancampuran">
+        <names language_code="in" value="Pemakan campuran"/>
+      </values>
+    </attribute>
+    <attribute key="nektarbunga" isrequired="false" type="LIST">
+      <names language_code="in" value="Nektar bunga"/>
+      <names language_code="en" value="Flower nectar"/>
+      <values key="sedikit">
+        <names language_code="in" value="Sedikit"/>
+      </values>
+      <values key="sedang">
+        <names language_code="in" value="Sedang"/>
+      </values>
+      <values key="banyak">
+        <names language_code="in" value="Banyak"/>
+      </values>
+    </attribute>
+    <attribute key="mahkotabunga" isrequired="false" type="LIST">
+      <names language_code="in" value="Mahkota bunga"/>
+      <names language_code="en" value="Corolla"/>
+      <values key="kecil">
+        <names language_code="in" value="Kecil"/>
+      </values>
+      <values key="sedang">
+        <names language_code="in" value="Sedang"/>
+      </values>
+      <values key="besar">
+        <names language_code="in" value="Besar"/>
+      </values>
+    </attribute>
+    <attribute key="ukuranbunga" isrequired="false" type="LIST">
+      <names language_code="in" value="Ukuran bunga"/>
+      <names language_code="en" value="Flower size"/>
+      <values key="kecil">
+        <names language_code="in" value="Kecil"/>
+      </values>
+      <values key="sedang">
+        <names language_code="in" value="Sedang"/>
+      </values>
+      <values key="besar">
+        <names language_code="in" value="Besar"/>
+      </values>
+    </attribute>
+    <attribute key="lapisanluarbuah" isrequired="false" type="LIST">
+      <names language_code="in" value="Lapisan luar buah berdaging"/>
+      <names language_code="en" value="Fleshy fruit outer layer"/>
+      <values key="tebal">
+        <names language_code="in" value="Tebal"/>
+      </values>
+      <values key="sedang">
+        <names language_code="in" value="Sedang"/>
+      </values>
+      <values key="tipis">
+        <names language_code="in" value="Tipis"/>
+      </values>
+    </attribute>
+    <attribute key="lapisanbuah" isrequired="false" type="LIST">
+      <names language_code="in" value="Lapisan buah berdaging"/>
+      <names language_code="en" value="Fleshy fruit layer"/>
+      <values key="keras">
+        <names language_code="in" value="Keras"/>
+      </values>
+      <values key="sedang">
+        <names language_code="in" value="Sedang"/>
+      </values>
+      <values key="lunak">
+        <names language_code="in" value="Lunak"/>
+      </values>
+    </attribute>
+    <attribute key="ukuranbuah" isrequired="false" type="LIST">
+      <names language_code="in" value="Ukuran buah berdaging"/>
+      <names language_code="en" value="Fleshy fruit size"/>
+      <values key="besar">
+        <names language_code="in" value="Besar"/>
+      </values>
+      <values key="sedang">
+        <names language_code="in" value="Sedang"/>
+      </values>
+      <values key="kecil">
+        <names language_code="in" value="Kecil"/>
+      </values>
+    </attribute>
+    <attribute key="lapisankulitbiji" isrequired="false" type="LIST">
+      <names language_code="in" value="Lapisan kulit buah kering"/>
+      <names language_code="en" value="Dry fruit coat"/>
+      <values key="tebal">
+        <names language_code="in" value="Tebal"/>
+      </values>
+      <values key="sedang">
+        <names language_code="in" value="Sedang"/>
+      </values>
+      <values key="tipis">
+        <names language_code="in" value="Tipis"/>
+      </values>
+    </attribute>
+    <attribute key="ukuranbiji" isrequired="false" type="LIST">
+      <names language_code="in" value="Ukuran biji"/>
+      <names language_code="en" value="Seed size"/>
+      <values key="besar">
+        <names language_code="in" value="Besar"/>
+      </values>
+      <values key="sedang">
+        <names language_code="in" value="Sedang"/>
+      </values>
+      <values key="kecil">
+        <names language_code="in" value="Kecil"/>
+      </values>
+    </attribute>
+    <attribute key="lokasibiji" isrequired="false" type="LIST">
+      <names language_code="in" value="Lokasi biji"/>
+      <names language_code="en" value="Seed position"/>
+      <values key="dalam">
+        <names language_code="in" value="Dalam"/>
+      </values>
+      <values key="tengah">
+        <names language_code="in" value="Tengah"/>
+      </values>
+      <values key="luar">
+        <names language_code="in" value="Luar"/>
+      </values>
+    </attribute>
+    <attribute key="bentuktajuk" isrequired="false" type="LIST">
+      <names language_code="in" value="Bentuk tajuk"/>
+      <names language_code="en" value="Crown shape"/>
+      <values key="kolumnarfastigiateataubulat">
+        <names language_code="in" value="Kolumnar, fastigiate, atau bulat"/>
+      </values>
+      <values key="piramidal">
+        <names language_code="in" value="Piramidal"/>
+      </values>
+      <values key="menjuntaiataupicturesque">
+        <names language_code="in" value="Menjuntai atau picturesque"/>
+      </values>
+    </attribute>
+    <attribute key="bentukpercabangan" isrequired="false" type="LIST">
+      <names language_code="in" value="Bentuk percabangan"/>
+      <names language_code="en" value="Branching form"/>
+      <values key="horizontal">
+        <names language_code="in" value="Horizontal"/>
+      </values>
+      <values key="vertikal">
+        <names language_code="in" value="Vertikal"/>
+      </values>
+      <values key="berlikuataumenjuntai">
+        <names language_code="in" value="Berliku atau menjuntai"/>
+      </values>
+    </attribute>
+    <attribute key="ukurandaun" isrequired="false" type="LIST">
+      <names language_code="in" value="Ukuran daun"/>
+      <names language_code="en" value="Leaf size"/>
+      <values key="besar">
+        <names language_code="in" value="Besar"/>
+      </values>
+      <values key="sedang">
+        <names language_code="in" value="Sedang"/>
+      </values>
+      <values key="kecil">
+        <names language_code="in" value="Kecil"/>
+      </values>
+    </attribute>
+    <attribute key="pohonmati" isrequired="false" type="BOOLEAN">
+      <names language_code="in" value="Pohon mati berdiri"/>
+      <names language_code="en" value="Standing dead tree"/>
+    </attribute>
+    <attribute key="komponenserasah" isrequired="false" type="LIST">
+      <names language_code="in" value="Komponen"/>
+      <names language_code="en" value="Component"/>
+      <values key="serasah">
+        <names language_code="in" value="Serasah"/>
+      </values>
+      <values key="nekromas">
+        <names language_code="in" value="Nekromas"/>
+      </values>
+      <values key="tumbuhanbawah">
+        <names language_code="in" value="Tumbuhan bawah"/>
+      </values>
+    </attribute>
+    <attribute key="beratbasahtotalg" isrequired="false" type="NUMERIC">
+      <names language_code="in" value="Berat basah total (g)"/>
+      <names language_code="en" value="Total wet weight (g)"/>
+    </attribute>
+    <attribute key="beratbasahsampelg" isrequired="false" type="NUMERIC">
+      <names language_code="in" value="Berat basah sampel (g)"/>
+      <names language_code="en" value="Sample wet weight (g)"/>
+    </attribute>
+    <attribute key="kuadran" isrequired="false" type="LIST">
+      <names language_code="in" value="Kuadran"/>
+      <names language_code="en" value="Quadrant"/>
+      <values key="a">
+        <names language_code="in" value="A"/>
+      </values>
+      <values key="b">
+        <names language_code="in" value="B"/>
+      </values>
+      <values key="c">
+        <names language_code="in" value="C"/>
+      </values>
+      <values key="d">
+        <names language_code="in" value="D"/>
+      </values>
+    </attribute>
+    <attribute key="kelasdiameter" isrequired="false" type="LIST">
+      <names language_code="in" value="Kelas diameter"/>
+      <names language_code="en" value="Diameter class"/>
+      <values key="kurang06cm">
+        <names language_code="in" value="&lt;0.6 cm (10-12 m)"/>
+      </values>
+      <values key="antara06dan25cm">
+        <names language_code="in" value="0.6-2.5 cm (7-10 m)"/>
+      </values>
+      <values key="antara25dan75cm">
+        <names language_code="in" value="2.5-7.5 cm (2-7 m)"/>
+      </values>
+      <values key="lebih75cmutuh">
+        <names language_code="in" value="&gt;7.5 cm sound (2-12 m)"/>
+      </values>
+      <values key="lebih75cmlapuk">
+        <names language_code="in" value="&gt;7.5 cm rotten (2-12 m)"/>
+      </values>
+    </attribute>
+    <attribute key="diametercm" isrequired="false" type="NUMERIC">
+      <names language_code="in" value="Diameter (cm)"/>
+      <names language_code="en" value="Diameter (cm)"/>
+    </attribute>
+    <attribute key="lapisantanah" isrequired="false" type="LIST">
+      <names language_code="in" value="Lapisan tanah (cm)"/>
+      <names language_code="en" value="Soil layer (cm)"/>
+      <values key="lapisan0005">
+        <names language_code="in" value="0-5"/>
+      </values>
+      <values key="lapisan0510">
+        <names language_code="in" value="5-10"/>
+      </values>
+      <values key="lapisan1015">
+        <names language_code="in" value="10-15"/>
+      </values>
+      <values key="lapisan1520">
+        <names language_code="in" value="15-20"/>
+      </values>
+      <values key="lapisan2025">
+        <names language_code="in" value="20-25"/>
+      </values>
+      <values key="lapisan2530">
+        <names language_code="in" value="25-30"/>
+      </values>
+    </attribute>
+    <attribute key="kedalamancm" isrequired="false" type="NUMERIC">
+      <names language_code="in" value="Kedalaman (cm)"/>
+      <names language_code="en" value="Depth (cm)"/>
+    </attribute>
+    <attribute key="volumetanahcm3" isrequired="false" type="NUMERIC">
+      <names language_code="in" value="Volume tanah (cm³)"/>
+      <names language_code="en" value="Soil volume (cm³)"/>
+    </attribute>
+    <attribute key="statusiucn" isrequired="false" type="LIST">
+      <names language_code="in" value="Status IUCN"/>
+      <names language_code="en" value="IUCN status"/>
+      <values key="cr">
+        <names language_code="in" value="CR"/>
+      </values>
+      <values key="en">
+        <names language_code="in" value="EN"/>
+      </values>
+      <values key="vu">
+        <names language_code="in" value="VU"/>
+      </values>
+      <values key="nt">
+        <names language_code="in" value="NT"/>
+      </values>
+      <values key="lc">
+        <names language_code="in" value="LC"/>
+      </values>
+      <values key="dd">
+        <names language_code="in" value="DD"/>
+      </values>
+      <values key="ne">
+        <names language_code="in" value="NE"/>
+      </values>
+    </attribute>
+    <attribute key="statuscites" isrequired="false" type="LIST">
+      <names language_code="in" value="Status CITES"/>
+      <names language_code="en" value="CITES status"/>
+      <values key="apendiksi">
+        <names language_code="in" value="Apendiks I"/>
+      </values>
+      <values key="apendiksii">
+        <names language_code="in" value="Apendiks II"/>
+      </values>
+      <values key="apendiksiii">
+        <names language_code="in" value="Apendiks III"/>
+      </values>
+      <values key="tidakterdaftar">
+        <names language_code="in" value="Tidak terdaftar"/>
+      </values>
+    </attribute>
+    <attribute key="endemisitas" isrequired="false" type="LIST">
+      <names language_code="in" value="Endemisitas"/>
+      <names language_code="en" value="Endemism"/>
+      <values key="endemiktntambora">
+        <names language_code="in" value="Endemik TN Tambora"/>
+      </values>
+      <values key="endemikpulausumbawa">
+        <names language_code="in" value="Endemik Pulau Sumbawa"/>
+      </values>
+      <values key="endemiknusatenggara">
+        <names language_code="in" value="Endemik Nusa Tenggara"/>
+      </values>
+      <values key="endemikindonesia">
+        <names language_code="in" value="Endemik Indonesia"/>
+      </values>
+      <values key="bukanendemik">
+        <names language_code="in" value="Bukan endemik"/>
+      </values>
+    </attribute>
+    <attribute key="kategorimanfaat" isrequired="false" type="LIST">
+      <names language_code="in" value="Kategori manfaat"/>
+      <names language_code="en" value="Use category"/>
+      <values key="obat">
+        <names language_code="in" value="Obat"/>
+      </values>
+      <values key="pangan">
+        <names language_code="in" value="Pangan"/>
+      </values>
+      <values key="kayu">
+        <names language_code="in" value="Kayu"/>
+      </values>
+      <values key="tanamanhias">
+        <names language_code="in" value="Tanaman hias"/>
+      </values>
+      <values key="pakanternak">
+        <names language_code="in" value="Pakan ternak"/>
+      </values>
+      <values key="pakansatwaliar">
+        <names language_code="in" value="Pakan satwa liar"/>
+      </values>
+      <values key="bahankerajinan">
+        <names language_code="in" value="Bahan kerajinan"/>
+      </values>
+      <values key="ritualataubudaya">
+        <names language_code="in" value="Ritual atau budaya"/>
+      </values>
+      <values key="lainnya">
+        <names language_code="in" value="Lainnya"/>
+      </values>
+    </attribute>
+    <attribute key="nilaiekonomi" isrequired="false" type="TEXT">
+      <names language_code="in" value="Nilai ekonomi atau manfaat"/>
+      <names language_code="en" value="Economic value or use"/>
+    </attribute>
+    <attribute key="acuaninvasif" isrequired="false" type="TEXT">
+      <names language_code="in" value="Acuan status invasif"/>
+      <names language_code="en" value="Invasive status reference"/>
+    </attribute>
+    <attribute key="kemampuanmapan" isrequired="false" type="LIST">
+      <names language_code="in" value="Kemampuan mapan"/>
+      <names language_code="en" value="Establishment ability"/>
+      <values key="rendah">
+        <names language_code="in" value="Rendah"/>
+      </values>
+      <values key="medium">
+        <names language_code="in" value="Medium"/>
+      </values>
+      <values key="tinggi">
+        <names language_code="in" value="Tinggi"/>
+      </values>
+      <values key="sangattinggi">
+        <names language_code="in" value="Sangat tinggi"/>
+      </values>
+      <values key="tidaktahu">
+        <names language_code="in" value="Tidak tahu"/>
+      </values>
+    </attribute>
+    <attribute key="ketahananpengelolaan" isrequired="false" type="LIST">
+      <names language_code="in" value="Ketahanan terhadap pengelolaan"/>
+      <names language_code="en" value="Resistance to management"/>
+      <values key="rendah">
+        <names language_code="in" value="Rendah"/>
+      </values>
+      <values key="medium">
+        <names language_code="in" value="Medium"/>
+      </values>
+      <values key="tinggi">
+        <names language_code="in" value="Tinggi"/>
+      </values>
+      <values key="sangattinggi">
+        <names language_code="in" value="Sangat tinggi"/>
+      </values>
+      <values key="tidaktahu">
+        <names language_code="in" value="Tidak tahu"/>
+      </values>
+    </attribute>
+    <attribute key="periodeberbuah" isrequired="false" type="LIST">
+      <names language_code="in" value="Periode berbuah"/>
+      <names language_code="en" value="Time to fruiting"/>
+      <values key="satutahun">
+        <names language_code="in" value="1 tahun"/>
+      </values>
+      <values key="duasampaitigatahun">
+        <names language_code="in" value="2 sampai 3 tahun"/>
+      </values>
+      <values key="lebihtigatahun">
+        <names language_code="in" value="Lebih dari 3 tahun"/>
+      </values>
+      <values key="tidaktahu">
+        <names language_code="in" value="Tidak tahu"/>
+      </values>
+    </attribute>
+    <attribute key="produksibiji" isrequired="false" type="LIST">
+      <names language_code="in" value="Produksi biji"/>
+      <names language_code="en" value="Seed production"/>
+      <values key="banyak">
+        <names language_code="in" value="Banyak"/>
+      </values>
+      <values key="sedikit">
+        <names language_code="in" value="Sedikit"/>
+      </values>
+      <values key="tidakada">
+        <names language_code="in" value="Tidak ada"/>
+      </values>
+      <values key="tidaktahu">
+        <names language_code="in" value="Tidak tahu"/>
+      </values>
+    </attribute>
+    <attribute key="reproduksivegetatif" isrequired="false" type="LIST">
+      <names language_code="in" value="Reproduksi vegetatif"/>
+      <names language_code="en" value="Vegetative reproduction"/>
+      <values key="cepat">
+        <names language_code="in" value="Cepat"/>
+      </values>
+      <values key="lambat">
+        <names language_code="in" value="Lambat"/>
+      </values>
+      <values key="tidakada">
+        <names language_code="in" value="Tidak ada"/>
+      </values>
+      <values key="tidaktahu">
+        <names language_code="in" value="Tidak tahu"/>
+      </values>
+    </attribute>
+    <attribute key="sebaranburung" isrequired="false" type="LIST">
+      <names language_code="in" value="Disebarkan burung"/>
+      <names language_code="en" value="Dispersed by birds"/>
+      <values key="umum">
+        <names language_code="in" value="Umum"/>
+      </values>
+      <values key="kadangkadang">
+        <names language_code="in" value="Kadang-kadang"/>
+      </values>
+      <values key="mungkintidak">
+        <names language_code="in" value="Mungkin tidak"/>
+      </values>
+      <values key="tidaktahu">
+        <names language_code="in" value="Tidak tahu"/>
+      </values>
+    </attribute>
+    <attribute key="sebaranhewan" isrequired="false" type="LIST">
+      <names language_code="in" value="Disebarkan hewan lain"/>
+      <names language_code="en" value="Dispersed by other animals"/>
+      <values key="umum">
+        <names language_code="in" value="Umum"/>
+      </values>
+      <values key="kadangkadang">
+        <names language_code="in" value="Kadang-kadang"/>
+      </values>
+      <values key="mungkintidak">
+        <names language_code="in" value="Mungkin tidak"/>
+      </values>
+      <values key="tidaktahu">
+        <names language_code="in" value="Tidak tahu"/>
+      </values>
+    </attribute>
+    <attribute key="sebaranair" isrequired="false" type="LIST">
+      <names language_code="in" value="Disebarkan air"/>
+      <names language_code="en" value="Dispersed by water"/>
+      <values key="umum">
+        <names language_code="in" value="Umum"/>
+      </values>
+      <values key="kadangkadang">
+        <names language_code="in" value="Kadang-kadang"/>
+      </values>
+      <values key="mungkintidak">
+        <names language_code="in" value="Mungkin tidak"/>
+      </values>
+      <values key="tidaktahu">
+        <names language_code="in" value="Tidak tahu"/>
+      </values>
+    </attribute>
+    <attribute key="sebaranangin" isrequired="false" type="LIST">
+      <names language_code="in" value="Disebarkan angin"/>
+      <names language_code="en" value="Dispersed by wind"/>
+      <values key="umum">
+        <names language_code="in" value="Umum"/>
+      </values>
+      <values key="kadangkadang">
+        <names language_code="in" value="Kadang-kadang"/>
+      </values>
+      <values key="mungkintidak">
+        <names language_code="in" value="Mungkin tidak"/>
+      </values>
+      <values key="tidaktahu">
+        <names language_code="in" value="Tidak tahu"/>
+      </values>
+    </attribute>
+    <attribute key="sebaransengaja" isrequired="false" type="LIST">
+      <names language_code="in" value="Disebarkan manusia dengan sengaja"/>
+      <names language_code="en" value="Intentionally dispersed by people"/>
+      <values key="umum">
+        <names language_code="in" value="Umum"/>
+      </values>
+      <values key="kadangkadang">
+        <names language_code="in" value="Kadang-kadang"/>
+      </values>
+      <values key="mungkintidak">
+        <names language_code="in" value="Mungkin tidak"/>
+      </values>
+      <values key="tidaktahu">
+        <names language_code="in" value="Tidak tahu"/>
+      </values>
+    </attribute>
+    <attribute key="sebarantanpasengaja" isrequired="false" type="LIST">
+      <names language_code="in" value="Disebarkan manusia tanpa sengaja"/>
+      <names language_code="en" value="Unintentionally dispersed by people"/>
+      <values key="umum">
+        <names language_code="in" value="Umum"/>
+      </values>
+      <values key="kadangkadang">
+        <names language_code="in" value="Kadang-kadang"/>
+      </values>
+      <values key="mungkintidak">
+        <names language_code="in" value="Mungkin tidak"/>
+      </values>
+      <values key="tidaktahu">
+        <names language_code="in" value="Tidak tahu"/>
+      </values>
+    </attribute>
+    <attribute key="sebarankontaminasi" isrequired="false" type="LIST">
+      <names language_code="in" value="Mengontaminasi hasil bumi"/>
+      <names language_code="en" value="Produce contaminant"/>
+      <values key="umum">
+        <names language_code="in" value="Umum"/>
+      </values>
+      <values key="kadangkadang">
+        <names language_code="in" value="Kadang-kadang"/>
+      </values>
+      <values key="mungkintidak">
+        <names language_code="in" value="Mungkin tidak"/>
+      </values>
+      <values key="tidaktahu">
+        <names language_code="in" value="Tidak tahu"/>
+      </values>
+    </attribute>
+    <attribute key="sebaranternak" isrequired="false" type="LIST">
+      <names language_code="in" value="Dibawa hewan ternak"/>
+      <names language_code="en" value="Carried by livestock"/>
+      <values key="umum">
+        <names language_code="in" value="Umum"/>
+      </values>
+      <values key="kadangkadang">
+        <names language_code="in" value="Kadang-kadang"/>
+      </values>
+      <values key="mungkintidak">
+        <names language_code="in" value="Mungkin tidak"/>
+      </values>
+      <values key="tidaktahu">
+        <names language_code="in" value="Tidak tahu"/>
+      </values>
+    </attribute>
+    <attribute key="tipecatatan" isrequired="false" type="LIST">
+      <names language_code="in" value="Tipe catatan"/>
+      <names language_code="en" value="Record type"/>
+      <values key="perjumpaanlangsung">
+        <names language_code="in" value="Perjumpaan langsung"/>
+      </values>
+      <values key="disarang">
+        <names language_code="in" value="Di sarang"/>
+      </values>
+      <values key="suara">
+        <names language_code="in" value="Suara"/>
+      </values>
+    </attribute>
+    <attribute key="sumberdata" isrequired="false" type="LIST">
+      <names language_code="in" value="Sumber data"/>
+      <names language_code="en" value="Data source"/>
+      <values key="monitoringelangflores">
+        <names language_code="in" value="Monitoring elang flores"/>
+      </values>
+      <values key="inventarisasiraptor">
+        <names language_code="in" value="Inventarisasi raptor"/>
+      </values>
+      <values key="monitoringsatwakunci">
+        <names language_code="in" value="Monitoring satwa kunci"/>
+      </values>
+      <values key="patrolismart">
+        <names language_code="in" value="Patroli SMART"/>
+      </values>
+      <values key="laporanmasyarakat">
+        <names language_code="in" value="Laporan masyarakat"/>
+      </values>
+      <values key="kegiatanlain">
+        <names language_code="in" value="Kegiatan lain"/>
+      </values>
+    </attribute>
+    <attribute key="jumlahsarang" isrequired="false" type="NUMERIC">
+      <names language_code="in" value="Jumlah sarang"/>
+      <names language_code="en" value="Number of nests"/>
+    </attribute>
+    <attribute key="jumlahsaranglalu" isrequired="false" type="NUMERIC">
+      <names language_code="in" value="Jumlah sarang survei sebelumnya"/>
+      <names language_code="en" value="Nests in previous survey"/>
+    </attribute>
+    <attribute key="kondisipohon" isrequired="false" type="LIST">
+      <names language_code="in" value="Kondisi pohon"/>
+      <names language_code="en" value="Tree condition"/>
+      <values key="hidupsehat">
+        <names language_code="in" value="Hidup sehat"/>
+      </values>
+      <values key="hiduprusak">
+        <names language_code="in" value="Hidup rusak"/>
+      </values>
+      <values key="matiatautumbang">
+        <names language_code="in" value="Mati atau tumbang"/>
+      </values>
+    </attribute>
+    <attribute key="tandapanen" isrequired="false" type="BOOLEAN">
+      <names language_code="in" value="Bekas panen madu"/>
+      <names language_code="en" value="Honey harvest sign"/>
     </attribute>
   </attributes>
   <categories>
@@ -204,6 +1439,513 @@
           <attribute attributekey="tipetutupanlahan" isrequired="false" isactive="true"/>
           <attribute attributekey="ketinggianmdpl" isrequired="false" isactive="true"/>
           <attribute attributekey="sarangditemukan" isrequired="false" isactive="true"/>
+          <attribute attributekey="keterangan" isrequired="false" isactive="true"/>
+        </category>
+      </category>
+      <category key="monitoringelangflores" ismultiple="false" isactive="true">
+        <names language_code="in" value="Monitoring Elang Flores"/>
+        <names language_code="en" value="Flores Hawk-eagle Monitoring"/>
+        <category key="titikpengamatan" ismultiple="false" isactive="true">
+          <names language_code="in" value="Titik Pengamatan"/>
+          <names language_code="en" value="Observation Point"/>
+          <attribute attributekey="noplot" isrequired="true" isactive="true"/>
+          <attribute attributekey="ketinggianmdpl" isrequired="false" isactive="true"/>
+          <attribute attributekey="tipetutupanlahan" isrequired="false" isactive="true"/>
+          <attribute attributekey="jaraksarangm" isrequired="false" isactive="true"/>
+          <attribute attributekey="keterangan" isrequired="false" isactive="true"/>
+        </category>
+        <category key="perjumpaansatwa" ismultiple="true" isactive="true">
+          <names language_code="in" value="Perjumpaan Satwa"/>
+          <names language_code="en" value="Animal Encounter"/>
+          <attribute attributekey="noplot" isrequired="true" isactive="true"/>
+          <attribute attributekey="jenissatwa" isrequired="true" isactive="true"/>
+          <attribute attributekey="jumlah" isrequired="false" isactive="true"/>
+          <attribute attributekey="jumlahdewasa" isrequired="false" isactive="true"/>
+          <attribute attributekey="jumlahanakan" isrequired="false" isactive="true"/>
+          <attribute attributekey="jumlahjantan" isrequired="false" isactive="true"/>
+          <attribute attributekey="jumlahbetina" isrequired="false" isactive="true"/>
+          <attribute attributekey="jarakkesatwam" isrequired="false" isactive="true"/>
+          <attribute attributekey="azimuth" isrequired="false" isactive="true"/>
+          <attribute attributekey="aktivitasraptor" isrequired="false" isactive="true"/>
+          <attribute attributekey="stratatajuk" isrequired="false" isactive="true"/>
+          <attribute attributekey="tiperuang" isrequired="false" isactive="true"/>
+          <attribute attributekey="keterangan" isrequired="false" isactive="true"/>
+        </category>
+        <category key="pohonsarang" ismultiple="false" isactive="true">
+          <names language_code="in" value="Pohon Sarang"/>
+          <names language_code="en" value="Nest Tree"/>
+          <attribute attributekey="kodesarang" isrequired="true" isactive="true"/>
+          <attribute attributekey="jenistumbuhan" isrequired="false" isactive="true"/>
+          <attribute attributekey="tinggipohonm" isrequired="false" isactive="true"/>
+          <attribute attributekey="dbhpohoncm" isrequired="false" isactive="true"/>
+          <attribute attributekey="tinggisarangm" isrequired="false" isactive="true"/>
+          <attribute attributekey="kondisisarang" isrequired="false" isactive="true"/>
+          <attribute attributekey="jaraksumberairm" isrequired="false" isactive="true"/>
+          <attribute attributekey="keterangan" isrequired="false" isactive="true"/>
+        </category>
+        <category key="vegetasi" ismultiple="true" isactive="true">
+          <names language_code="in" value="Vegetasi"/>
+          <names language_code="en" value="Vegetation"/>
+          <attribute attributekey="noplot" isrequired="true" isactive="true"/>
+          <attribute attributekey="tingkatpertumbuhan" isrequired="true" isactive="true"/>
+          <attribute attributekey="jenistumbuhan" isrequired="true" isactive="true"/>
+          <attribute attributekey="jumlah" isrequired="false" isactive="true"/>
+          <attribute attributekey="dbhpohoncm" isrequired="false" isactive="true"/>
+          <attribute attributekey="kelilingcm" isrequired="false" isactive="true"/>
+          <attribute attributekey="tinggipohonm" isrequired="false" isactive="true"/>
+          <attribute attributekey="keterangan" isrequired="false" isactive="true"/>
+        </category>
+      </category>
+      <category key="monitoringrusatimor" ismultiple="false" isactive="true">
+        <names language_code="in" value="Monitoring Rusa Timor"/>
+        <names language_code="en" value="Timor Deer Monitoring"/>
+        <category key="transek" ismultiple="false" isactive="true">
+          <names language_code="in" value="Transek"/>
+          <names language_code="en" value="Transect"/>
+          <attribute attributekey="notransek" isrequired="true" isactive="true"/>
+          <attribute attributekey="lokasi" isrequired="false" isactive="true"/>
+          <attribute attributekey="panjangtransekm" isrequired="true" isactive="true"/>
+          <attribute attributekey="luasha" isrequired="false" isactive="true"/>
+          <attribute attributekey="tipetutupanlahan" isrequired="false" isactive="true"/>
+          <attribute attributekey="keterangan" isrequired="false" isactive="true"/>
+        </category>
+        <category key="perjumpaanlangsung" ismultiple="true" isactive="true">
+          <names language_code="in" value="Perjumpaan Langsung"/>
+          <names language_code="en" value="Direct Sighting"/>
+          <attribute attributekey="notransek" isrequired="true" isactive="true"/>
+          <attribute attributekey="jumlah" isrequired="true" isactive="true"/>
+          <attribute attributekey="jarakkesatwam" isrequired="true" isactive="true"/>
+          <attribute attributekey="sudutkontak" isrequired="true" isactive="true"/>
+          <attribute attributekey="sisitransek" isrequired="false" isactive="true"/>
+          <attribute attributekey="jumlahjantan" isrequired="false" isactive="true"/>
+          <attribute attributekey="jumlahbetina" isrequired="false" isactive="true"/>
+          <attribute attributekey="jumlahdewasa" isrequired="false" isactive="true"/>
+          <attribute attributekey="jumlahmuda" isrequired="false" isactive="true"/>
+          <attribute attributekey="jumlahanakan" isrequired="false" isactive="true"/>
+          <attribute attributekey="aktivitassatwa" isrequired="false" isactive="true"/>
+          <attribute attributekey="keterangan" isrequired="false" isactive="true"/>
+        </category>
+        <category key="tandakeberadaan" ismultiple="true" isactive="true">
+          <names language_code="in" value="Tanda Keberadaan"/>
+          <names language_code="en" value="Presence Sign"/>
+          <attribute attributekey="notransek" isrequired="true" isactive="true"/>
+          <attribute attributekey="tandakeberadaan" isrequired="true" isactive="true"/>
+          <attribute attributekey="jumlah" isrequired="false" isactive="true"/>
+          <attribute attributekey="fasefeses" isrequired="false" isactive="true"/>
+          <attribute attributekey="usiatemuan" isrequired="false" isactive="true"/>
+          <attribute attributekey="tipetutupanlahan" isrequired="false" isactive="true"/>
+          <attribute attributekey="keterangan" isrequired="false" isactive="true"/>
+        </category>
+        <category key="vegetasi" ismultiple="true" isactive="true">
+          <names language_code="in" value="Vegetasi"/>
+          <names language_code="en" value="Vegetation"/>
+          <attribute attributekey="noplot" isrequired="true" isactive="true"/>
+          <attribute attributekey="tingkatpertumbuhan" isrequired="true" isactive="true"/>
+          <attribute attributekey="jenistumbuhan" isrequired="true" isactive="true"/>
+          <attribute attributekey="jumlah" isrequired="false" isactive="true"/>
+          <attribute attributekey="dbhpohoncm" isrequired="false" isactive="true"/>
+          <attribute attributekey="kelilingcm" isrequired="false" isactive="true"/>
+          <attribute attributekey="tinggipohonm" isrequired="false" isactive="true"/>
+          <attribute attributekey="keterangan" isrequired="false" isactive="true"/>
+        </category>
+      </category>
+      <category key="groundchecktutupanlahan" ismultiple="false" isactive="true">
+        <names language_code="in" value="Ground Check Tutupan Lahan dan Tipe Ekosistem"/>
+        <names language_code="en" value="Land Cover and Ecosystem Ground Check"/>
+        <category key="titikgroundcheck" ismultiple="false" isactive="true">
+          <names language_code="in" value="Titik Ground Check"/>
+          <names language_code="en" value="Ground Check Point"/>
+          <attribute attributekey="noplot" isrequired="true" isactive="true"/>
+          <attribute attributekey="lokasi" isrequired="false" isactive="true"/>
+          <attribute attributekey="ketinggianmdpl" isrequired="false" isactive="true"/>
+          <attribute attributekey="tutupanlahanpeta" isrequired="false" isactive="true"/>
+          <attribute attributekey="tutupanlahanlapangan" isrequired="true" isactive="true"/>
+          <attribute attributekey="statusopenarea" isrequired="true" isactive="true"/>
+          <attribute attributekey="penyebabopenarea" isrequired="false" isactive="true"/>
+          <attribute attributekey="tipeekosistempeta" isrequired="false" isactive="true"/>
+          <attribute attributekey="tipeekosistem" isrequired="false" isactive="true"/>
+          <attribute attributekey="zonasikawasan" isrequired="false" isactive="true"/>
+          <attribute attributekey="keterangan" isrequired="false" isactive="true"/>
+        </category>
+        <category key="vegetasi" ismultiple="true" isactive="true">
+          <names language_code="in" value="Vegetasi"/>
+          <names language_code="en" value="Vegetation"/>
+          <attribute attributekey="noplot" isrequired="true" isactive="true"/>
+          <attribute attributekey="tingkatpertumbuhan" isrequired="true" isactive="true"/>
+          <attribute attributekey="jenistumbuhan" isrequired="true" isactive="true"/>
+          <attribute attributekey="jumlah" isrequired="false" isactive="true"/>
+          <attribute attributekey="dbhpohoncm" isrequired="false" isactive="true"/>
+          <attribute attributekey="kelilingcm" isrequired="false" isactive="true"/>
+          <attribute attributekey="tinggipohonm" isrequired="false" isactive="true"/>
+          <attribute attributekey="keterangan" isrequired="false" isactive="true"/>
+        </category>
+      </category>
+      <category key="identifikasianggrek" ismultiple="false" isactive="true">
+        <names language_code="in" value="Identifikasi Anggrek"/>
+        <names language_code="en" value="Orchid Identification"/>
+        <category key="plotpengamatan" ismultiple="false" isactive="true">
+          <names language_code="in" value="Plot Pengamatan"/>
+          <names language_code="en" value="Observation Plot"/>
+          <attribute attributekey="noplot" isrequired="true" isactive="true"/>
+          <attribute attributekey="notransek" isrequired="false" isactive="true"/>
+          <attribute attributekey="kodegrid" isrequired="false" isactive="true"/>
+          <attribute attributekey="ketinggianmdpl" isrequired="false" isactive="true"/>
+          <attribute attributekey="tipetutupanlahan" isrequired="false" isactive="true"/>
+          <attribute attributekey="keterangan" isrequired="false" isactive="true"/>
+        </category>
+        <category key="temuananggrek" ismultiple="true" isactive="true">
+          <names language_code="in" value="Temuan Anggrek"/>
+          <names language_code="en" value="Orchid Record"/>
+          <attribute attributekey="noplot" isrequired="true" isactive="true"/>
+          <attribute attributekey="jenistumbuhan" isrequired="true" isactive="true"/>
+          <attribute attributekey="jumlah" isrequired="false" isactive="true"/>
+          <attribute attributekey="carahidup" isrequired="false" isactive="true"/>
+          <attribute attributekey="pohoninang" isrequired="false" isactive="true"/>
+          <attribute attributekey="tinggitempelm" isrequired="false" isactive="true"/>
+          <attribute attributekey="fenologi" isrequired="false" isactive="true"/>
+          <attribute attributekey="ketinggianmdpl" isrequired="false" isactive="true"/>
+          <attribute attributekey="keterangan" isrequired="false" isactive="true"/>
+        </category>
+      </category>
+      <category key="inventarisasijenisinvasif" ismultiple="false" isactive="true">
+        <names language_code="in" value="Inventarisasi Jenis Asing Invasif"/>
+        <names language_code="en" value="Invasive Alien Species Inventory"/>
+        <category key="petakcontoh" ismultiple="false" isactive="true">
+          <names language_code="in" value="Petak Contoh"/>
+          <names language_code="en" value="Sample Plot"/>
+          <attribute attributekey="noplot" isrequired="true" isactive="true"/>
+          <attribute attributekey="kodegrid" isrequired="false" isactive="true"/>
+          <attribute attributekey="ketinggianmdpl" isrequired="false" isactive="true"/>
+          <attribute attributekey="tipeekosistem" isrequired="false" isactive="true"/>
+          <attribute attributekey="lokasisasaran" isrequired="false" isactive="true"/>
+          <attribute attributekey="zonasikawasan" isrequired="false" isactive="true"/>
+          <attribute attributekey="keterangan" isrequired="false" isactive="true"/>
+        </category>
+        <category key="vegetasi" ismultiple="true" isactive="true">
+          <names language_code="in" value="Vegetasi"/>
+          <names language_code="en" value="Vegetation"/>
+          <attribute attributekey="noplot" isrequired="true" isactive="true"/>
+          <attribute attributekey="tingkatpertumbuhan" isrequired="true" isactive="true"/>
+          <attribute attributekey="jenistumbuhan" isrequired="true" isactive="true"/>
+          <attribute attributekey="jumlah" isrequired="false" isactive="true"/>
+          <attribute attributekey="dbhpohoncm" isrequired="false" isactive="true"/>
+          <attribute attributekey="kelilingcm" isrequired="false" isactive="true"/>
+          <attribute attributekey="tinggipohonm" isrequired="false" isactive="true"/>
+          <attribute attributekey="keterangan" isrequired="false" isactive="true"/>
+          <attribute attributekey="jenisinvasif" isrequired="false" isactive="true"/>
+        </category>
+        <category key="keinvasifan" ismultiple="true" isactive="true">
+          <names language_code="in" value="Penilaian Keinvasifan"/>
+          <names language_code="en" value="Invasiveness Assessment"/>
+          <attribute attributekey="jenistumbuhan" isrequired="true" isactive="true"/>
+          <attribute attributekey="kemampuanmapan" isrequired="false" isactive="true"/>
+          <attribute attributekey="ketahananpengelolaan" isrequired="false" isactive="true"/>
+          <attribute attributekey="periodeberbuah" isrequired="false" isactive="true"/>
+          <attribute attributekey="produksibiji" isrequired="false" isactive="true"/>
+          <attribute attributekey="reproduksivegetatif" isrequired="false" isactive="true"/>
+          <attribute attributekey="sebaranburung" isrequired="false" isactive="true"/>
+          <attribute attributekey="sebaranhewan" isrequired="false" isactive="true"/>
+          <attribute attributekey="sebaranair" isrequired="false" isactive="true"/>
+          <attribute attributekey="sebaranangin" isrequired="false" isactive="true"/>
+          <attribute attributekey="sebaransengaja" isrequired="false" isactive="true"/>
+          <attribute attributekey="sebarantanpasengaja" isrequired="false" isactive="true"/>
+          <attribute attributekey="sebarankontaminasi" isrequired="false" isactive="true"/>
+          <attribute attributekey="sebaranternak" isrequired="false" isactive="true"/>
+          <attribute attributekey="asal" isrequired="false" isactive="true"/>
+          <attribute attributekey="acuaninvasif" isrequired="false" isactive="true"/>
+          <attribute attributekey="keterangan" isrequired="false" isactive="true"/>
+        </category>
+      </category>
+      <category key="inventarisasiburung" ismultiple="false" isactive="true">
+        <names language_code="in" value="Inventarisasi Burung"/>
+        <names language_code="en" value="Bird Inventory"/>
+        <category key="titikpengamatan" ismultiple="false" isactive="true">
+          <names language_code="in" value="Titik Pengamatan"/>
+          <names language_code="en" value="Observation Point"/>
+          <attribute attributekey="noplot" isrequired="true" isactive="true"/>
+          <attribute attributekey="ketinggianmdpl" isrequired="false" isactive="true"/>
+          <attribute attributekey="tipetutupanlahan" isrequired="false" isactive="true"/>
+          <attribute attributekey="keterangan" isrequired="false" isactive="true"/>
+        </category>
+        <category key="perjumpaanburung" ismultiple="true" isactive="true">
+          <names language_code="in" value="Perjumpaan Burung"/>
+          <names language_code="en" value="Bird Encounter"/>
+          <attribute attributekey="noplot" isrequired="true" isactive="true"/>
+          <attribute attributekey="jenissatwa" isrequired="true" isactive="true"/>
+          <attribute attributekey="jumlah" isrequired="true" isactive="true"/>
+          <attribute attributekey="jarakkesatwam" isrequired="false" isactive="true"/>
+          <attribute attributekey="azimuth" isrequired="false" isactive="true"/>
+          <attribute attributekey="aktivitassatwa" isrequired="false" isactive="true"/>
+          <attribute attributekey="keterangan" isrequired="false" isactive="true"/>
+        </category>
+      </category>
+      <category key="inventarisasitumbuhanpenting" ismultiple="false" isactive="true">
+        <names language_code="in" value="Inventarisasi Tumbuhan Penting"/>
+        <names language_code="en" value="Important Plant Inventory"/>
+        <category key="petakcontoh" ismultiple="false" isactive="true">
+          <names language_code="in" value="Petak Contoh"/>
+          <names language_code="en" value="Sample Plot"/>
+          <attribute attributekey="noplot" isrequired="true" isactive="true"/>
+          <attribute attributekey="notransek" isrequired="false" isactive="true"/>
+          <attribute attributekey="ketinggianmdpl" isrequired="false" isactive="true"/>
+          <attribute attributekey="tipeekosistem" isrequired="false" isactive="true"/>
+          <attribute attributekey="keterangan" isrequired="false" isactive="true"/>
+        </category>
+        <category key="vegetasi" ismultiple="true" isactive="true">
+          <names language_code="in" value="Vegetasi"/>
+          <names language_code="en" value="Vegetation"/>
+          <attribute attributekey="noplot" isrequired="true" isactive="true"/>
+          <attribute attributekey="tingkatpertumbuhan" isrequired="true" isactive="true"/>
+          <attribute attributekey="jenistumbuhan" isrequired="true" isactive="true"/>
+          <attribute attributekey="jumlah" isrequired="false" isactive="true"/>
+          <attribute attributekey="dbhpohoncm" isrequired="false" isactive="true"/>
+          <attribute attributekey="kelilingcm" isrequired="false" isactive="true"/>
+          <attribute attributekey="tinggipohonm" isrequired="false" isactive="true"/>
+          <attribute attributekey="keterangan" isrequired="false" isactive="true"/>
+        </category>
+        <category key="statusjenis" ismultiple="true" isactive="true">
+          <names language_code="in" value="Status Jenis"/>
+          <names language_code="en" value="Species Status"/>
+          <attribute attributekey="jenistumbuhan" isrequired="true" isactive="true"/>
+          <attribute attributekey="statusiucn" isrequired="false" isactive="true"/>
+          <attribute attributekey="status" isrequired="false" isactive="true"/>
+          <attribute attributekey="statuscites" isrequired="false" isactive="true"/>
+          <attribute attributekey="endemisitas" isrequired="false" isactive="true"/>
+          <attribute attributekey="kategorimanfaat" isrequired="false" isactive="true"/>
+          <attribute attributekey="nilaiekonomi" isrequired="false" isactive="true"/>
+          <attribute attributekey="keterangan" isrequired="false" isactive="true"/>
+        </category>
+      </category>
+      <category key="monitoringsatwakunci" ismultiple="false" isactive="true">
+        <names language_code="in" value="Monitoring Satwa Kunci"/>
+        <names language_code="en" value="Key Species Monitoring"/>
+        <category key="jalurpengamatan" ismultiple="false" isactive="true">
+          <names language_code="in" value="Jalur Pengamatan"/>
+          <names language_code="en" value="Survey Route"/>
+          <attribute attributekey="notransek" isrequired="true" isactive="true"/>
+          <attribute attributekey="lokasi" isrequired="false" isactive="true"/>
+          <attribute attributekey="panjangtransekm" isrequired="false" isactive="true"/>
+          <attribute attributekey="tipeekosistem" isrequired="false" isactive="true"/>
+          <attribute attributekey="keterangan" isrequired="false" isactive="true"/>
+        </category>
+        <category key="temuansatwa" ismultiple="true" isactive="true">
+          <names language_code="in" value="Temuan Satwa"/>
+          <names language_code="en" value="Animal Record"/>
+          <attribute attributekey="notransek" isrequired="true" isactive="true"/>
+          <attribute attributekey="jenissatwa" isrequired="true" isactive="true"/>
+          <attribute attributekey="tandakeberadaan" isrequired="true" isactive="true"/>
+          <attribute attributekey="jenisperjumpaan" isrequired="false" isactive="true"/>
+          <attribute attributekey="jumlah" isrequired="false" isactive="true"/>
+          <attribute attributekey="perkiraanindividu" isrequired="false" isactive="true"/>
+          <attribute attributekey="jarakkesatwam" isrequired="false" isactive="true"/>
+          <attribute attributekey="jumlahjantan" isrequired="false" isactive="true"/>
+          <attribute attributekey="jumlahbetina" isrequired="false" isactive="true"/>
+          <attribute attributekey="jumlahdewasa" isrequired="false" isactive="true"/>
+          <attribute attributekey="jumlahmuda" isrequired="false" isactive="true"/>
+          <attribute attributekey="jumlahanakan" isrequired="false" isactive="true"/>
+          <attribute attributekey="usiatemuan" isrequired="false" isactive="true"/>
+          <attribute attributekey="tipeekosistem" isrequired="false" isactive="true"/>
+          <attribute attributekey="ketinggianmdpl" isrequired="false" isactive="true"/>
+          <attribute attributekey="keterangan" isrequired="false" isactive="true"/>
+        </category>
+      </category>
+      <category key="kajianpelepasliaran" ismultiple="false" isactive="true">
+        <names language_code="in" value="Kajian Lokasi Pelepasliaran Satwa"/>
+        <names language_code="en" value="Wildlife Release Site Assessment"/>
+        <category key="lokasipengamatan" ismultiple="false" isactive="true">
+          <names language_code="in" value="Lokasi Pengamatan"/>
+          <names language_code="en" value="Survey Site"/>
+          <attribute attributekey="noplot" isrequired="true" isactive="true"/>
+          <attribute attributekey="lokasi" isrequired="false" isactive="true"/>
+          <attribute attributekey="ketinggianmdpl" isrequired="false" isactive="true"/>
+          <attribute attributekey="tipeekosistem" isrequired="false" isactive="true"/>
+          <attribute attributekey="tipehabitat" isrequired="false" isactive="true"/>
+          <attribute attributekey="keterangan" isrequired="false" isactive="true"/>
+        </category>
+        <category key="perjumpaanburung" ismultiple="true" isactive="true">
+          <names language_code="in" value="Perjumpaan Burung"/>
+          <names language_code="en" value="Bird Encounter"/>
+          <attribute attributekey="noplot" isrequired="true" isactive="true"/>
+          <attribute attributekey="daftarmackinnon" isrequired="false" isactive="true"/>
+          <attribute attributekey="jenissatwa" isrequired="true" isactive="true"/>
+          <attribute attributekey="jumlah" isrequired="false" isactive="true"/>
+          <attribute attributekey="jarakkesatwam" isrequired="false" isactive="true"/>
+          <attribute attributekey="guildburung" isrequired="false" isactive="true"/>
+          <attribute attributekey="aktivitassatwa" isrequired="false" isactive="true"/>
+          <attribute attributekey="keterangan" isrequired="false" isactive="true"/>
+        </category>
+        <category key="fungsipohon" ismultiple="true" isactive="true">
+          <names language_code="in" value="Fungsi Pohon"/>
+          <names language_code="en" value="Tree Function"/>
+          <attribute attributekey="noplot" isrequired="false" isactive="true"/>
+          <attribute attributekey="jenistumbuhan" isrequired="true" isactive="true"/>
+          <attribute attributekey="nektarbunga" isrequired="false" isactive="true"/>
+          <attribute attributekey="mahkotabunga" isrequired="false" isactive="true"/>
+          <attribute attributekey="ukuranbunga" isrequired="false" isactive="true"/>
+          <attribute attributekey="lapisanluarbuah" isrequired="false" isactive="true"/>
+          <attribute attributekey="lapisanbuah" isrequired="false" isactive="true"/>
+          <attribute attributekey="ukuranbuah" isrequired="false" isactive="true"/>
+          <attribute attributekey="lapisankulitbiji" isrequired="false" isactive="true"/>
+          <attribute attributekey="ukuranbiji" isrequired="false" isactive="true"/>
+          <attribute attributekey="lokasibiji" isrequired="false" isactive="true"/>
+          <attribute attributekey="bentuktajuk" isrequired="false" isactive="true"/>
+          <attribute attributekey="bentukpercabangan" isrequired="false" isactive="true"/>
+          <attribute attributekey="ukurandaun" isrequired="false" isactive="true"/>
+          <attribute attributekey="keterangan" isrequired="false" isactive="true"/>
+        </category>
+      </category>
+      <category key="stokkarbon" ismultiple="false" isactive="true">
+        <names language_code="in" value="Pengukuran Stok Karbon"/>
+        <names language_code="en" value="Carbon Stock Measurement"/>
+        <category key="plotukur" ismultiple="false" isactive="true">
+          <names language_code="in" value="Plot Ukur"/>
+          <names language_code="en" value="Measurement Plot"/>
+          <attribute attributekey="notransek" isrequired="true" isactive="true"/>
+          <attribute attributekey="noplot" isrequired="true" isactive="true"/>
+          <attribute attributekey="tipeekosistem" isrequired="false" isactive="true"/>
+          <attribute attributekey="lokasi" isrequired="false" isactive="true"/>
+          <attribute attributekey="ketinggianmdpl" isrequired="false" isactive="true"/>
+          <attribute attributekey="keterangan" isrequired="false" isactive="true"/>
+        </category>
+        <category key="tegakan" ismultiple="true" isactive="true">
+          <names language_code="in" value="Tegakan"/>
+          <names language_code="en" value="Standing Trees"/>
+          <attribute attributekey="notransek" isrequired="true" isactive="true"/>
+          <attribute attributekey="noplot" isrequired="true" isactive="true"/>
+          <attribute attributekey="tingkatpertumbuhan" isrequired="true" isactive="true"/>
+          <attribute attributekey="jenistumbuhan" isrequired="false" isactive="true"/>
+          <attribute attributekey="dbhpohoncm" isrequired="true" isactive="true"/>
+          <attribute attributekey="tinggipohonm" isrequired="false" isactive="true"/>
+          <attribute attributekey="jarijariplotm" isrequired="false" isactive="true"/>
+          <attribute attributekey="pohonmati" isrequired="false" isactive="true"/>
+        </category>
+        <category key="serasah" ismultiple="true" isactive="true">
+          <names language_code="in" value="Serasah, Nekromas, dan Tumbuhan Bawah"/>
+          <names language_code="en" value="Litter, Necromass, and Understorey"/>
+          <attribute attributekey="notransek" isrequired="true" isactive="true"/>
+          <attribute attributekey="noplot" isrequired="true" isactive="true"/>
+          <attribute attributekey="komponenserasah" isrequired="true" isactive="true"/>
+          <attribute attributekey="kodesampel" isrequired="false" isactive="true"/>
+          <attribute attributekey="beratbasahtotalg" isrequired="true" isactive="true"/>
+          <attribute attributekey="beratbasahsampelg" isrequired="false" isactive="true"/>
+        </category>
+        <category key="kayumati" ismultiple="true" isactive="true">
+          <names language_code="in" value="Kayu Mati"/>
+          <names language_code="en" value="Dead Wood"/>
+          <attribute attributekey="notransek" isrequired="true" isactive="true"/>
+          <attribute attributekey="noplot" isrequired="true" isactive="true"/>
+          <attribute attributekey="kuadran" isrequired="false" isactive="true"/>
+          <attribute attributekey="kelasdiameter" isrequired="true" isactive="true"/>
+          <attribute attributekey="kodesampel" isrequired="false" isactive="true"/>
+          <attribute attributekey="diametercm" isrequired="false" isactive="true"/>
+          <attribute attributekey="panjangtransekm" isrequired="false" isactive="true"/>
+        </category>
+        <category key="contohtanah" ismultiple="true" isactive="true">
+          <names language_code="in" value="Contoh Tanah"/>
+          <names language_code="en" value="Soil Sample"/>
+          <attribute attributekey="notransek" isrequired="true" isactive="true"/>
+          <attribute attributekey="noplot" isrequired="true" isactive="true"/>
+          <attribute attributekey="lapisantanah" isrequired="true" isactive="true"/>
+          <attribute attributekey="kodesampel" isrequired="false" isactive="true"/>
+          <attribute attributekey="kedalamancm" isrequired="false" isactive="true"/>
+          <attribute attributekey="volumetanahcm3" isrequired="false" isactive="true"/>
+        </category>
+      </category>
+      <category key="rekapelangflores" ismultiple="false" isactive="true">
+        <names language_code="in" value="Rekap Perjumpaan Elang Flores"/>
+        <names language_code="en" value="Flores Hawk-eagle Records"/>
+        <category key="perjumpaan" ismultiple="true" isactive="true">
+          <names language_code="in" value="Perjumpaan"/>
+          <names language_code="en" value="Encounter"/>
+          <attribute attributekey="jenissatwa" isrequired="true" isactive="true"/>
+          <attribute attributekey="tipecatatan" isrequired="false" isactive="true"/>
+          <attribute attributekey="jumlah" isrequired="false" isactive="true"/>
+          <attribute attributekey="aktivitasraptor" isrequired="false" isactive="true"/>
+          <attribute attributekey="lokasi" isrequired="false" isactive="true"/>
+          <attribute attributekey="ketinggianmdpl" isrequired="false" isactive="true"/>
+          <attribute attributekey="sumberdata" isrequired="false" isactive="true"/>
+          <attribute attributekey="keterangan" isrequired="false" isactive="true"/>
+        </category>
+        <category key="sarang" ismultiple="false" isactive="true">
+          <names language_code="in" value="Sarang"/>
+          <names language_code="en" value="Nest"/>
+          <attribute attributekey="kodesarang" isrequired="true" isactive="true"/>
+          <attribute attributekey="lokasi" isrequired="false" isactive="true"/>
+          <attribute attributekey="ketinggianmdpl" isrequired="false" isactive="true"/>
+          <attribute attributekey="jenistumbuhan" isrequired="false" isactive="true"/>
+          <attribute attributekey="kondisisarang" isrequired="false" isactive="true"/>
+          <attribute attributekey="keterangan" isrequired="false" isactive="true"/>
+        </category>
+      </category>
+      <category key="sebaranumaani" ismultiple="false" isactive="true">
+        <names language_code="in" value="Sebaran Pohon Sarang Uma Ani"/>
+        <names language_code="en" value="Wild Honey Bee Nest Trees"/>
+        <category key="pohonsarang" ismultiple="false" isactive="true">
+          <names language_code="in" value="Pohon Sarang"/>
+          <names language_code="en" value="Nest Tree"/>
+          <attribute attributekey="kodepohon" isrequired="true" isactive="true"/>
+          <attribute attributekey="lokasi" isrequired="false" isactive="true"/>
+          <attribute attributekey="ketinggianmdpl" isrequired="false" isactive="true"/>
+          <attribute attributekey="jenistumbuhan" isrequired="true" isactive="true"/>
+          <attribute attributekey="dbhpohoncm" isrequired="false" isactive="true"/>
+          <attribute attributekey="tinggipohonm" isrequired="false" isactive="true"/>
+          <attribute attributekey="jumlahsarang" isrequired="true" isactive="true"/>
+          <attribute attributekey="tinggisarangm" isrequired="false" isactive="true"/>
+          <attribute attributekey="jaraksumberairm" isrequired="false" isactive="true"/>
+          <attribute attributekey="jumlahsaranglalu" isrequired="false" isactive="true"/>
+          <attribute attributekey="kondisipohon" isrequired="false" isactive="true"/>
+          <attribute attributekey="tandapanen" isrequired="false" isactive="true"/>
+          <attribute attributekey="keterangan" isrequired="false" isactive="true"/>
+        </category>
+        <category key="vegetasi" ismultiple="true" isactive="true">
+          <names language_code="in" value="Vegetasi"/>
+          <names language_code="en" value="Vegetation"/>
+          <attribute attributekey="noplot" isrequired="true" isactive="true"/>
+          <attribute attributekey="tingkatpertumbuhan" isrequired="true" isactive="true"/>
+          <attribute attributekey="jenistumbuhan" isrequired="true" isactive="true"/>
+          <attribute attributekey="jumlah" isrequired="false" isactive="true"/>
+          <attribute attributekey="dbhpohoncm" isrequired="false" isactive="true"/>
+          <attribute attributekey="kelilingcm" isrequired="false" isactive="true"/>
+          <attribute attributekey="tinggipohonm" isrequired="false" isactive="true"/>
+          <attribute attributekey="keterangan" isrequired="false" isactive="true"/>
+        </category>
+      </category>
+      <category key="verifikasikehatitinggi" ismultiple="false" isactive="true">
+        <names language_code="in" value="Verifikasi Kehati Tinggi"/>
+        <names language_code="en" value="High Biodiversity Area Verification"/>
+        <category key="titikgrid" ismultiple="false" isactive="true">
+          <names language_code="in" value="Titik Grid"/>
+          <names language_code="en" value="Grid Point"/>
+          <attribute attributekey="kodegrid" isrequired="true" isactive="true"/>
+          <attribute attributekey="lokasi" isrequired="false" isactive="true"/>
+          <attribute attributekey="zonasikawasan" isrequired="false" isactive="true"/>
+          <attribute attributekey="ketinggianmdpl" isrequired="false" isactive="true"/>
+          <attribute attributekey="klasifikasi1te" isrequired="false" isactive="true"/>
+          <attribute attributekey="klasifikasi2te" isrequired="false" isactive="true"/>
+          <attribute attributekey="klasifikasi3" isrequired="false" isactive="true"/>
+          <attribute attributekey="klasifikasi4" isrequired="true" isactive="true"/>
+          <attribute attributekey="keterangan" isrequired="false" isactive="true"/>
+        </category>
+        <category key="vegetasi" ismultiple="true" isactive="true">
+          <names language_code="in" value="Vegetasi"/>
+          <names language_code="en" value="Vegetation"/>
+          <attribute attributekey="kodegrid" isrequired="true" isactive="true"/>
+          <attribute attributekey="noplot" isrequired="true" isactive="true"/>
+          <attribute attributekey="tingkatpertumbuhan" isrequired="true" isactive="true"/>
+          <attribute attributekey="jenistumbuhan" isrequired="true" isactive="true"/>
+          <attribute attributekey="jumlah" isrequired="false" isactive="true"/>
+          <attribute attributekey="dbhpohoncm" isrequired="false" isactive="true"/>
+          <attribute attributekey="kelilingcm" isrequired="false" isactive="true"/>
+          <attribute attributekey="tinggipohonm" isrequired="false" isactive="true"/>
+          <attribute attributekey="keterangan" isrequired="false" isactive="true"/>
+        </category>
+        <category key="perjumpaansatwa" ismultiple="true" isactive="true">
+          <names language_code="in" value="Perjumpaan Satwa"/>
+          <names language_code="en" value="Animal Encounter"/>
+          <attribute attributekey="kodegrid" isrequired="true" isactive="true"/>
+          <attribute attributekey="jenissatwa" isrequired="true" isactive="true"/>
+          <attribute attributekey="tandakeberadaan" isrequired="false" isactive="true"/>
+          <attribute attributekey="jumlah" isrequired="false" isactive="true"/>
           <attribute attributekey="keterangan" isrequired="false" isactive="true"/>
         </category>
       </category>

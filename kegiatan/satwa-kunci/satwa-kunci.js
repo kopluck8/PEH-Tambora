@@ -7,7 +7,8 @@
   "use strict";
   const K = window.PEHKeg, { KOL } = K, L = window.PEHLaporan;
   const TIPE = ["Perjumpaan langsung", "Suara", "Jejak kaki", "Kotoran (onggokan)", "Bekas makan", "Garukan ranggah", "Tempat istirahat", "Sarang", "Bulu atau bagian tubuh", "Lainnya"];
-  const UMUR = ["Baru (≤ 1 minggu)", "Lama (> 1 minggu)"];
+  // Umur tanda mengikuti pilihan atribut usiatemuan di Data Model SMART Balai
+  const UMUR = ["Baru (dalam 1 minggu)", "Cukup lama (>1 bulan)", "Sangat lama (>3bulan)", "Diatas 1 tahun"];
   const KAMUS = K.kamus("Mamalia", "Aves");
   const n0 = (v) => Number(v) || 0;
   const langsung = (r) => /langsung/i.test(String(r.tipe || ""));
@@ -33,7 +34,7 @@
     tabel: [
       { key: "jalur", judul: "Jalur Pengamatan", ket: "Satu baris untuk satu jalur atau lokasi yang disusuri, termasuk jalur tanpa temuan. Panjang jalur dipakai untuk kepadatan metode King.",
         kolom: [{ key: "kode", label: "Kode jalur", w: 4.5, tengah: true }, { key: "nama", label: "Nama jalur atau lokasi", w: 10 }, KOL.tanggal, { key: "panjang", label: "Panjang (m)", type: "number", w: 4.5 }, { key: "ekosistem", label: "Tipe ekosistem", list: K.EKOSISTEM, w: 8 }, { ...KOL.x, label: "X awal" }, { ...KOL.y, label: "Y awal" }, KOL.keterangan],
-        smart: { sub: "jalurpengamatan", map: (o, v) => ({ kode: String(v("notransek") || o.wpId || ""), nama: v("jalurpengamatan"), tanggal: o.tanggal || "", panjang: v("panjangtransekm"), ekosistem: v("tipeekosistem"), x: o.x ?? "", y: o.y ?? "", keterangan: v("keterangan") }) } },
+        smart: { sub: "jalurpengamatan", map: (o, v) => ({ kode: String(v("notransek") || o.wpId || ""), nama: v("lokasi"), tanggal: o.tanggal || "", panjang: v("panjangtransekm"), ekosistem: v("tipeekosistem"), x: o.x ?? "", y: o.y ?? "", keterangan: v("keterangan") }) } },
       { key: "temuan", judul: "Temuan Satwa Kunci", ket: "Satu baris untuk satu temuan. Perjumpaan langsung: isi jumlah individu dan jarak ke satwa. Tanda keberadaan: isi banyaknya tanda (jejak, onggokan) dan perkiraan individu bila dapat ditaksir; kosongkan perkiraan untuk kotoran.",
         kolom: [KOL.tanggal, KOL.waktu, { key: "jalur", label: "Jalur", w: 4.5, tengah: true }, ...K.kolJenis("Nama jenis", KAMUS), { key: "tipe", label: "Tipe temuan", list: TIPE, w: 8 },
           { ...KOL.jumlah, label: "Jumlah individu atau tanda" }, { key: "taksir", label: "Perkiraan individu (tanda)", type: "number", w: 4.5 }, { key: "jarak", label: "Jarak ke satwa (m)", type: "number", w: 4.5 },

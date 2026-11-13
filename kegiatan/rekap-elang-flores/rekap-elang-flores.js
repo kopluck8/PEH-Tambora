@@ -8,7 +8,7 @@
   "use strict";
   const K = window.PEHKeg, { KOL } = K, L = window.PEHLaporan;
   const TIPE = ["Perjumpaan langsung", "Di sarang", "Suara"];
-  const AKT = ["Terbang", "Soaring", "Bertengger", "Berburu/makan", "Bersuara", "Di sarang", "Membawa material sarang", "Kawin", "Diserang/menyerang burung lain"];
+  const AKT = ["Terbang", "Soaring (terbang mengapung)", "Bertengger", "Makan", "Bersuara", "Bersarang", "Membawa material sarang", "Kawin", "Diserang/menyerang burung lain"];
   const KONDISI = ["Aktif (ada telur/anakan/induk)", "Aktif (material baru)", "Tidak aktif", "Rusak/jatuh"];
   const SUMBER = ["Monitoring elang flores", "Inventarisasi raptor", "Monitoring satwa kunci", "Patroli SMART", "Laporan masyarakat", "Kegiatan lain"];
   const AVES = K.kamus("Aves"), FLORA = K.kamus("Flora");
@@ -56,12 +56,12 @@
             const [jenis, latin] = K.jenisDari(v, "jenissatwa");
             if (!K.sasaran({ jenis, latin }, target(S.param))) return null;
             const d = Number(v("jumlahdewasa")) || 0, a = Number(v("jumlahanakan")) || 0;
-            return { ...K.dasarObs(o), resor: v("resor"), lokasi: v("namalokasi") || v("jalurpengamatan"), jenis, latin, tipe: tipeDari(v), n: Number(v("jumlah")) || d + a || 1, aktivitas: v("aktivitasraptor") || v("aktivitassatwa"), ketinggian: v("ketinggianmdpl"), sumber: v("sumberdata") || sumberDari(o.kategori), keterangan: v("keterangan") };
+            return { ...K.dasarObs(o), resor: K.resorObs(o), lokasi: v("lokasi") || v("jalurpengamatan"), jenis, latin, tipe: tipeDari(v), n: Number(v("jumlah")) || d + a || 1, aktivitas: v("aktivitasraptor") || v("aktivitassatwa"), ketinggian: v("ketinggianmdpl"), sumber: v("sumberdata") || sumberDari(o.kategori), keterangan: v("keterangan") };
           } },
         baruBaris: (last) => ({ tanggal: last.tanggal || "", resor: last.resor || "", lokasi: last.lokasi || "", jenis: last.jenis || "Elang flores", latin: last.latin || "Nisaetus floris", tipe: "Perjumpaan langsung", n: 1, sumber: last.sumber || "" }) },
       { key: "sarang", judul: "Pemeriksaan Sarang", ket: "Satu baris untuk satu sarang pada satu pemeriksaan. Sarang yang sama diberi kode yang sama setiap tahun.",
         kolom: [{ key: "kode", label: "Kode sarang", w: 5, tengah: true }, KOL.tanggal, { key: "resor", label: "Resor", list: K.RESOR, w: 7 }, { key: "lokasi", label: "Nama lokasi", w: 9 }, KOL.x, KOL.y, KOL.ketinggian, ...K.kolJenis("Jenis pohon sarang", FLORA), { key: "kondisi", label: "Kondisi sarang", list: KONDISI, w: 9 }, KOL.keterangan],
-        smart: { sub: ["rekapelangflores.sarang", "monitoringelangflores.pohonsarang"], map: (o, v) => { const [jenis, latin] = K.jenisDari(v, "jenistumbuhan"); return { ...K.dasarObs(o), kode: v("kodesarang") || o.wpId || "", resor: v("resor"), lokasi: v("namalokasi"), ketinggian: v("ketinggianmdpl"), jenis, latin, kondisi: v("kondisisarang"), keterangan: v("keterangan") }; } } }
+        smart: { sub: ["rekapelangflores.sarang", "monitoringelangflores.pohonsarang"], map: (o, v) => { const [jenis, latin] = K.jenisDari(v, "jenistumbuhan"); return { ...K.dasarObs(o), kode: v("kodesarang") || o.wpId || "", resor: K.resorObs(o), lokasi: v("lokasi"), ketinggian: v("ketinggianmdpl"), jenis, latin, kondisi: v("kondisisarang"), keterangan: v("keterangan") }; } } }
     ],
     parameter: [
       { key: "target", label: "Jenis sasaran (nama atau nama ilmiah)", def: "Elang flores" },

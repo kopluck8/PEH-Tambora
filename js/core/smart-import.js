@@ -57,7 +57,7 @@
           if (!v) continue;
           attr[a.key] = v.kind === "item" ? { key: v.value, label: L.item(a.key, v.value), kind: "item" } : { value: v.value, kind: v.kind };
         }
-        out.push({ patrol: p.id, kategori: ob.category, sub: ob.category.slice(pre.length).replace(/\.$/, ""), attr, x: wp.x, y: wp.y, tanggal: day.date || wp.date, waktu: (wp.time || "").substr(0, 5), wpId: wp.id, foto: ob.photos.concat(wp.photos) });
+        out.push({ patrol: p.id, stasiun: p.station || "", kategori: ob.category, sub: ob.category.slice(pre.length).replace(/\.$/, ""), attr, x: wp.x, y: wp.y, tanggal: day.date || wp.date, waktu: (wp.time || "").substr(0, 5), wpId: wp.id, foto: ob.photos.concat(wp.photos) });
       }
     }
     return out;

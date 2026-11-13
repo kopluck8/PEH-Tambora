@@ -6,8 +6,9 @@
 (function () {
   "use strict";
   const K = window.PEHKeg, { KOL } = K, L = window.PEHLaporan;
-  const AKT = ["Terbang", "Soaring", "Bertengger", "Berburu/makan", "Bersuara", "Di sarang", "Membawa material sarang", "Kawin", "Diserang/menyerang burung lain"];
-  const HABITAT = ["Hutan hujan", "Hutan musim", "Hutan sub pegunungan", "Hutan pegunungan", "Savana", "Semak belukar", "Tepi sungai", "Ladang/kebun"];
+  // Label aktivitas mengikuti pilihan atribut aktivitasraptor di Data Model
+  const AKT = ["Terbang", "Soaring (terbang mengapung)", "Bertengger", "Makan", "Bersuara", "Bersarang", "Membawa material sarang", "Kawin", "Diserang/menyerang burung lain"];
+  const HABITAT = ["Hutan hujan", "Hutan musim", "Hutan sub pegunungan", "Hutan pegunungan", "Savana", "Semak belukar", "Tepi sungai", "Kebun/ladang masyarakat"];
   const KONDISI = ["Aktif (ada telur/anakan/induk)", "Aktif (material baru)", "Tidak aktif", "Rusak/jatuh"];
   const AVES = K.kamus("Aves"), FLORA = K.kamus("Flora");
   const target = (S) => S.param.target || "Elang flores";
@@ -42,11 +43,11 @@
       { key: "perjumpaan", judul: "Perjumpaan Satwa", ket: "Satu baris untuk satu perjumpaan. Catat elang flores dan burung lain yang dijumpai di plot. X dan Y diisi koordinat titik pengamat (otomatis dari SMART).",
         kolom: [KOL.tanggal, KOL.waktu, KOL.plot, ...K.kolJenis("Nama jenis", AVES), { ...KOL.jumlah, label: "Jumlah individu" }, { key: "dewasa", label: "Dewasa", type: "number", w: 3.5 }, { key: "muda", label: "Remaja", type: "number", w: 3.5 }, { key: "jantan", label: "Jantan", type: "number", w: 3.5 }, { key: "betina", label: "Betina", type: "number", w: 3.5 },
           { key: "jarak", label: "Jarak (m)", type: "number", w: 4 }, { key: "azimuth", label: "Azimuth (°)", type: "number", w: 4 }, { key: "aktivitas", label: "Aktivitas", list: AKT, w: 8 }, { key: "ruang", label: "Penggunaan ruang", options: ["Top", "Middle", "Low"], w: 5 }, { key: "tipeRuang", label: "Tipe ruang", options: ["Terbuka", "Tertutup"], w: 5 }, KOL.x, KOL.y, KOL.keterangan],
-        smart: { sub: "perjumpaansatwa", map: (o, v) => { const [jenis, latin] = K.jenisDari(v, "jenissatwa"); const d = Number(v("jumlahdewasa")) || 0, a = Number(v("jumlahanakan")) || 0; return { ...K.dasarObs(o), plot: String(v("noplot") || ""), jenis, latin, n: Number(v("jumlah")) || d + a || 1, dewasa: v("jumlahdewasa"), muda: v("jumlahanakan"), jantan: v("jumlahjantan"), betina: v("jumlahbetina"), jarak: v("jarakkesatwam"), azimuth: v("azimuth"), aktivitas: v("aktivitasraptor"), ruang: v("penggunaanruang"), tipeRuang: v("tiperuang"), keterangan: v("keterangan") }; } },
+        smart: { sub: "perjumpaansatwa", map: (o, v) => { const [jenis, latin] = K.jenisDari(v, "jenissatwa"); const d = Number(v("jumlahdewasa")) || 0, a = Number(v("jumlahanakan")) || 0; return { ...K.dasarObs(o), plot: String(v("noplot") || ""), jenis, latin, n: Number(v("jumlah")) || d + a || 1, dewasa: v("jumlahdewasa"), muda: v("jumlahanakan"), jantan: v("jumlahjantan"), betina: v("jumlahbetina"), jarak: v("jarakkesatwam"), azimuth: v("azimuth"), aktivitas: v("aktivitasraptor"), ruang: v("stratatajuk"), tipeRuang: v("tiperuang"), keterangan: v("keterangan") }; } },
         baruBaris: (last) => ({ tanggal: last.tanggal || "", plot: last.plot || "", x: last.x ?? "", y: last.y ?? "", n: 1 }) },
       { key: "sarang", judul: "Pohon Sarang", ket: "Satu baris untuk satu pohon sarang yang diperiksa.",
         kolom: [{ key: "kode", label: "Kode sarang", w: 5, tengah: true }, KOL.tanggal, KOL.x, KOL.y, ...K.kolJenis("Jenis pohon sarang", FLORA), { key: "tinggiPohon", label: "Tinggi pohon (m)", type: "number", w: 4 }, { key: "tinggiSarang", label: "Tinggi sarang (m)", type: "number", w: 4 }, KOL.diameter, { key: "kondisi", label: "Kondisi sarang", list: KONDISI, w: 9 }, { key: "jarakAir", label: "Jarak ke sumber air (m)", type: "number", w: 4.5 }, KOL.keterangan],
-        smart: { sub: "pohonsarang", map: (o, v) => { const [jenis, latin] = K.jenisDari(v, "jenistumbuhan"); return { ...K.dasarObs(o), kode: o.wpId || "", jenis, latin, tinggiPohon: v("tinggipohonm"), tinggiSarang: v("tinggisarangm"), diameter: v("dbhpohoncm"), kondisi: v("kondisisarang"), jarakAir: v("jaraksumberairm"), keterangan: v("keterangan") }; } } },
+        smart: { sub: "pohonsarang", map: (o, v) => { const [jenis, latin] = K.jenisDari(v, "jenistumbuhan"); return { ...K.dasarObs(o), kode: v("kodesarang") || o.wpId || "", jenis, latin, tinggiPohon: v("tinggipohonm"), tinggiSarang: v("tinggisarangm"), diameter: v("dbhpohoncm"), kondisi: v("kondisisarang"), jarakAir: v("jaraksumberairm"), keterangan: v("keterangan") }; } } },
       { key: "vegetasi", judul: "Vegetasi Sekitar Sarang", ket: "Analisis vegetasi pada petak bersarang di sekitar pohon sarang. Satu baris untuk satu individu (atau isi jumlah untuk semai dan pancang).",
         kolom: K.kolVegetasi([KOL.tinggi]), smart: { sub: "vegetasi", map: (o, v) => K.petaVegetasi(o, v) },
         baruBaris: (last) => ({ petak: last.petak || "", tingkat: last.tingkat || "", n: 1 }) }

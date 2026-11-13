@@ -1,7 +1,8 @@
 /*
  * Kegiatan: Ground Check Verifikasi Tutupan Lahan/Open Area dan Tipe Ekosistem.
  * Acuan: LPK ground check Resor Doro Ncanga (2023), Resor Doropeti (2023, 2024), Resor Kawinda Toi, dan Resor Pancasila.
- * Data SMART: kategori metodeteknis.groundchecktutupanlahan. (lihat datamodel/SPESIFIKASI.md).
+ * Data SMART: kategori metodeteknis.groundchecktutupanlahan. (lihat datamodel/SPESIFIKASI.md), ditambah kategori Balai
+ * Ground Check > Tutupan Lahan (klasifikasi01, klasifikasi02) dan Ground Check > Tipe Ekosistem (klasifikasi4).
  */
 (function () {
   "use strict";
@@ -19,14 +20,14 @@
     judul: "Ground Check Verifikasi Tutupan Lahan/Open Area dan Tipe Ekosistem",
     ringkas: "Verifikasi lapangan peta tutupan lahan, status open area, dan tipe ekosistem. Matriks kesalahan, akurasi keseluruhan, kappa, rekap open area per penyebab dan zona, serta analisis vegetasi petak contoh.",
     objek: "titik ground check", objekPeta: "titik ground check tutupan lahan dan tipe ekosistem",
-    kategoriSMART: "metodeteknis.groundchecktutupanlahan.",
+    kategoriSMART: ["metodeteknis.groundchecktutupanlahan.", "groundcheck."],
     contoh: (window.PEH_CONTOH || {})["ground-check"],
     alat: [{ nama: "Peta kerja dan peta hasil interpretasi citra terbaru", jumlah: "1", satuan: "set" }, { nama: "GPS", jumlah: "2", satuan: "unit" }, { nama: "Kompas", jumlah: "1", satuan: "unit" }, { nama: "Kamera digital", jumlah: "1", satuan: "unit" }, { nama: "Meteran dan pita diameter", jumlah: "1", satuan: "set" }, { nama: "Tali rafia untuk petak ukur", jumlah: "1", satuan: "gulung" }, { nama: "Smartphone dengan aplikasi SMART Mobile", jumlah: "1", satuan: "unit" }, { nama: "Golok tebas", jumlah: "2", satuan: "buah" }, { nama: "Tally sheet dan alat tulis", jumlah: "1", satuan: "set" }],
     tabel: [
       { key: "titik", judul: "Titik Ground Check", ket: "Satu baris untuk satu titik. Kelas lapangan diisi dengan sistem kelas yang sama dengan peta agar akurasi dapat dihitung; uraian rinci ditulis di kolom deskripsi.",
         kolom: [{ key: "kode", label: "ID titik", w: 4.5, tengah: true }, KOL.tanggal, { key: "lokasi", label: "Lokasi/blok", w: 8 }, KOL.x, KOL.y, KOL.ketinggian, { key: "peta", label: "Tutupan lahan (peta)", list: KELAS, w: 8 }, { key: "lapangan", label: "Tutupan lahan (lapangan)", list: KELAS, w: 8 }, { key: "rinci", label: "Deskripsi tutupan lapangan", w: 9 },
           { key: "openArea", label: "Status open area", list: STATUS, w: 7 }, { key: "penyebab", label: "Penyebab open area", list: PENYEBAB, w: 7 }, { key: "ekoPeta", label: "Tipe ekosistem (peta)", list: EKOSISTEM, w: 8 }, { key: "ekoLapangan", label: "Tipe ekosistem (lapangan)", list: EKOSISTEM, w: 8 }, { key: "zona", label: "Zona", list: ZONA, w: 6 }, KOL.keterangan],
-        smart: { sub: "titikgroundcheck", map: (o, v) => ({ ...K.dasarObs(o), kode: String(v("noplot") || o.wpId || ""), lokasi: "", ketinggian: v("ketinggianmdpl"), peta: v("tutupanlahanpeta"), lapangan: v("tutupanlahanlapangan"), rinci: v("keterangan"), openArea: v("statusopenarea"), penyebab: v("penyebabopenarea"), ekoPeta: v("tipeekosistempeta"), ekoLapangan: v("tipeekosistem"), zona: v("zonasikawasan"), keterangan: "" }) },
+        smart: { sub: ["titikgroundcheck", "tutupanlahan", "tipeekosis"], gabung: true, map: (o, v) => ({ ...K.dasarObs(o), kode: String(v("noplot") || o.wpId || ""), lokasi: v("lokasi"), ketinggian: v("ketinggianmdpl"), peta: v("tutupanlahanpeta"), lapangan: v("tutupanlahanlapangan") || v("klasifikasi02"), rinci: v("keterangan"), openArea: K.pas(v("statusopenarea") || v("klasifikasi01"), STATUS), penyebab: v("penyebabopenarea"), ekoPeta: v("tipeekosistempeta"), ekoLapangan: v("tipeekosistem") || v("klasifikasi4"), zona: v("zonasikawasan"), keterangan: "" }) },
         baruBaris: (last) => ({ tanggal: last.tanggal || "", lokasi: last.lokasi || "" }) },
       { key: "vegetasi", judul: "Vegetasi Petak Contoh", ket: "Petak ukur bersarang di titik ground check; kolom Petak diisi ID titik. Satu baris untuk satu individu atau satu jenis per petak.",
         kolom: K.kolVegetasi([KOL.tinggi]), smart: { sub: "vegetasi", map: (o, v) => K.petaVegetasi(o, v) }, baruBaris: (last) => ({ petak: last.petak || "", tingkat: last.tingkat || "", n: 1 }) }
@@ -52,7 +53,7 @@
       ruanglingkup: () => ["Ruang lingkup kegiatan ini meliputi:", "1. Penentuan titik sampel dari peta indikatif tutupan lahan/open area dan tipe ekosistem atau dari hasil interpretasi citra satelit;", "2. Verifikasi lapangan kelas tutupan lahan, status open area beserta penyebabnya, dan tipe ekosistem, dilengkapi foto dari empat arah mata angin;", "3. Analisis vegetasi pada petak contoh;", "4. Analisis kesesuaian peta dengan kondisi lapangan dan pelaporan."],
       metode: () => ["Titik ground check ditentukan dari peta indikatif tutupan lahan/open area dan peta indikatif tipe ekosistem atau dari hasil interpretasi citra satelit terbaru. Titik dipilih mewakili areal dengan kelas yang sama, diutamakan pada wilayah yang data citranya minim (misalnya tertutup awan) atau rawan gangguan, dengan mempertimbangkan kemudahan akses, tenaga, dan peralatan.",
         "Tim menuju titik dengan bantuan GPS, lalu mengamati dan mencatat kelas tutupan lahan, status open area beserta penyebabnya, tipe ekosistem, zona, dan deskripsi visual lokasi. Foto kondisi lapangan diambil dari empat arah mata angin. Menurut panduan verifikasi tahun 2023, tutupan alami bukan hutan seperti semak belukar, savana, dan padang rumput termasuk non open area.",
-        "Analisis vegetasi dilakukan pada petak ukur bersarang: 2 m × 2 m untuk semai dan tumbuhan bawah, 5 m × 5 m untuk pancang, 10 m × 10 m untuk tiang, dan 20 m × 20 m untuk pohon. Data dicatat dengan SMART Mobile pada kategori Metode Teknis > Ground Check Tutupan Lahan atau pada tally sheet."],
+        "Analisis vegetasi dilakukan pada petak ukur bersarang: 2 m × 2 m untuk semai dan tumbuhan bawah, 5 m × 5 m untuk pancang, 10 m × 10 m untuk tiang, dan 20 m × 20 m untuk pohon. Data dicatat dengan SMART Mobile pada kategori Metode Teknis > Ground Check Tutupan Lahan dan Tipe Ekosistem atau pada tally sheet."],
       lokasi: (x) => { const lk = K.unik(x.D.titik, "lokasi"); return `Kegiatan dilaksanakan di ${x.lokasi}.${lk.length ? ` Titik ground check tersebar di ${x.daftarKata(lk)}.` : ""}`; },
       lokasiRPK: (x) => `Kegiatan akan dilaksanakan di ${x.lokasi}. Sasaran titik ground check mengikuti peta kerja yang disusun dari peta indikatif tutupan lahan/open area dan peta indikatif tipe ekosistem.`,
       hasilLokasi: (x) => { const t = titikIsi(x.S), lk = K.unik(t, "lokasi"), zn = K.unik(t, "zona"); return t.length ? `Ground check dilakukan pada ${x.nTxt(t.length)} titik${lk.length ? ` di ${x.daftarKata(lk)}` : ` di ${x.lokasi}`}${zn.length ? `, yang berada di ${x.daftarKata(zn)}` : ""}.` : `Ground check dilakukan di ${x.lokasi}.`; },

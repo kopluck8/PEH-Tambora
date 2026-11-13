@@ -49,7 +49,7 @@
           { key: "sarangLalu", label: "Jumlah sarang survei sebelumnya", type: "number", w: 4.5 }, { key: "kondisi", label: "Kondisi pohon", options: KONDISI, w: 6 }, { key: "panen", label: "Bekas panen madu", options: PANEN, w: 4.5 }, KOL.keterangan],
         smart: { sub: "pohonsarang", map: (o, v) => {
           const [jenis, latin] = K.jenisDari(v, "jenistumbuhan"), pn = K.yaTidak(o, "tandapanen");
-          return { ...K.dasarObs(o), kode: String(v("kodepohon") || o.wpId || ""), resor: v("resor"), lokasi: v("namalokasi"), ketinggian: v("ketinggianmdpl"), jenis, latin, diameter: v("dbhpohoncm"), tinggi: v("tinggipohonm"),
+          return { ...K.dasarObs(o), kode: String(v("kodepohon") || o.wpId || ""), resor: K.resorObs(o), lokasi: v("lokasi"), ketinggian: v("ketinggianmdpl"), jenis, latin, diameter: v("dbhpohoncm"), tinggi: v("tinggipohonm"),
             jumlahSarang: v("jumlahsarang"), tinggiSarang: v("tinggisarangm"), jarakAir: v("jaraksumberairm"), sarangLalu: v("jumlahsaranglalu"), kondisi: v("kondisipohon"), panen: pn === "Ya" ? "Ada" : pn === "Tidak" ? "Tidak ada" : "", keterangan: v("keterangan") };
         } },
         baruBaris: (last) => ({ tanggal: last.tanggal || "", resor: last.resor || "", lokasi: last.lokasi || "" }) },
@@ -89,7 +89,7 @@
         "Pengumpulan data dilakukan dengan observasi langsung dan wawancara. Observasi dilakukan dengan menelusuri lokasi yang diduga menjadi tempat bersarang lebah madu hutan, termasuk titik pohon sarang dari survei sebelumnya. Pada setiap pohon sarang dicatat koordinat dan ketinggian tempat, jenis pohon, diameter batang setinggi dada (1,3 m dari permukaan tanah), tinggi pohon, jumlah sarang, tinggi sarang dari permukaan tanah, jarak ke sumber air terdekat, kondisi pohon, dan ada tidaknya bekas panen madu. Wawancara dilakukan dengan masyarakat setempat dan petani madu untuk menghimpun informasi keberadaan sarang dan cara pemanenan.",
         adaBanding(x.S) || tahunLalu(x.P) ? `Setiap pohon sarang diberi kode tetap sehingga jumlah sarangnya dapat dibandingkan dengan hasil ${survei(x.P)} pada pohon yang sama. Pohon yang tidak lagi bersarang tetap dicatat dengan jumlah sarang nol.` : "",
         adaVegetasi(x.S) ? "Vegetasi di sekitar pohon sarang diukur dengan petak ukur lingkaran bersarang yang berpusat di pohon sarang, dengan ukuran petak mengacu pada SNI 7724:2019 tentang pengukuran dan penghitungan cadangan karbon. Pada setiap petak dicatat jenis dan jumlah individu tingkat semai, pancang, tiang, dan pohon, serta diameter batang tingkat tiang dan pohon." : "",
-        "Data dicatat dengan SMART Mobile pada kategori Metode Teknis > Sebaran Uma Ani atau pada tally sheet."],
+        "Data dicatat dengan SMART Mobile pada kategori Metode Teknis > Sebaran Pohon Sarang Uma Ani atau pada tally sheet."],
       lokasi: (x) => { const lk = K.unik(pohon(x.S), "lokasi"), alt = K.rentang(pohon(x.S).map((r) => r.ketinggian)); return `Kegiatan dilaksanakan di ${x.lokasi}.${lk.length ? ` Pohon sarang ditelusuri di ${x.daftarKata(lk)}${alt ? ` pada ketinggian ${alt} mdpl` : ""}.` : ""}`; },
       lokasiRPK: (x) => `Kegiatan akan dilaksanakan di ${x.lokasi}. Penelusuran diarahkan ke titik pohon sarang dari survei sebelumnya dan lokasi yang ditunjukkan petani madu.`,
       hasilLokasi: (x) => {

@@ -6,7 +6,7 @@
 (function () {
   "use strict";
   const K = window.PEHKeg, { KOL } = K, L = window.PEHLaporan;
-  const TIPE = ["Hutan pamah (dataran rendah)", "Hutan pegunungan bawah", "Hutan pegunungan atas", "Sub-alpin", "Hutan musim", "Savana"];
+  const TIPE = ["Hutan pamah (dataran rendah)", "Hutan pegunungan bawah", "Hutan pegunungan atas", "Sub alpin", "Hutan musim/kering", "Savana"];
   const KOMPONEN = ["Serasah", "Nekromas", "Tumbuhan bawah"];
   const KELAS_KM = ["<0.6 cm (10-12 m)", "0.6-2.5 cm (7-10 m)", "2.5-7.5 cm (2-7 m)", ">7.5 cm sound (2-12 m)", ">7.5 cm rotten (2-12 m)"];
   const LAPISAN = ["0-5", "5-10", "10-15", "15-20", "20-25", "25-30"];
@@ -32,10 +32,10 @@
     tabel: [
       { key: "plot", judul: "Plot Ukur", ket: "Satu baris untuk satu plot lingkaran.",
         kolom: [kolTr, kolPlot, { key: "tipe", label: "Tipe ekosistem", list: TIPE, w: 9 }, { key: "lokasi", label: "Lokasi", w: 7 }, KOL.x, KOL.y, KOL.ketinggian, KOL.keterangan],
-        smart: { sub: "plotukur", map: (o, v) => ({ ...K.dasarObs(o), transek: String(v("notransek") || ""), plot: String(v("noplot") || o.wpId || ""), tipe: v("tipeekosistem"), ketinggian: v("ketinggianmdpl"), keterangan: v("keterangan") }) } },
+        smart: { sub: "plotukur", map: (o, v) => ({ ...K.dasarObs(o), transek: String(v("notransek") || ""), plot: String(v("noplot") || o.wpId || ""), tipe: v("tipeekosistem"), lokasi: v("lokasi"), ketinggian: v("ketinggianmdpl"), keterangan: v("keterangan") }) } },
       { key: "pohon", judul: "Tegakan (Pancang, Tiang, Pohon)", ket: "Satu baris untuk satu batang. Pancang diukur pada jari-jari 2 m, tiang dan pohon pada jari-jari 10 m. Tulis Mati pada kolom Kondisi untuk pohon mati berdiri.",
         kolom: [KOL.tanggal, kolTr, kolPlot, { key: "tingkat", label: "Tingkat", options: ["Pancang", "Tiang", "Pohon"], w: 6 }, ...K.kolJenis("Nama jenis", KAMUS), angka("dbh", "DBH (cm)", 4.5), angka("tinggi", "Tinggi (m)", 4), angka("radius", "Jari-jari plot (m)", 4), { key: "hidup", label: "Kondisi", options: ["Hidup", "Mati"], w: 5 }],
-        smart: { sub: "tegakan", map: (o, v) => { const [jenis, latin] = K.jenisDari(v, "jenistumbuhan"); return { tanggal: o.tanggal || "", transek: String(v("notransek") || ""), plot: String(v("noplot") || ""), tingkat: v("tingkatpertumbuhan"), jenis, latin, dbh: v("dbhpohoncm"), tinggi: v("tinggipohonm"), radius: v("jarijariplotm"), hidup: v("kondisipohon") || "Hidup" }; } },
+        smart: { sub: "tegakan", map: (o, v) => { const [jenis, latin] = K.jenisDari(v, "jenistumbuhan"); return { tanggal: o.tanggal || "", transek: String(v("notransek") || ""), plot: String(v("noplot") || ""), tingkat: v("tingkatpertumbuhan"), jenis, latin, dbh: v("dbhpohoncm"), tinggi: v("tinggipohonm"), radius: v("jarijariplotm"), hidup: K.yaTidak(o, "pohonmati") === "Ya" ? "Mati" : "Hidup" }; } },
         baruBaris: (last) => ({ tanggal: last.tanggal || "", transek: last.transek || "", plot: last.plot || "", tingkat: last.tingkat || "", radius: last.radius || "", hidup: "Hidup" }) },
       { key: "sntb", judul: "Serasah, Nekromas, dan Tumbuhan Bawah", ket: "Satu baris untuk satu komponen pada bingkai 1 m × 1 m. Berat kering dan %C diisi setelah analisis laboratorium.",
         kolom: [KOL.tanggal, kolTr, kolPlot, { key: "komponen", label: "Komponen", options: KOMPONEN, w: 7 }, { key: "kode", label: "Kode sampel", w: 6 }, angka("bbt", "Berat basah total (g)"), angka("bbs", "Berat basah sampel (g)"), angka("bks", "Berat kering sampel (g)"), angka("persenC", "%C", 4)],
@@ -82,7 +82,7 @@
       ruanglingkup: () => ["Ruang lingkup kegiatan ini meliputi:", "1. Pengukuran parameter tegakan (jenis, diameter, dan tinggi) pada plot ukur;", "2. Pengukuran tumbuhan mati (nekromas dan kayu mati);", "3. Pengambilan contoh serasah, tumbuhan bawah, dan tanah untuk analisis kadar karbon;", "4. Penghitungan cadangan karbon per plot, per transek, dan per pool;", "5. Dokumentasi, analisis, dan pelaporan hasil kegiatan."],
       metode: (x) => [`Pengukuran mengacu pada SNI 7724:2011. Setiap lokasi terdiri atas dua transek yang memotong kontur, dan setiap transek berisi enam plot ukur permanen berbentuk lingkaran dengan jarak antarplot 50 m (Kauffman dkk., 2016). Pohon (DBH lebih dari 20 cm) dan tiang (DBH 5 sampai 20 cm) diukur pada jari-jari ${L.num(Number(x.P.radius) || 10)} m, sedangkan pancang (DBH 2 sampai 5 cm) pada plot bersarang berjari-jari 2 m. Pada setiap batang dicatat jenis, diameter setinggi dada, tinggi, dan kondisinya.`,
         "Serasah, nekromas, serta semai dan tumbuhan bawah diambil seluruhnya pada bingkai 1 m × 1 m yang diletakkan acak di dalam plot, lalu ditimbang berat basah total dan berat basah contohnya. Kayu mati diukur dengan metode planar intersect pada empat sub-transek sepanjang 12 m (kuadran A, B, C, dan D). Contoh tanah mineral diambil dengan ring sampler pada enam lapisan kedalaman dari 0 sampai 30 cm di titik yang belum terinjak.",
-        "Contoh serasah, kayu mati, dan tanah dikeringkan dan dianalisis kadar karbon organiknya di laboratorium. Data lapangan dicatat dengan SMART Mobile pada kategori Metode Teknis > Penghitungan Stok Karbon atau pada tally sheet."],
+        "Contoh serasah, kayu mati, dan tanah dikeringkan dan dianalisis kadar karbon organiknya di laboratorium. Data lapangan dicatat dengan SMART Mobile pada kategori Metode Teknis > Pengukuran Stok Karbon atau pada tally sheet."],
       anPengantar: () => "Data hasil pengukuran lapangan dan analisis laboratorium dihitung per plot, per transek, dan per pool karbon dengan persamaan sebagai berikut.",
       lokasi: (x) => { const tp = K.unik(x.D.plot, "tipe"), alt = K.rentang(x.D.plot.map((r) => r.ketinggian)); return `Kegiatan dilaksanakan di ${x.lokasi}.${tp.length ? ` Plot ukur berada pada tipe ekosistem ${x.daftarKata(tp.map((s) => s.toLowerCase()))}` : ""}${alt ? `${tp.length ? "," : " Plot ukur berada"} pada ketinggian ${alt} mdpl` : ""}${tp.length || alt ? "." : ""}`; },
       lokasiRPK: (x) => `Kegiatan akan dilaksanakan di ${x.lokasi}. Transek dibuat memotong kontur pada tipe ekosistem yang mewakili wilayah tersebut, masing-masing berisi enam plot ukur permanen.`,

@@ -8,7 +8,7 @@
   const K = window.PEHKeg, { KOL } = K, L = window.PEHLaporan;
   const HIDUP = ["Epifit", "Terestrial", "Litofit"];
   const FENOLOGI = ["Vegetatif", "Kuncup", "Berbunga", "Berbuah"];
-  const HABITAT = ["Hutan hujan tropis", "Hutan musim", "Hutan pegunungan", "Hutan cemara", "Savana", "Tepi sungai", "Lembah", "Punggung bukit"];
+  const HABITAT = ["Hutan hujan", "Hutan musim", "Hutan pegunungan", "Hutan cemara", "Savana", "Tepi sungai", "Lembah", "Punggung bukit"];
   const KAMUS = K.kamus("Anggrek"), KAMUS_POHON = K.kamus("Flora");
   const genus = (r) => { const g = String(r.latin || "").trim().split(/\s+/)[0] || ""; return /^[A-Z][a-z]+$/.test(g) ? g : ""; };
   const plotIsi = (S) => K.terisi(S.data.plot, "kode");
@@ -25,7 +25,7 @@
     tabel: [
       { key: "plot", judul: "Plot Pengamatan", ket: "Satu baris untuk satu plot atau titik pengamatan di sepanjang jalur, termasuk plot tanpa temuan.",
         kolom: [{ key: "kode", label: "Kode plot", w: 4.5, tengah: true }, { key: "jalur", label: "Jalur", w: 7 }, { key: "grid", label: "Grid", w: 3.5, tengah: true }, KOL.tanggal, KOL.x, KOL.y, KOL.ketinggian, { key: "habitat", label: "Tipe hutan", list: HABITAT, w: 8 }, KOL.keterangan],
-        smart: { sub: "plotpengamatan", map: (o, v) => ({ ...K.dasarObs(o), kode: String(v("noplot") || o.wpId || ""), jalur: v("jalurpengamatan"), grid: "", ketinggian: v("ketinggianmdpl"), habitat: v("tipetutupanlahan"), keterangan: v("keterangan") }) } },
+        smart: { sub: "plotpengamatan", map: (o, v) => ({ ...K.dasarObs(o), kode: String(v("noplot") || o.wpId || ""), jalur: v("notransek") || v("lokasi"), grid: v("kodegrid"), ketinggian: v("ketinggianmdpl"), habitat: v("tipetutupanlahan"), keterangan: v("keterangan") }) } },
       { key: "temuan", judul: "Temuan Anggrek", ket: "Satu baris untuk satu jenis pada satu titik temuan. Ketik nama jenis untuk memilih dari daftar anggrek TN Tambora.",
         kolom: [KOL.tanggal, { ...KOL.plot, label: "Plot" }, ...K.kolJenis("Nama jenis anggrek", KAMUS), { ...KOL.jumlah, label: "Jumlah (individu/rumpun)" }, { key: "caraHidup", label: "Cara hidup", options: HIDUP, w: 5 },
           { key: "inang", label: "Pohon inang", list: Object.keys(KAMUS_POHON).sort((a, b) => a.localeCompare(b, "id")), w: 8 }, { key: "tinggiTempel", label: "Tinggi tempel (m)", type: "number", w: 4 }, { key: "fenologi", label: "Fenologi", options: FENOLOGI, w: 5 }, KOL.ketinggian, KOL.x, KOL.y, { key: "keterangan", label: "Keterangan (foto, herbarium)", w: 10 }],

@@ -7,7 +7,7 @@
   "use strict";
   const K = window.PEHKeg, { KOL } = K, L = window.PEHLaporan;
   const AKT = ["Terbang", "Bertengger", "Makan", "Berkicau", "Soaring", "Bersarang", "Istirahat", "Mandi"];
-  const HABITAT = ["Hutan hujan", "Hutan musim", "Savana", "Semak belukar", "Ladang/kebun", "Hutan pegunungan", "Tepi sungai"];
+  const HABITAT = ["Hutan hujan", "Hutan musim", "Savana", "Semak belukar", "Kebun/ladang masyarakat", "Hutan pegunungan", "Tepi sungai"];
   const KAMUS = K.kamus("Aves");
   const nPlotOf = (S, P) => Number(P.nPlot) || K.unik(S.data.plot, "kode").length || K.unik(S.data.perjumpaan, "plot").length;
   const bentukTxt = (P) => (P.bentuk === "lingkaran" ? `lingkaran berjari-jari ${L.num(Number(P.ukuran) || 0)} m` : `bujur sangkar bersisi ${L.num(Number(P.ukuran) || 0)} m`);
@@ -54,7 +54,7 @@
         "1. Tersedianya data jenis burung di kawasan TN Tambora beserta status perlindungannya;", "2. Tersedianya data demografi burung (jumlah individu, kepadatan, dan sebaran);", "3. Tersedianya data pendukung pengelolaan keanekaragaman hayati, khususnya jenis burung dan habitatnya."],
       ruanglingkup: () => ["Ruang lingkup kegiatan ini meliputi:", "1. Pengambilan data titik lokasi, waktu perjumpaan, jenis, jumlah individu, jarak dan azimuth, serta aktivitas burung;", "2. Identifikasi jenis dan status perlindungannya;", "3. Analisis kepadatan populasi, keanekaragaman, kemerataan, kekayaan, dan dominansi jenis;", "4. Pendugaan kelengkapan inventarisasi jenis burung."],
       metode: (x) => [`Pengumpulan data menggunakan kombinasi metode titik hitung (point count) dan metode jalur (line transect). Pada metode jalur, pengamat berjalan dan mencatat semua kontak dengan burung di sepanjang jalur yang dilalui (Bibby dkk., 2000). Pada metode titik hitung, pengamat berhenti di titik tertentu lalu mencatat semua burung yang terlihat atau terdengar dalam rentang waktu tertentu (Helvoort, 1981 dalam Christiani, 2014).`,
-        `Plot pengamatan berbentuk ${bentukTxt(x.P)}. Pada setiap perjumpaan dicatat waktu, jenis, jumlah individu, jarak dan azimuth dari pengamat, aktivitas, serta koordinat lokasi. Data dicatat dengan SMART Mobile pada kategori Metode Teknis > Identifikasi dan Inventarisasi Jenis Burung atau pada tally sheet.`],
+        `Plot pengamatan berbentuk ${bentukTxt(x.P)}. Pada setiap perjumpaan dicatat waktu, jenis, jumlah individu, jarak dan azimuth dari pengamat, aktivitas, serta koordinat lokasi. Data dicatat dengan SMART Mobile pada kategori Metode Teknis > Inventarisasi Burung atau pada tally sheet.`],
       lokasi: (x) => { const hab = K.unik(x.D.plot, "habitat"), alt = K.rentang(x.D.plot.map((r) => r.ketinggian)); return `Kegiatan dilaksanakan di ${x.lokasi}.${hab.length ? ` Lokasi pengamatan mencakup tipe habitat ${x.daftarKata(hab.map((h) => h.toLowerCase()))}` : ""}${alt ? `${hab.length ? "," : " Lokasi pengamatan berada"} pada ketinggian ${alt} mdpl` : ""}${hab.length || alt ? "." : ""}`; },
       lokasiRPK: (x) => `Kegiatan akan dilaksanakan di ${x.lokasi}. Plot pengamatan ditempatkan pada tipe habitat burung yang mewakili wilayah tersebut, di sepanjang jalur pengamatan.`,
       hasilLokasi: (x) => { const n = nPlotOf(x.S, x.P); return n ? `Pengamatan dilakukan pada ${x.nTxt(n)} plot berbentuk ${bentukTxt(x.P)} di ${x.lokasi}.` : `Pengamatan dilakukan di ${x.lokasi}.`; },

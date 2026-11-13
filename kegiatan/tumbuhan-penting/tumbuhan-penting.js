@@ -50,7 +50,7 @@
     tabel: [
       { key: "petak", judul: "Petak Contoh", ket: "Satu baris untuk satu petak contoh, termasuk petak yang hanya berisi tumbuhan bawah.",
         kolom: [{ key: "kode", label: "Kode petak", w: 4.5, tengah: true }, { key: "jalur", label: "Jalur atau blok", w: 7 }, KOL.tanggal, KOL.x, KOL.y, KOL.ketinggian, { key: "ekosistem", label: "Tipe ekosistem", list: K.EKOSISTEM, w: 8 }, KOL.keterangan],
-        smart: { sub: "petakcontoh", map: (o, v) => ({ ...K.dasarObs(o), kode: String(v("noplot") || o.wpId || ""), jalur: v("jalurpengamatan"), ketinggian: v("ketinggianmdpl"), ekosistem: v("tipeekosistem"), keterangan: v("keterangan") }) } },
+        smart: { sub: "petakcontoh", map: (o, v) => ({ ...K.dasarObs(o), kode: String(v("noplot") || o.wpId || ""), jalur: v("notransek") || v("lokasi"), ketinggian: v("ketinggianmdpl"), ekosistem: v("tipeekosistem"), keterangan: v("keterangan") }) } },
       { key: "vegetasi", judul: "Data Vegetasi Petak Contoh", ket: "Satu baris untuk satu jenis pada satu petak dan tingkat pertumbuhan. Isi diameter untuk tiang dan pohon. Tingkat yang dikosongkan dianggap tumbuhan bawah.",
         kolom: K.kolVegetasi([KOL.keterangan]),
         smart: { sub: "vegetasi", map: K.petaVegetasi },

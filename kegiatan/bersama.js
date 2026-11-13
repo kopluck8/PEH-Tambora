@@ -9,12 +9,14 @@
   // Paragraf umum kawasan TN Tambora (sumber: LPK teknis Balai 2020 sampai 2026)
   const TN = "Taman Nasional (TN) Tambora ditetapkan melalui Keputusan Menteri Lingkungan Hidup dan Kehutanan Nomor SK.111/Menlhk-II/2015 tanggal 7 April 2015 tentang perubahan fungsi kawasan Cagar Alam, Suaka Margasatwa, dan Taman Buru Gunung Tambora menjadi taman nasional seluas 71.645,64 ha. Kawasan ini berada di Kabupaten Bima dan Kabupaten Dompu, Provinsi Nusa Tenggara Barat, dan tersusun atas tiga tipe ekosistem utama, yaitu hutan musim, hutan hujan tropis, dan savana, yang menjadi habitat beragam jenis tumbuhan dan satwa liar.";
 
-  // Label jenis dari kamus SMART: "Nama - Nama ilmiah" (nama bisa memuat " - " juga)
+  // Label jenis dari kamus SMART: "Nama - Nama ilmiah", atau "Nama lokal - Nama Indonesia - Nama ilmiah" pada pohon
+  // jenis tumbuhan Balai. Bila ada nama Indonesia, nama itu yang dipakai ("Sambi - Kesambi - Schleichera oleosa" → Kesambi).
   function pisahJenis(s) {
-    const p = String(s || "").split(" - ").map((x) => x.trim()).filter(Boolean);
+    const p = String(s || "").split(" - ").map((x) => x.replace(/^-\s*|\s*-$/g, "").trim()).filter(Boolean);
     if (p.length < 2) return [p[0] || "", ""];
     const akhir = p[p.length - 1];
-    return /^[A-Z][a-z-]+( [a-z(]|$| sp)/.test(akhir) ? [p.slice(0, -1).join(" - "), akhir] : [p.join(" - "), ""];
+    if (!/^[A-Z][a-z-]+( [a-z(]|$| sp)/.test(akhir)) return [p.join(" - "), ""];
+    return [p.length > 2 ? p[p.length - 2] : p[0], akhir];
   }
   const jenisDari = (v, ...keys) => { for (const k of keys) { const s = v(k); if (s) return pisahJenis(s); } return ["", ""]; };
 
@@ -62,6 +64,8 @@
   const kolVegetasi = (ekstra = []) => [KOL.petak, { key: "tingkat", label: "Tingkat", options: TINGKAT, w: 6 }, ...kolJenis("Nama jenis tumbuhan", kamus("Flora")), KOL.jumlah, KOL.diameter, ...ekstra];
   // Perlu kotak pilihan: SMART memberi label teks bebas; "Ya"/"Tidak" untuk atribut boolean
   const yaTidak = (o, key) => (o.attr[key] ? (o.attr[key].value === true || o.attr[key].value === "true" ? "Ya" : "Tidak") : "");
+  // Samakan nilai dengan label di daftar tanpa memedulikan huruf besar-kecil, spasi, dan tanda baca ("Open Area" → "Open area")
+  const pas = (v, daftar) => { const s = String(v ?? "").trim(), n = (x) => String(x).toLowerCase().replace(/[^a-z0-9]/g, ""); return s ? daftar.find((d) => n(d) === n(s)) || s : ""; };
   const dasarObs = (o) => ({ tanggal: o.tanggal || "", waktu: String(o.waktu || "").replace(":", "."), x: o.x ?? "", y: o.y ?? "" });
 
   // Baris vegetasi dari observasi SMART (dipakai banyak kegiatan)
@@ -137,5 +141,5 @@
     smart: "Data lapangan dicatat dengan SMART Mobile pada kategori Metode Teknis agar langsung tersimpan di basis data Balai dan dapat diolah ulang"
   };
 
-  window.PEHKeg = { TN, pisahJenis, jenisDari, taksa, kamus, KOL, TINGKAT, kolJenis, kolVegetasi, yaTidak, dasarObs, petaVegetasi, inputVegetasi, optVegetasi, paramVegetasi, paramKriteriaH, paramMetodeID, paramSistem, terisi, unik, cocok, resor, specDari, rentang, dilindungi, namaJenis, proyeksi, sasaran, maksPerUnit, SARAN_UMUM, ZONA, EKOSISTEM, RESOR, dikenalInvasif, familiDari, kunciJenis, cap1: L.cap1 };
+  window.PEHKeg = { TN, pisahJenis, jenisDari, taksa, kamus, KOL, TINGKAT, kolJenis, kolVegetasi, yaTidak, dasarObs, petaVegetasi, inputVegetasi, optVegetasi, paramVegetasi, paramKriteriaH, paramMetodeID, paramSistem, terisi, unik, cocok, resor, specDari, rentang, dilindungi, namaJenis, proyeksi, sasaran, maksPerUnit, SARAN_UMUM, ZONA, EKOSISTEM, RESOR, pas, resorObs: (o) => pas(o.stasiun, RESOR), dikenalInvasif, familiDari, kunciJenis, cap1: L.cap1 };
 })();

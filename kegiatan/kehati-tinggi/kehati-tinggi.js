@@ -16,12 +16,14 @@
   const KLAS3 = ["Daratan Rendah (0-1000mdpl)", "Pegunungan Bawah (1000-1500mdpl)", "Pegunungan Atas (1500-2400mdpl)", "Sub Alpin (2400-4150mdpl)"];
   const KLAS4 = ["Hutan Pamah", "Hutan Pegunungan Bawah", "Hutan Pegunungan Atas", "Savana", "Padang Rumput", "Sungai"];
   const KELAS = ["Burung", "Mamalia", "Reptil", "Amfibi", "Serangga", "Lainnya"];
-  const TEMUAN = ["Langsung", "Suara", "Jejak", "Kotoran", "Bekas garukan atau gesekan", "Sarang", "Lainnya"];
+  const TEMUAN = ["Perjumpaan langsung", "Suara", "Jejak kaki", "Kotoran (onggokan)", "Bekas garukan atau gesekan", "Sarang", "Lainnya"];
   const KELAS_TAKSA = { Aves: "Burung", Mamalia: "Mamalia" };
   const isi = (v) => String(v ?? "").trim() !== "";
   const grid = (S) => K.terisi(S.data.grid, "kode", "tipe");
   const veg = (S) => K.terisi(S.data.vegetasi, "jenis", "latin");
   const satwa = (S) => K.terisi(S.data.satwa, "jenis", "latin");
+  // Patroli Balai menulis grid di atribut Lokasi ("Grid 681"); kode grid diambil dari situ bila atribut kodegrid kosong
+  const gridLokasi = (s) => (String(s || "").trim().match(/^grid\s*([\w.-]+)$/i) || [])[1] || "";
   // Kode grid baris vegetasi: kolom grid, atau awalan kode petak ("288-1" → "288")
   const gridDari = (r) => String(r.grid || "").trim() || String(r.petak || "").trim().split(/[-./\s]/)[0];
   const taksaDari = (r) => K.taksa.cari(r.latin) || K.taksa.cari(r.jenis) || {};
@@ -46,14 +48,14 @@
       { key: "grid", judul: "Grid Verifikasi", ket: "Satu baris untuk satu grid yang dikunjungi. X dan Y diisi koordinat titik pengamatan di dalam grid. Tipe ekosistem diisi empat tingkat seperti kategori SMART Ground Check > Tipe Ekosistem. Kode grid dipakai juga di tabel vegetasi dan satwa untuk menghubungkan data dengan tipe ekosistemnya.",
         kolom: [{ key: "kode", label: "Kode grid", w: 4.5, tengah: true }, KOL.tanggal, { key: "lokasi", label: "Nama lokasi", w: 8 }, { key: "zona", label: "Zona", list: K.ZONA, w: 6.5 }, KOL.x, KOL.y, KOL.ketinggian,
           { key: "kelas1", label: "Klasifikasi 1 (asal)", list: KLAS1, w: 5 }, { key: "kelas2", label: "Klasifikasi 2 (kelompok)", list: KLAS2, w: 7 }, { key: "kelas3", label: "Klasifikasi 3 (zona ketinggian)", list: KLAS3, w: 8.5 }, { key: "tipe", label: "Klasifikasi 4 (tipe ekosistem)", list: KLAS4, w: 8 }, KOL.keterangan],
-        smart: { sub: ["titikgrid", "tipeekosis"], map: (o, v) => ({ ...K.dasarObs(o), kode: String(v("kodegrid") || v("noplot") || o.wpId || ""), lokasi: v("namalokasi") || v("lokasi"), zona: v("zonasi"), ketinggian: v("ketinggianmdpl"), kelas1: v("klasifikasi1te"), kelas2: v("klasifikasi2te"), kelas3: v("klasifikasi3"), tipe: v("klasifikasi4"), keterangan: v("keterangan") }) },
+        smart: { sub: ["titikgrid", "tipeekosis"], gabung: true, map: (o, v) => ({ ...K.dasarObs(o), kode: String(v("kodegrid") || gridLokasi(v("lokasi")) || v("noplot") || o.wpId || ""), lokasi: gridLokasi(v("lokasi")) ? "" : v("lokasi"), zona: v("zonasikawasan"), ketinggian: v("ketinggianmdpl"), kelas1: v("klasifikasi1te"), kelas2: v("klasifikasi2te"), kelas3: v("klasifikasi3"), tipe: v("klasifikasi4"), keterangan: v("keterangan") }) },
         baruBaris: (last) => ({ tanggal: last.tanggal || "", lokasi: last.lokasi || "", zona: last.zona || "" }) },
       { key: "vegetasi", judul: "Vegetasi", ket: "Analisis vegetasi pada petak contoh bersarang di dalam grid. Satu baris untuk satu individu (atau isi jumlah untuk semai, pancang, dan tumbuhan bawah). Kode petak sebaiknya diawali kode grid, misalnya 288-1.",
-        kolom: [{ key: "grid", label: "Kode grid", w: 4.5, tengah: true }, ...K.kolVegetasi([KOL.tinggi])], smart: { sub: "vegetasi", map: (o, v) => ({ ...K.petaVegetasi(o, v), grid: String(v("kodegrid") || "") }) },
+        kolom: [{ key: "grid", label: "Kode grid", w: 4.5, tengah: true }, ...K.kolVegetasi([KOL.tinggi])], smart: { sub: "vegetasi", map: (o, v) => ({ ...K.petaVegetasi(o, v), grid: String(v("kodegrid") || gridLokasi(v("lokasi"))) }) },
         baruBaris: (last) => ({ grid: last.grid || "", petak: last.petak || "", tingkat: last.tingkat || "", n: 1 }) },
       { key: "satwa", judul: "Perjumpaan Satwa", ket: "Satu baris untuk satu perjumpaan satwa, baik langsung maupun dari tanda keberadaannya.",
         kolom: [KOL.tanggal, KOL.waktu, { key: "grid", label: "Kode grid", w: 4.5, tengah: true }, ...K.kolJenis("Nama jenis satwa", FAUNA), { key: "kelas", label: "Kelompok", options: KELAS, w: 5 }, KOL.jumlah, { key: "temuan", label: "Jenis temuan", list: TEMUAN, w: 6.5 }, KOL.x, KOL.y, KOL.keterangan],
-        smart: { sub: ["perjumpaansatwa", "jejaksatwa"], map: (o, v) => { const [jenis, latin] = K.jenisDari(v, "jenissatwa"); return { ...K.dasarObs(o), grid: String(v("kodegrid") || ""), jenis, latin, n: Number(v("jumlah")) || 1, temuan: v("tipetemuan") || (o.sub === "perjumpaansatwa" ? "Langsung" : ""), keterangan: v("keterangan") }; } },
+        smart: { sub: ["perjumpaansatwa", "jejaksatwa"], map: (o, v) => { const [jenis, latin] = K.jenisDari(v, "jenissatwa"); return { ...K.dasarObs(o), grid: String(v("kodegrid") || gridLokasi(v("lokasi"))), jenis, latin, n: Number(v("jumlah")) || 1, temuan: v("tandakeberadaan") || v("tipetemuan") || (o.sub === "perjumpaansatwa" ? "Perjumpaan langsung" : ""), keterangan: v("keterangan") }; } },
         baruBaris: (last) => ({ tanggal: last.tanggal || "", grid: last.grid || "", n: 1 }) }
     ],
     parameter: [

@@ -255,7 +255,16 @@
         const subs = [].concat(tb.smart.sub);
         const o = obs.filter((x) => subs.includes(x.sub));
         if (!o.length) return;
-        S.data[tb.key] = o.map((x) => tb.smart.map(x, (k) => v(x, k), S)).filter(Boolean);
+        // smart.gabung: observasi dari waypoint yang sama (mis. Tutupan Lahan dan Tipe Ekosistem) dijadikan satu baris
+        const hasil = new Map();
+        o.forEach((x, i) => {
+          const r = tb.smart.map(x, (k) => v(x, k), S);
+          if (!r) return;
+          const kunci = tb.smart.gabung && x.wpId ? `${x.patrol}|${x.tanggal}|${x.wpId}` : `#${i}`, ada = hasil.get(kunci);
+          if (!ada) { hasil.set(kunci, { ...r }); return; }
+          Object.keys(r).forEach((k) => { if ((ada[k] === "" || ada[k] == null) && r[k] !== "" && r[k] != null) ada[k] = r[k]; });
+        });
+        S.data[tb.key] = [...hasil.values()];
         pesan.push(`${S.data[tb.key].length} baris ${tb.judul.toLowerCase()}`);
       });
       if (cfg.dariSMART) cfg.dariSMART(S, obs);

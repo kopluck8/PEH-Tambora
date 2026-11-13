@@ -79,7 +79,7 @@ md = ["# Spesifikasi Data Model SMART: Metode Teknis", "",
       "## Pohon kategori (Observation)", ""]
 for p, c in walk(dm["kategori"]):
     lvl = len(p) - 1
-    md.append(f"{'  ' * lvl}- **{c['nama']['in']}** (level {lvl}) `{'.'.join(p)}.`" + (f" — {c['keterangan']}" if c.get("keterangan") else ""))
+    md.append(f"{'  ' * lvl}- **{c['nama']['in']}** (level {lvl}) `{'.'.join(p)}.`" + (f": {c['keterangan']}" if c.get("keterangan") else ""))
 md += ["", "## Atribut per kategori", ""]
 for p, c in walk(dm["kategori"]):
     if not c.get("atribut"):

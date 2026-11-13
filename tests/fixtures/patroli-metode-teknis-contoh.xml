@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!-- Contoh ekspor patroli SMART untuk uji impor kategori Metode Teknis dan kategori Balai (Ground Check, Satwa Liar). DATA FIKTIF: koordinat, tanggal, kode, dan jumlah hanya untuk menguji pembacaan atribut. -->
+<ns2:patrol xmlns:ns2="http://www.smartconservationsoftware.org/xml/1.0/patrol" id="CONTOH-METODE-TEKNIS" patrolType="GROUND" startDate="2025-07-21" endDate="2025-07-22" isArmed="false">
+  <ns2:objective value="Uji impor Metode Teknis"/>
+  <ns2:mandate value="Metode Teknis"/>
+  <ns2:station value="Resor Doroncanga"/>
+  <ns2:legs id="leg1" startDate="2025-07-21" endDate="2025-07-22">
+    <ns2:transportType value="Jalan kaki"/>
+    <ns2:members givenName="Ketua" familyName="Tim" employeeId="" isLeader="true" isPilot="false"/>
+    <ns2:days date="2025-07-21" startTime="07:00:00" endTime="16:00:00" restMinutes="0">
+      <ns2:waypoints id="1" x="117.98620" y="-8.30120" time="08:10:00">
+        <ns2:observations categoryKey="groundcheck.tutupanlahan.">
+          <ns2:attributes attributeKey="klasifikasi01"><ns2:itemKey>openarea.</ns2:itemKey></ns2:attributes>
+          <ns2:attributes attributeKey="klasifikasi02"><ns2:itemKey>savanapadangrumput</ns2:itemKey></ns2:attributes>
+        </ns2:observations>
+        <ns2:observations categoryKey="groundcheck.tipeekosis.">
+          <ns2:attributes attributeKey="lokasi"><ns2:sValue>Grid 681</ns2:sValue></ns2:attributes>
+          <ns2:attributes attributeKey="klasifikasi1te"><ns2:itemKey>alami.</ns2:itemKey></ns2:attributes>
+          <ns2:attributes attributeKey="klasifikasi2te"><ns2:itemKey>ekosistemteresterial.</ns2:itemKey></ns2:attributes>
+          <ns2:attributes attributeKey="klasifikasi3"><ns2:itemKey>daratanrendah01000mdpl.</ns2:itemKey></ns2:attributes>
+          <ns2:attributes attributeKey="klasifikasi4"><ns2:itemKey>savana</ns2:itemKey></ns2:attributes>
+        </ns2:observations>
+      </ns2:waypoints>
+      <ns2:waypoints id="2" x="117.99510" y="-8.31050" time="09:20:00">
+        <ns2:observations categoryKey="metodeteknis.verifikasikehatitinggi.titikgrid.">
+          <ns2:attributes attributeKey="kodegrid"><ns2:sValue>682</ns2:sValue></ns2:attributes>
+          <ns2:attributes attributeKey="lokasi"><ns2:sValue>Sera Dana Kala</ns2:sValue></ns2:attributes>
+          <ns2:attributes attributeKey="zonasikawasan"><ns2:itemKey>zonarimba</ns2:itemKey></ns2:attributes>
+          <ns2:attributes attributeKey="ketinggianmdpl"><ns2:dValue>420.0</ns2:dValue></ns2:attributes>
+          <ns2:attributes attributeKey="klasifikasi1te"><ns2:itemKey>alami.</ns2:itemKey></ns2:attributes>
+          <ns2:attributes attributeKey="klasifikasi3"><ns2:itemKey>pegununganatas15002400mdpl</ns2:itemKey></ns2:attributes>
+          <ns2:attributes attributeKey="klasifikasi4"><ns2:itemKey>hutanpamah</ns2:itemKey></ns2:attributes>
+        </ns2:observations>
+        <ns2:observations categoryKey="metodeteknis.verifikasikehatitinggi.vegetasi.">
+          <ns2:attributes attributeKey="kodegrid"><ns2:sValue>682</ns2:sValue></ns2:attributes>
+          <ns2:attributes attributeKey="noplot"><ns2:sValue>682-1</ns2:sValue></ns2:attributes>
+          <ns2:attributes attributeKey="tingkatpertumbuhan"><ns2:itemKey>pohon</ns2:itemKey></ns2:attributes>
+          <ns2:attributes attributeKey="jenistumbuhan"><ns2:itemKey>tumbuhantambora.sambikesambischleicheraoleosa.</ns2:itemKey></ns2:attributes>
+          <ns2:attributes attributeKey="dbhpohoncm"><ns2:dValue>34.0</ns2:dValue></ns2:attributes>
+        </ns2:observations>
+      </ns2:waypoints>
+      <ns2:waypoints id="3" x="117.99600" y="-8.31100" time="10:05:00">
+        <ns2:observations categoryKey="satwaliar.perjumpaansatwa.">
+          <ns2:attributes attributeKey="jenissatwa"><ns2:itemKey>burung.elangfloresnisaetusfloris.</ns2:itemKey></ns2:attributes>
+          <ns2:attributes attributeKey="jumlah"><ns2:dValue>2.0</ns2:dValue></ns2:attributes>
+          <ns2:attributes attributeKey="lokasi"><ns2:sValue>Grid 681</ns2:sValue></ns2:attributes>
+        </ns2:observations>
+      </ns2:waypoints>
+      <ns2:waypoints id="4" x="118.00100" y="-8.29000" time="11:40:00">
+        <ns2:observations categoryKey="metodeteknis.sebaranumaani.pohonsarang.">
+          <ns2:attributes attributeKey="kodepohon"><ns2:sValue>UA-01</ns2:sValue></ns2:attributes>
+          <ns2:attributes attributeKey="lokasi"><ns2:sValue>Oi Marai</ns2:sValue></ns2:attributes>
+          <ns2:attributes attributeKey="jenistumbuhan"><ns2:itemKey>tumbuhantambora.dueberinginficusbenjamina.</ns2:itemKey></ns2:attributes>
+          <ns2:attributes attributeKey="jumlahsarang"><ns2:dValue>3.0</ns2:dValue></ns2:attributes>
+          <ns2:attributes attributeKey="kondisipohon"><ns2:itemKey>hidupsehat</ns2:itemKey></ns2:attributes>
+          <ns2:attributes attributeKey="tandapanen"><ns2:bValue>true</ns2:bValue></ns2:attributes>
+        </ns2:observations>
+        <ns2:observations categoryKey="metodeteknis.rekapelangflores.sarang.">
+          <ns2:attributes attributeKey="kodesarang"><ns2:sValue>EF-01</ns2:sValue></ns2:attributes>
+          <ns2:attributes attributeKey="kondisisarang"><ns2:itemKey>aktifmaterialbaru</ns2:itemKey></ns2:attributes>
+        </ns2:observations>
+      </ns2:waypoints>
+      <ns2:waypoints id="5" x="118.00500" y="-8.28500" time="17:30:00">
+        <ns2:observations categoryKey="metodeteknis.monitoringrusatimor.perjumpaanlangsung.">
+          <ns2:attributes attributeKey="notransek"><ns2:sValue>T1</ns2:sValue></ns2:attributes>
+          <ns2:attributes attributeKey="jumlah"><ns2:dValue>4.0</ns2:dValue></ns2:attributes>
+          <ns2:attributes attributeKey="jarakkesatwam"><ns2:dValue>35.0</ns2:dValue></ns2:attributes>
+          <ns2:attributes attributeKey="sudutkontak"><ns2:dValue>30.0</ns2:dValue></ns2:attributes>
+          <ns2:attributes attributeKey="sisitransek"><ns2:itemKey>kanan</ns2:itemKey></ns2:attributes>
+          <ns2:attributes attributeKey="aktivitassatwa"><ns2:itemKey>makan</ns2:itemKey></ns2:attributes>
+        </ns2:observations>
+      </ns2:waypoints>
+    </ns2:days>
+    <ns2:days date="2025-07-22" startTime="07:00:00" endTime="15:00:00" restMinutes="0">
+      <ns2:waypoints id="6" x="118.01000" y="-8.28000" time="08:30:00">
+        <ns2:observations categoryKey="metodeteknis.stokkarbon.tegakan.">
+          <ns2:attributes attributeKey="notransek"><ns2:sValue>1</ns2:sValue></ns2:attributes>
+          <ns2:attributes attributeKey="noplot"><ns2:sValue>DC11</ns2:sValue></ns2:attributes>
+          <ns2:attributes attributeKey="tingkatpertumbuhan"><ns2:itemKey>pohon</ns2:itemKey></ns2:attributes>
+          <ns2:attributes attributeKey="dbhpohoncm"><ns2:dValue>27.5</ns2:dValue></ns2:attributes>
+          <ns2:attributes attributeKey="pohonmati"><ns2:bValue>true</ns2:bValue></ns2:attributes>
+        </ns2:observations>
+      </ns2:waypoints>
+    </ns2:days>
+  </ns2:legs>
+</ns2:patrol>

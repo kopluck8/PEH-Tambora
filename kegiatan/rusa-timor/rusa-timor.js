@@ -6,8 +6,10 @@
 (function () {
   "use strict";
   const K = window.PEHKeg, { KOL } = K, L = window.PEHLaporan;
-  const HABITAT = ["Savana", "Semak belukar", "Hutan musim", "Hutan hujan tropis", "Hutan sub pegunungan", "Ekoton savana dan hutan", "Sumber air/sungai"];
+  const HABITAT = ["Savana", "Semak belukar", "Hutan musim", "Hutan hujan", "Hutan sub pegunungan", "Ekoton savana dan hutan", "Sumber air"];
   const AKT = ["Makan", "Istirahat", "Berjalan", "Berlari", "Minum", "Berkubang", "Lainnya"];
+  // Ulangan dari jam waypoint SMART: pengamatan pagi (08.00 sampai 12.00) atau sore sampai malam (18.00 sampai 22.00)
+  const ulanganDari = (w) => { const j = parseInt(String(w || "").slice(0, 2), 10); return Number.isFinite(j) ? (j < 15 ? "Pagi" : "Sore/malam") : ""; };
   const TANDA = ["Jejak kaki", "Kotoran (onggokan)", "Bekas makan", "Garukan ranggah", "Tempat istirahat", "Kubangan", "Suara", "Urine"];
   const FASE = ["A", "B", "C", "D", "E", "F"];
   const n0 = (v) => Number(v) || 0;
@@ -29,14 +31,14 @@
     tabel: [
       { key: "transek", judul: "Transek Pengamatan", ket: "Satu baris untuk satu transek, termasuk transek tanpa perjumpaan. Luas area sampel dipakai untuk pendugaan dari jejak kaki.",
         kolom: [{ key: "kode", label: "Transek", w: 4.5, tengah: true }, { key: "area", label: "Area pengamatan", w: 9 }, { key: "panjang", label: "Panjang (m)", type: "number", w: 4.5 }, { key: "luasSampel", label: "Luas area sampel (ha)", type: "number", w: 5 }, { key: "habitat", label: "Tipe habitat", list: HABITAT, w: 8 }, { ...KOL.x, label: "X awal" }, { ...KOL.y, label: "Y awal" }, KOL.keterangan],
-        smart: { sub: "transek", map: (o, v) => ({ kode: String(v("notransek") || o.wpId || ""), area: v("keterangan"), panjang: v("panjangtransekm"), luasSampel: v("luasha"), habitat: v("tipetutupanlahan"), x: o.x ?? "", y: o.y ?? "", keterangan: "" }) } },
+        smart: { sub: "transek", map: (o, v) => ({ kode: String(v("notransek") || o.wpId || ""), area: v("lokasi"), panjang: v("panjangtransekm"), luasSampel: v("luasha"), habitat: v("tipetutupanlahan"), x: o.x ?? "", y: o.y ?? "", keterangan: v("keterangan") }) } },
       { key: "langsung", judul: "Perjumpaan Langsung", ket: "Satu baris untuk satu kontak (individu atau kelompok). Sudut kontak diukur antara arah transek dan garis pandang ke satwa.",
         kolom: [KOL.tanggal, KOL.waktu, { ...KOL.transek, label: "Transek" }, { key: "ulangan", label: "Ulangan", options: ["Pagi", "Sore/malam"], w: 5 }, { ...KOL.jumlah, label: "Jumlah individu" }, { key: "jarak", label: "Jarak kontak r (m)", type: "number", w: 4.5 }, { key: "sudut", label: "Sudut kontak α (°)", type: "number", w: 4.5 }, { key: "sisi", label: "Ki/Ka", options: ["Kiri", "Kanan"], w: 3.5 },
           { key: "jantan", label: "Jantan", type: "number", w: 3.5 }, { key: "betina", label: "Betina", type: "number", w: 3.5 }, { key: "anak", label: "Anak", type: "number", w: 3.5 }, { key: "muda", label: "Muda", type: "number", w: 3.5 }, { key: "dewasa", label: "Dewasa", type: "number", w: 3.5 }, { key: "aktivitas", label: "Aktivitas", list: AKT, w: 6 }, KOL.x, KOL.y, KOL.keterangan],
-        smart: { sub: "perjumpaanlangsung", map: (o, v) => ({ ...K.dasarObs(o), transek: String(v("notransek") || ""), n: Number(v("jumlah")) || "", jarak: v("jarakkesatwam"), sudut: v("sudutkontak"), jantan: v("jumlahjantan"), betina: v("jumlahbetina"), anak: v("jumlahanakan"), muda: v("jumlahmuda"), dewasa: v("jumlahdewasa"), aktivitas: v("aktivitassatwa"), keterangan: v("keterangan") }) },
+        smart: { sub: "perjumpaanlangsung", map: (o, v) => ({ ...K.dasarObs(o), transek: String(v("notransek") || ""), ulangan: ulanganDari(o.waktu), n: Number(v("jumlah")) || "", jarak: v("jarakkesatwam"), sudut: v("sudutkontak"), sisi: v("sisitransek"), jantan: v("jumlahjantan"), betina: v("jumlahbetina"), anak: v("jumlahanakan"), muda: v("jumlahmuda"), dewasa: v("jumlahdewasa"), aktivitas: v("aktivitassatwa"), keterangan: v("keterangan") }) },
         baruBaris: (last) => ({ tanggal: last.tanggal || "", transek: last.transek || "", ulangan: last.ulangan || "", n: 1 }) },
       { key: "tanda", judul: "Tanda Keberadaan", ket: "Perjumpaan tidak langsung. Jumlah berisi pasangan jejak kaki, onggokan kotoran, atau banyaknya tanda. Fase dekomposisi diisi untuk kotoran.",
-        kolom: [KOL.tanggal, KOL.waktu, { ...KOL.transek, label: "Transek" }, { key: "tipe", label: "Tanda keberadaan", list: TANDA, w: 8 }, { ...KOL.jumlah, label: "Jumlah" }, { key: "fase", label: "Fase kotoran", options: FASE, w: 3.5 }, { key: "umur", label: "Umur tanda", options: ["Baru (≤ 1 minggu)", "Lama (> 1 minggu)"], w: 6 }, { key: "habitat", label: "Tipe vegetasi", list: HABITAT, w: 7 }, KOL.x, KOL.y, KOL.keterangan],
+        kolom: [KOL.tanggal, KOL.waktu, { ...KOL.transek, label: "Transek" }, { key: "tipe", label: "Tanda keberadaan", list: TANDA, w: 8 }, { ...KOL.jumlah, label: "Jumlah" }, { key: "fase", label: "Fase kotoran", options: FASE, w: 3.5 }, { key: "umur", label: "Umur tanda", options: ["Baru (dalam 1 minggu)", "Cukup lama (>1 bulan)", "Sangat lama (>3bulan)", "Diatas 1 tahun"], w: 7 }, { key: "habitat", label: "Tipe vegetasi", list: HABITAT, w: 7 }, KOL.x, KOL.y, KOL.keterangan],
         smart: { sub: "tandakeberadaan", map: (o, v) => ({ ...K.dasarObs(o), transek: String(v("notransek") || ""), tipe: v("tandakeberadaan"), n: Number(v("jumlah")) || 1, fase: String(v("fasefeses") || "").charAt(0), umur: v("usiatemuan"), habitat: v("tipetutupanlahan"), keterangan: v("keterangan") }) },
         baruBaris: (last) => ({ tanggal: last.tanggal || "", transek: last.transek || "", n: 1 }) },
       { key: "vegetasi", judul: "Vegetasi Habitat (opsional)", ket: "Analisis vegetasi pada petak contoh di habitat rusa. Satu baris untuk satu individu atau satu jenis per petak.",
