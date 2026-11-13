@@ -126,7 +126,7 @@
         if (!r || r.kosong || r.galat) return;
         out.push(mod.hitungHtml(r, c));
         mod.tabel(r, c).forEach((x) => out.push(tabelHtml(N, x)));
-        if (mod.gambar) { const g = mod.gambar(r, c); if (g) { gambarNo++; out.push(g, `<p class="fn">Gambar ${gambarNo}. ${esc(cap1(`sebaran titik perjumpaan dan poligon cembung minimum ${c.objek}`))}</p>`); } }
+        if (mod.gambar) { const g = mod.gambar(r, c); if (g) { gambarNo++; out.push(g, `<p class="fn">Gambar ${gambarNo}. ${esc(cap1(mod.gambarCap ? mod.gambarCap(r, c) : `sebaran titik perjumpaan dan poligon cembung minimum ${c.objek}`))}</p>`); } }
       });
       return out.join("\n");
     }

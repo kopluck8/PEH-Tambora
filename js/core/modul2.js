@@ -291,7 +291,7 @@
       return { kosong: all.nUnik < 3 || !all.m2, sistem, titik, ...all, kel, hab, jp, pasangan: hab && jp ? hab / jp : null, peta: titik.length ? svgPeta(titik, all.hull, sistem) : "" };
     },
     narMetode(c) {
-      if (c.opt.istilah === "sebaran") return `Luas daerah sebaran (extent of occurrence) ${c.objek} dihitung dengan metode poligon cembung minimum (Minimum Convex Polygon, MCP), yaitu poligon cembung terkecil yang memuat seluruh lokasi perjumpaan yang diketahui (IUCN, 2012). Luas poligon dihitung dari koordinat titik sudut poligon yang sudah diproyeksikan ke satuan meter:`;
+      if (c.opt.istilah === "sebaran") return `Luas daerah sebaran (extent of occurrence) ${c.objek} dihitung dengan metode poligon cembung minimum (Minimum Convex Polygon, MCP), yaitu poligon cembung terkecil yang memuat seluruh ${c.opt.labelLokasi || "lokasi perjumpaan"} yang diketahui (IUCN, 2012). Luas poligon dihitung dari koordinat titik sudut poligon yang sudah diproyeksikan ke satuan meter:`;
       return `Luas wilayah jelajah (home range) ${c.objek} diduga dengan metode poligon cembung minimum (Minimum Convex Polygon, MCP; Mohr, 1947), yaitu poligon cembung terkecil yang memuat seluruh titik perjumpaan. Luas poligon dihitung dari koordinat titik sudut poligon yang sudah diproyeksikan ke satuan meter:`;
     },
     metode(c) {
@@ -312,7 +312,8 @@
     },
     kelSpec(r) { return { head: ["Kelompok Data", "Jumlah Titik", "Luas (ha)", "Luas (km²)", "Keliling (km)"], rows: r.kel.map((g) => [t(esc(g.kelompok)), n(g.n, 0), g.nUnik >= 3 ? n(g.ha, 2) : k("-"), g.nUnik >= 3 ? n(g.km2, 2) : k("-"), g.nUnik >= 3 ? n(g.keliling / 1000, 2) : k("-")]), total: [[t("Seluruh titik"), n(r.n, 0), n(r.ha, 2), n(r.km2, 2), n(r.keliling / 1000, 2)]] }; },
     tabel(r, c) { if (r.kosong) return []; const out = [{ cap: `Titik Sudut Poligon Cembung Minimum ${L.judul(c.objek)}`, spec: this.spec(r) }]; if (r.kel.length > 1) out.push({ cap: `Luas ${L.judul(istilahMCP(c))} ${L.judul(c.objek)} menurut Kelompok Data`, spec: this.kelSpec(r) }); return out; },
-    gambar(r, c) { return r.kosong || !r.peta ? "" : `<figure class="map"><img src="${r.peta}" alt="Sebaran titik perjumpaan dan poligon cembung minimum ${esc(c.objek)}"></figure>`; },
+    gambarCap(r, c) { return c.opt.capPeta || `sebaran ${c.opt.labelTitik || "titik perjumpaan"} serta poligon cembung minimum ${istilahMCP(c)} ${c.objek}`; },
+    gambar(r, c) { return r.kosong || !r.peta ? "" : `<figure class="map"><img src="${r.peta}" alt="${esc(L.cap1(this.gambarCap(r, c)))}"></figure>`; },
     simpulan(r, c) { return r.kosong ? "" : `Luas ${istilahMCP(c)} ${c.objek} menurut poligon cembung minimum adalah ${num(r.ha, 2)} ha (${num(r.km2, 2)} km²)`; },
     kpi(r, c) { return r.kosong ? [] : [[`${num(r.km2, 2)} km²`, `${c ? istilahMCP(c) : "wilayah jelajah"} (MCP)`]]; }
   };
@@ -937,18 +938,54 @@
       const tot = rows.length, sar = sum(rows.map((r) => nOr(r.jumlahSarang, 0)));
       const h = rows.flatMap((r) => (fin(toN(r.tinggiSarang)) ? [toN(r.tinggiSarang)] : [])), ja = rows.flatMap((r) => (fin(toN(r.jarakAir)) ? [toN(r.jarakAir)] : []));
       g.forEach((x) => (x.persen = tot ? (x.pohon / tot) * 100 : 0));
-      return { kosong: !tot, baris: g, pohon: tot, sarang: sar, rata: tot ? sar / tot : 0, tinggi: h.length ? { mean: mean(h), min: Math.min(...h), max: Math.max(...h) } : null, jarakAir: ja.length ? { mean: mean(ja), min: Math.min(...ja), max: Math.max(...ja) } : null, lokasi: [...new Set(rows.map((r) => str(r.lokasi)).filter(Boolean))] };
+      // Perbandingan dengan survei sebelumnya pada pohon yang sama (kolom sarangLalu diisi, termasuk 0)
+      const banding = rows.filter((r) => str(r.sarangLalu) !== "" && fin(toN(r.sarangLalu))).map((r, i) => ({ no: i + 1, kode: str(r.kode), lokasi: str(r.lokasi), jenis: str(r.jenis) || str(r.latin), latin: str(r.latin), lalu: toN(r.sarangLalu), kini: nOr(r.jumlahSarang, 0) }));
+      const bd = banding.length ? { rows: banding, lalu: sum(banding.map((b) => b.lalu)), kini: sum(banding.map((b) => b.kini)), naik: banding.filter((b) => b.lalu > 0 && b.kini > b.lalu).length, baru: banding.filter((b) => b.lalu === 0 && b.kini > 0).length, turun: banding.filter((b) => b.kini > 0 && b.kini < b.lalu).length, hilang: banding.filter((b) => b.lalu > 0 && b.kini === 0).length, tetap: banding.filter((b) => b.kini === b.lalu).length } : null;
+      return { kosong: !tot, baris: g, pohon: tot, sarang: sar, rata: tot ? sar / tot : 0, tinggi: h.length ? { mean: mean(h), min: Math.min(...h), max: Math.max(...h) } : null, jarakAir: ja.length ? { mean: mean(ja), min: Math.min(...ja), max: Math.max(...ja) } : null, lokasi: [...new Set(rows.map((r) => str(r.lokasi)).filter(Boolean))], kosongSarang: rows.filter((r) => nOr(r.jumlahSarang, 0) === 0).length, banding: bd };
     },
-    narMetode(c) { return `Data pohon sarang ${c.objek} dianalisis secara deskriptif: jenis pohon yang digunakan, jumlah sarang, tinggi sarang, dan jarak pohon sarang ke sumber air. Rata-rata dan persentase dihitung dengan persamaan:`; },
-    metode(c) { const lv = c.lv; return [blk([R("x̄ = "), F(Sum(Sub("x", "i")), "n")], lv), blk([R("P = "), F("x", "y"), R(" × 100%")], lv), ket([["x̄", "rata-rata (jumlah sarang per pohon, tinggi sarang, atau jarak ke sumber air)"], [Sub("x", "i"), "nilai pada pohon sarang ke-i"], ["n", "jumlah pohon sarang"], ["P", "persentase pohon sarang suatu jenis pohon (%)"], ["x", "jumlah pohon sarang jenis tersebut"], ["y", "jumlah seluruh pohon sarang"]], lv)].join(""); },
+    narMetode(c) { return `Data pohon sarang ${c.objek} dianalisis secara deskriptif: jenis pohon yang digunakan, jumlah sarang, tinggi sarang, dan jarak pohon sarang ke sumber air.${c.opt.banding ? ` Jumlah sarang pada setiap pohon dibandingkan dengan hasil survei ${c.opt.tahunLalu ? `tahun ${c.opt.tahunLalu}` : "sebelumnya"} pada pohon yang sama.` : ""} Rata-rata dan persentase dihitung dengan persamaan:`; },
+    metode(c) {
+      const lv = c.lv, bd = !!c.opt.banding;
+      return [blk([R("x̄ = "), F(Sum(Sub("x", "i")), "n")], lv), blk([R("P = "), F("x", "y"), R(" × 100%")], lv),
+        ...(bd ? [blk([R("Δ"), Sub("S", "j"), R(" = "), Sub("S", "j,t"), R(" − "), Sub("S", "j,0")], lv)] : []),
+        ket([["x̄", "rata-rata (jumlah sarang per pohon, tinggi sarang, atau jarak ke sumber air)"], [Sub("x", "i"), "nilai pada pohon sarang ke-i"], ["n", "jumlah pohon sarang"], ["P", "persentase pohon sarang suatu jenis pohon (%)"], ["x", "jumlah pohon sarang jenis tersebut"], ["y", "jumlah seluruh pohon sarang"],
+          ...(bd ? [[["Δ", Sub("S", "j")], "perubahan jumlah sarang pada pohon ke-j"], [Sub("S", "j,t"), `jumlah sarang pada pohon ke-j saat survei ${esc(c.opt.tahunKini || "ini")}`], [Sub("S", "j,0"), `jumlah sarang pada pohon ke-j pada survei ${esc(c.opt.tahunLalu || "sebelumnya")}`]] : [])], lv)].join("");
+    },
     narHasil(r, c) {
       if (r.kosong) return `Belum ada data pohon sarang ${c.objek}.`;
-      return `Ditemukan ${nTxt(r.pohon)} pohon sarang dengan ${r.sarang} sarang ${c.objek} (rata-rata ${num(r.rata, 2)} sarang per pohon)${r.lokasi.length ? ` di ${daftarKata(r.lokasi)}` : ""}. Jenis pohon yang paling banyak digunakan adalah ${daftarKata(r.baris.slice(0, 3).map((b) => `${nm(b)} sebanyak ${b.pohon} pohon (${num(b.persen, 1)}%)`))}.${r.tinggi ? ` Tinggi sarang berkisar ${num(r.tinggi.min, 1)}–${num(r.tinggi.max, 1)} m dengan rata-rata ${num(r.tinggi.mean, 1)} m.` : ""}${r.jarakAir ? ` Jarak pohon sarang ke sumber air rata-rata ${num(r.jarakAir.mean, 0)} m (${num(r.jarakAir.min, 0)}–${num(r.jarakAir.max, 0)} m).` : ""}`;
+      const tg = r.tinggi, ja = r.jarakAir;
+      return `Ditemukan ${nTxt(r.pohon)} pohon sarang dengan ${r.sarang} sarang ${c.objek}${r.pohon > 1 ? ` (rata-rata ${num(r.rata, 2)} sarang per pohon)` : ""}${r.lokasi.length ? ` di ${daftarKata(r.lokasi)}` : ""}.${this.jenisKalimat(r)}${tg ? ` Tinggi sarang ${tg.min === tg.max ? `${num(tg.min, 1)} m` : `berkisar ${num(tg.min, 1)}–${num(tg.max, 1)} m dengan rata-rata ${num(tg.mean, 1)} m`}.` : ""}${ja ? ` Jarak pohon sarang ke sumber air ${ja.min === ja.max ? `${num(ja.min, 0)} m` : `rata-rata ${num(ja.mean, 0)} m (${num(ja.min, 0)}–${num(ja.max, 0)} m)`}.` : ""}${r.banding ? ` ${this.bandingKalimat(r, c)}` : r.kosongSarang ? ` Sebanyak ${nTxt(r.kosongSarang)} pohon tidak lagi memiliki sarang saat diamati.` : ""}`;
     },
-    hitungHtml(r, c) { if (r.kosong) return ""; return blk([R("x̄ sarang = "), F(num(r.sarang), num(r.pohon)), R(` = ${num(r.rata, 2)} sarang/pohon`)], c.lv); },
+    jenisKalimat(r) {
+      const jt = (b) => `${nm(b)} sebanyak ${b.pohon} pohon (${num(b.persen, 1)}%)`, j = r.baris.length;
+      if (r.pohon === 1) return ` Pohon sarang tersebut adalah ${nm(r.baris[0])}.`;
+      if (j === 1) return ` Seluruh pohon sarang adalah ${nm(r.baris[0])}.`;
+      return j <= 4 ? ` Pohon sarang terdiri atas ${nTxt(j)} jenis, yaitu ${daftarKata(r.baris.map(jt))}.` : ` Pohon sarang terdiri atas ${nTxt(j)} jenis; yang paling banyak digunakan adalah ${daftarKata(r.baris.slice(0, 3).map(jt))}.`;
+    },
+    bandingKalimat(r, c) {
+      const b = r.banding, rinci = [b.naik && `${b.naik} pohon bertambah`, b.baru && `${b.baru} pohon baru bersarang`, b.turun && `${b.turun} pohon berkurang`, b.hilang && `${b.hilang} pohon tidak lagi bersarang`, b.tetap && `${b.tetap} pohon tetap`].filter(Boolean);
+      return `Dibandingkan survei ${c.opt.tahunLalu ? `tahun ${c.opt.tahunLalu}` : "sebelumnya"} pada ${nTxt(b.rows.length)} pohon yang sama, jumlah sarang ${b.kini === b.lalu ? `tetap ${b.kini}` : `${b.kini > b.lalu ? "bertambah" : "berkurang"} dari ${b.lalu} menjadi ${b.kini}`} sarang${rinci.length ? `: ${daftarKata(rinci)}` : ""}.`;
+    },
+    hitungHtml(r, c) {
+      if (r.kosong) return "";
+      const b = r.banding, d = b ? b.kini - b.lalu : 0;
+      return blk([R("x̄ sarang = "), F(num(r.sarang), num(r.pohon)), R(` = ${num(r.rata, 2)} sarang/pohon`)], c.lv) +
+        (b ? blk([R("ΣΔS = "), R(`${num(b.kini)} − ${num(b.lalu)} = ${d > 0 ? "+" : d < 0 ? "−" : ""}${num(Math.abs(d))} sarang (${num(b.rows.length)} pohon yang sama)`)], c.lv) : "");
+    },
     spec(r) { return { head: ["No", "Jenis Pohon", "Nama Ilmiah", "Jumlah Pohon Sarang", "Persentase (%)", "Jumlah Sarang", "Rata-rata Tinggi Sarang (m)"], rows: r.baris.map((b, i) => [k(i + 1), t(esc(b.jenis)), t(sci(b.latin)), n(b.pohon, 0), n(b.persen, 2), n(b.sarang, 0), b.tinggi === null ? k("-") : n(b.tinggi, 1)]), total: [[{ t: "Jumlah", cs: 3 }, n(r.pohon, 0), n(100, 2), n(r.sarang, 0), r.tinggi ? n(r.tinggi.mean, 1) : k("-")]] }; },
-    tabel(r, c) { return r.kosong ? [] : [{ cap: `Jenis Pohon Sarang ${L.judul(c.objek)}`, spec: this.spec(r) }]; },
-    simpulan(r, c) { return r.kosong ? "" : `Ditemukan ${r.pohon} pohon sarang ${c.objek} dengan ${r.sarang} sarang; jenis pohon yang paling banyak digunakan adalah ${nm(r.baris[0])}`; },
+    specBanding(r, c) {
+      const b = r.banding, th = (x, d) => (x ? `Jumlah Sarang ${x}` : d);
+      return { head: ["No", "Kode/Lokasi", "Jenis Pohon", th(c.opt.tahunLalu, "Jumlah Sarang Sebelumnya"), th(c.opt.tahunKini, "Jumlah Sarang Saat Ini"), "Perubahan"],
+        rows: b.rows.map((x, i) => [k(i + 1), t(esc([x.kode, x.lokasi].filter(Boolean).join(", ") || "-")), t(esc(nm(x))), n(x.lalu, 0), n(x.kini, 0), k(x.kini === x.lalu ? "0" : `${x.kini > x.lalu ? "+" : "−"}${num(Math.abs(x.kini - x.lalu))}`)]),
+        total: [[{ t: "Jumlah", cs: 3 }, n(b.lalu, 0), n(b.kini, 0), k(b.kini === b.lalu ? "0" : `${b.kini > b.lalu ? "+" : "−"}${num(Math.abs(b.kini - b.lalu))}`)]] };
+    },
+    tabel(r, c) {
+      if (r.kosong) return [];
+      const out = [{ cap: `Jenis Pohon Sarang ${L.judul(c.objek)}`, spec: this.spec(r) }];
+      if (r.banding) out.push({ cap: `Perbandingan Jumlah Sarang ${L.judul(c.objek)} per Pohon`, spec: this.specBanding(r, c) });
+      return out;
+    },
+    simpulan(r, c) { return r.kosong ? "" : `Ditemukan ${r.pohon} pohon sarang ${c.objek} dengan ${r.sarang} sarang; jenis pohon yang paling banyak digunakan adalah ${nm(r.baris[0])}${r.banding && r.banding.kini !== r.banding.lalu ? `; dibandingkan survei ${c.opt.tahunLalu ? `tahun ${c.opt.tahunLalu}` : "sebelumnya"}, jumlah sarang pada pohon yang sama ${r.banding.kini > r.banding.lalu ? "bertambah" : "berkurang"} dari ${r.banding.lalu} menjadi ${r.banding.kini}` : ""}`; },
     kpi(r) { return r.kosong ? [] : [[r.pohon, "pohon sarang"], [r.sarang, "sarang"]]; }
   };
 
