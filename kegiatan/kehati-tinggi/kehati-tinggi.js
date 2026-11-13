@@ -2,14 +2,19 @@
  * Kegiatan: Inventarisasi dan Verifikasi Kawasan dengan Nilai Keanekaragaman Hayati Tinggi.
  * Acuan: RPK dan LPK inventarisasi dan verifikasi kehati tinggi SPTN Wilayah II Pekat 2025; Panduan Direktorat
  * Perencanaan Kawasan Konservasi (SK.15/RKK/IPKK/KSA.0/10/2022 jo. SK.12/RKK/IPKK/KSA.0/12/2023).
- * Data SMART: kategori metodeteknis.verifikasikehatitinggi. (lihat datamodel/SPESIFIKASI.md).
+ * Data SMART: kategori metodeteknis.verifikasikehatitinggi. (lihat datamodel/SPESIFIKASI.md), ditambah kategori Balai
+ * "Ground Check > Tipe Ekosistem" (klasifikasi1te sampai klasifikasi4) dan "Satwa Liar" yang sudah dipakai di patroli.
  */
 (function () {
   "use strict";
   const K = window.PEHKeg, { KOL } = K, L = window.PEHLaporan;
   const FAUNA = K.kamus("Aves", "Mamalia", "Fauna lain");
-  const KELOMPOK = ["Ekosistem daratan", "Ekosistem pegunungan", "Ekosistem perairan"];
-  const KONDISI = ["Alami", "Terganggu", "Terdegradasi"];
+  // Klasifikasi tipe ekosistem empat tingkat. Label mengikuti Data Model SMART Balai (Ground Check > Tipe Ekosistem)
+  // agar isian manual dan hasil impor SMART terkelompok sama. Zona ketinggian mengikuti pembagian van Steenis (1972).
+  const KLAS1 = ["Alami", "Buatan"];
+  const KLAS2 = ["Ekosistem Teresterial", "Ekosistem Perairan"];
+  const KLAS3 = ["Daratan Rendah (0-1000mdpl)", "Pegunungan Bawah (1000-1500mdpl)", "Pegunungan Atas (1500-2400mdpl)", "Sub Alpin (2400-4150mdpl)"];
+  const KLAS4 = ["Hutan Pamah", "Hutan Pegunungan Bawah", "Hutan Pegunungan Atas", "Savana", "Padang Rumput", "Sungai"];
   const KELAS = ["Burung", "Mamalia", "Reptil", "Amfibi", "Serangga", "Lainnya"];
   const TEMUAN = ["Langsung", "Suara", "Jejak", "Kotoran", "Bekas garukan atau gesekan", "Sarang", "Lainnya"];
   const KELAS_TAKSA = { Aves: "Burung", Mamalia: "Mamalia" };
@@ -34,28 +39,28 @@
     judul: "Inventarisasi dan Verifikasi Kawasan dengan Nilai Keanekaragaman Hayati Tinggi",
     ringkas: "Verifikasi tipe ekosistem pada grid areal kehati tinggi, analisis vegetasi (INP dan H′ per tingkat pertumbuhan), daftar jenis tumbuhan dan satwa beserta status perlindungannya, dan karakteristik setiap tipe ekosistem.",
     objek: "keanekaragaman hayati", objekPeta: "grid verifikasi dan tipe ekosistem",
-    kategoriSMART: "metodeteknis.verifikasikehatitinggi.",
+    kategoriSMART: ["metodeteknis.verifikasikehatitinggi.", "groundcheck.", "satwaliar."],
     contoh: (window.PEH_CONTOH || {})["kehati-tinggi"],
     alat: [{ nama: "GPS", jumlah: "1", satuan: "unit" }, { nama: "Smartphone dengan aplikasi SMART Mobile", jumlah: "1", satuan: "unit" }, { nama: "Kompas", jumlah: "1", satuan: "unit" }, { nama: "Peta grid areal kehati tinggi dan peta tutupan lahan terbaru", jumlah: "1", satuan: "set" }, { nama: "Pita diameter", jumlah: "1", satuan: "buah" }, { nama: "Meteran gulung 50 m", jumlah: "1", satuan: "buah" }, { nama: "Tali dan golok tebas", jumlah: "1", satuan: "set" }, { nama: "Binokuler", jumlah: "1", satuan: "unit" }, { nama: "Kamera", jumlah: "1", satuan: "unit" }, { nama: "Tally sheet dan alat tulis", jumlah: "1", satuan: "set" }],
     tabel: [
-      { key: "grid", judul: "Grid Verifikasi", ket: "Satu baris untuk satu grid yang dikunjungi. X dan Y diisi koordinat titik pengamatan di dalam grid. Kode grid dipakai juga di tabel vegetasi dan satwa untuk menghubungkan data dengan tipe ekosistemnya.",
+      { key: "grid", judul: "Grid Verifikasi", ket: "Satu baris untuk satu grid yang dikunjungi. X dan Y diisi koordinat titik pengamatan di dalam grid. Tipe ekosistem diisi empat tingkat seperti kategori SMART Ground Check > Tipe Ekosistem. Kode grid dipakai juga di tabel vegetasi dan satwa untuk menghubungkan data dengan tipe ekosistemnya.",
         kolom: [{ key: "kode", label: "Kode grid", w: 4.5, tengah: true }, KOL.tanggal, { key: "lokasi", label: "Nama lokasi", w: 8 }, { key: "zona", label: "Zona", list: K.ZONA, w: 6.5 }, KOL.x, KOL.y, KOL.ketinggian,
-          { key: "kelompok", label: "Kelompok ekosistem", list: KELOMPOK, w: 7.5 }, { key: "kondisi", label: "Kondisi ekosistem", list: KONDISI, w: 6 }, { key: "tipe", label: "Tipe ekosistem", list: K.EKOSISTEM, w: 9 }, KOL.keterangan],
-        smart: { sub: "titikgrid", map: (o, v) => ({ ...K.dasarObs(o), kode: String(v("kodegrid") || o.wpId || ""), lokasi: v("namalokasi"), zona: v("zonasi"), ketinggian: v("ketinggianmdpl"), kelompok: v("kelompokekosistem"), kondisi: v("kondisiekosistem"), tipe: v("tipeekosistem"), keterangan: v("keterangan") }) },
+          { key: "kelas1", label: "Klasifikasi 1 (asal)", list: KLAS1, w: 5 }, { key: "kelas2", label: "Klasifikasi 2 (kelompok)", list: KLAS2, w: 7 }, { key: "kelas3", label: "Klasifikasi 3 (zona ketinggian)", list: KLAS3, w: 8.5 }, { key: "tipe", label: "Klasifikasi 4 (tipe ekosistem)", list: KLAS4, w: 8 }, KOL.keterangan],
+        smart: { sub: ["titikgrid", "tipeekosis"], map: (o, v) => ({ ...K.dasarObs(o), kode: String(v("kodegrid") || v("noplot") || o.wpId || ""), lokasi: v("namalokasi") || v("lokasi"), zona: v("zonasi"), ketinggian: v("ketinggianmdpl"), kelas1: v("klasifikasi1te"), kelas2: v("klasifikasi2te"), kelas3: v("klasifikasi3"), tipe: v("klasifikasi4"), keterangan: v("keterangan") }) },
         baruBaris: (last) => ({ tanggal: last.tanggal || "", lokasi: last.lokasi || "", zona: last.zona || "" }) },
       { key: "vegetasi", judul: "Vegetasi", ket: "Analisis vegetasi pada petak contoh bersarang di dalam grid. Satu baris untuk satu individu (atau isi jumlah untuk semai, pancang, dan tumbuhan bawah). Kode petak sebaiknya diawali kode grid, misalnya 288-1.",
         kolom: [{ key: "grid", label: "Kode grid", w: 4.5, tengah: true }, ...K.kolVegetasi([KOL.tinggi])], smart: { sub: "vegetasi", map: (o, v) => ({ ...K.petaVegetasi(o, v), grid: String(v("kodegrid") || "") }) },
         baruBaris: (last) => ({ grid: last.grid || "", petak: last.petak || "", tingkat: last.tingkat || "", n: 1 }) },
       { key: "satwa", judul: "Perjumpaan Satwa", ket: "Satu baris untuk satu perjumpaan satwa, baik langsung maupun dari tanda keberadaannya.",
         kolom: [KOL.tanggal, KOL.waktu, { key: "grid", label: "Kode grid", w: 4.5, tengah: true }, ...K.kolJenis("Nama jenis satwa", FAUNA), { key: "kelas", label: "Kelompok", options: KELAS, w: 5 }, KOL.jumlah, { key: "temuan", label: "Jenis temuan", list: TEMUAN, w: 6.5 }, KOL.x, KOL.y, KOL.keterangan],
-        smart: { sub: "perjumpaansatwa", map: (o, v) => { const [jenis, latin] = K.jenisDari(v, "jenissatwa"); return { ...K.dasarObs(o), grid: String(v("kodegrid") || ""), jenis, latin, n: Number(v("jumlah")) || 1, temuan: v("tipetemuan") || v("tandakeberadaan"), keterangan: v("keterangan") }; } },
+        smart: { sub: ["perjumpaansatwa", "jejaksatwa"], map: (o, v) => { const [jenis, latin] = K.jenisDari(v, "jenissatwa"); return { ...K.dasarObs(o), grid: String(v("kodegrid") || ""), jenis, latin, n: Number(v("jumlah")) || 1, temuan: v("tipetemuan") || (o.sub === "perjumpaansatwa" ? "Langsung" : ""), keterangan: v("keterangan") }; } },
         baruBaris: (last) => ({ tanggal: last.tanggal || "", grid: last.grid || "", n: 1 }) }
     ],
     parameter: [
       { key: "sisiGrid", label: "Panjang sisi grid (km)", type: "number", step: "any", half: true, def: 1 },
       { ...K.paramKriteriaH, half: true }, K.paramSistem, ...K.paramVegetasi()
     ],
-    paramInfo: "Grid yang dikunjungi dicatat di tabel grid beserta tipe ekosistemnya. Data vegetasi dan satwa dihubungkan ke tipe ekosistem melalui kode grid (atau awalan kode petak). Ukuran petak contoh dipakai untuk menghitung kerapatan dan dominansi.",
+    paramInfo: "Grid yang dikunjungi dicatat di tabel grid beserta klasifikasi tipe ekosistemnya. Data vegetasi dan satwa dihubungkan ke tipe ekosistem melalui kode grid (atau awalan kode petak). Ukuran petak contoh dipakai untuk menghitung kerapatan dan dominansi.",
     modul: [
       { m: "ekosistem", id: "ekosistem", judul: "Karakteristik Tipe Ekosistem", objek: "tipe ekosistem",
         input: (S) => ({ grid: grid(S), veg: veg(S).map((r) => ({ ...r, grid: gridDari(r) })), satwa: satwa(S) }),
@@ -76,7 +81,7 @@
           return `Tercatat ${x.nTxt(r.S)} jenis satwa${kel.size > 1 || !kel.has("lainnya") ? ` (${[...kel.entries()].map(([k, v]) => `${v} jenis ${k.toLowerCase()}`).join(", ")})` : ""}${lind.length ? `; ${x.nTxt(lind.length)} jenis di antaranya dilindungi menurut Permen LHK Nomor P.106/2018, yaitu ${x.daftarKata(lind.map((b) => K.namaJenis(b)))}` : ""}`;
         } }
     ],
-    lokasiTabel: (S) => ({ cap: "Grid Verifikasi dan Tipe Ekosistem", spec: K.specDari(grid(S), [{ key: "kode", label: "Kode Grid", tengah: true }, { key: "lokasi", label: "Lokasi" }, { key: "zona", label: "Zona" }, { key: "x", label: "X", type: "number", d: 5 }, { key: "y", label: "Y", type: "number", d: 5 }, { key: "ketinggian", label: "Ketinggian (mdpl)", type: "number" }, { key: "kelompok", label: "Kelompok Ekosistem" }, { key: "kondisi", label: "Kondisi" }, { key: "tipe", label: "Tipe Ekosistem" }]) }),
+    lokasiTabel: (S) => ({ cap: "Grid Verifikasi dan Tipe Ekosistem", spec: K.specDari(grid(S), [{ key: "kode", label: "Kode Grid", tengah: true }, { key: "lokasi", label: "Lokasi" }, { key: "zona", label: "Zona" }, { key: "x", label: "X", type: "number", d: 5 }, { key: "y", label: "Y", type: "number", d: 5 }, { key: "ketinggian", label: "Ketinggian (mdpl)", type: "number" }, { key: "kelas1", label: "Klasifikasi 1" }, { key: "kelas2", label: "Klasifikasi 2" }, { key: "kelas3", label: "Klasifikasi 3" }, { key: "tipe", label: "Klasifikasi 4 (Tipe Ekosistem)" }]) }),
     teks: {
       dasar: ["Peraturan Direktur Jenderal Konservasi Sumber Daya Alam dan Ekosistem Nomor P.10/KSDAE/SET/KSA.0/9/2016 tentang Tata Cara Pelaksanaan Inventarisasi Potensi pada Kawasan Suaka Alam dan Kawasan Pelestarian Alam;",
         "Peraturan Menteri Lingkungan Hidup dan Kehutanan Nomor P.106/MENLHK/SETJEN/KUM.1/12/2018 tentang Jenis Tumbuhan dan Satwa yang Dilindungi;",
@@ -86,12 +91,12 @@
         `Untuk melengkapi data karakteristik tipe ekosistem tersebut, dilaksanakan kegiatan ${x.judul} di ${x.wil}.`],
       maksud: (x) => [`Maksud kegiatan ini adalah melengkapi data potensi keanekaragaman hayati dan karakteristik tipe ekosistem pada areal bernilai keanekaragaman hayati tinggi di ${x.wil}. Tujuan kegiatan ini adalah:`,
         "1. Memverifikasi tipe ekosistem pada grid areal kehati tinggi;", "2. Mengumpulkan dan menganalisis data komposisi, struktur, dan keanekaragaman jenis tumbuhan;", "3. Mencatat jenis satwa yang dijumpai beserta status perlindungannya;", "4. Memetakan sebaran grid dan tipe ekosistem yang diverifikasi."],
-      ruanglingkup: () => ["Ruang lingkup kegiatan ini meliputi:", "1. Penentuan grid sampel dari peta grid areal kehati tinggi dan peta tutupan lahan;", "2. Verifikasi tipe ekosistem, zona, dan kondisi ekosistem pada setiap grid;", "3. Analisis vegetasi pada petak contoh di setiap grid;", "4. Pencatatan satwa yang dijumpai secara langsung maupun dari tanda keberadaannya;", "5. Analisis data, pemetaan, dan penyusunan laporan."],
+      ruanglingkup: () => ["Ruang lingkup kegiatan ini meliputi:", "1. Penentuan grid sampel dari peta grid areal kehati tinggi dan peta tutupan lahan;", "2. Verifikasi zona pengelolaan dan klasifikasi tipe ekosistem pada setiap grid;", "3. Analisis vegetasi pada petak contoh di setiap grid;", "4. Pencatatan satwa yang dijumpai secara langsung maupun dari tanda keberadaannya;", "5. Analisis data, pemetaan, dan penyusunan laporan."],
       metode: (x) => [
-        `Areal kawasan dibagi ke dalam grid berukuran ${gridTxt(x.P)}. Grid yang dikunjungi dipilih secara acak sistematis dari grid areal kehati tinggi, kemudian diverifikasi di lapangan melalui eksplorasi dan pengamatan langsung mengikuti panduan inventarisasi dan verifikasi kawasan bernilai keanekaragaman hayati tinggi dari Direktorat Perencanaan Kawasan Konservasi. Pada setiap grid dicatat koordinat titik pengamatan, ketinggian, zona pengelolaan, kelompok ekosistem, kondisi ekosistem, dan tipe ekosistem.`,
+        `Areal kawasan dibagi ke dalam grid berukuran ${gridTxt(x.P)}. Grid yang dikunjungi dipilih secara acak sistematis dari grid areal kehati tinggi, kemudian diverifikasi di lapangan melalui eksplorasi dan pengamatan langsung mengikuti panduan inventarisasi dan verifikasi kawasan bernilai keanekaragaman hayati tinggi dari Direktorat Perencanaan Kawasan Konservasi. Pada setiap grid dicatat koordinat titik pengamatan, ketinggian, zona pengelolaan, dan klasifikasi tipe ekosistem empat tingkat, yaitu asal ekosistem (alami atau buatan), kelompok ekosistem, zona ketinggian, dan tipe ekosistem. Zona ketinggian mengikuti pembagian van Steenis (1972): daratan rendah 0 sampai 1.000 mdpl, pegunungan bawah 1.000 sampai 1.500 mdpl, pegunungan atas 1.500 sampai 2.400 mdpl, dan sub alpin di atas 2.400 mdpl.`,
         `Vegetasi diukur dengan petak contoh bersarang di dalam grid, yaitu petak ${petakTxt(x.P.luasSemai)} untuk semai dan tumbuhan bawah, ${petakTxt(x.P.luasPancang)} untuk pancang, ${petakTxt(x.P.luasTiang)} untuk tiang, dan ${petakTxt(x.P.luasPohon)} untuk pohon. Pada setiap petak dicatat jenis dan jumlah individu, serta diameter batang setinggi dada untuk tingkat tiang dan pohon.`,
         "Satwa dicatat dari perjumpaan langsung, suara, dan tanda keberadaan (jejak, kotoran, bekas garukan, dan sarang) selama penjelajahan grid. Status perlindungan jenis mengacu pada Peraturan Menteri LHK Nomor P.106/MENLHK/SETJEN/KUM.1/12/2018 dan daftar merah IUCN.",
-        "Data dicatat dengan SMART Mobile pada kategori Metode Teknis > Verifikasi Kehati Tinggi atau pada tally sheet."],
+        "Data dicatat dengan SMART Mobile pada kategori Metode Teknis > Verifikasi Kehati Tinggi atau pada tally sheet. Klasifikasi tipe ekosistem dapat juga dicatat pada kategori Ground Check > Tipe Ekosistem, dan perjumpaan satwa pada kategori Satwa Liar."],
       lokasi: (x) => { const g = grid(x.S), lk = K.unik(g, "lokasi"), alt = K.rentang(g.map((r) => r.ketinggian)); return `Kegiatan dilaksanakan di ${x.lokasi}.${g.length ? ` Grid yang diverifikasi berada${lk.length ? ` di ${x.daftarKata(lk)}` : ""}${alt ? ` pada ketinggian ${alt} mdpl` : ""}.` : ""}`; },
       lokasiRPK: (x) => `Kegiatan akan dilaksanakan di ${x.lokasi}. Grid sampel dipilih dari peta grid areal kehati tinggi dengan mempertimbangkan keterwakilan tipe ekosistem, zona pengelolaan, dan aksesibilitas.`,
       hasilLokasi: (x) => {

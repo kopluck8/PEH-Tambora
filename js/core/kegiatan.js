@@ -233,7 +233,7 @@
             window.dispatchEvent(new Event("peh:redraw"));
           } catch (err) { st.textContent = err.message; st.className = "status err"; }
         });
-        wrap.appendChild(window.PEH.util.card(`${esc(tb.judul)}${tb.smart ? ` <small>SMART: ${esc(tb.smart.sub)}</small>` : ""}`, box, ti < 2 || rows.length > 0));
+        wrap.appendChild(window.PEH.util.card(`${esc(tb.judul)}${tb.smart ? ` <small>SMART: ${esc([].concat(tb.smart.sub).join(", "))}</small>` : ""}`, box, ti < 2 || rows.length > 0));
       });
       const ext = document.createElement("div");
       [...(cfg.isian || []), { key: "catatanLapangan", label: "Catatan lapangan (cuaca, kondisi lokasi, kejadian penting); ikut di narasi hasil", rows: 3, akar: true }].forEach((f) => {
