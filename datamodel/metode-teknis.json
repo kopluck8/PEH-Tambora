@@ -1,124 +1,4638 @@
 {
-  "_catatan": "Sumber data model SMART kategori 'Metode Teknis' untuk kegiatan teknis PEH. Ubah file ini, lalu jalankan: python3 tools/build_datamodel.py. Atribut dengan 'sudah_ada': true sudah tersedia di Data Model SMART Balai TN Tambora dan dipakai ulang dengan key yang sama.",
-  "versi": "0.1.0",
-  "bahasa": ["in", "en"],
-  "atribut": [
-    { "key": "noplot", "tipe": "TEXT", "sudah_ada": true, "nama": { "in": "No. plot", "en": "Plot number" } },
-    { "key": "jenissatwa", "tipe": "TREE", "sudah_ada": true, "nama": { "in": "Jenis satwa", "en": "Species" },
-      "keterangan": "Pohon jenis satwa di Data Model Balai. Raptor ada di cabang burung.* (mis. burung.elangbondolhaliasturindus.)." },
-    { "key": "jarakkesatwam", "tipe": "NUMERIC", "sudah_ada": true, "nama": { "in": "Jarak ke satwa (m)", "en": "Distance to animal (m)" } },
-    { "key": "azimuth", "tipe": "NUMERIC", "sudah_ada": true, "nama": { "in": "Azimuth (derajat)", "en": "Azimuth (degree)" } },
-    { "key": "jenisperjumpaan", "tipe": "LIST", "sudah_ada": true, "nama": { "in": "Jenis perjumpaan", "en": "Encounter type" } },
-    { "key": "jumlahjantan", "tipe": "NUMERIC", "sudah_ada": true, "nama": { "in": "Jumlah jantan", "en": "Number of males" } },
-    { "key": "jumlahbetina", "tipe": "NUMERIC", "sudah_ada": true, "nama": { "in": "Jumlah betina", "en": "Number of females" } },
-    { "key": "cuaca", "tipe": "LIST", "sudah_ada": true, "nama": { "in": "Cuaca", "en": "Weather" } },
-    { "key": "keterangan", "tipe": "TEXT", "sudah_ada": true, "nama": { "in": "Keterangan", "en": "Remarks" } },
-
-    { "key": "jarijariplotm", "tipe": "NUMERIC", "nama": { "in": "Jari-jari plot (m)", "en": "Plot radius (m)" } },
-    { "key": "jalurpengamatan", "tipe": "LIST", "nama": { "in": "Jalur pengamatan", "en": "Survey route" },
-      "pilihan": [
-        { "key": "jalurpendakian", "in": "Jalur pendakian", "en": "Hiking trail" },
-        { "key": "jalaninspeksi", "in": "Jalan inspeksi", "en": "Inspection road" },
-        { "key": "jalurpatroli", "in": "Jalur patroli", "en": "Patrol route" },
-        { "key": "lainnya", "in": "Lainnya", "en": "Other" }
-      ] },
-    { "key": "ketinggianmdpl", "tipe": "NUMERIC", "nama": { "in": "Ketinggian (mdpl)", "en": "Elevation (m asl)" } },
-    { "key": "tipetutupanlahan", "tipe": "LIST", "nama": { "in": "Tipe tutupan lahan", "en": "Land cover type" },
-      "pilihan": [
-        { "key": "savana", "in": "Savana", "en": "Savanna" },
-        { "key": "hutanlahankering", "in": "Hutan lahan kering", "en": "Dryland forest" },
-        { "key": "hutanpegunungan", "in": "Hutan pegunungan", "en": "Montane forest" },
-        { "key": "semakbelukar", "in": "Semak belukar", "en": "Shrubland" },
-        { "key": "kebunladang", "in": "Kebun/ladang masyarakat", "en": "Garden/farmland" },
-        { "key": "lahanterbuka", "in": "Lahan terbuka", "en": "Open land" },
-        { "key": "lainnya", "in": "Lainnya", "en": "Other" }
-      ] },
-    { "key": "jumlahdewasa", "tipe": "NUMERIC", "nama": { "in": "Jumlah dewasa", "en": "Number of adults" } },
-    { "key": "jumlahanakan", "tipe": "NUMERIC", "nama": { "in": "Jumlah anak/remaja", "en": "Number of juveniles" } },
-    { "key": "aktivitasraptor", "tipe": "LIST", "nama": { "in": "Aktivitas raptor", "en": "Raptor activity" },
-      "pilihan": [
-        { "key": "soaring", "in": "Soaring (terbang mengapung)", "en": "Soaring" },
-        { "key": "gliding", "in": "Gliding (meluncur horizontal)", "en": "Gliding" },
-        { "key": "display", "in": "Display/undulating", "en": "Display flight" },
-        { "key": "hovering", "in": "Hovering", "en": "Hovering" },
-        { "key": "diving", "in": "Diving (menukik)", "en": "Diving" },
-        { "key": "perchhunting", "in": "Berburu sambil bertengger (perch hunting)", "en": "Perch hunting" },
-        { "key": "ambushhunting", "in": "Berburu terbang rendah (ambush hunting)", "en": "Ambush hunting" },
-        { "key": "bertengger", "in": "Bertengger", "en": "Perching" },
-        { "key": "terbang", "in": "Terbang", "en": "Flying" },
-        { "key": "kawin", "in": "Kawin", "en": "Mating" },
-        { "key": "bersarang", "in": "Bersarang", "en": "Nesting" },
-        { "key": "makan", "in": "Makan", "en": "Feeding" },
-        { "key": "lainnya", "in": "Lainnya", "en": "Other" }
-      ] },
-    { "key": "penggunaanruang", "tipe": "LIST", "nama": { "in": "Penggunaan ruang", "en": "Space use" },
-      "pilihan": [
-        { "key": "atastajuk", "in": "Top (di atas tajuk)", "en": "Top (above canopy)" },
-        { "key": "tajuk", "in": "Tajuk", "en": "Canopy" },
-        { "key": "bawahtajuk", "in": "Bawah tajuk", "en": "Below canopy" },
-        { "key": "permukaantanah", "in": "Permukaan tanah", "en": "Ground" }
-      ] },
-    { "key": "tiperuang", "tipe": "LIST", "nama": { "in": "Tipe ruang", "en": "Space type" },
-      "pilihan": [
-        { "key": "terbuka", "in": "Terbuka", "en": "Open" },
-        { "key": "tertutup", "in": "Tertutup", "en": "Closed" }
-      ] },
-    { "key": "sarangditemukan", "tipe": "BOOLEAN", "nama": { "in": "Sarang ditemukan", "en": "Nest found" } }
-  ],
-
-  "kategori": [
+ "_catatan": "Sumber data model SMART kategori 'Metode Teknis' untuk kegiatan teknis PEH. Ubah file ini, lalu jalankan: python3 tools/build_datamodel.py. Atribut dengan 'sudah_ada': true sudah tersedia di Data Model SMART Balai TN Tambora dan dipakai ulang dengan key yang sama; pilihannya disalin dari Data Model Balai hanya untuk kamus label aplikasi. Pilihan atribut LIST baru sama persis dengan pilihan di tabel isian generator.",
+ "versi": "0.2.0",
+ "bahasa": [
+  "in",
+  "en"
+ ],
+ "atribut": [
+  {
+   "key": "noplot",
+   "tipe": "TEXT",
+   "sudah_ada": true,
+   "nama": {
+    "in": "No. plot",
+    "en": "Plot number"
+   },
+   "keterangan": "Kode plot, petak, atau titik."
+  },
+  {
+   "key": "jenissatwa",
+   "tipe": "TREE",
+   "sudah_ada": true,
+   "nama": {
+    "in": "Jenis satwa",
+    "en": "Species"
+   },
+   "keterangan": "Pohon jenis satwa di Data Model Balai. Raptor ada di cabang burung.* (mis. burung.elangbondolhaliasturindus.).",
+   "pilihan": [
     {
-      "key": "metodeteknis",
-      "nama": { "in": "Metode Teknis", "en": "Technical Methods" },
-      "keterangan": "Kategori level 0 untuk seluruh metode kegiatan teknis jabatan PEH. Setiap metode menjadi satu kategori level 1.",
-      "anak": [
-        {
-          "key": "inventarisasiraptor",
-          "nama": { "in": "Inventarisasi dan Sebaran Raptor", "en": "Raptor Inventory and Distribution" },
-          "keterangan": "Metode point count (plot lingkaran). Template analisis: Analisa data.xlsx; contoh LPK: Resort Piong, Juni 2021.",
-          "kegiatan": "raptor",
-          "anak": [
-            {
-              "key": "titikpengamatan",
-              "nama": { "in": "Titik Pengamatan (Plot Point Count)", "en": "Point Count Station" },
-              "keterangan": "Dicatat sekali di pusat setiap plot, termasuk plot tanpa perjumpaan. Jumlah titik = jumlah plot (n).",
-              "atribut": [
-                { "key": "noplot", "wajib": true },
-                { "key": "jarijariplotm", "wajib": true, "bawaan": 500 },
-                { "key": "jalurpengamatan" },
-                { "key": "ketinggianmdpl" },
-                { "key": "tipetutupanlahan" },
-                { "key": "cuaca" },
-                { "key": "keterangan" }
-              ]
-            },
-            {
-              "key": "perjumpaanraptor",
-              "nama": { "in": "Perjumpaan Raptor", "en": "Raptor Encounter" },
-              "keterangan": "Satu observasi per jenis per perjumpaan. Waktu perjumpaan diambil dari waktu waypoint.",
-              "multiple": true,
-              "atribut": [
-                { "key": "noplot", "wajib": true },
-                { "key": "jenissatwa", "wajib": true },
-                { "key": "jumlahdewasa", "wajib": true },
-                { "key": "jumlahanakan" },
-                { "key": "jumlahjantan" },
-                { "key": "jumlahbetina" },
-                { "key": "jarakkesatwam", "wajib": true },
-                { "key": "azimuth" },
-                { "key": "jenisperjumpaan" },
-                { "key": "aktivitasraptor" },
-                { "key": "penggunaanruang" },
-                { "key": "tiperuang" },
-                { "key": "tipetutupanlahan" },
-                { "key": "ketinggianmdpl" },
-                { "key": "sarangditemukan" },
-                { "key": "keterangan" }
-              ]
-            }
-          ]
-        }
-      ]
+     "key": "belumadadilist.",
+     "in": "Belum ada di list"
+    },
+    {
+     "key": "burung.",
+     "in": "Burung"
+    },
+    {
+     "key": "burung.apungsawahanthusrufulus.",
+     "in": "Apung sawah - Anthus rufulus"
+    },
+    {
+     "key": "burung.ayamhutanhijaugallusvarius.",
+     "in": "Ayam Hutan Hijau - Gallus varius"
+    },
+    {
+     "key": "burung.bubutalangalangcentropusbengalensis.",
+     "in": "Bubut alang-alang - Centropus bengalensis"
+    },
+    {
+     "key": "burung.burungmadusriganticinnyrisjugularis.",
+     "in": "Burung-madu sriganti - Cinnyris jugularis"
+    },
+    {
+     "key": "burung.cikukuatandukphilemonbuceroides.",
+     "in": "Cikukua tanduk - Philemon buceroides"
+    },
+    {
+     "key": "burung.cucakkutilangpycnonotusaurigaster.",
+     "in": "Cucak kutilang - Pycnonotus aurigaster"
+    },
+    {
+     "key": "burung.elang.",
+     "in": "Elang"
+    },
+    {
+     "key": "burung.elangbondolhaliasturindus.",
+     "in": "Elang Bondol - Haliastur indus"
+    },
+    {
+     "key": "burung.elangfloresnisaetusfloris.",
+     "in": "Elang Flores - Nisaetus floris"
+    },
+    {
+     "key": "burung.elangularjaripendekcircaetusgallicus.",
+     "in": "Elang Ular Jari Pendek - Circaetus gallicus"
+    },
+    {
+     "key": "burung.gagakkampungcorvusmacrorhynchos.",
+     "in": "Gagak kampung - Corvus macrorhynchos"
+    },
+    {
+     "key": "burung.isapmaduaustralialichmeraindistincta.",
+     "in": "Isap-madu australia - Lichmera indistincta"
+    },
+    {
+     "key": "burung.kekepbabiartamusleucoryn.",
+     "in": "Kekep babi - Artamus leucoryn"
+    },
+    {
+     "key": "burung.kepudangkudukhitamorioluschinensis.",
+     "in": "Kepudang kuduk-hitam - Oriolus chinensis"
+    },
+    {
+     "key": "burung.kirikkirikaustraliameropsornatus.",
+     "in": "Kirik-kirik australia - Merops ornatus"
+    },
+    {
+     "key": "burung.kirikkiriklautmeropsphilippinus.",
+     "in": "Kirik-kirik laut - Merops philippinus"
+    },
+    {
+     "key": "burung.nuripipimerahgeoffroyusgeoffroyi.",
+     "in": "Nuri Pipi Merah - Geoffroyus geoffroyi"
+    },
+    {
+     "key": "burung.opiorjambulheleiadohertyi.",
+     "in": "Opior jambul - Heleia dohertyi"
+    },
+    {
+     "key": "burung.sriguntingwallaceadicrurusdensus.",
+     "in": "Srigunting wallacea - Dicrurus densus"
+    },
+    {
+     "key": "burung.tekukurbiasaspilopeliachinensis.",
+     "in": "Tekukur biasa - Spilopelia chinensis"
+    },
+    {
+     "key": "burung.uncalbuaumacropygiaemiliana.",
+     "in": "Uncal buau - Macropygia emiliana"
+    },
+    {
+     "key": "burung.walettenggaracollocaliasumbawae.",
+     "in": "Walet tenggara - Collocalia sumbawae"
+    },
+    {
+     "key": "mamalia.babihutansusscrofa.",
+     "in": "Babi Hutan - Sus scrofa"
+    },
+    {
+     "key": "mamalia.rusatimorrusatimorensis.",
+     "in": "Rusa Timor - Rusa timorensis"
+    },
+    {
+     "key": "primata.monyetekorpanjangmacacafascicularis.",
+     "in": "Monyet Ekor Panjang - Macaca fascicularis"
+    },
+    {
+     "key": "serangga.capung.",
+     "in": "Capung"
+    },
+    {
+     "key": "serangga.kupukupu.",
+     "in": "Kupu-kupu"
     }
-  ]
+   ]
+  },
+  {
+   "key": "jarakkesatwam",
+   "tipe": "NUMERIC",
+   "sudah_ada": true,
+   "nama": {
+    "in": "Jarak ke satwa (m)",
+    "en": "Distance to animal (m)"
+   }
+  },
+  {
+   "key": "azimuth",
+   "tipe": "NUMERIC",
+   "sudah_ada": true,
+   "nama": {
+    "in": "Azimuth (derajat)",
+    "en": "Azimuth (degree)"
+   }
+  },
+  {
+   "key": "jenisperjumpaan",
+   "tipe": "LIST",
+   "sudah_ada": true,
+   "nama": {
+    "in": "Jenis perjumpaan",
+    "en": "Encounter type"
+   }
+  },
+  {
+   "key": "jumlahjantan",
+   "tipe": "NUMERIC",
+   "sudah_ada": true,
+   "nama": {
+    "in": "Jumlah jantan",
+    "en": "Number of males"
+   }
+  },
+  {
+   "key": "jumlahbetina",
+   "tipe": "NUMERIC",
+   "sudah_ada": true,
+   "nama": {
+    "in": "Jumlah betina",
+    "en": "Number of females"
+   }
+  },
+  {
+   "key": "cuaca",
+   "tipe": "LIST",
+   "sudah_ada": true,
+   "nama": {
+    "in": "Cuaca",
+    "en": "Weather"
+   }
+  },
+  {
+   "key": "keterangan",
+   "tipe": "TEXT",
+   "sudah_ada": true,
+   "nama": {
+    "in": "Keterangan",
+    "en": "Remarks"
+   }
+  },
+  {
+   "key": "jarijariplotm",
+   "tipe": "NUMERIC",
+   "nama": {
+    "in": "Jari-jari plot (m)",
+    "en": "Plot radius (m)"
+   }
+  },
+  {
+   "key": "jalurpengamatan",
+   "tipe": "LIST",
+   "nama": {
+    "in": "Jalur pengamatan",
+    "en": "Survey route"
+   },
+   "pilihan": [
+    {
+     "key": "jalurpendakian",
+     "in": "Jalur pendakian",
+     "en": "Hiking trail"
+    },
+    {
+     "key": "jalaninspeksi",
+     "in": "Jalan inspeksi",
+     "en": "Inspection road"
+    },
+    {
+     "key": "jalurpatroli",
+     "in": "Jalur patroli",
+     "en": "Patrol route"
+    },
+    {
+     "key": "lainnya",
+     "in": "Lainnya",
+     "en": "Other"
+    }
+   ]
+  },
+  {
+   "key": "ketinggianmdpl",
+   "tipe": "NUMERIC",
+   "nama": {
+    "in": "Ketinggian (mdpl)",
+    "en": "Elevation (m asl)"
+   }
+  },
+  {
+   "key": "tipetutupanlahan",
+   "tipe": "LIST",
+   "nama": {
+    "in": "Tipe tutupan lahan",
+    "en": "Land cover type"
+   },
+   "pilihan": [
+    {
+     "key": "savana",
+     "in": "Savana",
+     "en": "Savanna"
+    },
+    {
+     "key": "hutanlahankering",
+     "in": "Hutan lahan kering",
+     "en": "Dryland forest"
+    },
+    {
+     "key": "hutanpegunungan",
+     "in": "Hutan pegunungan",
+     "en": "Montane forest"
+    },
+    {
+     "key": "semakbelukar",
+     "in": "Semak belukar",
+     "en": "Shrubland"
+    },
+    {
+     "key": "kebunladang",
+     "in": "Kebun/ladang masyarakat",
+     "en": "Garden/farmland"
+    },
+    {
+     "key": "lahanterbuka",
+     "in": "Lahan terbuka",
+     "en": "Open land"
+    },
+    {
+     "key": "lainnya",
+     "in": "Lainnya",
+     "en": "Other"
+    },
+    {
+     "key": "hutanhujan",
+     "in": "Hutan hujan"
+    },
+    {
+     "key": "hutanmusim",
+     "in": "Hutan musim"
+    },
+    {
+     "key": "hutansubpegunungan",
+     "in": "Hutan sub pegunungan"
+    },
+    {
+     "key": "tepisungai",
+     "in": "Tepi sungai"
+    },
+    {
+     "key": "ekotonsavanadanhutan",
+     "in": "Ekoton savana dan hutan"
+    },
+    {
+     "key": "sumberair",
+     "in": "Sumber air"
+    },
+    {
+     "key": "hutancemara",
+     "in": "Hutan cemara"
+    },
+    {
+     "key": "lembah",
+     "in": "Lembah"
+    },
+    {
+     "key": "punggungbukit",
+     "in": "Punggung bukit"
+    }
+   ],
+   "keterangan": "Pilihan gabungan dari beberapa kegiatan; nonaktifkan pilihan yang tidak relevan per kategori di SMART Desktop bila perlu."
+  },
+  {
+   "key": "jumlahdewasa",
+   "tipe": "NUMERIC",
+   "nama": {
+    "in": "Jumlah dewasa",
+    "en": "Number of adults"
+   }
+  },
+  {
+   "key": "jumlahanakan",
+   "tipe": "NUMERIC",
+   "nama": {
+    "in": "Jumlah anak/remaja",
+    "en": "Number of juveniles"
+   }
+  },
+  {
+   "key": "aktivitasraptor",
+   "tipe": "LIST",
+   "nama": {
+    "in": "Aktivitas raptor",
+    "en": "Raptor activity"
+   },
+   "pilihan": [
+    {
+     "key": "soaring",
+     "in": "Soaring (terbang mengapung)",
+     "en": "Soaring"
+    },
+    {
+     "key": "gliding",
+     "in": "Gliding (meluncur horizontal)",
+     "en": "Gliding"
+    },
+    {
+     "key": "display",
+     "in": "Display/undulating",
+     "en": "Display flight"
+    },
+    {
+     "key": "hovering",
+     "in": "Hovering",
+     "en": "Hovering"
+    },
+    {
+     "key": "diving",
+     "in": "Diving (menukik)",
+     "en": "Diving"
+    },
+    {
+     "key": "perchhunting",
+     "in": "Berburu sambil bertengger (perch hunting)",
+     "en": "Perch hunting"
+    },
+    {
+     "key": "ambushhunting",
+     "in": "Berburu terbang rendah (ambush hunting)",
+     "en": "Ambush hunting"
+    },
+    {
+     "key": "bertengger",
+     "in": "Bertengger",
+     "en": "Perching"
+    },
+    {
+     "key": "terbang",
+     "in": "Terbang",
+     "en": "Flying"
+    },
+    {
+     "key": "kawin",
+     "in": "Kawin",
+     "en": "Mating"
+    },
+    {
+     "key": "bersarang",
+     "in": "Bersarang",
+     "en": "Nesting"
+    },
+    {
+     "key": "makan",
+     "in": "Makan",
+     "en": "Feeding"
+    },
+    {
+     "key": "lainnya",
+     "in": "Lainnya",
+     "en": "Other"
+    },
+    {
+     "key": "bersuara",
+     "in": "Bersuara"
+    },
+    {
+     "key": "membawamaterialsarang",
+     "in": "Membawa material sarang"
+    },
+    {
+     "key": "diserangmenyerangburunglain",
+     "in": "Diserang/menyerang burung lain"
+    }
+   ],
+   "keterangan": "Pilihan gabungan dari beberapa kegiatan; nonaktifkan pilihan yang tidak relevan per kategori di SMART Desktop bila perlu."
+  },
+  {
+   "key": "penggunaanruang",
+   "tipe": "LIST",
+   "nama": {
+    "in": "Penggunaan ruang",
+    "en": "Space use"
+   },
+   "pilihan": [
+    {
+     "key": "atastajuk",
+     "in": "Top (di atas tajuk)",
+     "en": "Top (above canopy)"
+    },
+    {
+     "key": "tajuk",
+     "in": "Tajuk",
+     "en": "Canopy"
+    },
+    {
+     "key": "bawahtajuk",
+     "in": "Bawah tajuk",
+     "en": "Below canopy"
+    },
+    {
+     "key": "permukaantanah",
+     "in": "Permukaan tanah",
+     "en": "Ground"
+    }
+   ]
+  },
+  {
+   "key": "tiperuang",
+   "tipe": "LIST",
+   "nama": {
+    "in": "Tipe ruang",
+    "en": "Space type"
+   },
+   "pilihan": [
+    {
+     "key": "terbuka",
+     "in": "Terbuka",
+     "en": "Open"
+    },
+    {
+     "key": "tertutup",
+     "in": "Tertutup",
+     "en": "Closed"
+    }
+   ]
+  },
+  {
+   "key": "sarangditemukan",
+   "tipe": "BOOLEAN",
+   "nama": {
+    "in": "Sarang ditemukan",
+    "en": "Nest found"
+   }
+  },
+  {
+   "key": "jumlah",
+   "tipe": "NUMERIC",
+   "sudah_ada": true,
+   "nama": {
+    "in": "Jumlah",
+    "en": "Number"
+   }
+  },
+  {
+   "key": "lokasi",
+   "tipe": "TEXT",
+   "sudah_ada": true,
+   "nama": {
+    "in": "Lokasi",
+    "en": "Location"
+   },
+   "keterangan": "Nama lokasi, jalur, atau blok. Patroli Balai juga memakainya untuk nomor grid, misalnya \"Grid 681\"."
+  },
+  {
+   "key": "jenistumbuhan",
+   "tipe": "TREE",
+   "sudah_ada": true,
+   "nama": {
+    "in": "Jenis tumbuhan",
+    "en": "Plant species"
+   },
+   "pilihan": [
+    {
+     "key": "tumbuhaninvasif.akasiadaunkecilacaciaaulicoliformes.",
+     "in": "Akasia Daun Kecil - Acacia aulicoliformes"
+    },
+    {
+     "key": "tumbuhantambora.",
+     "in": "Tumbuhan Tambora"
+    },
+    {
+     "key": "tumbuhantambora.angrek.",
+     "in": "Angrek"
+    },
+    {
+     "key": "tumbuhantambora.bara.",
+     "in": "Bara"
+    },
+    {
+     "key": "tumbuhantambora.belumadadilist.",
+     "in": "Belum Ada di List"
+    },
+    {
+     "key": "tumbuhantambora.dueberinginficusbenjamina.",
+     "in": "Due - Beringin - Ficus benjamina"
+    },
+    {
+     "key": "tumbuhantambora.duwetsyzygiumcumini.",
+     "in": "Duwet - Syzygium cumini"
+    },
+    {
+     "key": "tumbuhantambora.golkarkerinyuhchromolaenaodorata.",
+     "in": "Golkar - Kerinyuh - Chromolaena odorata"
+    },
+    {
+     "key": "tumbuhantambora.jatidorosimpurdilleniapentagyna.",
+     "in": "Jati doro - Simpur - Dillenia pentagyna"
+    },
+    {
+     "key": "tumbuhantambora.kabahokafamengkiraitremaorientale.",
+     "in": "Kabaho kafa - Mengkirai - Trema orientale"
+    },
+    {
+     "key": "tumbuhantambora.kalanggo.",
+     "in": "Kalanggo - Rajumas - Duabanga moluccana"
+    },
+    {
+     "key": "tumbuhantambora.kanangaburagmelinaelliptica.",
+     "in": "Kananga bura - - Gmelina elliptica"
+    },
+    {
+     "key": "tumbuhantambora.katowipalaquiumamboinense.",
+     "in": "Katowi - - Palaquium amboinense"
+    },
+    {
+     "key": "tumbuhantambora.keranonyawaificusvariegata.",
+     "in": "Kerano - Nyawai - Ficus variegata"
+    },
+    {
+     "key": "tumbuhantambora.kingkilabanmussaendafrondosa.",
+     "in": "- Kingkilaban - Mussaenda frondosa"
+    },
+    {
+     "key": "tumbuhantambora.loatrenggulunprotiumjavanicum.",
+     "in": "Loa - Trenggulun - Protium javanicum"
+    },
+    {
+     "key": "tumbuhantambora.lokalelakuvariarufa.",
+     "in": "Loka - Lelak - Uvaria rufa"
+    },
+    {
+     "key": "tumbuhantambora.luhuwalikukunschouteniaovata.",
+     "in": "Luhu - Walikukun - Schoutenia ovata"
+    },
+    {
+     "key": "tumbuhantambora.maladihajujelatanggajahdendrocnidestimulans.",
+     "in": "Maladi haju - Jelatang gajah - Dendrocnide stimulans"
+    },
+    {
+     "key": "tumbuhantambora.manggeasamjawatamarindusindica.",
+     "in": "Mangge - Asam jawa - Tamarindus indica"
+    },
+    {
+     "key": "tumbuhantambora.monggokalasalamsyzygiumpolyanthum.",
+     "in": "Monggo Kala - Salam - Syzygium polyanthum"
+    },
+    {
+     "key": "tumbuhantambora.mporingamealangalangimperatacylindrica.",
+     "in": "Mpori ngame - Alang-alang - Imperata cylindrica"
+    },
+    {
+     "key": "tumbuhantambora.mposuawarawarficusseptica.",
+     "in": "Mposu - Awar-awar - Ficus septica"
+    },
+    {
+     "key": "tumbuhantambora.naaloaaraficusracemosa.",
+     "in": "Na'a - Loa ara - Ficus racemosa"
+    },
+    {
+     "key": "tumbuhantambora.ndantandoloandulpakhomalanthusgiganteus.",
+     "in": "Danta ndolo - Andulpak - Homalanthus giganteus"
+    },
+    {
+     "key": "tumbuhantambora.ndantandolomahangmacarangatanarius.",
+     "in": "Danta ndolo - Mahang - Macaranga tanarius"
+    },
+    {
+     "key": "tumbuhantambora.ndaruwerualbiziaprocera.",
+     "in": "Ndaru - Weru - Albizia procera"
+    },
+    {
+     "key": "tumbuhantambora.owoararatuficusalbipila.",
+     "in": "Owo - Ara ratu - Ficus albipila"
+    },
+    {
+     "key": "tumbuhantambora.papitesekdodonaeaviscosa.",
+     "in": "Papi - Tesek - Dodonaea viscosa"
+    },
+    {
+     "key": "tumbuhantambora.patopopohangetasanbuchananiaarborescens.",
+     "in": "Pato - Popohan/Getasan - Buchanania arborescens"
+    },
+    {
+     "key": "tumbuhantambora.ranggabidaraziziphusmauritiana.",
+     "in": "Rangga - Bidara - Ziziphus mauritiana"
+    },
+    {
+     "key": "tumbuhantambora.rapugenggirangleeaangulata.",
+     "in": "Rapu - Genggirang - Leea angulata"
+    },
+    {
+     "key": "tumbuhantambora.ridapulaialstoniascholaris.",
+     "in": "Rida - Pulai - Alstonia scholaris"
+    },
+    {
+     "key": "tumbuhantambora.rinocenderaigrewiaeriocarpa.",
+     "in": "Rino - Cenderai - Grewia eriocarpa"
+    },
+    {
+     "key": "tumbuhantambora.rufepiliostigmamalabaricum.",
+     "in": "Rufe -  - Piliostigma malabaricum"
+    },
+    {
+     "key": "tumbuhantambora.sabiacabaijawapiperretrofractum.",
+     "in": "Sabia - Cabai jawa - Piper retrofractum"
+    },
+    {
+     "key": "tumbuhantambora.safarebura.",
+     "in": "Safare Bura"
+    },
+    {
+     "key": "tumbuhantambora.sambikesambischleicheraoleosa.",
+     "in": "Sambi - Kesambi - Schleichera oleosa"
+    },
+    {
+     "key": "tumbuhantambora.sareoterisialbizialebbekoides.",
+     "in": "Sareo - Terisi - Albizia lebbekoides"
+    },
+    {
+     "key": "tumbuhantambora.sarumearaacronychiatrifoliolata.",
+     "in": "Sarume ara -  - Acronychia trifoliolata"
+    },
+    {
+     "key": "tumbuhantambora.sarumemajumalakaphyllanthusemblica.",
+     "in": "Sarume maju - Malaka - Phyllanthus emblica"
+    },
+    {
+     "key": "tumbuhantambora.sonokelirsonokelingdalbergialatifolia.",
+     "in": "Sonokelir - Sonokeling - Dalbergia latifolia"
+    },
+    {
+     "key": "tumbuhantambora.teridetembelekanlantanacamara.",
+     "in": "Teride - Tembelekan - Lantana camara"
+    },
+    {
+     "key": "tumbuhantambora.toaketimunantimoniustimon.",
+     "in": "Toa - Ketimunan - Timonius timon"
+    },
+    {
+     "key": "tumbuhantambora.tulalegaranalstoniaspectabilis.",
+     "in": "Tula - Legaran - Alstonia spectabilis"
+    }
+   ],
+   "keterangan": "Pohon jenis tumbuhan di Data Model Balai (mis. tumbuhantambora.duwetsyzygiumcumini.). Label \"Nama lokal - Nama Indonesia - Nama ilmiah\" dipisah otomatis oleh aplikasi."
+  },
+  {
+   "key": "asal",
+   "tipe": "TEXT",
+   "sudah_ada": true,
+   "nama": {
+    "in": "Asal",
+    "en": "Origin"
+   },
+   "keterangan": "Untuk jenis invasif diisi daerah asal jenis."
+  },
+  {
+   "key": "status",
+   "tipe": "LIST",
+   "sudah_ada": true,
+   "nama": {
+    "in": "Status",
+    "en": "Status"
+   },
+   "pilihan": [
+    {
+     "key": "dilindungi",
+     "in": "Dilindungi"
+    },
+    {
+     "key": "tidakdilindungi",
+     "in": "Tidak Dilindungi"
+    }
+   ],
+   "keterangan": "Status perlindungan menurut Permen LHK P.106/2018."
+  },
+  {
+   "key": "usiatemuan",
+   "tipe": "LIST",
+   "sudah_ada": true,
+   "nama": {
+    "in": "Usia temuan",
+    "en": "Age of finding"
+   },
+   "pilihan": [
+    {
+     "key": "barudalam1minggu",
+     "in": "Baru (dalam 1 minggu)"
+    },
+    {
+     "key": "cukuplama1bulan",
+     "in": "Cukup lama (>1 bulan)"
+    },
+    {
+     "key": "diatas1tahun",
+     "in": "Diatas 1 tahun"
+    },
+    {
+     "key": "sangatlama3bulan",
+     "in": "Sangat lama (>3bulan)"
+    },
+    {
+     "key": "cukupbaru1minggu2minggu",
+     "in": "Cukup baru (1-2 minggu)"
+    },
+    {
+     "key": "lama2minggu4minggu",
+     "in": "Lama (2-4 minggu)"
+    }
+   ],
+   "keterangan": "Umur tanda keberadaan satwa (jejak, kotoran). Label untuk key cukupbaru1minggu2minggu, lama2minggu4minggu disimpulkan dari key-nya karena belum tercantum di kamus dashboard; muat ekspor Data Model Balai di aplikasi untuk label resmi."
+  },
+  {
+   "key": "tipetemuan",
+   "tipe": "TREE",
+   "sudah_ada": true,
+   "nama": {
+    "in": "Tipe temuan",
+    "en": "Finding type"
+   },
+   "pilihan": [
+    {
+     "key": "alatkerja.gubuk.",
+     "in": "Gubuk/camp/bevak"
+    },
+    {
+     "key": "fituralami.alur.",
+     "in": "Alur"
+    },
+    {
+     "key": "fituralami.tampunganataugenanganair.",
+     "in": "Tampungan atau genangan air"
+    },
+    {
+     "key": "infrastruktursaranadanprasarana.pospendakian.",
+     "in": "Pos Pendakian"
+    },
+    {
+     "key": "jejak.kubangan.",
+     "in": "Kubangan"
+    },
+    {
+     "key": "jejak.suara.",
+     "in": "Suara"
+    },
+    {
+     "key": "kebakaranhutandanlahan.bekaskebakaran.",
+     "in": "Bekas kebakaran"
+    },
+    {
+     "key": "kelompoktumbuhan.tumbuhanbawah.",
+     "in": "Tumbuhan Bawah"
+    },
+    {
+     "key": "kelompoktumbuhan.tumbuhanfungsilainnya.",
+     "in": "Tumbuhan fungsi lainnya"
+    },
+    {
+     "key": "kelompoktumbuhan.tumbuhankayukeras.",
+     "in": "Tumbuhan kayu keras"
+    },
+    {
+     "key": "kelompoktumbuhan.tumbuhanobat.",
+     "in": "Tumbuhan obat"
+    },
+    {
+     "key": "kelompoktumbuhan.tumbuhanpakansatwa.",
+     "in": "Tumbuhan pakan satwa"
+    },
+    {
+     "key": "mediainformasi.papaninformasi.",
+     "in": "Papan informasi"
+    },
+    {
+     "key": "mediainformasi.papanlarangan.",
+     "in": "Papan Larangan"
+    },
+    {
+     "key": "palbatas.beton.",
+     "in": "Beton"
+    },
+    {
+     "key": "pembalakan.pembalak.",
+     "in": "Pembalak"
+    },
+    {
+     "key": "pengambilanhhbk.madu.",
+     "in": "Madu"
+    },
+    {
+     "key": "penggunaankawasan.kebun.",
+     "in": "Kebun"
+    },
+    {
+     "key": "penggunaankawasan.ladang.",
+     "in": "Ladang"
+    },
+    {
+     "key": "penggunaankawasan.pelakupembukaanlahan.",
+     "in": "Pelaku pembukaan lahan"
+    },
+    {
+     "key": "perburuansatwa.pemburu.",
+     "in": "Pemburu"
+    }
+   ],
+   "keterangan": "Dibaca dari observasi Satwa Liar patroli rutin."
+  },
+  {
+   "key": "klasifikasi1te",
+   "tipe": "TREE",
+   "sudah_ada": true,
+   "nama": {
+    "in": "Klasifikasi 1",
+    "en": "Classification 1"
+   },
+   "pilihan": [
+    {
+     "key": "alami.",
+     "in": "Alami"
+    },
+    {
+     "key": "buatan.",
+     "in": "Buatan"
+    }
+   ],
+   "keterangan": "Asal ekosistem (alami atau buatan). Dipakai juga di kategori Ground Check > Tipe Ekosistem. Label untuk key buatan disimpulkan dari key-nya karena belum tercantum di kamus dashboard; muat ekspor Data Model Balai di aplikasi untuk label resmi."
+  },
+  {
+   "key": "klasifikasi2te",
+   "tipe": "TREE",
+   "sudah_ada": true,
+   "nama": {
+    "in": "Klasifikasi 2",
+    "en": "Classification 2"
+   },
+   "pilihan": [
+    {
+     "key": "ekosistemteresterial.",
+     "in": "Ekosistem Teresterial"
+    },
+    {
+     "key": "buatan.",
+     "in": "Buatan"
+    }
+   ],
+   "keterangan": "Kelompok ekosistem. Label untuk key buatan disimpulkan dari key-nya karena belum tercantum di kamus dashboard; muat ekspor Data Model Balai di aplikasi untuk label resmi."
+  },
+  {
+   "key": "klasifikasi3",
+   "tipe": "TREE",
+   "sudah_ada": true,
+   "nama": {
+    "in": "Klasifikasi 3",
+    "en": "Classification 3"
+   },
+   "pilihan": [
+    {
+     "key": "daratanrendah01000mdpl.",
+     "in": "Daratan Rendah (0-1000mdpl)"
+    },
+    {
+     "key": "pegununganbawah10001500mdpl.",
+     "in": "Pegunungan Bawah (1000-1500mdpl)"
+    },
+    {
+     "key": "pegununganatas15002400mdpl.",
+     "in": "Pegunungan Atas (1500-2400mdpl)"
+    }
+   ],
+   "keterangan": "Zona ketinggian (van Steenis, 1972). Data Balai juga memuat key pegununganatas15002400mdpl; zona sub alpin (2.400-4.150 mdpl) dapat ditambahkan bila grid di atas 2.400 mdpl diverifikasi. Label untuk key pegununganatas15002400mdpl disimpulkan dari key-nya karena belum tercantum di kamus dashboard; muat ekspor Data Model Balai di aplikasi untuk label resmi."
+  },
+  {
+   "key": "klasifikasi4",
+   "tipe": "LIST",
+   "sudah_ada": true,
+   "nama": {
+    "in": "Klasifikasi 4",
+    "en": "Classification 4"
+   },
+   "pilihan": [
+    {
+     "key": "hutanpamah",
+     "in": "Hutan Pamah"
+    },
+    {
+     "key": "hutanpegununganbawah",
+     "in": "Hutan Pegunungan Bawah"
+    },
+    {
+     "key": "padangrumput",
+     "in": "Padang Rumput"
+    },
+    {
+     "key": "pamah",
+     "in": "Pamah"
+    },
+    {
+     "key": "savana",
+     "in": "Savana"
+    },
+    {
+     "key": "sungai",
+     "in": "Sungai"
+    }
+   ],
+   "keterangan": "Tipe ekosistem."
+  },
+  {
+   "key": "klasifikasi01",
+   "tipe": "TREE",
+   "sudah_ada": true,
+   "nama": {
+    "in": "Klasifikasi 01",
+    "en": "Classification 01"
+   },
+   "pilihan": [
+    {
+     "key": "nonopenarea.",
+     "in": "Non Open Area"
+    },
+    {
+     "key": "openarea.",
+     "in": "Open Area"
+    }
+   ],
+   "keterangan": "Status open area pada kategori Ground Check > Tutupan Lahan."
+  },
+  {
+   "key": "klasifikasi02",
+   "tipe": "LIST",
+   "sudah_ada": true,
+   "nama": {
+    "in": "Klasifikasi 02",
+    "en": "Classification 02"
+   },
+   "pilihan": [
+    {
+     "key": "hutanhujan",
+     "in": "Hutan Hujan"
+    },
+    {
+     "key": "hutanmonsun",
+     "in": "Hutan Monsun"
+    },
+    {
+     "key": "ladang",
+     "in": "Ladang"
+    },
+    {
+     "key": "savanapadangrumput",
+     "in": "Savana/ Padang Rumput"
+    },
+    {
+     "key": "semak",
+     "in": "Semak"
+    },
+    {
+     "key": "tanamancampuran",
+     "in": "Tanaman campuran"
+    },
+    {
+     "key": "lainnyatulisdikomen",
+     "in": "Lainnya (tulis di komentar)"
+    }
+   ],
+   "keterangan": "Kelas tutupan lahan pada kategori Ground Check > Tutupan Lahan. Label untuk key tanamancampuran, lainnyatulisdikomen disimpulkan dari key-nya karena belum tercantum di kamus dashboard; muat ekspor Data Model Balai di aplikasi untuk label resmi."
+  },
+  {
+   "key": "notransek",
+   "tipe": "TEXT",
+   "nama": {
+    "in": "No. transek/jalur",
+    "en": "Transect/route number"
+   }
+  },
+  {
+   "key": "kodegrid",
+   "tipe": "TEXT",
+   "nama": {
+    "in": "Kode grid",
+    "en": "Grid code"
+   },
+   "keterangan": "Kode grid areal kehati tinggi atau grid sampling. Bila kosong, aplikasi membaca pola \"Grid 681\" pada atribut lokasi."
+  },
+  {
+   "key": "kodesarang",
+   "tipe": "TEXT",
+   "nama": {
+    "in": "Kode sarang",
+    "en": "Nest code"
+   },
+   "keterangan": "Kode tetap agar sarang yang sama dapat dipantau antartahun."
+  },
+  {
+   "key": "kodepohon",
+   "tipe": "TEXT",
+   "nama": {
+    "in": "Kode pohon",
+    "en": "Tree code"
+   },
+   "keterangan": "Kode tetap pohon sarang agar dapat dibandingkan antarsurvei."
+  },
+  {
+   "key": "kodesampel",
+   "tipe": "TEXT",
+   "nama": {
+    "in": "Kode sampel",
+    "en": "Sample code"
+   },
+   "keterangan": "Kode kantong sampel yang dibawa ke laboratorium."
+  },
+  {
+   "key": "jaraksarangm",
+   "tipe": "NUMERIC",
+   "nama": {
+    "in": "Jarak ke sarang (m)",
+    "en": "Distance to nest (m)"
+   }
+  },
+  {
+   "key": "jumlahmuda",
+   "tipe": "NUMERIC",
+   "nama": {
+    "in": "Jumlah muda",
+    "en": "Number of subadults"
+   }
+  },
+  {
+   "key": "sudutkontak",
+   "tipe": "NUMERIC",
+   "nama": {
+    "in": "Sudut kontak (derajat)",
+    "en": "Sighting angle (degree)"
+   },
+   "keterangan": "Sudut antara arah transek dan garis pandang ke satwa."
+  },
+  {
+   "key": "sisitransek",
+   "tipe": "LIST",
+   "nama": {
+    "in": "Sisi transek",
+    "en": "Transect side"
+   },
+   "pilihan": [
+    {
+     "key": "kiri",
+     "in": "Kiri"
+    },
+    {
+     "key": "kanan",
+     "in": "Kanan"
+    }
+   ]
+  },
+  {
+   "key": "panjangtransekm",
+   "tipe": "NUMERIC",
+   "nama": {
+    "in": "Panjang transek (m)",
+    "en": "Transect length (m)"
+   }
+  },
+  {
+   "key": "luasha",
+   "tipe": "NUMERIC",
+   "nama": {
+    "in": "Luas area sampel (ha)",
+    "en": "Sample area (ha)"
+   }
+  },
+  {
+   "key": "tingkatpertumbuhan",
+   "tipe": "LIST",
+   "nama": {
+    "in": "Tingkat pertumbuhan",
+    "en": "Growth stage"
+   },
+   "keterangan": "Semai tinggi < 1,5 m; pancang tinggi ≥ 1,5 m dan diameter < 10 cm; tiang diameter 10 sampai < 20 cm; pohon diameter ≥ 20 cm.",
+   "pilihan": [
+    {
+     "key": "semai",
+     "in": "Semai"
+    },
+    {
+     "key": "pancang",
+     "in": "Pancang"
+    },
+    {
+     "key": "tiang",
+     "in": "Tiang"
+    },
+    {
+     "key": "pohon",
+     "in": "Pohon"
+    },
+    {
+     "key": "tumbuhanbawah",
+     "in": "Tumbuhan bawah"
+    }
+   ]
+  },
+  {
+   "key": "dbhpohoncm",
+   "tipe": "NUMERIC",
+   "nama": {
+    "in": "Diameter setinggi dada (cm)",
+    "en": "Diameter at breast height (cm)"
+   },
+   "keterangan": "Diukur 1,3 m di atas tanah."
+  },
+  {
+   "key": "kelilingcm",
+   "tipe": "NUMERIC",
+   "nama": {
+    "in": "Keliling batang (cm)",
+    "en": "Stem girth (cm)"
+   },
+   "keterangan": "Boleh diisi sebagai ganti diameter; aplikasi menghitung diameter = keliling / π."
+  },
+  {
+   "key": "tinggipohonm",
+   "tipe": "NUMERIC",
+   "nama": {
+    "in": "Tinggi pohon (m)",
+    "en": "Tree height (m)"
+   }
+  },
+  {
+   "key": "tinggisarangm",
+   "tipe": "NUMERIC",
+   "nama": {
+    "in": "Tinggi sarang (m)",
+    "en": "Nest height (m)"
+   }
+  },
+  {
+   "key": "jaraksumberairm",
+   "tipe": "NUMERIC",
+   "nama": {
+    "in": "Jarak ke sumber air (m)",
+    "en": "Distance to water (m)"
+   }
+  },
+  {
+   "key": "kondisisarang",
+   "tipe": "LIST",
+   "nama": {
+    "in": "Kondisi sarang",
+    "en": "Nest condition"
+   },
+   "pilihan": [
+    {
+     "key": "aktifadateluranakaninduk",
+     "in": "Aktif (ada telur/anakan/induk)"
+    },
+    {
+     "key": "aktifmaterialbaru",
+     "in": "Aktif (material baru)"
+    },
+    {
+     "key": "tidakaktif",
+     "in": "Tidak aktif"
+    },
+    {
+     "key": "rusakjatuh",
+     "in": "Rusak/jatuh"
+    }
+   ],
+   "keterangan": "Pilihan gabungan dari beberapa kegiatan; nonaktifkan pilihan yang tidak relevan per kategori di SMART Desktop bila perlu."
+  },
+  {
+   "key": "stratatajuk",
+   "tipe": "LIST",
+   "nama": {
+    "in": "Strata penggunaan ruang",
+    "en": "Canopy stratum used"
+   },
+   "keterangan": "Elang flores: Top di atas tajuk, Middle pada tajuk, Low di bawah tajuk.",
+   "pilihan": [
+    {
+     "key": "top",
+     "in": "Top"
+    },
+    {
+     "key": "middle",
+     "in": "Middle"
+    },
+    {
+     "key": "low",
+     "in": "Low"
+    }
+   ]
+  },
+  {
+   "key": "tipeekosistem",
+   "tipe": "LIST",
+   "nama": {
+    "in": "Tipe ekosistem",
+    "en": "Ecosystem type"
+   },
+   "keterangan": "Untuk verifikasi kehati tinggi dipakai klasifikasi empat tingkat yang sudah ada (klasifikasi1te sampai klasifikasi4). Pilihan gabungan dari beberapa kegiatan; nonaktifkan pilihan yang tidak relevan per kategori di SMART Desktop bila perlu.",
+   "pilihan": [
+    {
+     "key": "hutanpamahdataranrendah",
+     "in": "Hutan pamah (dataran rendah)"
+    },
+    {
+     "key": "hutanmusimkering",
+     "in": "Hutan musim/kering"
+    },
+    {
+     "key": "hutanhujantropisdataranrendah",
+     "in": "Hutan hujan tropis dataran rendah"
+    },
+    {
+     "key": "hutanpegununganbawah",
+     "in": "Hutan pegunungan bawah"
+    },
+    {
+     "key": "hutanpegununganatas",
+     "in": "Hutan pegunungan atas"
+    },
+    {
+     "key": "subalpin",
+     "in": "Sub alpin"
+    },
+    {
+     "key": "savana",
+     "in": "Savana"
+    },
+    {
+     "key": "riparian",
+     "in": "Riparian"
+    },
+    {
+     "key": "ekosistemlainnya",
+     "in": "Ekosistem lainnya"
+    },
+    {
+     "key": "padangrumput",
+     "in": "Padang rumput"
+    },
+    {
+     "key": "semakbelukar",
+     "in": "Semak belukar"
+    }
+   ]
+  },
+  {
+   "key": "tipeekosistempeta",
+   "tipe": "LIST",
+   "nama": {
+    "in": "Tipe ekosistem (peta)",
+    "en": "Ecosystem type (map)"
+   },
+   "keterangan": "Kelas tipe ekosistem menurut peta yang diverifikasi.",
+   "pilihan": [
+    {
+     "key": "hutanpamahdataranrendah",
+     "in": "Hutan pamah (dataran rendah)"
+    },
+    {
+     "key": "hutanmusimkering",
+     "in": "Hutan musim/kering"
+    },
+    {
+     "key": "hutanhujantropisdataranrendah",
+     "in": "Hutan hujan tropis dataran rendah"
+    },
+    {
+     "key": "hutanpegununganbawah",
+     "in": "Hutan pegunungan bawah"
+    },
+    {
+     "key": "hutanpegununganatas",
+     "in": "Hutan pegunungan atas"
+    },
+    {
+     "key": "subalpin",
+     "in": "Sub alpin"
+    },
+    {
+     "key": "savana",
+     "in": "Savana"
+    },
+    {
+     "key": "riparian",
+     "in": "Riparian"
+    },
+    {
+     "key": "ekosistemlainnya",
+     "in": "Ekosistem lainnya"
+    }
+   ]
+  },
+  {
+   "key": "tutupanlahanpeta",
+   "tipe": "LIST",
+   "nama": {
+    "in": "Tutupan lahan (peta)",
+    "en": "Land cover (map)"
+   },
+   "keterangan": "Kelas tutupan lahan menurut peta yang diverifikasi.",
+   "pilihan": [
+    {
+     "key": "hutan",
+     "in": "Hutan"
+    },
+    {
+     "key": "hutanlahankeringprimer",
+     "in": "Hutan lahan kering primer"
+    },
+    {
+     "key": "hutanlahankeringsekunder",
+     "in": "Hutan lahan kering sekunder"
+    },
+    {
+     "key": "hutantanaman",
+     "in": "Hutan tanaman"
+    },
+    {
+     "key": "semakbelukar",
+     "in": "Semak belukar"
+    },
+    {
+     "key": "savana",
+     "in": "Savana"
+    },
+    {
+     "key": "padangrumput",
+     "in": "Padang rumput"
+    },
+    {
+     "key": "pertanianlahankering",
+     "in": "Pertanian lahan kering"
+    },
+    {
+     "key": "pertanianlahankeringcampursemak",
+     "in": "Pertanian lahan kering campur semak"
+    },
+    {
+     "key": "perkebunan",
+     "in": "Perkebunan"
+    },
+    {
+     "key": "permukiman",
+     "in": "Permukiman"
+    },
+    {
+     "key": "lahanterbuka",
+     "in": "Lahan terbuka"
+    },
+    {
+     "key": "tubuhair",
+     "in": "Tubuh air"
+    }
+   ]
+  },
+  {
+   "key": "tutupanlahanlapangan",
+   "tipe": "LIST",
+   "nama": {
+    "in": "Tutupan lahan (lapangan)",
+    "en": "Land cover (field)"
+   },
+   "keterangan": "Pakai sistem kelas yang sama dengan peta agar akurasi dapat dihitung.",
+   "pilihan": [
+    {
+     "key": "hutan",
+     "in": "Hutan"
+    },
+    {
+     "key": "hutanlahankeringprimer",
+     "in": "Hutan lahan kering primer"
+    },
+    {
+     "key": "hutanlahankeringsekunder",
+     "in": "Hutan lahan kering sekunder"
+    },
+    {
+     "key": "hutantanaman",
+     "in": "Hutan tanaman"
+    },
+    {
+     "key": "semakbelukar",
+     "in": "Semak belukar"
+    },
+    {
+     "key": "savana",
+     "in": "Savana"
+    },
+    {
+     "key": "padangrumput",
+     "in": "Padang rumput"
+    },
+    {
+     "key": "pertanianlahankering",
+     "in": "Pertanian lahan kering"
+    },
+    {
+     "key": "pertanianlahankeringcampursemak",
+     "in": "Pertanian lahan kering campur semak"
+    },
+    {
+     "key": "perkebunan",
+     "in": "Perkebunan"
+    },
+    {
+     "key": "permukiman",
+     "in": "Permukiman"
+    },
+    {
+     "key": "lahanterbuka",
+     "in": "Lahan terbuka"
+    },
+    {
+     "key": "tubuhair",
+     "in": "Tubuh air"
+    }
+   ]
+  },
+  {
+   "key": "statusopenarea",
+   "tipe": "LIST",
+   "nama": {
+    "in": "Status open area",
+    "en": "Open area status"
+   },
+   "pilihan": [
+    {
+     "key": "nonopenarea",
+     "in": "Non open area"
+    },
+    {
+     "key": "openarea",
+     "in": "Open area"
+    },
+    {
+     "key": "openareaalami",
+     "in": "Open area alami"
+    },
+    {
+     "key": "openareabuatan",
+     "in": "Open area buatan"
+    }
+   ]
+  },
+  {
+   "key": "penyebabopenarea",
+   "tipe": "LIST",
+   "nama": {
+    "in": "Penyebab open area",
+    "en": "Open area cause"
+   },
+   "pilihan": [
+    {
+     "key": "pertanianperladangan",
+     "in": "Pertanian/perladangan"
+    },
+    {
+     "key": "perkebunan",
+     "in": "Perkebunan"
+    },
+    {
+     "key": "permukiman",
+     "in": "Permukiman"
+    },
+    {
+     "key": "bekaskebakaran",
+     "in": "Bekas kebakaran"
+    },
+    {
+     "key": "bekaspembalakan",
+     "in": "Bekas pembalakan"
+    },
+    {
+     "key": "jalanatausarana",
+     "in": "Jalan atau sarana"
+    },
+    {
+     "key": "bencanaalam",
+     "in": "Bencana alam"
+    },
+    {
+     "key": "lainnya",
+     "in": "Lainnya"
+    }
+   ]
+  },
+  {
+   "key": "zonasikawasan",
+   "tipe": "LIST",
+   "nama": {
+    "in": "Zona",
+    "en": "Management zone"
+   },
+   "pilihan": [
+    {
+     "key": "zonainti",
+     "in": "Zona Inti"
+    },
+    {
+     "key": "zonarimba",
+     "in": "Zona Rimba"
+    },
+    {
+     "key": "zonapemanfaatan",
+     "in": "Zona Pemanfaatan"
+    },
+    {
+     "key": "zonatradisional",
+     "in": "Zona Tradisional"
+    },
+    {
+     "key": "zonarehabilitasi",
+     "in": "Zona Rehabilitasi"
+    },
+    {
+     "key": "zonakhusus",
+     "in": "Zona Khusus"
+    }
+   ],
+   "keterangan": "Pilihan gabungan dari beberapa kegiatan; nonaktifkan pilihan yang tidak relevan per kategori di SMART Desktop bila perlu."
+  },
+  {
+   "key": "lokasisasaran",
+   "tipe": "LIST",
+   "nama": {
+    "in": "Lokasi sasaran",
+    "en": "Target site"
+   },
+   "keterangan": "Tempat yang rawan masuknya jenis invasif.",
+   "pilihan": [
+    {
+     "key": "jalurpendakian",
+     "in": "Jalur pendakian"
+    },
+    {
+     "key": "jalurternak",
+     "in": "Jalur ternak"
+    },
+    {
+     "key": "jalansetapak",
+     "in": "Jalan setapak"
+    },
+    {
+     "key": "arealterbuka",
+     "in": "Areal terbuka"
+    },
+    {
+     "key": "bekaskebakaran",
+     "in": "Bekas kebakaran"
+    },
+    {
+     "key": "bataskawasandanladang",
+     "in": "Batas kawasan dan ladang"
+    },
+    {
+     "key": "dekatpermukiman",
+     "in": "Dekat permukiman"
+    },
+    {
+     "key": "tepisungai",
+     "in": "Tepi sungai"
+    }
+   ]
+  },
+  {
+   "key": "jenisinvasif",
+   "tipe": "BOOLEAN",
+   "nama": {
+    "in": "Jenis invasif",
+    "en": "Invasive species"
+   },
+   "keterangan": "Centang bila jenis termasuk invasif."
+  },
+  {
+   "key": "carahidup",
+   "tipe": "LIST",
+   "nama": {
+    "in": "Cara hidup",
+    "en": "Life form"
+   },
+   "pilihan": [
+    {
+     "key": "epifit",
+     "in": "Epifit"
+    },
+    {
+     "key": "terestrial",
+     "in": "Terestrial"
+    },
+    {
+     "key": "litofit",
+     "in": "Litofit"
+    }
+   ]
+  },
+  {
+   "key": "pohoninang",
+   "tipe": "TEXT",
+   "nama": {
+    "in": "Pohon inang",
+    "en": "Host tree"
+   },
+   "keterangan": "Nama jenis pohon inang anggrek epifit."
+  },
+  {
+   "key": "tinggitempelm",
+   "tipe": "NUMERIC",
+   "nama": {
+    "in": "Tinggi tempel (m)",
+    "en": "Attachment height (m)"
+   }
+  },
+  {
+   "key": "fenologi",
+   "tipe": "LIST",
+   "nama": {
+    "in": "Fenologi",
+    "en": "Phenology"
+   },
+   "pilihan": [
+    {
+     "key": "vegetatif",
+     "in": "Vegetatif"
+    },
+    {
+     "key": "kuncup",
+     "in": "Kuncup"
+    },
+    {
+     "key": "berbunga",
+     "in": "Berbunga"
+    },
+    {
+     "key": "berbuah",
+     "in": "Berbuah"
+    }
+   ]
+  },
+  {
+   "key": "aktivitassatwa",
+   "tipe": "LIST",
+   "nama": {
+    "in": "Aktivitas satwa",
+    "en": "Animal activity"
+   },
+   "pilihan": [
+    {
+     "key": "makan",
+     "in": "Makan"
+    },
+    {
+     "key": "istirahat",
+     "in": "Istirahat"
+    },
+    {
+     "key": "berjalan",
+     "in": "Berjalan"
+    },
+    {
+     "key": "berlari",
+     "in": "Berlari"
+    },
+    {
+     "key": "minum",
+     "in": "Minum"
+    },
+    {
+     "key": "berkubang",
+     "in": "Berkubang"
+    },
+    {
+     "key": "lainnya",
+     "in": "Lainnya"
+    },
+    {
+     "key": "terbang",
+     "in": "Terbang"
+    },
+    {
+     "key": "bertengger",
+     "in": "Bertengger"
+    },
+    {
+     "key": "berkicau",
+     "in": "Berkicau"
+    },
+    {
+     "key": "soaring",
+     "in": "Soaring"
+    },
+    {
+     "key": "bersarang",
+     "in": "Bersarang"
+    },
+    {
+     "key": "mandi",
+     "in": "Mandi"
+    },
+    {
+     "key": "mencarimakan",
+     "in": "Mencari makan"
+    },
+    {
+     "key": "membuatsarang",
+     "in": "Membuat sarang"
+    },
+    {
+     "key": "bersosialisasi",
+     "in": "Bersosialisasi"
+    }
+   ],
+   "keterangan": "Pilihan gabungan dari beberapa kegiatan; nonaktifkan pilihan yang tidak relevan per kategori di SMART Desktop bila perlu."
+  },
+  {
+   "key": "tandakeberadaan",
+   "tipe": "LIST",
+   "nama": {
+    "in": "Tanda keberadaan",
+    "en": "Presence sign"
+   },
+   "keterangan": "Jenis temuan, termasuk perjumpaan langsung. Pilihan gabungan dari beberapa kegiatan; nonaktifkan pilihan yang tidak relevan per kategori di SMART Desktop bila perlu.",
+   "pilihan": [
+    {
+     "key": "jejakkaki",
+     "in": "Jejak kaki"
+    },
+    {
+     "key": "kotoranonggokan",
+     "in": "Kotoran (onggokan)"
+    },
+    {
+     "key": "bekasmakan",
+     "in": "Bekas makan"
+    },
+    {
+     "key": "garukanranggah",
+     "in": "Garukan ranggah"
+    },
+    {
+     "key": "tempatistirahat",
+     "in": "Tempat istirahat"
+    },
+    {
+     "key": "kubangan",
+     "in": "Kubangan"
+    },
+    {
+     "key": "suara",
+     "in": "Suara"
+    },
+    {
+     "key": "urine",
+     "in": "Urine"
+    },
+    {
+     "key": "perjumpaanlangsung",
+     "in": "Perjumpaan langsung"
+    },
+    {
+     "key": "sarang",
+     "in": "Sarang"
+    },
+    {
+     "key": "buluataubagiantubuh",
+     "in": "Bulu atau bagian tubuh"
+    },
+    {
+     "key": "lainnya",
+     "in": "Lainnya"
+    },
+    {
+     "key": "bekasgarukanataugesekan",
+     "in": "Bekas garukan atau gesekan"
+    }
+   ]
+  },
+  {
+   "key": "fasefeses",
+   "tipe": "LIST",
+   "nama": {
+    "in": "Fase kotoran",
+    "en": "Dung phase"
+   },
+   "keterangan": "Fase dekomposisi onggokan (Suba dkk., 2010): A segar dan berbau; B mengering; C berjamur; D mulai terdekomposisi; E setengah atau lebih terdekomposisi; F hampir hilang.",
+   "pilihan": [
+    {
+     "key": "a",
+     "in": "A"
+    },
+    {
+     "key": "b",
+     "in": "B"
+    },
+    {
+     "key": "c",
+     "in": "C"
+    },
+    {
+     "key": "d",
+     "in": "D"
+    },
+    {
+     "key": "e",
+     "in": "E"
+    },
+    {
+     "key": "f",
+     "in": "F"
+    }
+   ]
+  },
+  {
+   "key": "perkiraanindividu",
+   "tipe": "NUMERIC",
+   "nama": {
+    "in": "Perkiraan jumlah individu",
+    "en": "Estimated individuals"
+   },
+   "keterangan": "Perkiraan jumlah individu dari tanda keberadaan."
+  },
+  {
+   "key": "tipehabitat",
+   "tipe": "LIST",
+   "nama": {
+    "in": "Tipe habitat",
+    "en": "Habitat type"
+   },
+   "pilihan": [
+    {
+     "key": "terestrial",
+     "in": "Terestrial"
+    },
+    {
+     "key": "akuatik",
+     "in": "Akuatik"
+    },
+    {
+     "key": "terestrialdanakuatik",
+     "in": "Terestrial dan akuatik"
+    }
+   ]
+  },
+  {
+   "key": "daftarmackinnon",
+   "tipe": "NUMERIC",
+   "nama": {
+    "in": "Daftar MacKinnon ke-",
+    "en": "MacKinnon list number"
+   }
+  },
+  {
+   "key": "guildburung",
+   "tipe": "LIST",
+   "nama": {
+    "in": "Guild pakan",
+    "en": "Feeding guild"
+   },
+   "pilihan": [
+    {
+     "key": "pemakanbuah",
+     "in": "Pemakan buah"
+    },
+    {
+     "key": "pemakanbiji",
+     "in": "Pemakan biji"
+    },
+    {
+     "key": "pemakanbijidanbuah",
+     "in": "Pemakan biji dan buah"
+    },
+    {
+     "key": "pemakanserangga",
+     "in": "Pemakan serangga"
+    },
+    {
+     "key": "pemakanbuahdanserangga",
+     "in": "Pemakan buah dan serangga"
+    },
+    {
+     "key": "pemakannektar",
+     "in": "Pemakan nektar"
+    },
+    {
+     "key": "pemakandagingraptor",
+     "in": "Pemakan daging (raptor)"
+    },
+    {
+     "key": "pemakanikan",
+     "in": "Pemakan ikan"
+    },
+    {
+     "key": "pemakancampuran",
+     "in": "Pemakan campuran"
+    }
+   ]
+  },
+  {
+   "key": "nektarbunga",
+   "tipe": "LIST",
+   "nama": {
+    "in": "Nektar bunga",
+    "en": "Flower nectar"
+   },
+   "keterangan": "Penilaian fungsi pohon bagi burung (Handayani, 2015).",
+   "pilihan": [
+    {
+     "key": "sedikit",
+     "in": "Sedikit"
+    },
+    {
+     "key": "sedang",
+     "in": "Sedang"
+    },
+    {
+     "key": "banyak",
+     "in": "Banyak"
+    }
+   ]
+  },
+  {
+   "key": "mahkotabunga",
+   "tipe": "LIST",
+   "nama": {
+    "in": "Mahkota bunga",
+    "en": "Corolla"
+   },
+   "pilihan": [
+    {
+     "key": "kecil",
+     "in": "Kecil"
+    },
+    {
+     "key": "sedang",
+     "in": "Sedang"
+    },
+    {
+     "key": "besar",
+     "in": "Besar"
+    }
+   ]
+  },
+  {
+   "key": "ukuranbunga",
+   "tipe": "LIST",
+   "nama": {
+    "in": "Ukuran bunga",
+    "en": "Flower size"
+   },
+   "pilihan": [
+    {
+     "key": "kecil",
+     "in": "Kecil"
+    },
+    {
+     "key": "sedang",
+     "in": "Sedang"
+    },
+    {
+     "key": "besar",
+     "in": "Besar"
+    }
+   ]
+  },
+  {
+   "key": "lapisanluarbuah",
+   "tipe": "LIST",
+   "nama": {
+    "in": "Lapisan luar buah berdaging",
+    "en": "Fleshy fruit outer layer"
+   },
+   "pilihan": [
+    {
+     "key": "tebal",
+     "in": "Tebal"
+    },
+    {
+     "key": "sedang",
+     "in": "Sedang"
+    },
+    {
+     "key": "tipis",
+     "in": "Tipis"
+    }
+   ]
+  },
+  {
+   "key": "lapisanbuah",
+   "tipe": "LIST",
+   "nama": {
+    "in": "Lapisan buah berdaging",
+    "en": "Fleshy fruit layer"
+   },
+   "pilihan": [
+    {
+     "key": "keras",
+     "in": "Keras"
+    },
+    {
+     "key": "sedang",
+     "in": "Sedang"
+    },
+    {
+     "key": "lunak",
+     "in": "Lunak"
+    }
+   ]
+  },
+  {
+   "key": "ukuranbuah",
+   "tipe": "LIST",
+   "nama": {
+    "in": "Ukuran buah berdaging",
+    "en": "Fleshy fruit size"
+   },
+   "pilihan": [
+    {
+     "key": "besar",
+     "in": "Besar"
+    },
+    {
+     "key": "sedang",
+     "in": "Sedang"
+    },
+    {
+     "key": "kecil",
+     "in": "Kecil"
+    }
+   ]
+  },
+  {
+   "key": "lapisankulitbiji",
+   "tipe": "LIST",
+   "nama": {
+    "in": "Lapisan kulit buah kering",
+    "en": "Dry fruit coat"
+   },
+   "pilihan": [
+    {
+     "key": "tebal",
+     "in": "Tebal"
+    },
+    {
+     "key": "sedang",
+     "in": "Sedang"
+    },
+    {
+     "key": "tipis",
+     "in": "Tipis"
+    }
+   ]
+  },
+  {
+   "key": "ukuranbiji",
+   "tipe": "LIST",
+   "nama": {
+    "in": "Ukuran biji",
+    "en": "Seed size"
+   },
+   "pilihan": [
+    {
+     "key": "besar",
+     "in": "Besar"
+    },
+    {
+     "key": "sedang",
+     "in": "Sedang"
+    },
+    {
+     "key": "kecil",
+     "in": "Kecil"
+    }
+   ]
+  },
+  {
+   "key": "lokasibiji",
+   "tipe": "LIST",
+   "nama": {
+    "in": "Lokasi biji",
+    "en": "Seed position"
+   },
+   "pilihan": [
+    {
+     "key": "dalam",
+     "in": "Dalam"
+    },
+    {
+     "key": "tengah",
+     "in": "Tengah"
+    },
+    {
+     "key": "luar",
+     "in": "Luar"
+    }
+   ]
+  },
+  {
+   "key": "bentuktajuk",
+   "tipe": "LIST",
+   "nama": {
+    "in": "Bentuk tajuk",
+    "en": "Crown shape"
+   },
+   "pilihan": [
+    {
+     "key": "kolumnarfastigiateataubulat",
+     "in": "Kolumnar, fastigiate, atau bulat"
+    },
+    {
+     "key": "piramidal",
+     "in": "Piramidal"
+    },
+    {
+     "key": "menjuntaiataupicturesque",
+     "in": "Menjuntai atau picturesque"
+    }
+   ]
+  },
+  {
+   "key": "bentukpercabangan",
+   "tipe": "LIST",
+   "nama": {
+    "in": "Bentuk percabangan",
+    "en": "Branching form"
+   },
+   "pilihan": [
+    {
+     "key": "horizontal",
+     "in": "Horizontal"
+    },
+    {
+     "key": "vertikal",
+     "in": "Vertikal"
+    },
+    {
+     "key": "berlikuataumenjuntai",
+     "in": "Berliku atau menjuntai"
+    }
+   ]
+  },
+  {
+   "key": "ukurandaun",
+   "tipe": "LIST",
+   "nama": {
+    "in": "Ukuran daun",
+    "en": "Leaf size"
+   },
+   "pilihan": [
+    {
+     "key": "besar",
+     "in": "Besar"
+    },
+    {
+     "key": "sedang",
+     "in": "Sedang"
+    },
+    {
+     "key": "kecil",
+     "in": "Kecil"
+    }
+   ]
+  },
+  {
+   "key": "pohonmati",
+   "tipe": "BOOLEAN",
+   "nama": {
+    "in": "Pohon mati berdiri",
+    "en": "Standing dead tree"
+   },
+   "keterangan": "Centang untuk pohon mati yang masih berdiri."
+  },
+  {
+   "key": "komponenserasah",
+   "tipe": "LIST",
+   "nama": {
+    "in": "Komponen",
+    "en": "Component"
+   },
+   "pilihan": [
+    {
+     "key": "serasah",
+     "in": "Serasah"
+    },
+    {
+     "key": "nekromas",
+     "in": "Nekromas"
+    },
+    {
+     "key": "tumbuhanbawah",
+     "in": "Tumbuhan bawah"
+    }
+   ]
+  },
+  {
+   "key": "beratbasahtotalg",
+   "tipe": "NUMERIC",
+   "nama": {
+    "in": "Berat basah total (g)",
+    "en": "Total wet weight (g)"
+   }
+  },
+  {
+   "key": "beratbasahsampelg",
+   "tipe": "NUMERIC",
+   "nama": {
+    "in": "Berat basah sampel (g)",
+    "en": "Sample wet weight (g)"
+   }
+  },
+  {
+   "key": "kuadran",
+   "tipe": "LIST",
+   "nama": {
+    "in": "Kuadran",
+    "en": "Quadrant"
+   },
+   "pilihan": [
+    {
+     "key": "a",
+     "in": "A"
+    },
+    {
+     "key": "b",
+     "in": "B"
+    },
+    {
+     "key": "c",
+     "in": "C"
+    },
+    {
+     "key": "d",
+     "in": "D"
+    }
+   ]
+  },
+  {
+   "key": "kelasdiameter",
+   "tipe": "LIST",
+   "nama": {
+    "in": "Kelas diameter",
+    "en": "Diameter class"
+   },
+   "keterangan": "Kelas diameter kayu mati dan panjang garis kuadran pengukurannya (planar intersect).",
+   "pilihan": [
+    {
+     "key": "kurang06cm",
+     "in": "<0.6 cm (10-12 m)"
+    },
+    {
+     "key": "antara06dan25cm",
+     "in": "0.6-2.5 cm (7-10 m)"
+    },
+    {
+     "key": "antara25dan75cm",
+     "in": "2.5-7.5 cm (2-7 m)"
+    },
+    {
+     "key": "lebih75cmutuh",
+     "in": ">7.5 cm sound (2-12 m)"
+    },
+    {
+     "key": "lebih75cmlapuk",
+     "in": ">7.5 cm rotten (2-12 m)"
+    }
+   ]
+  },
+  {
+   "key": "diametercm",
+   "tipe": "NUMERIC",
+   "nama": {
+    "in": "Diameter (cm)",
+    "en": "Diameter (cm)"
+   }
+  },
+  {
+   "key": "lapisantanah",
+   "tipe": "LIST",
+   "nama": {
+    "in": "Lapisan tanah (cm)",
+    "en": "Soil layer (cm)"
+   },
+   "pilihan": [
+    {
+     "key": "lapisan0005",
+     "in": "0-5"
+    },
+    {
+     "key": "lapisan0510",
+     "in": "5-10"
+    },
+    {
+     "key": "lapisan1015",
+     "in": "10-15"
+    },
+    {
+     "key": "lapisan1520",
+     "in": "15-20"
+    },
+    {
+     "key": "lapisan2025",
+     "in": "20-25"
+    },
+    {
+     "key": "lapisan2530",
+     "in": "25-30"
+    }
+   ]
+  },
+  {
+   "key": "kedalamancm",
+   "tipe": "NUMERIC",
+   "nama": {
+    "in": "Kedalaman (cm)",
+    "en": "Depth (cm)"
+   }
+  },
+  {
+   "key": "volumetanahcm3",
+   "tipe": "NUMERIC",
+   "nama": {
+    "in": "Volume tanah (cm³)",
+    "en": "Soil volume (cm³)"
+   }
+  },
+  {
+   "key": "statusiucn",
+   "tipe": "LIST",
+   "nama": {
+    "in": "Status IUCN",
+    "en": "IUCN status"
+   },
+   "pilihan": [
+    {
+     "key": "cr",
+     "in": "CR"
+    },
+    {
+     "key": "en",
+     "in": "EN"
+    },
+    {
+     "key": "vu",
+     "in": "VU"
+    },
+    {
+     "key": "nt",
+     "in": "NT"
+    },
+    {
+     "key": "lc",
+     "in": "LC"
+    },
+    {
+     "key": "dd",
+     "in": "DD"
+    },
+    {
+     "key": "ne",
+     "in": "NE"
+    }
+   ]
+  },
+  {
+   "key": "statuscites",
+   "tipe": "LIST",
+   "nama": {
+    "in": "Status CITES",
+    "en": "CITES status"
+   },
+   "pilihan": [
+    {
+     "key": "apendiksi",
+     "in": "Apendiks I"
+    },
+    {
+     "key": "apendiksii",
+     "in": "Apendiks II"
+    },
+    {
+     "key": "apendiksiii",
+     "in": "Apendiks III"
+    },
+    {
+     "key": "tidakterdaftar",
+     "in": "Tidak terdaftar"
+    }
+   ]
+  },
+  {
+   "key": "endemisitas",
+   "tipe": "LIST",
+   "nama": {
+    "in": "Endemisitas",
+    "en": "Endemism"
+   },
+   "pilihan": [
+    {
+     "key": "endemiktntambora",
+     "in": "Endemik TN Tambora"
+    },
+    {
+     "key": "endemikpulausumbawa",
+     "in": "Endemik Pulau Sumbawa"
+    },
+    {
+     "key": "endemiknusatenggara",
+     "in": "Endemik Nusa Tenggara"
+    },
+    {
+     "key": "endemikindonesia",
+     "in": "Endemik Indonesia"
+    },
+    {
+     "key": "bukanendemik",
+     "in": "Bukan endemik"
+    }
+   ]
+  },
+  {
+   "key": "kategorimanfaat",
+   "tipe": "LIST",
+   "nama": {
+    "in": "Kategori manfaat",
+    "en": "Use category"
+   },
+   "pilihan": [
+    {
+     "key": "obat",
+     "in": "Obat"
+    },
+    {
+     "key": "pangan",
+     "in": "Pangan"
+    },
+    {
+     "key": "kayu",
+     "in": "Kayu"
+    },
+    {
+     "key": "tanamanhias",
+     "in": "Tanaman hias"
+    },
+    {
+     "key": "pakanternak",
+     "in": "Pakan ternak"
+    },
+    {
+     "key": "pakansatwaliar",
+     "in": "Pakan satwa liar"
+    },
+    {
+     "key": "bahankerajinan",
+     "in": "Bahan kerajinan"
+    },
+    {
+     "key": "ritualataubudaya",
+     "in": "Ritual atau budaya"
+    },
+    {
+     "key": "lainnya",
+     "in": "Lainnya"
+    }
+   ]
+  },
+  {
+   "key": "nilaiekonomi",
+   "tipe": "TEXT",
+   "nama": {
+    "in": "Nilai ekonomi atau manfaat",
+    "en": "Economic value or use"
+   }
+  },
+  {
+   "key": "acuaninvasif",
+   "tipe": "TEXT",
+   "nama": {
+    "in": "Acuan status invasif",
+    "en": "Invasive status reference"
+   }
+  },
+  {
+   "key": "kemampuanmapan",
+   "tipe": "LIST",
+   "nama": {
+    "in": "Kemampuan mapan",
+    "en": "Establishment ability"
+   },
+   "keterangan": "Skor keinvasifan menurut Modul Analisis Risiko Spesies Asing Invasif (2016).",
+   "pilihan": [
+    {
+     "key": "rendah",
+     "in": "Rendah"
+    },
+    {
+     "key": "medium",
+     "in": "Medium"
+    },
+    {
+     "key": "tinggi",
+     "in": "Tinggi"
+    },
+    {
+     "key": "sangattinggi",
+     "in": "Sangat tinggi"
+    },
+    {
+     "key": "tidaktahu",
+     "in": "Tidak tahu"
+    }
+   ]
+  },
+  {
+   "key": "ketahananpengelolaan",
+   "tipe": "LIST",
+   "nama": {
+    "in": "Ketahanan terhadap pengelolaan",
+    "en": "Resistance to management"
+   },
+   "pilihan": [
+    {
+     "key": "rendah",
+     "in": "Rendah"
+    },
+    {
+     "key": "medium",
+     "in": "Medium"
+    },
+    {
+     "key": "tinggi",
+     "in": "Tinggi"
+    },
+    {
+     "key": "sangattinggi",
+     "in": "Sangat tinggi"
+    },
+    {
+     "key": "tidaktahu",
+     "in": "Tidak tahu"
+    }
+   ]
+  },
+  {
+   "key": "periodeberbuah",
+   "tipe": "LIST",
+   "nama": {
+    "in": "Periode berbuah",
+    "en": "Time to fruiting"
+   },
+   "pilihan": [
+    {
+     "key": "satutahun",
+     "in": "1 tahun"
+    },
+    {
+     "key": "duasampaitigatahun",
+     "in": "2 sampai 3 tahun"
+    },
+    {
+     "key": "lebihtigatahun",
+     "in": "Lebih dari 3 tahun"
+    },
+    {
+     "key": "tidaktahu",
+     "in": "Tidak tahu"
+    }
+   ]
+  },
+  {
+   "key": "produksibiji",
+   "tipe": "LIST",
+   "nama": {
+    "in": "Produksi biji",
+    "en": "Seed production"
+   },
+   "pilihan": [
+    {
+     "key": "banyak",
+     "in": "Banyak"
+    },
+    {
+     "key": "sedikit",
+     "in": "Sedikit"
+    },
+    {
+     "key": "tidakada",
+     "in": "Tidak ada"
+    },
+    {
+     "key": "tidaktahu",
+     "in": "Tidak tahu"
+    }
+   ]
+  },
+  {
+   "key": "reproduksivegetatif",
+   "tipe": "LIST",
+   "nama": {
+    "in": "Reproduksi vegetatif",
+    "en": "Vegetative reproduction"
+   },
+   "pilihan": [
+    {
+     "key": "cepat",
+     "in": "Cepat"
+    },
+    {
+     "key": "lambat",
+     "in": "Lambat"
+    },
+    {
+     "key": "tidakada",
+     "in": "Tidak ada"
+    },
+    {
+     "key": "tidaktahu",
+     "in": "Tidak tahu"
+    }
+   ]
+  },
+  {
+   "key": "sebaranburung",
+   "tipe": "LIST",
+   "nama": {
+    "in": "Disebarkan burung",
+    "en": "Dispersed by birds"
+   },
+   "pilihan": [
+    {
+     "key": "umum",
+     "in": "Umum"
+    },
+    {
+     "key": "kadangkadang",
+     "in": "Kadang-kadang"
+    },
+    {
+     "key": "mungkintidak",
+     "in": "Mungkin tidak"
+    },
+    {
+     "key": "tidaktahu",
+     "in": "Tidak tahu"
+    }
+   ]
+  },
+  {
+   "key": "sebaranhewan",
+   "tipe": "LIST",
+   "nama": {
+    "in": "Disebarkan hewan lain",
+    "en": "Dispersed by other animals"
+   },
+   "pilihan": [
+    {
+     "key": "umum",
+     "in": "Umum"
+    },
+    {
+     "key": "kadangkadang",
+     "in": "Kadang-kadang"
+    },
+    {
+     "key": "mungkintidak",
+     "in": "Mungkin tidak"
+    },
+    {
+     "key": "tidaktahu",
+     "in": "Tidak tahu"
+    }
+   ]
+  },
+  {
+   "key": "sebaranair",
+   "tipe": "LIST",
+   "nama": {
+    "in": "Disebarkan air",
+    "en": "Dispersed by water"
+   },
+   "pilihan": [
+    {
+     "key": "umum",
+     "in": "Umum"
+    },
+    {
+     "key": "kadangkadang",
+     "in": "Kadang-kadang"
+    },
+    {
+     "key": "mungkintidak",
+     "in": "Mungkin tidak"
+    },
+    {
+     "key": "tidaktahu",
+     "in": "Tidak tahu"
+    }
+   ]
+  },
+  {
+   "key": "sebaranangin",
+   "tipe": "LIST",
+   "nama": {
+    "in": "Disebarkan angin",
+    "en": "Dispersed by wind"
+   },
+   "pilihan": [
+    {
+     "key": "umum",
+     "in": "Umum"
+    },
+    {
+     "key": "kadangkadang",
+     "in": "Kadang-kadang"
+    },
+    {
+     "key": "mungkintidak",
+     "in": "Mungkin tidak"
+    },
+    {
+     "key": "tidaktahu",
+     "in": "Tidak tahu"
+    }
+   ]
+  },
+  {
+   "key": "sebaransengaja",
+   "tipe": "LIST",
+   "nama": {
+    "in": "Disebarkan manusia dengan sengaja",
+    "en": "Intentionally dispersed by people"
+   },
+   "pilihan": [
+    {
+     "key": "umum",
+     "in": "Umum"
+    },
+    {
+     "key": "kadangkadang",
+     "in": "Kadang-kadang"
+    },
+    {
+     "key": "mungkintidak",
+     "in": "Mungkin tidak"
+    },
+    {
+     "key": "tidaktahu",
+     "in": "Tidak tahu"
+    }
+   ]
+  },
+  {
+   "key": "sebarantanpasengaja",
+   "tipe": "LIST",
+   "nama": {
+    "in": "Disebarkan manusia tanpa sengaja",
+    "en": "Unintentionally dispersed by people"
+   },
+   "pilihan": [
+    {
+     "key": "umum",
+     "in": "Umum"
+    },
+    {
+     "key": "kadangkadang",
+     "in": "Kadang-kadang"
+    },
+    {
+     "key": "mungkintidak",
+     "in": "Mungkin tidak"
+    },
+    {
+     "key": "tidaktahu",
+     "in": "Tidak tahu"
+    }
+   ]
+  },
+  {
+   "key": "sebarankontaminasi",
+   "tipe": "LIST",
+   "nama": {
+    "in": "Mengontaminasi hasil bumi",
+    "en": "Produce contaminant"
+   },
+   "pilihan": [
+    {
+     "key": "umum",
+     "in": "Umum"
+    },
+    {
+     "key": "kadangkadang",
+     "in": "Kadang-kadang"
+    },
+    {
+     "key": "mungkintidak",
+     "in": "Mungkin tidak"
+    },
+    {
+     "key": "tidaktahu",
+     "in": "Tidak tahu"
+    }
+   ]
+  },
+  {
+   "key": "sebaranternak",
+   "tipe": "LIST",
+   "nama": {
+    "in": "Dibawa hewan ternak",
+    "en": "Carried by livestock"
+   },
+   "pilihan": [
+    {
+     "key": "umum",
+     "in": "Umum"
+    },
+    {
+     "key": "kadangkadang",
+     "in": "Kadang-kadang"
+    },
+    {
+     "key": "mungkintidak",
+     "in": "Mungkin tidak"
+    },
+    {
+     "key": "tidaktahu",
+     "in": "Tidak tahu"
+    }
+   ]
+  },
+  {
+   "key": "tipecatatan",
+   "tipe": "LIST",
+   "nama": {
+    "in": "Tipe catatan",
+    "en": "Record type"
+   },
+   "keterangan": "Catatan suara tidak menambah jumlah individu minimum.",
+   "pilihan": [
+    {
+     "key": "perjumpaanlangsung",
+     "in": "Perjumpaan langsung"
+    },
+    {
+     "key": "disarang",
+     "in": "Di sarang"
+    },
+    {
+     "key": "suara",
+     "in": "Suara"
+    }
+   ]
+  },
+  {
+   "key": "sumberdata",
+   "tipe": "LIST",
+   "nama": {
+    "in": "Sumber data",
+    "en": "Data source"
+   },
+   "pilihan": [
+    {
+     "key": "monitoringelangflores",
+     "in": "Monitoring elang flores"
+    },
+    {
+     "key": "inventarisasiraptor",
+     "in": "Inventarisasi raptor"
+    },
+    {
+     "key": "monitoringsatwakunci",
+     "in": "Monitoring satwa kunci"
+    },
+    {
+     "key": "patrolismart",
+     "in": "Patroli SMART"
+    },
+    {
+     "key": "laporanmasyarakat",
+     "in": "Laporan masyarakat"
+    },
+    {
+     "key": "kegiatanlain",
+     "in": "Kegiatan lain"
+    }
+   ]
+  },
+  {
+   "key": "jumlahsarang",
+   "tipe": "NUMERIC",
+   "nama": {
+    "in": "Jumlah sarang",
+    "en": "Number of nests"
+   }
+  },
+  {
+   "key": "jumlahsaranglalu",
+   "tipe": "NUMERIC",
+   "nama": {
+    "in": "Jumlah sarang survei sebelumnya",
+    "en": "Nests in previous survey"
+   }
+  },
+  {
+   "key": "kondisipohon",
+   "tipe": "LIST",
+   "nama": {
+    "in": "Kondisi pohon",
+    "en": "Tree condition"
+   },
+   "pilihan": [
+    {
+     "key": "hidupsehat",
+     "in": "Hidup sehat"
+    },
+    {
+     "key": "hiduprusak",
+     "in": "Hidup rusak"
+    },
+    {
+     "key": "matiatautumbang",
+     "in": "Mati atau tumbang"
+    }
+   ]
+  },
+  {
+   "key": "tandapanen",
+   "tipe": "BOOLEAN",
+   "nama": {
+    "in": "Bekas panen madu",
+    "en": "Honey harvest sign"
+   },
+   "keterangan": "Centang bila ada bekas panen madu."
+  }
+ ],
+ "kategori": [
+  {
+   "key": "metodeteknis",
+   "nama": {
+    "in": "Metode Teknis",
+    "en": "Technical Methods"
+   },
+   "keterangan": "Kategori level 0 untuk seluruh metode kegiatan teknis jabatan PEH. Setiap metode menjadi satu kategori level 1.",
+   "anak": [
+    {
+     "key": "inventarisasiraptor",
+     "nama": {
+      "in": "Inventarisasi dan Sebaran Raptor",
+      "en": "Raptor Inventory and Distribution"
+     },
+     "keterangan": "Metode point count (plot lingkaran). Template analisis: Analisa data.xlsx; contoh LPK: Resort Piong, Juni 2021. Generator: RAPTOR.",
+     "kegiatan": "raptor",
+     "anak": [
+      {
+       "key": "titikpengamatan",
+       "nama": {
+        "in": "Titik Pengamatan (Plot Point Count)",
+        "en": "Point Count Station"
+       },
+       "keterangan": "Dicatat sekali di pusat setiap plot, termasuk plot tanpa perjumpaan. Jumlah titik = jumlah plot (n).",
+       "atribut": [
+        {
+         "key": "noplot",
+         "wajib": true
+        },
+        {
+         "key": "jarijariplotm",
+         "wajib": true,
+         "bawaan": 500
+        },
+        {
+         "key": "jalurpengamatan"
+        },
+        {
+         "key": "ketinggianmdpl"
+        },
+        {
+         "key": "tipetutupanlahan"
+        },
+        {
+         "key": "cuaca"
+        },
+        {
+         "key": "keterangan"
+        }
+       ]
+      },
+      {
+       "key": "perjumpaanraptor",
+       "nama": {
+        "in": "Perjumpaan Raptor",
+        "en": "Raptor Encounter"
+       },
+       "keterangan": "Satu observasi per jenis per perjumpaan. Waktu perjumpaan diambil dari waktu waypoint.",
+       "multiple": true,
+       "atribut": [
+        {
+         "key": "noplot",
+         "wajib": true
+        },
+        {
+         "key": "jenissatwa",
+         "wajib": true
+        },
+        {
+         "key": "jumlahdewasa",
+         "wajib": true
+        },
+        {
+         "key": "jumlahanakan"
+        },
+        {
+         "key": "jumlahjantan"
+        },
+        {
+         "key": "jumlahbetina"
+        },
+        {
+         "key": "jarakkesatwam",
+         "wajib": true
+        },
+        {
+         "key": "azimuth"
+        },
+        {
+         "key": "jenisperjumpaan"
+        },
+        {
+         "key": "aktivitasraptor"
+        },
+        {
+         "key": "penggunaanruang"
+        },
+        {
+         "key": "tiperuang"
+        },
+        {
+         "key": "tipetutupanlahan"
+        },
+        {
+         "key": "ketinggianmdpl"
+        },
+        {
+         "key": "sarangditemukan"
+        },
+        {
+         "key": "keterangan"
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "key": "monitoringelangflores",
+     "nama": {
+      "in": "Monitoring Elang Flores",
+      "en": "Flores Hawk-eagle Monitoring"
+     },
+     "keterangan": "Point count di sepanjang jalur pengamatan, pohon sarang, dan vegetasi habitat. Generator: ELFLO.",
+     "anak": [
+      {
+       "key": "titikpengamatan",
+       "nama": {
+        "in": "Titik Pengamatan",
+        "en": "Observation Point"
+       },
+       "atribut": [
+        {
+         "key": "noplot",
+         "wajib": true
+        },
+        {
+         "key": "ketinggianmdpl"
+        },
+        {
+         "key": "tipetutupanlahan"
+        },
+        {
+         "key": "jaraksarangm"
+        },
+        {
+         "key": "keterangan"
+        }
+       ],
+       "keterangan": "Dicatat sekali di setiap titik, termasuk titik tanpa perjumpaan."
+      },
+      {
+       "key": "perjumpaansatwa",
+       "nama": {
+        "in": "Perjumpaan Satwa",
+        "en": "Animal Encounter"
+       },
+       "atribut": [
+        {
+         "key": "noplot",
+         "wajib": true
+        },
+        {
+         "key": "jenissatwa",
+         "wajib": true
+        },
+        {
+         "key": "jumlah"
+        },
+        {
+         "key": "jumlahdewasa"
+        },
+        {
+         "key": "jumlahanakan"
+        },
+        {
+         "key": "jumlahjantan"
+        },
+        {
+         "key": "jumlahbetina"
+        },
+        {
+         "key": "jarakkesatwam"
+        },
+        {
+         "key": "azimuth"
+        },
+        {
+         "key": "aktivitasraptor"
+        },
+        {
+         "key": "stratatajuk"
+        },
+        {
+         "key": "tiperuang"
+        },
+        {
+         "key": "keterangan"
+        }
+       ],
+       "multiple": true,
+       "keterangan": "Satu observasi per jenis per perjumpaan, termasuk jenis burung lain yang dijumpai di titik pengamatan."
+      },
+      {
+       "key": "pohonsarang",
+       "nama": {
+        "in": "Pohon Sarang",
+        "en": "Nest Tree"
+       },
+       "atribut": [
+        {
+         "key": "kodesarang",
+         "wajib": true
+        },
+        {
+         "key": "jenistumbuhan"
+        },
+        {
+         "key": "tinggipohonm"
+        },
+        {
+         "key": "dbhpohoncm"
+        },
+        {
+         "key": "tinggisarangm"
+        },
+        {
+         "key": "kondisisarang"
+        },
+        {
+         "key": "jaraksumberairm"
+        },
+        {
+         "key": "keterangan"
+        }
+       ]
+      },
+      {
+       "key": "vegetasi",
+       "nama": {
+        "in": "Vegetasi",
+        "en": "Vegetation"
+       },
+       "atribut": [
+        {
+         "key": "noplot",
+         "wajib": true
+        },
+        {
+         "key": "tingkatpertumbuhan",
+         "wajib": true
+        },
+        {
+         "key": "jenistumbuhan",
+         "wajib": true
+        },
+        {
+         "key": "jumlah"
+        },
+        {
+         "key": "dbhpohoncm"
+        },
+        {
+         "key": "kelilingcm"
+        },
+        {
+         "key": "tinggipohonm"
+        },
+        {
+         "key": "keterangan"
+        }
+       ],
+       "multiple": true,
+       "keterangan": "Petak contoh bersarang. Satu observasi untuk satu individu (tiang, pohon), atau satu jenis per petak dengan atribut jumlah (semai, pancang, tumbuhan bawah)."
+      }
+     ]
+    },
+    {
+     "key": "monitoringrusatimor",
+     "nama": {
+      "in": "Monitoring Rusa Timor",
+      "en": "Timor Deer Monitoring"
+     },
+     "keterangan": "Transek garis dengan perjumpaan langsung dan tanda keberadaan. Generator: RUSA.",
+     "anak": [
+      {
+       "key": "transek",
+       "nama": {
+        "in": "Transek",
+        "en": "Transect"
+       },
+       "atribut": [
+        {
+         "key": "notransek",
+         "wajib": true
+        },
+        {
+         "key": "lokasi"
+        },
+        {
+         "key": "panjangtransekm",
+         "wajib": true
+        },
+        {
+         "key": "luasha"
+        },
+        {
+         "key": "tipetutupanlahan"
+        },
+        {
+         "key": "keterangan"
+        }
+       ],
+       "keterangan": "Dicatat sekali di awal setiap transek."
+      },
+      {
+       "key": "perjumpaanlangsung",
+       "nama": {
+        "in": "Perjumpaan Langsung",
+        "en": "Direct Sighting"
+       },
+       "atribut": [
+        {
+         "key": "notransek",
+         "wajib": true
+        },
+        {
+         "key": "jumlah",
+         "wajib": true
+        },
+        {
+         "key": "jarakkesatwam",
+         "wajib": true
+        },
+        {
+         "key": "sudutkontak",
+         "wajib": true
+        },
+        {
+         "key": "sisitransek"
+        },
+        {
+         "key": "jumlahjantan"
+        },
+        {
+         "key": "jumlahbetina"
+        },
+        {
+         "key": "jumlahdewasa"
+        },
+        {
+         "key": "jumlahmuda"
+        },
+        {
+         "key": "jumlahanakan"
+        },
+        {
+         "key": "aktivitassatwa"
+        },
+        {
+         "key": "keterangan"
+        }
+       ],
+       "multiple": true,
+       "keterangan": "Satu observasi untuk satu kontak (individu atau kelompok). Ulangan pagi atau sore dibaca dari jam waypoint."
+      },
+      {
+       "key": "tandakeberadaan",
+       "nama": {
+        "in": "Tanda Keberadaan",
+        "en": "Presence Sign"
+       },
+       "atribut": [
+        {
+         "key": "notransek",
+         "wajib": true
+        },
+        {
+         "key": "tandakeberadaan",
+         "wajib": true
+        },
+        {
+         "key": "jumlah"
+        },
+        {
+         "key": "fasefeses"
+        },
+        {
+         "key": "usiatemuan"
+        },
+        {
+         "key": "tipetutupanlahan"
+        },
+        {
+         "key": "keterangan"
+        }
+       ],
+       "multiple": true,
+       "keterangan": "Jumlah berisi pasangan jejak kaki, onggokan kotoran, atau banyaknya tanda."
+      },
+      {
+       "key": "vegetasi",
+       "nama": {
+        "in": "Vegetasi",
+        "en": "Vegetation"
+       },
+       "atribut": [
+        {
+         "key": "noplot",
+         "wajib": true
+        },
+        {
+         "key": "tingkatpertumbuhan",
+         "wajib": true
+        },
+        {
+         "key": "jenistumbuhan",
+         "wajib": true
+        },
+        {
+         "key": "jumlah"
+        },
+        {
+         "key": "dbhpohoncm"
+        },
+        {
+         "key": "kelilingcm"
+        },
+        {
+         "key": "tinggipohonm"
+        },
+        {
+         "key": "keterangan"
+        }
+       ],
+       "multiple": true,
+       "keterangan": "Petak contoh bersarang. Satu observasi untuk satu individu (tiang, pohon), atau satu jenis per petak dengan atribut jumlah (semai, pancang, tumbuhan bawah)."
+      }
+     ]
+    },
+    {
+     "key": "groundchecktutupanlahan",
+     "nama": {
+      "in": "Ground Check Tutupan Lahan dan Tipe Ekosistem",
+      "en": "Land Cover and Ecosystem Ground Check"
+     },
+     "keterangan": "Verifikasi peta tutupan lahan, open area, dan tipe ekosistem. Aplikasi juga membaca kategori Ground Check > Tutupan Lahan dan Ground Check > Tipe Ekosistem yang sudah ada. Generator: GC.",
+     "anak": [
+      {
+       "key": "titikgroundcheck",
+       "nama": {
+        "in": "Titik Ground Check",
+        "en": "Ground Check Point"
+       },
+       "atribut": [
+        {
+         "key": "noplot",
+         "wajib": true
+        },
+        {
+         "key": "lokasi"
+        },
+        {
+         "key": "ketinggianmdpl"
+        },
+        {
+         "key": "tutupanlahanpeta"
+        },
+        {
+         "key": "tutupanlahanlapangan",
+         "wajib": true
+        },
+        {
+         "key": "statusopenarea",
+         "wajib": true
+        },
+        {
+         "key": "penyebabopenarea"
+        },
+        {
+         "key": "tipeekosistempeta"
+        },
+        {
+         "key": "tipeekosistem"
+        },
+        {
+         "key": "zonasikawasan"
+        },
+        {
+         "key": "keterangan"
+        }
+       ],
+       "keterangan": "Keterangan diisi deskripsi tutupan lahan di lapangan."
+      },
+      {
+       "key": "vegetasi",
+       "nama": {
+        "in": "Vegetasi",
+        "en": "Vegetation"
+       },
+       "atribut": [
+        {
+         "key": "noplot",
+         "wajib": true
+        },
+        {
+         "key": "tingkatpertumbuhan",
+         "wajib": true
+        },
+        {
+         "key": "jenistumbuhan",
+         "wajib": true
+        },
+        {
+         "key": "jumlah"
+        },
+        {
+         "key": "dbhpohoncm"
+        },
+        {
+         "key": "kelilingcm"
+        },
+        {
+         "key": "tinggipohonm"
+        },
+        {
+         "key": "keterangan"
+        }
+       ],
+       "multiple": true,
+       "keterangan": "Petak contoh bersarang. Satu observasi untuk satu individu (tiang, pohon), atau satu jenis per petak dengan atribut jumlah (semai, pancang, tumbuhan bawah). Atribut noplot diisi ID titik ground check."
+      }
+     ]
+    },
+    {
+     "key": "identifikasianggrek",
+     "nama": {
+      "in": "Identifikasi Anggrek",
+      "en": "Orchid Identification"
+     },
+     "keterangan": "Jalur dan plot pengamatan anggrek epifit, terestrial, dan litofit. Generator: ANGGREK.",
+     "anak": [
+      {
+       "key": "plotpengamatan",
+       "nama": {
+        "in": "Plot Pengamatan",
+        "en": "Observation Plot"
+       },
+       "atribut": [
+        {
+         "key": "noplot",
+         "wajib": true
+        },
+        {
+         "key": "notransek"
+        },
+        {
+         "key": "kodegrid"
+        },
+        {
+         "key": "ketinggianmdpl"
+        },
+        {
+         "key": "tipetutupanlahan"
+        },
+        {
+         "key": "keterangan"
+        }
+       ]
+      },
+      {
+       "key": "temuananggrek",
+       "nama": {
+        "in": "Temuan Anggrek",
+        "en": "Orchid Record"
+       },
+       "atribut": [
+        {
+         "key": "noplot",
+         "wajib": true
+        },
+        {
+         "key": "jenistumbuhan",
+         "wajib": true
+        },
+        {
+         "key": "jumlah"
+        },
+        {
+         "key": "carahidup"
+        },
+        {
+         "key": "pohoninang"
+        },
+        {
+         "key": "tinggitempelm"
+        },
+        {
+         "key": "fenologi"
+        },
+        {
+         "key": "ketinggianmdpl"
+        },
+        {
+         "key": "keterangan"
+        }
+       ],
+       "multiple": true,
+       "keterangan": "Satu observasi untuk satu jenis pada satu plot. Jumlah berisi individu atau rumpun."
+      }
+     ]
+    },
+    {
+     "key": "inventarisasijenisinvasif",
+     "nama": {
+      "in": "Inventarisasi Jenis Asing Invasif",
+      "en": "Invasive Alien Species Inventory"
+     },
+     "keterangan": "Petak contoh di lokasi rawan invasi dan penilaian keinvasifan jenis. Generator: IAS.",
+     "anak": [
+      {
+       "key": "petakcontoh",
+       "nama": {
+        "in": "Petak Contoh",
+        "en": "Sample Plot"
+       },
+       "atribut": [
+        {
+         "key": "noplot",
+         "wajib": true
+        },
+        {
+         "key": "kodegrid"
+        },
+        {
+         "key": "ketinggianmdpl"
+        },
+        {
+         "key": "tipeekosistem"
+        },
+        {
+         "key": "lokasisasaran"
+        },
+        {
+         "key": "zonasikawasan"
+        },
+        {
+         "key": "keterangan"
+        }
+       ]
+      },
+      {
+       "key": "vegetasi",
+       "nama": {
+        "in": "Vegetasi",
+        "en": "Vegetation"
+       },
+       "atribut": [
+        {
+         "key": "noplot",
+         "wajib": true
+        },
+        {
+         "key": "tingkatpertumbuhan",
+         "wajib": true
+        },
+        {
+         "key": "jenistumbuhan",
+         "wajib": true
+        },
+        {
+         "key": "jumlah"
+        },
+        {
+         "key": "dbhpohoncm"
+        },
+        {
+         "key": "kelilingcm"
+        },
+        {
+         "key": "tinggipohonm"
+        },
+        {
+         "key": "keterangan"
+        },
+        {
+         "key": "jenisinvasif"
+        }
+       ],
+       "multiple": true,
+       "keterangan": "Petak contoh bersarang. Satu observasi untuk satu individu (tiang, pohon), atau satu jenis per petak dengan atribut jumlah (semai, pancang, tumbuhan bawah)."
+      },
+      {
+       "key": "keinvasifan",
+       "nama": {
+        "in": "Penilaian Keinvasifan",
+        "en": "Invasiveness Assessment"
+       },
+       "atribut": [
+        {
+         "key": "jenistumbuhan",
+         "wajib": true
+        },
+        {
+         "key": "kemampuanmapan"
+        },
+        {
+         "key": "ketahananpengelolaan"
+        },
+        {
+         "key": "periodeberbuah"
+        },
+        {
+         "key": "produksibiji"
+        },
+        {
+         "key": "reproduksivegetatif"
+        },
+        {
+         "key": "sebaranburung"
+        },
+        {
+         "key": "sebaranhewan"
+        },
+        {
+         "key": "sebaranair"
+        },
+        {
+         "key": "sebaranangin"
+        },
+        {
+         "key": "sebaransengaja"
+        },
+        {
+         "key": "sebarantanpasengaja"
+        },
+        {
+         "key": "sebarankontaminasi"
+        },
+        {
+         "key": "sebaranternak"
+        },
+        {
+         "key": "asal"
+        },
+        {
+         "key": "acuaninvasif"
+        },
+        {
+         "key": "keterangan"
+        }
+       ],
+       "multiple": true,
+       "keterangan": "Satu observasi untuk satu jenis invasif."
+      }
+     ]
+    },
+    {
+     "key": "inventarisasiburung",
+     "nama": {
+      "in": "Inventarisasi Burung",
+      "en": "Bird Inventory"
+     },
+     "keterangan": "Point count atau transek untuk keanekaragaman jenis burung. Generator: BURUNG.",
+     "anak": [
+      {
+       "key": "titikpengamatan",
+       "nama": {
+        "in": "Titik Pengamatan",
+        "en": "Observation Point"
+       },
+       "atribut": [
+        {
+         "key": "noplot",
+         "wajib": true
+        },
+        {
+         "key": "ketinggianmdpl"
+        },
+        {
+         "key": "tipetutupanlahan"
+        },
+        {
+         "key": "keterangan"
+        }
+       ],
+       "keterangan": "Dicatat sekali di setiap titik, termasuk titik tanpa perjumpaan."
+      },
+      {
+       "key": "perjumpaanburung",
+       "nama": {
+        "in": "Perjumpaan Burung",
+        "en": "Bird Encounter"
+       },
+       "atribut": [
+        {
+         "key": "noplot",
+         "wajib": true
+        },
+        {
+         "key": "jenissatwa",
+         "wajib": true
+        },
+        {
+         "key": "jumlah",
+         "wajib": true
+        },
+        {
+         "key": "jarakkesatwam"
+        },
+        {
+         "key": "azimuth"
+        },
+        {
+         "key": "aktivitassatwa"
+        },
+        {
+         "key": "keterangan"
+        }
+       ],
+       "multiple": true,
+       "keterangan": "Satu observasi per jenis per perjumpaan."
+      }
+     ]
+    },
+    {
+     "key": "inventarisasitumbuhanpenting",
+     "nama": {
+      "in": "Inventarisasi Tumbuhan Penting",
+      "en": "Important Plant Inventory"
+     },
+     "keterangan": "Analisis vegetasi dan status jenis tumbuhan penting. Generator: TUMPEN.",
+     "anak": [
+      {
+       "key": "petakcontoh",
+       "nama": {
+        "in": "Petak Contoh",
+        "en": "Sample Plot"
+       },
+       "atribut": [
+        {
+         "key": "noplot",
+         "wajib": true
+        },
+        {
+         "key": "notransek"
+        },
+        {
+         "key": "ketinggianmdpl"
+        },
+        {
+         "key": "tipeekosistem"
+        },
+        {
+         "key": "keterangan"
+        }
+       ]
+      },
+      {
+       "key": "vegetasi",
+       "nama": {
+        "in": "Vegetasi",
+        "en": "Vegetation"
+       },
+       "atribut": [
+        {
+         "key": "noplot",
+         "wajib": true
+        },
+        {
+         "key": "tingkatpertumbuhan",
+         "wajib": true
+        },
+        {
+         "key": "jenistumbuhan",
+         "wajib": true
+        },
+        {
+         "key": "jumlah"
+        },
+        {
+         "key": "dbhpohoncm"
+        },
+        {
+         "key": "kelilingcm"
+        },
+        {
+         "key": "tinggipohonm"
+        },
+        {
+         "key": "keterangan"
+        }
+       ],
+       "multiple": true,
+       "keterangan": "Petak contoh bersarang. Satu observasi untuk satu individu (tiang, pohon), atau satu jenis per petak dengan atribut jumlah (semai, pancang, tumbuhan bawah)."
+      },
+      {
+       "key": "statusjenis",
+       "nama": {
+        "in": "Status Jenis",
+        "en": "Species Status"
+       },
+       "atribut": [
+        {
+         "key": "jenistumbuhan",
+         "wajib": true
+        },
+        {
+         "key": "statusiucn"
+        },
+        {
+         "key": "status"
+        },
+        {
+         "key": "statuscites"
+        },
+        {
+         "key": "endemisitas"
+        },
+        {
+         "key": "kategorimanfaat"
+        },
+        {
+         "key": "nilaiekonomi"
+        },
+        {
+         "key": "keterangan"
+        }
+       ],
+       "multiple": true,
+       "keterangan": "Satu observasi untuk satu jenis penting. Status yang kosong dilengkapi aplikasi dari daftar jenis TN Tambora."
+      }
+     ]
+    },
+    {
+     "key": "monitoringsatwakunci",
+     "nama": {
+      "in": "Monitoring Satwa Kunci",
+      "en": "Key Species Monitoring"
+     },
+     "keterangan": "Penyusuran jalur purposif untuk perjumpaan langsung dan tanda keberadaan satwa kunci. Generator: SATKUN.",
+     "anak": [
+      {
+       "key": "jalurpengamatan",
+       "nama": {
+        "in": "Jalur Pengamatan",
+        "en": "Survey Route"
+       },
+       "atribut": [
+        {
+         "key": "notransek",
+         "wajib": true
+        },
+        {
+         "key": "lokasi"
+        },
+        {
+         "key": "panjangtransekm"
+        },
+        {
+         "key": "tipeekosistem"
+        },
+        {
+         "key": "keterangan"
+        }
+       ],
+       "keterangan": "Dicatat sekali di awal setiap jalur."
+      },
+      {
+       "key": "temuansatwa",
+       "nama": {
+        "in": "Temuan Satwa",
+        "en": "Animal Record"
+       },
+       "atribut": [
+        {
+         "key": "notransek",
+         "wajib": true
+        },
+        {
+         "key": "jenissatwa",
+         "wajib": true
+        },
+        {
+         "key": "tandakeberadaan",
+         "wajib": true
+        },
+        {
+         "key": "jenisperjumpaan"
+        },
+        {
+         "key": "jumlah"
+        },
+        {
+         "key": "perkiraanindividu"
+        },
+        {
+         "key": "jarakkesatwam"
+        },
+        {
+         "key": "jumlahjantan"
+        },
+        {
+         "key": "jumlahbetina"
+        },
+        {
+         "key": "jumlahdewasa"
+        },
+        {
+         "key": "jumlahmuda"
+        },
+        {
+         "key": "jumlahanakan"
+        },
+        {
+         "key": "usiatemuan"
+        },
+        {
+         "key": "tipeekosistem"
+        },
+        {
+         "key": "ketinggianmdpl"
+        },
+        {
+         "key": "keterangan"
+        }
+       ],
+       "multiple": true,
+       "keterangan": "Satu observasi untuk satu temuan. Perjumpaan langsung: jumlah individu. Tanda: banyaknya tanda dan perkiraan individu."
+      }
+     ]
+    },
+    {
+     "key": "kajianpelepasliaran",
+     "nama": {
+      "in": "Kajian Lokasi Pelepasliaran Satwa",
+      "en": "Wildlife Release Site Assessment"
+     },
+     "keterangan": "Komunitas burung, fungsi pohon, dan kesesuaian lokasi pelepasliaran. Generator: LEPAS.",
+     "anak": [
+      {
+       "key": "lokasipengamatan",
+       "nama": {
+        "in": "Lokasi Pengamatan",
+        "en": "Survey Site"
+       },
+       "atribut": [
+        {
+         "key": "noplot",
+         "wajib": true
+        },
+        {
+         "key": "lokasi"
+        },
+        {
+         "key": "ketinggianmdpl"
+        },
+        {
+         "key": "tipeekosistem"
+        },
+        {
+         "key": "tipehabitat"
+        },
+        {
+         "key": "keterangan"
+        }
+       ]
+      },
+      {
+       "key": "perjumpaanburung",
+       "nama": {
+        "in": "Perjumpaan Burung",
+        "en": "Bird Encounter"
+       },
+       "atribut": [
+        {
+         "key": "noplot",
+         "wajib": true
+        },
+        {
+         "key": "daftarmackinnon"
+        },
+        {
+         "key": "jenissatwa",
+         "wajib": true
+        },
+        {
+         "key": "jumlah"
+        },
+        {
+         "key": "jarakkesatwam"
+        },
+        {
+         "key": "guildburung"
+        },
+        {
+         "key": "aktivitassatwa"
+        },
+        {
+         "key": "keterangan"
+        }
+       ],
+       "multiple": true,
+       "keterangan": "Satu observasi per jenis per perjumpaan. Daftar MacKinnon: nomor daftar tempat jenis dicatat."
+      },
+      {
+       "key": "fungsipohon",
+       "nama": {
+        "in": "Fungsi Pohon",
+        "en": "Tree Function"
+       },
+       "atribut": [
+        {
+         "key": "noplot"
+        },
+        {
+         "key": "jenistumbuhan",
+         "wajib": true
+        },
+        {
+         "key": "nektarbunga"
+        },
+        {
+         "key": "mahkotabunga"
+        },
+        {
+         "key": "ukuranbunga"
+        },
+        {
+         "key": "lapisanluarbuah"
+        },
+        {
+         "key": "lapisanbuah"
+        },
+        {
+         "key": "ukuranbuah"
+        },
+        {
+         "key": "lapisankulitbiji"
+        },
+        {
+         "key": "ukuranbiji"
+        },
+        {
+         "key": "lokasibiji"
+        },
+        {
+         "key": "bentuktajuk"
+        },
+        {
+         "key": "bentukpercabangan"
+        },
+        {
+         "key": "ukurandaun"
+        },
+        {
+         "key": "keterangan"
+        }
+       ],
+       "multiple": true,
+       "keterangan": "Satu observasi untuk satu jenis pohon (Handayani, 2015)."
+      }
+     ]
+    },
+    {
+     "key": "stokkarbon",
+     "nama": {
+      "in": "Pengukuran Stok Karbon",
+      "en": "Carbon Stock Measurement"
+     },
+     "keterangan": "Plot ukur bersarang untuk tegakan, serasah, kayu mati, dan tanah (SNI 7724:2019). Generator: KARBON.",
+     "anak": [
+      {
+       "key": "plotukur",
+       "nama": {
+        "in": "Plot Ukur",
+        "en": "Measurement Plot"
+       },
+       "atribut": [
+        {
+         "key": "notransek",
+         "wajib": true
+        },
+        {
+         "key": "noplot",
+         "wajib": true
+        },
+        {
+         "key": "tipeekosistem"
+        },
+        {
+         "key": "lokasi"
+        },
+        {
+         "key": "ketinggianmdpl"
+        },
+        {
+         "key": "keterangan"
+        }
+       ],
+       "keterangan": "Dicatat sekali di pusat setiap plot."
+      },
+      {
+       "key": "tegakan",
+       "nama": {
+        "in": "Tegakan",
+        "en": "Standing Trees"
+       },
+       "atribut": [
+        {
+         "key": "notransek",
+         "wajib": true
+        },
+        {
+         "key": "noplot",
+         "wajib": true
+        },
+        {
+         "key": "tingkatpertumbuhan",
+         "wajib": true
+        },
+        {
+         "key": "jenistumbuhan"
+        },
+        {
+         "key": "dbhpohoncm",
+         "wajib": true
+        },
+        {
+         "key": "tinggipohonm"
+        },
+        {
+         "key": "jarijariplotm"
+        },
+        {
+         "key": "pohonmati"
+        }
+       ],
+       "multiple": true,
+       "keterangan": "Satu observasi untuk satu batang pancang, tiang, atau pohon."
+      },
+      {
+       "key": "serasah",
+       "nama": {
+        "in": "Serasah, Nekromas, dan Tumbuhan Bawah",
+        "en": "Litter, Necromass, and Understorey"
+       },
+       "atribut": [
+        {
+         "key": "notransek",
+         "wajib": true
+        },
+        {
+         "key": "noplot",
+         "wajib": true
+        },
+        {
+         "key": "komponenserasah",
+         "wajib": true
+        },
+        {
+         "key": "kodesampel"
+        },
+        {
+         "key": "beratbasahtotalg",
+         "wajib": true
+        },
+        {
+         "key": "beratbasahsampelg"
+        }
+       ],
+       "multiple": true,
+       "keterangan": "Berat kering dan kadar karbon diisi di aplikasi setelah analisis laboratorium."
+      },
+      {
+       "key": "kayumati",
+       "nama": {
+        "in": "Kayu Mati",
+        "en": "Dead Wood"
+       },
+       "atribut": [
+        {
+         "key": "notransek",
+         "wajib": true
+        },
+        {
+         "key": "noplot",
+         "wajib": true
+        },
+        {
+         "key": "kuadran"
+        },
+        {
+         "key": "kelasdiameter",
+         "wajib": true
+        },
+        {
+         "key": "kodesampel"
+        },
+        {
+         "key": "diametercm"
+        },
+        {
+         "key": "panjangtransekm"
+        }
+       ],
+       "multiple": true,
+       "keterangan": "Satu observasi untuk satu potongan kayu mati yang menyentuh garis kuadran."
+      },
+      {
+       "key": "contohtanah",
+       "nama": {
+        "in": "Contoh Tanah",
+        "en": "Soil Sample"
+       },
+       "atribut": [
+        {
+         "key": "notransek",
+         "wajib": true
+        },
+        {
+         "key": "noplot",
+         "wajib": true
+        },
+        {
+         "key": "lapisantanah",
+         "wajib": true
+        },
+        {
+         "key": "kodesampel"
+        },
+        {
+         "key": "kedalamancm"
+        },
+        {
+         "key": "volumetanahcm3"
+        }
+       ],
+       "multiple": true
+      }
+     ]
+    },
+    {
+     "key": "rekapelangflores",
+     "nama": {
+      "in": "Rekap Perjumpaan Elang Flores",
+      "en": "Flores Hawk-eagle Records"
+     },
+     "keterangan": "Catatan perjumpaan dan sarang elang flores di luar kegiatan monitoring. Aplikasi juga membaca Satwa Liar, Monitoring Elang Flores, Inventarisasi Raptor, dan Monitoring Satwa Kunci. Generator: REKAP.",
+     "anak": [
+      {
+       "key": "perjumpaan",
+       "nama": {
+        "in": "Perjumpaan",
+        "en": "Encounter"
+       },
+       "atribut": [
+        {
+         "key": "jenissatwa",
+         "wajib": true
+        },
+        {
+         "key": "tipecatatan"
+        },
+        {
+         "key": "jumlah"
+        },
+        {
+         "key": "aktivitasraptor"
+        },
+        {
+         "key": "lokasi"
+        },
+        {
+         "key": "ketinggianmdpl"
+        },
+        {
+         "key": "sumberdata"
+        },
+        {
+         "key": "keterangan"
+        }
+       ],
+       "multiple": true,
+       "keterangan": "Satu observasi untuk satu perjumpaan."
+      },
+      {
+       "key": "sarang",
+       "nama": {
+        "in": "Sarang",
+        "en": "Nest"
+       },
+       "atribut": [
+        {
+         "key": "kodesarang",
+         "wajib": true
+        },
+        {
+         "key": "lokasi"
+        },
+        {
+         "key": "ketinggianmdpl"
+        },
+        {
+         "key": "jenistumbuhan"
+        },
+        {
+         "key": "kondisisarang"
+        },
+        {
+         "key": "keterangan"
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "key": "sebaranumaani",
+     "nama": {
+      "in": "Sebaran Pohon Sarang Uma Ani",
+      "en": "Wild Honey Bee Nest Trees"
+     },
+     "keterangan": "Jenis, jumlah, dan sebaran pohon sarang lebah madu hutan (Apis dorsata). Generator: UMAANI.",
+     "anak": [
+      {
+       "key": "pohonsarang",
+       "nama": {
+        "in": "Pohon Sarang",
+        "en": "Nest Tree"
+       },
+       "atribut": [
+        {
+         "key": "kodepohon",
+         "wajib": true
+        },
+        {
+         "key": "lokasi"
+        },
+        {
+         "key": "ketinggianmdpl"
+        },
+        {
+         "key": "jenistumbuhan",
+         "wajib": true
+        },
+        {
+         "key": "dbhpohoncm"
+        },
+        {
+         "key": "tinggipohonm"
+        },
+        {
+         "key": "jumlahsarang",
+         "wajib": true
+        },
+        {
+         "key": "tinggisarangm"
+        },
+        {
+         "key": "jaraksumberairm"
+        },
+        {
+         "key": "jumlahsaranglalu"
+        },
+        {
+         "key": "kondisipohon"
+        },
+        {
+         "key": "tandapanen"
+        },
+        {
+         "key": "keterangan"
+        }
+       ],
+       "keterangan": "Satu observasi untuk satu pohon. Pohon dari survei sebelumnya yang tidak lagi bersarang tetap dicatat dengan jumlah sarang 0."
+      },
+      {
+       "key": "vegetasi",
+       "nama": {
+        "in": "Vegetasi",
+        "en": "Vegetation"
+       },
+       "atribut": [
+        {
+         "key": "noplot",
+         "wajib": true
+        },
+        {
+         "key": "tingkatpertumbuhan",
+         "wajib": true
+        },
+        {
+         "key": "jenistumbuhan",
+         "wajib": true
+        },
+        {
+         "key": "jumlah"
+        },
+        {
+         "key": "dbhpohoncm"
+        },
+        {
+         "key": "kelilingcm"
+        },
+        {
+         "key": "tinggipohonm"
+        },
+        {
+         "key": "keterangan"
+        }
+       ],
+       "multiple": true,
+       "keterangan": "Petak lingkaran di sekitar pohon sarang. Petak contoh bersarang. Satu observasi untuk satu individu (tiang, pohon), atau satu jenis per petak dengan atribut jumlah (semai, pancang, tumbuhan bawah)."
+      }
+     ]
+    },
+    {
+     "key": "verifikasikehatitinggi",
+     "nama": {
+      "in": "Verifikasi Kehati Tinggi",
+      "en": "High Biodiversity Area Verification"
+     },
+     "keterangan": "Verifikasi grid areal bernilai keanekaragaman hayati tinggi. Aplikasi juga membaca Ground Check > Tipe Ekosistem dan Satwa Liar. Generator: KEHATI.",
+     "anak": [
+      {
+       "key": "titikgrid",
+       "nama": {
+        "in": "Titik Grid",
+        "en": "Grid Point"
+       },
+       "atribut": [
+        {
+         "key": "kodegrid",
+         "wajib": true
+        },
+        {
+         "key": "lokasi"
+        },
+        {
+         "key": "zonasikawasan"
+        },
+        {
+         "key": "ketinggianmdpl"
+        },
+        {
+         "key": "klasifikasi1te"
+        },
+        {
+         "key": "klasifikasi2te"
+        },
+        {
+         "key": "klasifikasi3"
+        },
+        {
+         "key": "klasifikasi4",
+         "wajib": true
+        },
+        {
+         "key": "keterangan"
+        }
+       ],
+       "keterangan": "Dicatat sekali di titik pengamatan setiap grid."
+      },
+      {
+       "key": "vegetasi",
+       "nama": {
+        "in": "Vegetasi",
+        "en": "Vegetation"
+       },
+       "atribut": [
+        {
+         "key": "kodegrid",
+         "wajib": true
+        },
+        {
+         "key": "noplot",
+         "wajib": true
+        },
+        {
+         "key": "tingkatpertumbuhan",
+         "wajib": true
+        },
+        {
+         "key": "jenistumbuhan",
+         "wajib": true
+        },
+        {
+         "key": "jumlah"
+        },
+        {
+         "key": "dbhpohoncm"
+        },
+        {
+         "key": "kelilingcm"
+        },
+        {
+         "key": "tinggipohonm"
+        },
+        {
+         "key": "keterangan"
+        }
+       ],
+       "multiple": true,
+       "keterangan": "Petak contoh bersarang. Satu observasi untuk satu individu (tiang, pohon), atau satu jenis per petak dengan atribut jumlah (semai, pancang, tumbuhan bawah). Kode petak sebaiknya diawali kode grid, misalnya 288-1."
+      },
+      {
+       "key": "perjumpaansatwa",
+       "nama": {
+        "in": "Perjumpaan Satwa",
+        "en": "Animal Encounter"
+       },
+       "atribut": [
+        {
+         "key": "kodegrid",
+         "wajib": true
+        },
+        {
+         "key": "jenissatwa",
+         "wajib": true
+        },
+        {
+         "key": "tandakeberadaan"
+        },
+        {
+         "key": "jumlah"
+        },
+        {
+         "key": "keterangan"
+        }
+       ],
+       "multiple": true,
+       "keterangan": "Satu observasi untuk satu perjumpaan langsung atau tanda keberadaan."
+      }
+     ]
+    }
+   ]
+  }
+ ]
 }

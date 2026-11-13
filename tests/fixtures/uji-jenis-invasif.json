@@ -1,0 +1,44 @@
+{
+ "nama": "Data uji sintetis IAS",
+ "identitas": {"judul": "Inventarisasi Tumbuhan Asing Invasif (Invasive Alien Species)", "lokasi": "Jalur Pendakian dan Batas Kawasan, Resor Kawinda Toi", "resort": "Resor Kawinda Toi", "sptn": "SPTN Wilayah I Kore", "mulai": "2024-07-15", "selesai": "2024-07-19", "nomorST": "", "kota": "Dompu", "tanggalLaporan": "", "sumberAnggaran": "DIPA BA. 29 Balai Taman Nasional Tambora Tahun Anggaran 2024"},
+ "rab": [{"uraian": "Belanja Bahan: Alat dan Bahan", "volume": "1", "satuan": "KEG", "harga": "2500000"}],
+ "param": {"basisRelatif": "komunitas", "perEkosistem": "tidak"},
+ "data": {
+  "petak": [
+   {"kode": "P01", "grid": "3169", "tanggal": "2024-07-16", "x": 118.059366, "y": -8.143891, "ketinggian": 399, "ekosistem": "Hutan pamah (dataran rendah)", "sasaran": "Jalur pendakian", "zona": "Zona Pemanfaatan", "keterangan": ""},
+   {"kode": "P02", "grid": "3170", "tanggal": "2024-07-16", "x": 118.06185, "y": -8.146073, "ketinggian": 477, "ekosistem": "Hutan pamah (dataran rendah)", "sasaran": "Jalur pendakian", "zona": "Zona Pemanfaatan", "keterangan": ""},
+   {"kode": "P03", "grid": "3238", "tanggal": "2024-07-17", "x": 118.058436, "y": -8.130598, "ketinggian": 486, "ekosistem": "Padang rumput", "sasaran": "Areal terbuka", "zona": "Zona Tradisional", "keterangan": ""},
+   {"kode": "P04", "grid": "3257", "tanggal": "2024-07-17", "x": 118.059382, "y": -8.129671, "ketinggian": 475, "ekosistem": "Padang rumput", "sasaran": "Batas kawasan dan ladang", "zona": "Zona Tradisional", "keterangan": ""},
+   {"kode": "P05", "grid": "3275", "tanggal": "2024-07-18", "x": 118.018837, "y": -8.116659, "ketinggian": 100, "ekosistem": "Hutan pamah (dataran rendah)", "sasaran": "Tepi sungai", "zona": "Zona Tradisional", "keterangan": ""},
+   {"kode": "P06", "grid": "3282", "tanggal": "2024-07-18", "x": 118.018574, "y": -8.115662, "ketinggian": 91, "ekosistem": "Hutan pamah (dataran rendah)", "sasaran": "Jalan setapak", "zona": "Zona Inti", "keterangan": "Tanpa jenis invasif"}
+  ],
+  "vegetasi": [
+   {"petak": "P01", "tingkat": "Semai", "jenis": "Kerinyuh", "latin": "Chromolaena odorata", "n": 12, "diameter": "", "invasif": "Ya", "keterangan": ""},
+   {"petak": "P01", "tingkat": "Semai", "jenis": "Katowi", "latin": "Palaquium amboinense", "n": 8, "diameter": "", "invasif": "", "keterangan": ""},
+   {"petak": "P01", "tingkat": "Pancang", "jenis": "Tembelekan", "latin": "Lantana camara", "n": 2, "diameter": "", "invasif": "", "keterangan": ""},
+   {"petak": "P01", "tingkat": "Pancang", "jenis": "Walikukun", "latin": "Schoutenia ovata", "n": 3, "diameter": "", "invasif": "", "keterangan": ""},
+   {"petak": "P02", "tingkat": "Semai", "jenis": "Kerinyuh", "latin": "Chromolaena odorata", "n": 20, "diameter": "", "invasif": "", "keterangan": ""},
+   {"petak": "P02", "tingkat": "Semai", "jenis": "Tempuh wiyang", "latin": "Emilia sonchifolia", "n": 2, "diameter": "", "invasif": "", "keterangan": ""},
+   {"petak": "P02", "tingkat": "Semai", "jenis": "Pakis", "latin": "", "n": 15, "diameter": "", "invasif": "", "keterangan": ""},
+   {"petak": "P03", "tingkat": "Tumbuhan bawah", "jenis": "Alang-alang", "latin": "Imperata cylindrica", "n": 30, "diameter": "", "invasif": "", "keterangan": ""},
+   {"petak": "P03", "tingkat": "Tumbuhan bawah", "jenis": "Kerinyuh", "latin": "Chromolaena odorata", "n": 6, "diameter": "", "invasif": "", "keterangan": ""},
+   {"petak": "P03", "tingkat": "Tumbuhan bawah", "jenis": "Rumput", "latin": "Poaceae", "n": 40, "diameter": "", "invasif": "", "keterangan": ""},
+   {"petak": "P04", "tingkat": "", "jenis": "Patikan kebo", "latin": "Euphorbia hirta", "n": 3, "diameter": "", "invasif": "", "keterangan": ""},
+   {"petak": "P04", "tingkat": "", "jenis": "Rumput", "latin": "Poaceae", "n": 25, "diameter": "", "invasif": "", "keterangan": ""},
+   {"petak": "P04", "tingkat": "", "jenis": "", "latin": "Cyperus sp.", "n": 4, "diameter": "", "invasif": "Ya", "keterangan": ""},
+   {"petak": "P05", "tingkat": "Semai", "jenis": "Kerinyuh", "latin": "Chromolaena odorata", "n": 9, "diameter": "", "invasif": "", "keterangan": ""},
+   {"petak": "P05", "tingkat": "Pohon", "jenis": "Kalanggo", "latin": "Duabanga moluccana", "n": 1, "diameter": 42, "invasif": "", "keterangan": ""},
+   {"petak": "P05", "tingkat": "Pohon", "jenis": "Akasia Mangium", "latin": "Acacia mangium", "n": 1, "diameter": 25, "invasif": "", "keterangan": ""},
+   {"petak": "P06", "tingkat": "Semai", "jenis": "Katowi", "latin": "Palaquium amboinense", "n": 14, "diameter": "", "invasif": "", "keterangan": ""},
+   {"petak": "P06", "tingkat": "Pohon", "jenis": "Kalanggo", "latin": "Duabanga moluccana", "n": 2, "diameter": 55, "invasif": "", "keterangan": ""}
+  ],
+  "skor": [
+   {"jenis": "Kerinyuh", "latin": "Chromolaena odorata", "mapan": "Medium", "tahan": "Tinggi", "buah": "1 tahun", "biji": "Banyak", "vegetatif": "Tidak ada", "burung": "Kadang-kadang", "hewan": "Umum", "air": "Kadang-kadang", "angin": "Umum", "sengaja": "Mungkin tidak", "tanpaSengaja": "Kadang-kadang", "kontaminasi": "Kadang-kadang", "ternak": "Kadang-kadang", "asal": "Amerika Tengah dan Selatan", "acuan": "P.94/2016; Setyawati dkk. 2015", "keterangan": ""},
+   {"jenis": "Tempuh wiyang", "latin": "Emilia sonchifolia", "mapan": "Rendah", "tahan": "Rendah", "buah": "1 tahun", "biji": "Banyak", "vegetatif": "Tidak tahu", "burung": "Kadang-kadang", "hewan": "Mungkin tidak", "air": "Mungkin tidak", "angin": "Umum", "sengaja": "Mungkin tidak", "tanpaSengaja": "Mungkin tidak", "kontaminasi": "Mungkin tidak", "ternak": "Mungkin tidak", "asal": "Afrika tropis", "acuan": "Setyawati dkk. 2015", "keterangan": ""},
+   {"jenis": "Patikan kebo", "latin": "Euphorbia hirta", "mapan": "Medium", "tahan": "Tidak tahu", "buah": "1 tahun", "biji": "Sedikit", "vegetatif": "Cepat", "burung": "Mungkin tidak", "hewan": "Mungkin tidak", "air": "Kadang-kadang", "angin": "Mungkin tidak", "sengaja": "Mungkin tidak", "tanpaSengaja": "Tidak tahu", "kontaminasi": "Tidak tahu", "ternak": "Mungkin tidak", "asal": "Amerika tropis", "acuan": "Setyawati dkk. 2015", "keterangan": ""},
+   {"jenis": "Alang-alang", "latin": "Imperata cylindrica", "mapan": "Tinggi", "tahan": "Sangat tinggi", "buah": "1 tahun", "biji": "Banyak", "vegetatif": "Cepat", "burung": "Umum", "hewan": "Umum", "air": "Tidak tahu", "angin": "Kadang-kadang", "sengaja": "Mungkin tidak", "tanpaSengaja": "Kadang-kadang", "kontaminasi": "Mungkin tidak", "ternak": "Umum", "asal": "Asia tropis", "acuan": "P.94/2016; Setyawati dkk. 2015", "keterangan": ""},
+   {"jenis": "Tembelekan", "latin": "Lantana camara", "mapan": "Tinggi", "tahan": "Tinggi", "buah": "1 tahun", "biji": "Banyak", "vegetatif": "Lambat", "burung": "Umum", "hewan": "Kadang-kadang", "air": "Kadang-kadang", "angin": "Mungkin tidak", "sengaja": "Mungkin tidak", "tanpaSengaja": "Kadang-kadang", "kontaminasi": "Kadang-kadang", "ternak": "Kadang-kadang", "asal": "Amerika tropis", "acuan": "P.94/2016; Setyawati dkk. 2015", "keterangan": ""}
+  ]
+ },
+ "catatanLapangan": ""
+}

@@ -24,19 +24,19 @@
       lokasiPlot: "sepanjang jalur pendakian Piong dan jalan inspeksi yang masuk ke dalam kawasan TN Tambora"
     },
     penandatangan: {
-      kiri: { head: "An. Kuasa Pengguna Anggaran", jabatan: "Pejabat Pembuat Komitmen,", nama: "Mohamad Alwi, SP.", nip: "198203202001121002" },
-      kanan: { head: "", jabatan: "Ketua Tim,", nama: "Mohamad Alwi, SP.", nip: "198203202001121002" },
-      bawah: { head: "Mengetahui: an. Kepala Balai TN Tambora", jabatan: "Kepala SPTN Wilayah I Kore,", nama: "Muhammad Saad", nip: "196505071993031007" }
+      kiri: { head: "An. Kuasa Pengguna Anggaran", jabatan: "Pejabat Pembuat Komitmen,", nama: "", nip: "" },
+      kanan: { head: "", jabatan: "Ketua Tim,", nama: "", nip: "" },
+      bawah: { head: "Mengetahui: an. Kepala Balai TN Tambora", jabatan: "Kepala SPTN Wilayah I Kore,", nama: "", nip: "" }
     },
     plot: { n: 42, r: 500, pi: 3.14, keterangan: "19 plot di sepanjang jalur pendakian Piong (Zona Pemanfaatan) dan 23 plot di luar jalur pendakian (Zona Rehabilitasi dan Zona Rimba)" },
     opsi: { metodeID: "template", kriteriaH: "template" },
     tim: [
-      { nama: "Mohamad Alwi, SP", nip: "19820320 200112 1 002", pangkat: "Penata Muda Tk. I / IIIb", jabatan: "PEH Pertama", peran: "Koordinator" },
-      { nama: "Ade Hadi Pramono, S.Hut", nip: "1811104 200912 1 003", pangkat: "Penata Muda Tk. I / IIIb", jabatan: "PEH Pertama", peran: "Anggota" },
-      { nama: "Feny Endah Yulianingsih, S.Hut", nip: "19940702 201801 2 004", pangkat: "Penata Muda / IIIa", jabatan: "PEH Pertama", peran: "Anggota" },
-      { nama: "Aisyah Amini, S.Hut", nip: "19941217 201902 2 002", pangkat: "Penata Muda / IIIa", jabatan: "PEH Pertama", peran: "Anggota" },
-      { nama: "Erwin Febriyanto, S.Si", nip: "", pangkat: "-", jabatan: "Staf Balai TN Tambora", peran: "Anggota" },
-      { nama: "Lisa Umami, SE", nip: "", pangkat: "-", jabatan: "Staf Balai TN Tambora", peran: "Anggota" }
+      { nama: "", nip: "", pangkat: "Penata Muda Tk. I / IIIb", jabatan: "PEH Pertama", peran: "Koordinator" },
+      { nama: "", nip: "", pangkat: "Penata Muda Tk. I / IIIb", jabatan: "PEH Pertama", peran: "Anggota" },
+      { nama: "", nip: "", pangkat: "Penata Muda / IIIa", jabatan: "PEH Pertama", peran: "Anggota" },
+      { nama: "", nip: "", pangkat: "Penata Muda / IIIa", jabatan: "PEH Pertama", peran: "Anggota" },
+      { nama: "", nip: "", pangkat: "-", jabatan: "Staf Balai TN Tambora", peran: "Anggota" },
+      { nama: "", nip: "", pangkat: "-", jabatan: "Staf Balai TN Tambora", peran: "Anggota" }
     ],
     alat: [
       { nama: "GPS", jumlah: "1", satuan: "unit" },

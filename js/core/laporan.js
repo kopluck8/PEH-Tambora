@@ -31,33 +31,39 @@
   }
   const jumlahHari = (a, b) => (validISO(a) && validISO(b) ? Math.round((parseISO(b) - parseISO(a)) / 864e5) + 1 : 0);
   const bulanTahun = (iso) => (validISO(iso) ? `${BULAN[parseISO(iso).getUTCMonth()]} ${iso.substr(0, 4)}` : "");
-  const terbilang = (n) => (n < 12 ? SATUAN[n] : n < 20 ? SATUAN[n - 10] + " belas" : n < 100 ? SATUAN[Math.floor(n / 10)] + " puluh" + (n % 10 ? " " + SATUAN[n % 10] : "") : String(n));
-  const nTxt = (n) => `${n} (${terbilang(n) || "nol"})`;
+  // Bilangan bulat dalam kata: 270 → "dua ratus tujuh puluh"
+  function kata(x) {
+    const S = SATUAN;
+    if (x < 12) return S[x];
+    if (x < 20) return kata(x - 10) + " belas";
+    if (x < 100) return kata(Math.floor(x / 10)) + " puluh" + (x % 10 ? " " + kata(x % 10) : "");
+    if (x < 200) return "seratus" + (x - 100 ? " " + kata(x - 100) : "");
+    if (x < 1000) return kata(Math.floor(x / 100)) + " ratus" + (x % 100 ? " " + kata(x % 100) : "");
+    if (x < 2000) return "seribu" + (x - 1000 ? " " + kata(x - 1000) : "");
+    for (const [v, w] of [[1e12, "triliun"], [1e9, "miliar"], [1e6, "juta"], [1e3, "ribu"]])
+      if (x >= v) return kata(Math.floor(x / v)) + " " + w + (x % v ? " " + kata(x % v) : "");
+    return "";
+  }
+  const terbilang = (n) => (Number.isInteger(n) && n >= 0 && n < 1e15 ? kata(n) : String(n));
+  const nTxt = (n) => (Number.isInteger(n) && n >= 0 ? `${n.toLocaleString("id-ID")} (${terbilang(n) || "nol"})` : String(n));
   // Angka gaya Indonesia: 0,0027 ; 3.297
-  const num = (v, d = 0) => (Number.isFinite(Number(v)) ? Number(v).toLocaleString("id-ID", { minimumFractionDigits: d, maximumFractionDigits: d }) : "-");
+  // Nilai yang dibulatkan menjadi nol ditulis "0", bukan "-0" (mis. H′ = −Σ p ln p dengan satu jenis)
+  const num = (v, d = 0) => (Number.isFinite(Number(v)) ? (Math.abs(Number(v)) < 0.5 * 10 ** -d ? 0 : Number(v)).toLocaleString("id-ID", { minimumFractionDigits: d, maximumFractionDigits: d }) : "-");
   const numVal = (v) => Number(String(v ?? "").replace(/[^\d,.-]/g, "").replace(/\.(?=\d{3}\b)/g, "").replace(",", ".")) || 0;
   const rp = (n) => Math.round(n || 0).toLocaleString("id-ID");
   const rupiah = (n) => (n ? `Rp${rp(n)},00` : "");
   const fmtNip = (nip) => { const d = String(nip || "").replace(/\D/g, ""); return d.length === 18 ? `${d.substr(0, 8)} ${d.substr(8, 6)} ${d.substr(14, 1)} ${d.substr(15)}` : String(nip || ""); };
   const nb = (s) => String(s).replace(/ /g, " ");
   const cap1 = (s) => String(s || "").charAt(0).toUpperCase() + String(s || "").slice(1);
+  // Huruf besar di awal setiap kata untuk judul tabel, kecuali kata tugas ("Daftar Jenis Tumbuhan Asing Invasif yang Ditemukan")
+  const KATA_KECIL = new Set(["dan", "di", "ke", "dari", "yang", "pada", "untuk", "dengan", "atau", "per", "oleh", "dalam", "terhadap", "sebagai", "menurut"]);
+  const judul = (s) => String(s || "").split(" ").map((w, i) => (i > 0 && KATA_KECIL.has(w.toLowerCase()) ? w.toLowerCase() : w.replace(/^([("'[]*)(\S)/, (m, a, h) => a + h.toUpperCase()))).join(" ");
   // Nama ilmiah dalam kurung dicetak miring: "Elang bondol (Haliastur indus)"
   const italicLatin = (html) => html.replace(/\(([A-Z][a-z]+ [a-z]+(?: [a-z]+)?)\)/g, "(<i>$1</i>)");
   const sci = (s) => `<i>${esc(s)}</i>`;
 
   function terbilangRupiah(n) {
-    const S = SATUAN;
-    const f = (x) => {
-      if (x < 12) return S[x];
-      if (x < 20) return f(x - 10) + " belas";
-      if (x < 100) return f(Math.floor(x / 10)) + " puluh" + (x % 10 ? " " + f(x % 10) : "");
-      if (x < 200) return "seratus" + (x - 100 ? " " + f(x - 100) : "");
-      if (x < 1000) return f(Math.floor(x / 100)) + " ratus" + (x % 100 ? " " + f(x % 100) : "");
-      if (x < 2000) return "seribu" + (x - 1000 ? " " + f(x - 1000) : "");
-      for (const [v, w] of [[1e12, "triliun"], [1e9, "miliar"], [1e6, "juta"], [1e3, "ribu"]])
-        if (x >= v) return f(Math.floor(x / v)) + " " + w + (x % v ? " " + f(x % v) : "");
-      return "";
-    };
+    const f = kata;
     n = Math.round(n || 0);
     return n ? (f(n) + " rupiah").replace(/\s+/g, " ").replace(/\b\w/g, (c) => c.toUpperCase()) : "Nol Rupiah";
   }
@@ -150,6 +156,6 @@
     return `<table class="data gantt"><thead><tr><th rowspan="2">No</th><th rowspan="2">Tahapan Kegiatan</th>${months.map((x) => `<th colspan="${x.n}">${BULAN[x.m]} ${x.y}</th>`).join("")}</tr><tr>${days.map((d) => `<th class="d">${parseISO(d).getUTCDate()}</th>`).join("")}</tr></thead><tbody>${ok.map((r, i) => `<tr><td class="c">${i + 1}.</td><td>${esc(r[0])}</td>${days.map((d) => `<td class="${d >= r[1] && d <= r[2] ? "on" : ""}"></td>`).join("")}</tr>`).join("")}</tbody></table>`;
   }
 
-  window.PEHLaporan = { esc, BULAN, HARI, parseISO, addDays, validISO, tglPanjang, periodeSd, jumlahHari, bulanTahun, terbilang, nTxt, num, numVal, rp, rupiah, fmtNip, nb, cap1, italicLatin, sci, terbilangRupiah,
+  window.PEHLaporan = { esc, BULAN, HARI, parseISO, addDays, validISO, tglPanjang, periodeSd, jumlahHari, bulanTahun, terbilang, nTxt, num, numVal, rp, rupiah, fmtNip, nb, cap1, judul, italicLatin, sci, terbilangRupiah,
     DEFAULT_PROFIL, kopHtml, titleHtml, coverHtml, sign, kvTable, pengesahanHtml, tocHtml, closingHtml, lampiranIndex, numbering, para, noteBlock, olList, timTable, alatTable, rabRows, rabTable, ganttTable };
 })();

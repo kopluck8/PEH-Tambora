@@ -1,0 +1,61 @@
+{
+ "nama": "Data uji sintetis tumbuhan penting",
+ "identitas": {"judul": "Identifikasi Penyebaran dan Inventarisasi Tumbuhan Penting", "lokasi": "Jalur Pendakian Gunung Sari, Resor Doropeti", "resort": "Resor Doropeti", "sptn": "SPTN Wilayah II Pekat", "mulai": "2024-06-10", "selesai": "2024-06-14", "nomorST": "", "kota": "Dompu", "tanggalLaporan": "", "sumberAnggaran": "DIPA BA. 29 Balai Taman Nasional Tambora Tahun Anggaran 2024"},
+ "rab": [{"uraian": "Belanja Bahan: Alat dan Bahan", "volume": "1", "satuan": "KEG", "harga": "2500000"}],
+ "param": {"panjangJalur": 3000, "lebarJalur": 20, "IS": 4, "kriteriaH": "krebs"},
+ "data": {
+  "petak": [
+   {"kode": "P01", "jalur": "Jalur pendakian Gunung Sari", "tanggal": "2024-06-11", "x": 118.0952, "y": -8.2611, "ketinggian": 720, "ekosistem": "Hutan musim/kering", "keterangan": ""},
+   {"kode": "P02", "jalur": "Jalur pendakian Gunung Sari", "tanggal": "2024-06-11", "x": 118.0931, "y": -8.2569, "ketinggian": 880, "ekosistem": "Hutan musim/kering", "keterangan": "Bekas jalan logging"},
+   {"kode": "P03", "jalur": "Jalur pendakian Gunung Sari", "tanggal": "2024-06-12", "x": 118.0907, "y": -8.2528, "ketinggian": 1050, "ekosistem": "Hutan pegunungan bawah", "keterangan": ""},
+   {"kode": "P04", "jalur": "Jalur pendakian Gunung Sari", "tanggal": "2024-06-12", "x": 118.0884, "y": -8.2487, "ketinggian": 1240, "ekosistem": "Hutan pegunungan bawah", "keterangan": "Bekas kebakaran"},
+   {"kode": "P05", "jalur": "Jalur pendakian Gunung Sari", "tanggal": "2024-06-13", "x": 118.086, "y": -8.2446, "ketinggian": 1480, "ekosistem": "Hutan pegunungan atas", "keterangan": ""},
+   {"kode": "P06", "jalur": "Jalur pendakian Gunung Sari", "tanggal": "2024-06-13", "x": 118.0838, "y": -8.2405, "ketinggian": 1710, "ekosistem": "Hutan pegunungan atas", "keterangan": ""}
+  ],
+  "vegetasi": [
+   {"petak": "P01", "tingkat": "Semai", "jenis": "Alang-alang", "latin": "Imperata cylindrica", "n": 14, "diameter": "", "keterangan": ""},
+   {"petak": "P01", "tingkat": "Semai", "jenis": "Kesambi", "latin": "Schleichera oleosa", "n": 3, "diameter": "", "keterangan": ""},
+   {"petak": "P01", "tingkat": "Pancang", "jenis": "Tembelekan", "latin": "Lantana camara", "n": 4, "diameter": "", "keterangan": ""},
+   {"petak": "P01", "tingkat": "Pancang", "jenis": "Kesambi", "latin": "Schleichera oleosa", "n": 2, "diameter": "", "keterangan": ""},
+   {"petak": "P01", "tingkat": "Tiang", "jenis": "Asam jawa", "latin": "Tamarindus indica", "n": 1, "diameter": 14, "keterangan": ""},
+   {"petak": "P01", "tingkat": "Pohon", "jenis": "Kesambi", "latin": "Schleichera oleosa", "n": 1, "diameter": 38, "keterangan": ""},
+   {"petak": "P01", "tingkat": "Pohon", "jenis": "Asam jawa", "latin": "Tamarindus indica", "n": 1, "diameter": 46, "keterangan": ""},
+   {"petak": "P02", "tingkat": "Semai", "jenis": "Alang-alang", "latin": "Imperata cylindrica", "n": 9, "diameter": "", "keterangan": ""},
+   {"petak": "P02", "tingkat": "Semai", "jenis": "Pulai", "latin": "Alstonia scholaris", "n": 2, "diameter": "", "keterangan": ""},
+   {"petak": "P02", "tingkat": "Pancang", "jenis": "Salam", "latin": "Syzygium polyanthum", "n": 3, "diameter": "", "keterangan": ""},
+   {"petak": "P02", "tingkat": "Tiang", "jenis": "Pulai", "latin": "Alstonia scholaris", "n": 1, "diameter": 17, "keterangan": ""},
+   {"petak": "P02", "tingkat": "Pohon", "jenis": "Pulai", "latin": "Alstonia scholaris", "n": 1, "diameter": 52, "keterangan": ""},
+   {"petak": "P02", "tingkat": "Pohon", "jenis": "Kesambi", "latin": "Schleichera oleosa", "n": 1, "diameter": 31, "keterangan": ""},
+   {"petak": "P03", "tingkat": "Semai", "jenis": "Pakis haji", "latin": "Cycas rumphii", "n": 2, "diameter": "", "keterangan": ""},
+   {"petak": "P03", "tingkat": "Semai", "jenis": "Salam", "latin": "Syzygium polyanthum", "n": 5, "diameter": "", "keterangan": ""},
+   {"petak": "P03", "tingkat": "Pancang", "jenis": "Kalanggo", "latin": "Duabanga moluccana", "n": 2, "diameter": "", "keterangan": ""},
+   {"petak": "P03", "tingkat": "Tiang", "jenis": "Salam", "latin": "Syzygium polyanthum", "n": 1, "diameter": 12, "keterangan": ""},
+   {"petak": "P03", "tingkat": "Pohon", "jenis": "Kalanggo", "latin": "Duabanga moluccana", "n": 1, "diameter": 64, "keterangan": ""},
+   {"petak": "P03", "tingkat": "Pohon", "jenis": "Surian", "latin": "Toona sureni", "n": 1, "diameter": 41, "keterangan": ""},
+   {"petak": "P04", "tingkat": "Semai", "jenis": "Kerinyuh", "latin": "Chromolaena odorata", "n": 18, "diameter": "", "keterangan": ""},
+   {"petak": "P04", "tingkat": "Semai", "jenis": "Surian", "latin": "Toona sureni", "n": 4, "diameter": "", "keterangan": ""},
+   {"petak": "P04", "tingkat": "Pancang", "jenis": "Surian", "latin": "Toona sureni", "n": 3, "diameter": "", "keterangan": ""},
+   {"petak": "P04", "tingkat": "Tiang", "jenis": "Ntingi", "latin": "Crypteronia paniculata", "n": 1, "diameter": 15, "keterangan": ""},
+   {"petak": "P04", "tingkat": "Pohon", "jenis": "Ntingi", "latin": "Crypteronia paniculata", "n": 1, "diameter": 35, "keterangan": ""},
+   {"petak": "P05", "tingkat": "Semai", "jenis": "Edelweis", "latin": "Anaphalis javanica", "n": 6, "diameter": "", "keterangan": ""},
+   {"petak": "P05", "tingkat": "Semai", "jenis": "Cemara gunung", "latin": "Casuarina junghuhniana", "n": 7, "diameter": "", "keterangan": ""},
+   {"petak": "P05", "tingkat": "Pancang", "jenis": "Cemara gunung", "latin": "Casuarina junghuhniana", "n": 5, "diameter": "", "keterangan": ""},
+   {"petak": "P05", "tingkat": "Tiang", "jenis": "Cemara gunung", "latin": "Casuarina junghuhniana", "n": 1, "diameter": 16, "keterangan": ""},
+   {"petak": "P05", "tingkat": "Pohon", "jenis": "Cemara gunung", "latin": "Casuarina junghuhniana", "n": 1, "diameter": 44, "keterangan": ""},
+   {"petak": "P05", "tingkat": "Pohon", "jenis": "Ntingi", "latin": "Crypteronia paniculata", "n": 1, "diameter": 29, "keterangan": ""},
+   {"petak": "P06", "tingkat": "Semai", "jenis": "Edelweis", "latin": "Anaphalis javanica", "n": 11, "diameter": "", "keterangan": ""},
+   {"petak": "P06", "tingkat": "Pancang", "jenis": "Cemara gunung", "latin": "Casuarina junghuhniana", "n": 3, "diameter": "", "keterangan": ""},
+   {"petak": "P06", "tingkat": "Pohon", "jenis": "Cemara gunung", "latin": "Casuarina junghuhniana", "n": 1, "diameter": 57, "keterangan": ""},
+   {"petak": "P06", "tingkat": "Tumbuhan bawah", "jenis": "Bunga jon", "latin": "Plectranthus amboinicus", "n": 8, "diameter": "", "keterangan": ""}
+  ],
+  "penting": [
+   {"jenis": "Pakis haji", "latin": "Cycas rumphii", "famili": "Cycadaceae", "iucn": "NT", "p106": "Tidak Dilindungi", "cites": "Apendiks II", "endemik": "Bukan endemik", "kategori": "Tanaman hias", "manfaat": "Daun muda dimakan sebagai sayur dan tanaman dijual sebagai tanaman hias", "deskripsi": "Tumbuhan berbatang tunggal tidak bercabang dengan daun majemuk menyirip di ujung batang. Tumbuh di lereng berbatu pada hutan pegunungan bawah.", "keterangan": ""},
+   {"jenis": "Alang-alang", "latin": "Imperata cylindrica", "famili": "Poaceae", "iucn": "NE", "p106": "Tidak Dilindungi", "cites": "Tidak terdaftar", "endemik": "Bukan endemik", "kategori": "Obat", "manfaat": "Akar diolah sebagai obat tradisional", "deskripsi": "Rumput menahun dengan rimpang merayap di bawah tanah dan daun berbentuk pita bertepi kasar.", "keterangan": ""},
+   {"jenis": "Edelweis", "latin": "Anaphalis javanica", "famili": "Asteraceae", "iucn": "NE", "p106": "Tidak Dilindungi", "cites": "Tidak terdaftar", "endemik": "Bukan endemik", "kategori": "Ritual atau budaya", "manfaat": "Bunga sering dipetik pendaki sebagai cendera mata", "deskripsi": "", "keterangan": "Perlu pengawasan pemetikan"},
+   {"jenis": "Kalanggo", "latin": "Duabanga moluccana", "famili": "Lythraceae", "iucn": "LC", "p106": "Tidak Dilindungi", "cites": "Tidak terdaftar", "endemik": "Bukan endemik", "kategori": "Kayu", "manfaat": "Kayu bangunan", "deskripsi": "Pohon tinggi cepat tumbuh dengan tajuk bertingkat.", "keterangan": ""},
+   {"jenis": "Bunga jon", "latin": "Plectranthus amboinicus", "famili": "Lamiaceae", "iucn": "NE", "p106": "Tidak Dilindungi", "cites": "Tidak terdaftar", "endemik": "Bukan endemik", "kategori": "Obat", "manfaat": "Daun dipakai sebagai obat batuk", "deskripsi": "", "keterangan": ""},
+   {"jenis": "Cendana", "latin": "Santalum album", "famili": "Santalaceae", "iucn": "VU", "p106": "Tidak Dilindungi", "cites": "Tidak terdaftar", "endemik": "Bukan endemik", "kategori": "Kayu", "manfaat": "Kayu wangi bernilai jual tinggi", "deskripsi": "", "keterangan": "Dijumpai di luar petak contoh dekat batas kawasan"}
+  ]
+ },
+ "catatanLapangan": ""
+}

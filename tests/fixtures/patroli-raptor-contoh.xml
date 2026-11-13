@@ -5,8 +5,8 @@
   <ns2:mandate value="Metode Teknis"/>
   <ns2:legs id="leg1" startDate="2021-06-10" endDate="2021-06-14">
     <ns2:transportType value="Jalan kaki"/>
-    <ns2:members givenName="Mohamad" familyName="Alwi, SP" employeeId="198203202001121002" isLeader="true" isPilot="false"/>
-    <ns2:members givenName="Ade Hadi" familyName="Pramono, S.Hut" employeeId="" isLeader="false" isPilot="false"/>
+    <ns2:members givenName="Ketua" familyName="Tim" employeeId="" isLeader="true" isPilot="false"/>
+    <ns2:members givenName="Anggota" familyName="Satu" employeeId="" isLeader="false" isPilot="false"/>
     <ns2:days date="2021-06-10" startTime="07:00:00" endTime="15:00:00" restMinutes="0">
       <ns2:waypoints id="1" x="118.00000" y="-8.25000" time="07:00:00">
         <ns2:observations categoryKey="metodeteknis.inventarisasiraptor.titikpengamatan.">

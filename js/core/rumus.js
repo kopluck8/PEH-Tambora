@@ -6,6 +6,7 @@
  *   R("D")                 teks/variabel           F(a, b)            pecahan a/b
  *   Sub(b, s)  Sup(b, s)   subskrip/superskrip     SubSup(b, s, p)    keduanya
  *   Sum(isi)               Σ isi                   P(isi)             (isi)
+ *   Sqrt(isi)              √isi
  * Argumen boleh berupa string, simpul, atau array keduanya.
  */
 (function () {
@@ -18,6 +19,7 @@
   const SubSup = (b, s, p) => ({ t: "subsup", b: arr(b), s: arr(s), p: arr(p) });
   const Sum = (c) => ({ t: "sum", c: arr(c) });
   const P = (c) => ({ t: "par", c: arr(c) });
+  const Sqrt = (c) => ({ t: "sqrt", c: arr(c) });
   const eq = (...parts) => arr(parts);
 
   /* ---------- MathML (pratinjau) ---------- */
@@ -46,6 +48,7 @@
       case "subsup": return `<msubsup>${row(n.b)}${row(n.s)}${row(n.p)}</msubsup>`;
       case "sum": return `<mrow><mo largeop="true">∑</mo>${row(n.c)}</mrow>`;
       case "par": return `<mrow><mo>(</mo>${row(n.c)}<mo>)</mo></mrow>`;
+      case "sqrt": return `<msqrt>${row(n.c)}</msqrt>`;
       default: return "";
     }
   }
@@ -71,11 +74,12 @@
         case "subsup": return [new D.MathSubSuperScript({ children: conv(n.b), subScript: conv(n.s), superScript: conv(n.p) })];
         case "sum": return [new D.MathSum({ children: conv(n.c) })];
         case "par": return [new D.MathRoundBrackets({ children: conv(n.c) })];
+        case "sqrt": return [new D.MathRadical({ children: conv(n.c) })];
         default: return [];
       }
     }
     return new D.Math({ children: conv(nodes) });
   }
 
-  window.PEHRumus = { ketHtml, R, F, Sub, Sup, SubSup, Sum, P, eq, toMathML, blockHtml, toDocx };
+  window.PEHRumus = { ketHtml, R, F, Sub, Sup, SubSup, Sum, P, Sqrt, eq, toMathML, blockHtml, toDocx };
 })();

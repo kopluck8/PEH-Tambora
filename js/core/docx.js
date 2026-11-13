@@ -301,8 +301,8 @@
       if (tag === "P" && cls.contains("lamp-head")) return [para(el, { spacing: { before: 360, after: 60 }, indent: { left: IND }, keepNext: true })];
       if (tag === "P" && cls.contains("sub")) return [para(el, { spacing: { before: 120, after: 120, line: 360 }, indent: { left: IND } })];
       if (tag === "P" && cls.contains("para")) return [bodyPara(lvOf(el) * IND, runs(el))];
-      if (tag === "P") return [para(el, { spacing: { after: 120 } })];
       if (tag === "P" && cls.contains("ket-head")) return [new D.Paragraph({ indent: { left: lvOf(el) * IND }, keepNext: true, spacing: { before: 60, after: 40 }, children: runs(el) })];
+      if (tag === "P") return [para(el, { spacing: { after: 120 } })];
       // Rumus: equation asli Word dari definisi di data-eq (js/core/rumus.js)
       if (cls.contains("eq") && el.dataset.eq) {
         return [new D.Paragraph({ alignment: A.CENTER, keepNext: true, keepLines: true, spacing: { before: 120, after: 120 }, children: [window.PEHRumus.toDocx(JSON.parse(el.dataset.eq), D)] })];

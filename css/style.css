@@ -327,3 +327,4 @@ code { font-size: .85em; background: var(--accent-soft); padding: 1px 4px; borde
 .paper table.ket td:first-child { min-width: 1.6cm; }
 .paper table.ket.lv2 { margin-left: 1.27cm; } .paper table.ket.lv3 { margin-left: 1.9cm; }
 .paper p.ket-head { margin: 4px 0 2px; }
+@media screen and (max-width: 480px) { .tab { padding: 8px 11px; } }
