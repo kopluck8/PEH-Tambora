@@ -10,14 +10,20 @@
   const { esc, para, noteBlock, olList, tglPanjang, periodeSd, jumlahHari, addDays, validISO, nTxt } = L;
 
   // Dasar hukum umum kegiatan inventarisasi/monitoring di kawasan konservasi; tambahan khusus kegiatan disisipkan sebelum DIPA
+  const DASAR_UMUM = [
+    "Undang-Undang Nomor 5 Tahun 1990 tentang Konservasi Sumber Daya Alam Hayati dan Ekosistemnya sebagaimana telah diubah dengan Undang-Undang Nomor 32 Tahun 2024;",
+    "Undang-Undang Nomor 41 Tahun 1999 tentang Kehutanan;",
+    "Undang-Undang Nomor 32 Tahun 2009 tentang Perlindungan dan Pengelolaan Lingkungan Hidup;",
+    "Peraturan Pemerintah Nomor 28 Tahun 2011 sebagaimana telah diubah dengan Peraturan Pemerintah Nomor 108 Tahun 2015 tentang Pengelolaan Kawasan Suaka Alam dan Kawasan Pelestarian Alam;",
+    "Peraturan Menteri Kehutanan Nomor P.81/Menhut-II/2014 tentang Tata Cara Pelaksanaan Inventarisasi Potensi pada Kawasan Suaka Alam dan Kawasan Pelestarian Alam;"
+  ];
+  // Nomor peraturan ("P.81/Menhut-II/2014") untuk membuang dasar tambahan yang sudah ada di daftar umum
+  const nomorAturan = (s) => (String(s).match(/Nomor\s+([^\s,;]+(?:\s+Tahun\s+\d{4})?)/) || [])[1] || String(s).trim();
   function dasar(I, tambahan = []) {
+    const ada = new Set(DASAR_UMUM.map(nomorAturan));
     return [
-      "Undang-Undang Nomor 5 Tahun 1990 tentang Konservasi Sumber Daya Alam Hayati dan Ekosistemnya sebagaimana telah diubah dengan Undang-Undang Nomor 32 Tahun 2024;",
-      "Undang-Undang Nomor 41 Tahun 1999 tentang Kehutanan;",
-      "Undang-Undang Nomor 32 Tahun 2009 tentang Perlindungan dan Pengelolaan Lingkungan Hidup;",
-      "Peraturan Pemerintah Nomor 28 Tahun 2011 sebagaimana telah diubah dengan Peraturan Pemerintah Nomor 108 Tahun 2015 tentang Pengelolaan Kawasan Suaka Alam dan Kawasan Pelestarian Alam;",
-      "Peraturan Menteri Kehutanan Nomor P.81/Menhut-II/2014 tentang Tata Cara Pelaksanaan Inventarisasi Potensi pada Kawasan Suaka Alam dan Kawasan Pelestarian Alam;",
-      ...tambahan,
+      ...DASAR_UMUM,
+      ...tambahan.filter((t) => !ada.has(nomorAturan(t))),
       I.nomorDipa ? `Daftar Isian Pelaksanaan Anggaran (DIPA) Balai Taman Nasional Tambora Nomor ${I.nomorDipa};` : `${I.sumberAnggaran || "Daftar Isian Pelaksanaan Anggaran (DIPA) Balai Taman Nasional Tambora"};`,
       `Surat Tugas Kepala Balai Taman Nasional Tambora Nomor ${I.nomorST || "……"}${I.tanggalST ? ` tanggal ${tglPanjang(I.tanggalST)}` : ""}.`
     ];

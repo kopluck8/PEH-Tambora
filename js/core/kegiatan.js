@@ -6,7 +6,7 @@
  *   id, kode, judul, ringkas, objek, kategoriSMART, kamusSMART, alat, contoh,
  *   tabel: [{ key, judul, ket, kolom: [{ key, label, type, list, options, w }], smart: { sub, map(o, v) }, baruBaris() }],
  *   parameter: [{ key, label, type, options, half, step, def }], paramInfo,
- *   modul: [{ m, id, judul, judulMetode, objek, opsional, input(S, P, A), opt(P, S) }],
+ *   modul: [{ m, id, judul, judulMetode, objek, opsional, input(S, P, A), opt(P, S) }],  (judul, judulMetode, objek boleh fungsi (P, S))
  *   teks: { latar, maksud, ruanglingkup, lokasi, lokasiRPK, metode, anPengantar, hasilLokasi, pembahasan, saran, dasar: [..] },
  *   lokasiTabel(S, P) → { cap, spec } (opsional), isian: [{ key, label, rows }] (teks tambahan di tab Data)
  * }
@@ -42,7 +42,8 @@
     const tampil = (m, A, rpk) => rpk || !m.opsional || !!(A[m.id] && !A[m.id].kosong);
     const ctxM = (m, P, S) => {
       const mod = M[m.m], opt = typeof m.opt === "function" ? m.opt(P, S) : m.opt || {};
-      return { id: m.id, judul: m.judul || mod.judul, objek: m.objek || cfg.objek, opt, lv: 3 };
+      const f = (v) => (typeof v === "function" ? v(P, S) : v);
+      return { id: m.id, judul: f(m.judul) || mod.judul, judulMetode: f(m.judulMetode), objek: f(m.objek) || cfg.objek, opt, lv: 3 };
     };
 
     function hitung(S) {
@@ -104,7 +105,7 @@
       cfg.modul.filter((m) => tampil(m, A, rpk)).forEach((m) => {
         const c = ctxM(m, S.param, S), mod = M[m.m];
         i++;
-        out.push(N.h3(`${i}) ${m.judulMetode || c.judul}`), noteBlock(notes, `an_${m.id}`, 3), mod.metode(c, A[m.id] || {}));
+        out.push(N.h3(`${i}) ${c.judulMetode || c.judul}`), noteBlock(notes, `an_${m.id}`, 3), mod.metode(c, A[m.id] || {}));
       });
       return out.join("\n");
     }

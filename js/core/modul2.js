@@ -63,7 +63,7 @@
     },
     narHasil(r, c) {
       if (r.kosong) return `Belum ada perjumpaan langsung ${c.objek} atau panjang transek belum diisi.`;
-      const s = [`Pengamatan dilakukan pada ${nTxt(r.nTransek)} transek dengan panjang total ${num(r.L)} m${r.ul > 1 ? ` (termasuk ${r.ul} kali ulangan)` : ""}. Tercatat ${nTxt(r.N)} individu ${c.objek} dari ${r.nKontak} kontak.`];
+      const s = [`Pengamatan dilakukan pada ${nTxt(r.nTransek)} ${c.opt.unitLabel || "transek"} dengan panjang total ${num(r.L)} m${r.ul > 1 ? ` (termasuk ${r.ul} kali ulangan)` : ""}. Tercatat ${nTxt(r.N)} individu ${c.objek} dari ${r.nKontak} kontak.`];
       if (r.metode === "king") s.push(`Rata-rata jarak kontak ${num(r.king.dbar, 2)} m sehingga luas area amatan ${num(r.king.ha, 2)} ha. Kepadatan populasi menurut metode King adalah ${fx(r.king.D, 4)} individu/ha atau 1 individu/${fx(r.king.haPerInd, 2)} ha.${r.hayne.n > 1 ? ` Dugaan Hayne sebagai pembanding adalah ${fx(r.hayne.Dind, 4)} ± ${fx(r.hayne.SEInd, 4)} individu/ha.` : ""}`);
       if (r.metode === "hayne") s.push(`Kepadatan populasi menurut Hayne adalah ${fx(r.hayne.Dind, 4)} ± ${fx(r.hayne.SEInd, 4)} individu/ha (rata-rata ukuran kelompok ${num(r.hayne.ukuranKelompok, 2)} individu).`);
       if (r.metode === "jalur") s.push(`Dengan lebar jalur ${num(r.w * 2)} m, kepadatan populasinya ${fx(r.jalur.D, 4)} individu/ha.`);
@@ -83,8 +83,8 @@
       if (r.populasi !== null) out.push(blk([R(`N = ${fx(r.D, 4)} × ${num(r.A, 2)} = ${num(r.populasi, 0)} individu`)], lv));
       return out.join("");
     },
-    spec(r) {
-      return { head: ["Transek", "Panjang (m)", "Jumlah Kontak", "Jumlah Individu", "Rata-rata Jarak Kontak (m)"],
+    spec(r, c) {
+      return { head: [L.judul(L.cap1((c && c.opt.unitLabel) || "transek")), "Panjang (m)", "Jumlah Kontak", "Jumlah Individu", "Rata-rata Jarak Kontak (m)"],
         rows: r.perT.map((x) => [k(esc(x.id)), n(x.panjang, 0), n(x.kontak, 0), n(x.individu, 0), x.dbar ? n(x.dbar, 2) : k("-")]),
         total: [[t(`Jumlah${r.ul > 1 ? ` (× ${r.ul} ulangan)` : ""}`), n(r.L, 0), n(r.nKontak, 0), n(r.N, 0), r.king.dbar ? n(r.king.dbar, 2) : k("-")]] };
     },
@@ -96,9 +96,9 @@
       if (r.populasi !== null) rows.push([t(`Dugaan populasi pada ${numL(r.A)} ha (individu)`), n(r.populasi, 0)]);
       return { head: ["Parameter", "Nilai"], rows };
     },
-    tabel(r, c) { return r.kosong ? [] : [{ cap: `Rekapitulasi Perjumpaan Langsung ${L.judul(c.objek)} per Transek`, spec: this.spec(r) }, { cap: `Dugaan Kepadatan Populasi ${L.judul(c.objek)}`, spec: this.ringkas(r) }]; },
+    tabel(r, c) { return r.kosong ? [] : [{ cap: `Rekapitulasi Perjumpaan Langsung ${L.judul(c.objek)} per ${L.judul(L.cap1(c.opt.unitLabel || "transek"))}`, spec: this.spec(r, c) }, { cap: `Dugaan Kepadatan Populasi ${L.judul(c.objek)}`, spec: this.ringkas(r) }]; },
     simpulan(r, c) { return r.kosong ? "" : `Kepadatan populasi ${c.objek} dari perjumpaan langsung (${r.metode === "king" ? "metode King" : r.metode === "hayne" ? "metode Hayne" : "transek jalur"}) adalah ${fx(r.D, 4)} individu/ha atau 1 individu/${fx(r.haPerInd, 2)} ha${r.populasi !== null ? `, dengan dugaan populasi sekitar ${num(r.populasi, 0)} individu` : ""}`; },
-    kpi(r) { return r.kosong ? [] : [[fx(r.D, 4), `ind/ha (${haTxt(r.haPerInd)})`], [`${num(r.L)} m`, "panjang transek"]]; }
+    kpi(r, c) { return r.kosong ? [] : [[fx(r.D, 4), `ind/ha (${haTxt(r.haPerInd)})`], [`${num(r.L)} m`, `panjang ${(c && c.opt.unitLabel) || "transek"}`]]; }
   };
 
   /* =====================================================================
@@ -109,17 +109,21 @@
   M.pellet = {
     judul: "Pendugaan Populasi dari Onggokan Kotoran",
     hitung(inp) {
-      const dipakai = new Set((inp.fase || ["A", "B"]).map((x) => str(x).toUpperCase()));
+      // fase: [] berarti onggokan tidak dicatat fase dekomposisinya, sehingga semua onggokan dihitung
+      const fs = (inp.fase || ["A", "B"]).map((x) => str(x).toUpperCase()), semua = !fs.length, dipakai = new Set(fs);
       const rows = (inp.rows || []).filter((r) => nOr(r.p, 0) > 0);
-      const masuk = (r) => !str(r.fase) || dipakai.has(str(r.fase).toUpperCase().charAt(0));
+      const masuk = (r) => semua || !str(r.fase) || dipakai.has(str(r.fase).toUpperCase().charAt(0));
       const p = sum(rows.filter(masuk).map((r) => nOr(r.p, 0)));
       const units = [...new Set(rows.map((r) => str(r.unit) || "-"))];
       const perU = units.map((u) => { const o = { unit: u, fase: {}, dihitung: 0 }; rows.filter((r) => (str(r.unit) || "-") === u).forEach((r) => { const f = str(r.fase).toUpperCase().charAt(0) || "?"; o.fase[f] = (o.fase[f] || 0) + nOr(r.p, 0); if (masuk(r)) o.dihitung += nOr(r.p, 0); }); return o; });
       const tt = nOr(inp.t, 0), d = nOr(inp.d, 0), a = nOr(inp.a, 0), A = nOr(inp.A, 0);
       const res = ST.pellet(p, tt, d, a, A);
-      return { kosong: !rows.length, lengkap: !!(tt && d && a), p, tt, d, a, A, res, perU, fase: [...dipakai], total: sum(rows.map((r) => nOr(r.p, 0))) };
+      return { kosong: !rows.length, lengkap: !!(tt && d && a), p, tt, d, a, A, res, perU, fase: [...dipakai], adaFase: !semua && rows.some((r) => str(r.fase)), total: sum(rows.map((r) => nOr(r.p, 0))) };
     },
-    narMetode(c) { return `Kelompok feses (onggokan) ${c.objek} dicatat menurut fase dekomposisinya (Suba dkk., 2010): fase A feses segar dan berbau khas; fase B feses mengering; fase C terdapat jamur di sekeliling feses; fase D feses mulai terdekomposisi; fase E setengah atau lebih feses terdekomposisi; fase F feses terdekomposisi sempurna. Onggokan yang dihitung adalah yang berumur kurang dari satu bulan (fase ${daftarKata((c.opt.fase || ["A", "B"]).map(String))}). Kepadatan populasi diduga dengan metode pellet count (Sukmawati, 2012):`; },
+    narMetode(c) {
+      if (c.opt.fase && !c.opt.fase.length) return `Onggokan kotoran ${c.objek} yang dijumpai di jalur pengamatan dihitung jumlahnya pada setiap lokasi temuan. Kepadatan populasi diduga dengan metode pellet count (Sukmawati, 2012):`;
+      return `Kelompok feses (onggokan) ${c.objek} dicatat menurut fase dekomposisinya (Suba dkk., 2010): fase A feses segar dan berbau khas; fase B feses mengering; fase C terdapat jamur di sekeliling feses; fase D feses mulai terdekomposisi; fase E setengah atau lebih feses terdekomposisi; fase F feses terdekomposisi sempurna. Onggokan yang dihitung adalah yang berumur kurang dari satu bulan (fase ${daftarKata((c.opt.fase || ["A", "B"]).map(String))}). Kepadatan populasi diduga dengan metode pellet count (Sukmawati, 2012):`;
+    },
     metode(c) {
       const lv = c.lv;
       return [blk([R("D = "), F("A × p", "t × d × a")], lv),
@@ -127,8 +131,9 @@
     },
     narHasil(r, c) {
       if (r.kosong) return `Belum ada data onggokan kotoran ${c.objek}.`;
-      if (!r.lengkap) return `Tercatat ${nTxt(r.total)} onggokan kotoran ${c.objek}, ${r.p} di antaranya termasuk fase ${daftarKata(r.fase)} (berumur kurang dari satu bulan). Kepadatan populasi dari onggokan kotoran belum dihitung karena interval waktu penumpukan (t), laju defekasi (d), atau luas plot (a) belum ditetapkan; data onggokan dipakai sebagai petunjuk keberadaan dan intensitas penggunaan habitat.`;
-      return `Tercatat ${r.total} onggokan kotoran ${c.objek}, ${r.p} di antaranya berumur kurang dari satu bulan (fase ${daftarKata(r.fase)}). Dengan interval waktu ${num(r.tt)} hari, laju defekasi ${num(r.d, 2)} onggokan/individu/hari, dan luas plot ${num(r.a, 2)} ha, kepadatan populasi ${c.objek} adalah ${fx(r.res.D, 4)} individu/ha atau 1 individu/${fx(r.res.haPerInd, 2)} ha.${r.res.populasi !== null ? ` Pada area pengamatan seluas ${num(r.A, 2)} ha, dugaan populasinya sekitar ${num(r.res.populasi, 0)} individu.` : ""}`;
+      const faseTxt = r.adaFase ? `, ${r.p} di antaranya termasuk fase ${daftarKata(r.fase)} (berumur kurang dari satu bulan)` : "";
+      if (!r.lengkap) return `Tercatat ${nTxt(r.total)} onggokan kotoran ${c.objek}${faseTxt}. Kepadatan populasi dari onggokan kotoran belum dihitung karena interval waktu penumpukan (t), laju defekasi (d), atau luas plot (a) belum ditetapkan; data onggokan dipakai sebagai petunjuk keberadaan dan intensitas penggunaan habitat.`;
+      return `Tercatat ${r.total} onggokan kotoran ${c.objek}${r.adaFase ? `, ${r.p} di antaranya berumur kurang dari satu bulan (fase ${daftarKata(r.fase)})` : ""}. Dengan interval waktu ${num(r.tt)} hari, laju defekasi ${num(r.d, 2)} onggokan/individu/hari, dan luas plot ${num(r.a, 2)} ha, kepadatan populasi ${c.objek} adalah ${fx(r.res.D, 4)} individu/ha atau 1 individu/${fx(r.res.haPerInd, 2)} ha.${r.res.populasi !== null ? ` Pada area pengamatan seluas ${num(r.A, 2)} ha, dugaan populasinya sekitar ${num(r.res.populasi, 0)} individu.` : ""}`;
     },
     hitungHtml(r, c) {
       if (r.kosong || !r.lengkap) return "";
@@ -137,11 +142,12 @@
       return out.join("");
     },
     spec(r) {
+      if (!r.adaFase) return { head: ["Lokasi/Transek", "Jumlah Onggokan"], rows: r.perU.map((u) => [k(esc(u.unit)), n(u.dihitung, 0)]), total: [[t("Jumlah"), n(r.p, 0)]] };
       return { head: ["Lokasi/Transek", ...FASE.map((f) => `Fase ${f}`), "Onggokan Dihitung"],
         rows: r.perU.map((u) => [k(esc(u.unit)), ...FASE.map((f) => n(u.fase[f] || 0, 0)), n(u.dihitung, 0)]),
         total: [[t("Jumlah"), ...FASE.map((f) => n(sum(r.perU.map((u) => u.fase[f] || 0)), 0)), n(r.p, 0)]] };
     },
-    tabel(r, c) { return r.kosong ? [] : [{ cap: `Rekapitulasi Onggokan Kotoran ${L.judul(c.objek)} menurut Fase Dekomposisi`, spec: this.spec(r) }]; },
+    tabel(r, c) { return r.kosong ? [] : [{ cap: `Rekapitulasi Onggokan Kotoran ${L.judul(c.objek)}${r.adaFase ? " menurut Fase Dekomposisi" : " per Lokasi"}`, spec: this.spec(r) }]; },
     simpulan(r, c) { return r.kosong || !r.lengkap ? "" : `Kepadatan populasi ${c.objek} berdasarkan onggokan kotoran adalah ${fx(r.res.D, 4)} individu/ha (1 individu/${fx(r.res.haPerInd, 2)} ha)`; },
     kpi(r) { return r.kosong ? [] : [[r.p, "onggokan dihitung"]]; }
   };
@@ -788,6 +794,77 @@
     tabel() { return []; },
     simpulan() { return ""; },
     kpi() { return []; }
+  };
+
+  /* =====================================================================
+   * 22. Perkiraan jumlah individu per jenis dan lokasi dari perjumpaan langsung dan tanda keberadaan
+   * (analisis deskriptif berdasarkan lokasi perjumpaan, LPK monitoring satwa kunci)
+   * inp: { rows: [{ jenis, latin, unit, langsung, taksir, tipe, ketinggian, habitat }] }
+   * N = N_L + N_T
+   * ===================================================================== */
+  M.perkiraan = {
+    judul: "Perkiraan Jumlah Individu dan Sebaran",
+    hitung(inp) {
+      const rows = (inp.rows || []).filter((r) => str(r.jenis) || str(r.latin));
+      const m = new Map(), units = [];
+      rows.forEach((r) => {
+        const kk = M.util.kunci(r.latin || r.jenis), u = str(r.unit) || "-";
+        if (!m.has(kk)) m.set(kk, { jenis: str(r.jenis) || str(r.latin), latin: str(r.latin), NL: 0, NT: 0, tl: 0, tt: 0, unit: new Map(), tipe: new Map(), alt: [], habitat: new Set() });
+        const o = m.get(kk), L_ = nOr(r.langsung, 0), T_ = nOr(r.taksir, 0);
+        if (!o.latin && str(r.latin)) o.latin = str(r.latin);
+        if (!units.includes(u)) units.push(u);
+        if (!o.unit.has(u)) o.unit.set(u, { NL: 0, NT: 0 });
+        o.unit.get(u).NL += L_; o.unit.get(u).NT += T_;
+        o.NL += L_; o.NT += T_;
+        if (r.langsung !== undefined && str(r.langsung) !== "") o.tl++; else o.tt++;
+        if (str(r.tipe)) o.tipe.set(str(r.tipe), (o.tipe.get(str(r.tipe)) || 0) + 1);
+        if (nOr(r.ketinggian, 0) > 0) o.alt.push(nOr(r.ketinggian, 0));
+        if (str(r.habitat)) o.habitat.add(str(r.habitat));
+      });
+      const jenis = [...m.values()].map((o) => ({ ...o, N: o.NL + o.NT, titik: o.tl + o.tt })).sort((a, b) => b.N - a.N || b.titik - a.titik);
+      return { kosong: !rows.length, jenis, units, NL: sum(jenis.map((j) => j.NL)), NT: sum(jenis.map((j) => j.NT)), N: sum(jenis.map((j) => j.N)) };
+    },
+    narMetode(c) { return `Data ${c.objek} direkapitulasi berdasarkan jenis dan lokasi perjumpaan, lalu dianalisis secara deskriptif. Jumlah individu dari perjumpaan langsung adalah individu yang terlihat. Jumlah individu dari tanda keberadaan diperkirakan dari ukuran, arah, dan kebaruan tanda; jejak dengan ukuran atau arah berbeda pada lokasi yang sama dianggap individu berbeda. Onggokan kotoran tidak dipakai untuk memperkirakan jumlah individu karena dapat berasal dari individu yang sama. Perkiraan jumlah individu setiap jenis:`; },
+    metode(c) {
+      const lv = c.lv;
+      return [blk([R("N = "), Sub("N", "L"), R(" + "), Sub("N", "T")], lv), ket([["N", "perkiraan jumlah individu satu jenis (ekor)"], [Sub("N", "L"), "jumlah individu dari perjumpaan langsung"], [Sub("N", "T"), "perkiraan jumlah individu dari tanda keberadaan"]], lv)].join("");
+    },
+    narHasil(r, c) {
+      if (r.kosong) return `Belum ada data temuan ${c.objek}.`;
+      const kal = r.jenis.map((j) => {
+        const u = [...j.unit.keys()].filter((x) => x !== "-"), alt = j.alt.length ? (Math.min(...j.alt) === Math.max(...j.alt) ? `${num(j.alt[0])} mdpl` : `${num(Math.min(...j.alt))} sampai ${num(Math.max(...j.alt))} mdpl`) : "";
+        const rinci = j.NL && j.NT ? ` (${j.NL} dari perjumpaan langsung dan ${j.NT} dari tanda keberadaan)` : j.NL ? " dari perjumpaan langsung" : j.NT ? " dari tanda keberadaan" : "";
+        const tanda = [...j.tipe.entries()].sort((a, b) => b[1] - a[1]).map(([k_]) => k_.toLowerCase());
+        return `${L.cap1(nm(j))} ${j.N ? `diperkirakan sebanyak ${j.N} individu${rinci}` : `tercatat dari ${j.titik} temuan tanpa perkiraan jumlah individu`}${u.length ? ` di ${daftarKata(u)}` : ""}${alt ? ` pada ketinggian ${alt}` : ""}${j.habitat.size ? ` (${daftarKata([...j.habitat].map((h) => h.toLowerCase()))})` : ""}.${tanda.length ? ` Temuan berupa ${daftarKata(tanda)}.` : ""}`;
+      });
+      return [`Sebanyak ${nTxt(r.jenis.length)} jenis ${c.objek} terdeteksi, yaitu ${daftarKata(r.jenis.map(nm))}.`, ...kal].join(" ");
+    },
+    hitungHtml(r, c) {
+      if (r.kosong || !r.jenis[0].NL || !r.jenis[0].NT) return "";
+      const j = r.jenis[0];
+      return blk([R(`N ${nm(j)} = `), R(`${j.NL} + ${j.NT} = ${j.N} individu`)], c.lv);
+    },
+    spec(r) {
+      return { head: ["No", "Nama Jenis", "Nama Ilmiah", "Perjumpaan Langsung (individu)", "Tanda Keberadaan (perkiraan individu)", "Perkiraan Jumlah (individu)", "Jumlah Temuan", "Lokasi"],
+        rows: r.jenis.map((j, i) => [k(i + 1), t(esc(j.jenis)), t(sci(j.latin)), n(j.NL, 0), n(j.NT, 0), n(j.N, 0), n(j.titik, 0), t(esc([...j.unit.keys()].filter((x) => x !== "-").join(", ") || "-"))]),
+        total: [[{ t: "Jumlah", cs: 3 }, n(r.NL, 0), n(r.NT, 0), n(r.N, 0), n(sum(r.jenis.map((j) => j.titik)), 0), t("")]] };
+    },
+    specUnit(r) {
+      const U = r.units;
+      return { head: ["No", "Nama Jenis", ...U.map((u) => (u === "-" ? "Tanpa lokasi" : u)), "Jumlah"],
+        rows: r.jenis.map((j, i) => [k(i + 1), t(esc(nm(j))), ...U.map((u) => { const x = j.unit.get(u); return x ? k(x.NL && x.NT ? `${x.NL + x.NT} (${x.NL} + ${x.NT})` : String(x.NL + x.NT)) : k("-"); }), n(j.N, 0)]) };
+    },
+    tabel(r, c) {
+      if (r.kosong) return [];
+      const out = [{ cap: `Rekapitulasi Perkiraan Jumlah Individu ${L.judul(c.objek)}`, spec: this.spec(r) }];
+      if (r.units.filter((u) => u !== "-").length > 1) out.push({ cap: `Perkiraan Jumlah Individu ${L.judul(c.objek)} per Lokasi`, spec: this.specUnit(r), catatan: "Angka dalam kurung: perjumpaan langsung + perkiraan dari tanda keberadaan." });
+      return out;
+    },
+    simpulan(r, c) {
+      if (r.kosong) return "";
+      return r.jenis.map((j) => `${L.cap1(nm(j))} ${j.N ? `diperkirakan sebanyak ${j.N} individu${j.NL && j.NT ? `, ${j.NL} dari perjumpaan langsung dan ${j.NT} melalui tanda keberadaan` : ""}` : "terdeteksi melalui tanda keberadaan"}${j.unit.size && [...j.unit.keys()].some((x) => x !== "-") ? ` di ${daftarKata([...j.unit.keys()].filter((x) => x !== "-"))}` : ""}`).join("; ");
+    },
+    kpi(r) { return r.kosong ? [] : [[r.jenis.length, "jenis terdeteksi"], [r.N, "perkiraan individu"]]; }
   };
 
   /* =====================================================================
