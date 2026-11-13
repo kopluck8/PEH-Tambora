@@ -272,6 +272,27 @@
     return `<section class="sec-cover">${cover}</section>\n<section class="sec-front">${peng}${L.tocHtml(toc, N.tables)}</section>\n<section class="sec-body">${body.join("\n")}</section>`;
   }
 
+  /* ---------- RPK (disusun sebelum kegiatan; memakai kerangka bersama js/core/dokumen.js) ---------- */
+  function narasiRPK(A, S) {
+    const n = narasi(A, S), I = S.identitas, Dk = window.PEHDok;
+    const wil = I.resort ? `wilayah kerja ${I.resort}${I.sptn ? `, ${I.sptn}` : ""}` : I.lokasi || "lokasi kegiatan";
+    const out = {};
+    ["latar", "maksud", "ruanglingkup", "metode", "an_pengantar", "an_kepadatan", "an_keragaman", "an_dominansi", "an_dispersi", "an_dispersi_metode"].forEach((k) => (out[k] = n[k]));
+    out.lokasi = `Kegiatan akan dilaksanakan di ${I.lokasi || wil}. ${S.plot.keterangan ? cap1(S.plot.keterangan) + "." : `Plot pengamatan direncanakan sebanyak ${A.n ? nTxt(A.n) : "……"} titik dengan jari-jari ${num(A.r)} m, ditempatkan di sepanjang jalur pengamatan pada habitat raptor.`}`;
+    out.waktu = Dk.waktuTeks(I, true);
+    out.penutup = Dk.penutupRPK(I.judul || "Inventarisasi dan Sebaran Raptor");
+    return out;
+  }
+  function rpk(A, S, notes) {
+    const N = numbering();
+    return window.PEHDok.rpk(S, notes, N, {
+      judul: "Inventarisasi dan Sebaran Raptor", objekPeta: "plot pengamatan raptor", metodeAnalisis: metodeAnalisisHtml(A, notes, N),
+      dasarTambahan: ["Peraturan Menteri Lingkungan Hidup dan Kehutanan Nomor P.106/MENLHK/SETJEN/KUM.1/12/2018 tentang Jenis Tumbuhan dan Satwa yang Dilindungi;"],
+      tallysheet: window.PEHDok.tallysheet(N, [{ judul: "Titik Pengamatan", kolom: [{ label: "Kode Plot" }, { label: "Tanggal" }, { label: "Jam Mulai" }, { label: "Jam Selesai" }, { label: "X (Bujur)" }, { label: "Y (Lintang)" }, { label: "Ketinggian (mdpl)" }, { label: "Tutupan Lahan" }, { label: "Cuaca" }] },
+        { judul: "Perjumpaan Raptor", kolom: KOLOM.filter((c) => !["latin", "jantan", "betina"].includes(c.key)) }], 10)
+    });
+  }
+
   /* ---------- Tampilan kalkulator ---------- */
   function hasilHtml(A, S) {
     if (!A.S) return `<div class="empty"><h2>Belum ada data perjumpaan</h2><p>Isi tabel di tab Data, muat file patroli SMART, atau muat data contoh di panel kiri.</p></div>`;
@@ -409,6 +430,6 @@
     alatBawaan: [{ nama: "GPS", jumlah: "1", satuan: "unit" }, { nama: "Kamera DSLR dengan lensa tele", jumlah: "1", satuan: "unit" }, { nama: "Binokuler", jumlah: "1", satuan: "unit" }, { nama: "Smartphone dengan aplikasi SMART Mobile", jumlah: "1", satuan: "unit" }, { nama: "Tallysheet", jumlah: "1", satuan: "set" }, { nama: "Buku panduan identifikasi burung", jumlah: "1", satuan: "buah" }],
     stateAwal: () => ({ plot: { n: "", r: 500, pi: 3.14, keterangan: "" }, opsi: { metodeID: "template", kriteriaH: "template" }, perjumpaan: [], urutanJenis: [], satwaLain: "", catatanLapangan: "" }),
     dariContoh: (c) => ({ identitas: c.identitas, penandatangan: c.penandatangan, tim: c.tim, alat: c.alat, rab: c.rab, plot: c.plot, opsi: c.opsi, perjumpaan: c.perjumpaan, urutanJenis: c.urutanJenis, satwaLain: c.satwaLain, catatanLapangan: c.catatanLapangan, sumber: c.nama }),
-    formParameter, panelData, dariSMART, hitung, hasilHtml, csvHasil, narasi, lpk
+    formParameter, panelData, dariSMART, hitung, hasilHtml, csvHasil, narasi, lpk, narasiRPK, rpk
   });
 })();

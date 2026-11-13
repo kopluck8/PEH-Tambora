@@ -31,8 +31,21 @@
   }
   const jumlahHari = (a, b) => (validISO(a) && validISO(b) ? Math.round((parseISO(b) - parseISO(a)) / 864e5) + 1 : 0);
   const bulanTahun = (iso) => (validISO(iso) ? `${BULAN[parseISO(iso).getUTCMonth()]} ${iso.substr(0, 4)}` : "");
-  const terbilang = (n) => (n < 12 ? SATUAN[n] : n < 20 ? SATUAN[n - 10] + " belas" : n < 100 ? SATUAN[Math.floor(n / 10)] + " puluh" + (n % 10 ? " " + SATUAN[n % 10] : "") : String(n));
-  const nTxt = (n) => `${n} (${terbilang(n) || "nol"})`;
+  // Bilangan bulat dalam kata: 270 → "dua ratus tujuh puluh"
+  function kata(x) {
+    const S = SATUAN;
+    if (x < 12) return S[x];
+    if (x < 20) return kata(x - 10) + " belas";
+    if (x < 100) return kata(Math.floor(x / 10)) + " puluh" + (x % 10 ? " " + kata(x % 10) : "");
+    if (x < 200) return "seratus" + (x - 100 ? " " + kata(x - 100) : "");
+    if (x < 1000) return kata(Math.floor(x / 100)) + " ratus" + (x % 100 ? " " + kata(x % 100) : "");
+    if (x < 2000) return "seribu" + (x - 1000 ? " " + kata(x - 1000) : "");
+    for (const [v, w] of [[1e12, "triliun"], [1e9, "miliar"], [1e6, "juta"], [1e3, "ribu"]])
+      if (x >= v) return kata(Math.floor(x / v)) + " " + w + (x % v ? " " + kata(x % v) : "");
+    return "";
+  }
+  const terbilang = (n) => (Number.isInteger(n) && n >= 0 && n < 1e15 ? kata(n) : String(n));
+  const nTxt = (n) => (Number.isInteger(n) && n >= 0 ? `${n.toLocaleString("id-ID")} (${terbilang(n) || "nol"})` : String(n));
   // Angka gaya Indonesia: 0,0027 ; 3.297
   const num = (v, d = 0) => (Number.isFinite(Number(v)) ? Number(v).toLocaleString("id-ID", { minimumFractionDigits: d, maximumFractionDigits: d }) : "-");
   const numVal = (v) => Number(String(v ?? "").replace(/[^\d,.-]/g, "").replace(/\.(?=\d{3}\b)/g, "").replace(",", ".")) || 0;
@@ -46,18 +59,7 @@
   const sci = (s) => `<i>${esc(s)}</i>`;
 
   function terbilangRupiah(n) {
-    const S = SATUAN;
-    const f = (x) => {
-      if (x < 12) return S[x];
-      if (x < 20) return f(x - 10) + " belas";
-      if (x < 100) return f(Math.floor(x / 10)) + " puluh" + (x % 10 ? " " + f(x % 10) : "");
-      if (x < 200) return "seratus" + (x - 100 ? " " + f(x - 100) : "");
-      if (x < 1000) return f(Math.floor(x / 100)) + " ratus" + (x % 100 ? " " + f(x % 100) : "");
-      if (x < 2000) return "seribu" + (x - 1000 ? " " + f(x - 1000) : "");
-      for (const [v, w] of [[1e12, "triliun"], [1e9, "miliar"], [1e6, "juta"], [1e3, "ribu"]])
-        if (x >= v) return f(Math.floor(x / v)) + " " + w + (x % v ? " " + f(x % v) : "");
-      return "";
-    };
+    const f = kata;
     n = Math.round(n || 0);
     return n ? (f(n) + " rupiah").replace(/\s+/g, " ").replace(/\b\w/g, (c) => c.toUpperCase()) : "Nol Rupiah";
   }

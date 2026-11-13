@@ -4,14 +4,14 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>PEH Tambora</title>
-<meta name="description" content="Kalkulator analisis data dan generator LPK kegiatan teknis Pengendali Ekosistem Hutan Balai TN Tambora.">
+<meta name="description" content="Kalkulator analisis data serta generator RPK dan LPK kegiatan teknis Pengendali Ekosistem Hutan Balai TN Tambora.">
 <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 <header class="app-head noprint">
   <div class="brand">
     <svg viewBox="0 0 24 24" width="28" height="28" aria-hidden="true"><path fill="currentColor" d="M12 2 3 6v6c0 5 3.8 9.4 9 10 5.2-.6 9-5 9-10V6l-9-4Zm0 2.2 7 3.1V12c0 3.9-2.9 7.4-7 8-4.1-.6-7-4.1-7-8V7.3l7-3.1ZM8 15l2.5-4 2 2.5L14.5 9 17 15H8Z"/></svg>
-    <div><h1>PEH Tambora: Kalkulator Analisis &amp; Generator LPK</h1><p>Kegiatan teknis Pengendali Ekosistem Hutan, Balai TN Tambora. Semua data diproses di browser.</p></div>
+    <div><h1>PEH Tambora: Kalkulator Analisis, Generator RPK dan LPK</h1><p>Kegiatan teknis Pengendali Ekosistem Hutan, Balai TN Tambora. Semua data diproses di browser.</p></div>
   </div>
 </header>
 
@@ -21,7 +21,8 @@
   <p class="muted" id="kegDesc"></p>
 </div>
 <nav class="tabs noprint" role="tablist" aria-label="Tahap">
-  <button type="button" role="tab" class="tab on" data-tab="data">Data <small>isian perjumpaan</small></button>
+  <button type="button" role="tab" class="tab" data-tab="rpk">RPK <small>rencana</small></button>
+  <button type="button" role="tab" class="tab on" data-tab="data">Data <small>isian lapangan</small></button>
   <button type="button" role="tab" class="tab" data-tab="hasil">Hasil Analisis <small>kalkulator</small></button>
   <button type="button" role="tab" class="tab" data-tab="lpk">LPK <small>laporan</small></button>
 </nav>
@@ -38,18 +39,30 @@
 <script src="js/core/defaults.js"></script>
 <script src="js/core/datamodel.js"></script>
 <script src="js/core/stats.js"></script>
+<script src="js/core/taksa.js"></script>
 <script src="js/core/smart-parser.js"></script>
 <script src="js/core/smart-import.js"></script>
 <script src="js/core/laporan.js"></script>
 <script src="js/core/rumus.js"></script>
+<script src="js/core/modul.js"></script>
+<script src="js/core/modul2.js"></script>
+<script src="js/core/dokumen.js"></script>
 <script src="js/core/docx.js"></script>
 <script src="js/core/app.js"></script>
+<script src="js/core/kegiatan.js"></script>
 
-<!-- Kegiatan: tambahkan blok baru di sini untuk kegiatan PEH berikutnya -->
+<!-- Kegiatan: urutan di sini menjadi urutan pilihan kegiatan. Tambahkan kegiatan baru setelah kegiatan/bersama.js -->
+<script src="kegiatan/bersama.js"></script>
+<script src="kegiatan/elang-flores/contoh-oi-katupa-2023.js"></script>
+<script src="kegiatan/elang-flores/elang-flores.js"></script>
 <script src="kegiatan/raptor/jenis-raptor.js"></script>
 <script src="kegiatan/raptor/analisis.js"></script>
 <script src="kegiatan/raptor/contoh-piong-2021.js"></script>
 <script src="kegiatan/raptor/raptor.js"></script>
+<script src="kegiatan/burung/contoh-doropeti-2023.js"></script>
+<script src="kegiatan/burung/burung.js"></script>
+<script src="kegiatan/stok-karbon/contoh-pekat-2025.js"></script>
+<script src="kegiatan/stok-karbon/stok-karbon.js"></script>
 
 <script>PEH.init();</script>
 </body>

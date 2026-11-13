@@ -1,7 +1,7 @@
 /*
  * Kerangka aplikasi PEH Tambora: daftar kegiatan, isian bersama (identitas, penandatangan, tim, alat, anggaran),
- * tabel data kegiatan, impor SMART, hasil analisis, dan pratinjau/ekspor LPK.
- * Setiap kegiatan mendaftarkan diri lewat PEH.daftar({...}); lihat kegiatan/raptor/raptor.js dan README.
+ * tabel data kegiatan, impor SMART, hasil analisis, serta pratinjau/ekspor RPK dan LPK.
+ * Setiap kegiatan mendaftarkan diri lewat PEH.daftar({...}) atau PEH.kegiatan({...}); lihat README.
  */
 (function () {
   "use strict";
@@ -25,18 +25,28 @@
     { key: "resort", label: "Resort", half: true }, { key: "sptn", label: "SPTN", half: true },
     { key: "mulai", label: "Tanggal mulai", type: "date", half: true }, { key: "selesai", label: "Tanggal selesai", type: "date", half: true },
     { key: "nomorST", label: "Nomor Surat Tugas", half: true }, { key: "tanggalST", label: "Tanggal ST", type: "date", half: true },
-    { key: "kota", label: "Disusun di", half: true }, { key: "tanggalLaporan", label: "Tanggal laporan", type: "date", half: true },
+    { key: "kota", label: "Disusun di", half: true }, { key: "tanggalLaporan", label: "Tanggal LPK", type: "date", half: true },
+    { key: "tanggalRPK", label: "Tanggal RPK", type: "date", half: true },
     { key: "sumberAnggaran", label: "Sumber anggaran" },
     { key: "nomorDipa", label: "Nomor DIPA", half: true }, { key: "akun", label: "Akun (MAK)", half: true }
   ];
   const TTD = [["kiri", "Kiri (mis. Menyetujui/PPK)"], ["kanan", "Kanan (Ketua Tim)"], ["bawah", "Bawah tengah (Mengetahui)"]];
+  const TTD_RPK = [["kiri", "Kiri (Diperiksa dan Disetujui, PPK)"], ["kanan", "Kanan (Koordinator Kegiatan)"], ["bawah", "Bawah tengah (Mengesahkan, Kepala Balai)"]];
+  const ttdRPKAwal = () => ({ kiri: { head: "Diperiksa dan Disetujui,", jabatan: "Pejabat Pembuat Komitmen," }, kanan: { head: "", jabatan: "Koordinator Kegiatan," }, bawah: { head: "Mengesahkan,", jabatan: "Kepala Balai," } });
   const KOL_TIM = [{ key: "nama", label: "Nama" }, { key: "nip", label: "NIP" }, { key: "pangkat", label: "Pangkat/Gol." }, { key: "jabatan", label: "Jabatan" }, { key: "peran", label: "Peran", list: ["Koordinator", "Ketua Tim", "Anggota", "Pencatat Data", "Navigator", "Pemandu Lapangan"] }];
   const KOL_ALAT = [{ key: "nama", label: "Alat/bahan" }, { key: "jumlah", label: "Jml", w: 4 }, { key: "satuan", label: "Satuan", w: 6 }];
   const KOL_RAB = [{ key: "uraian", label: "Jenis belanja" }, { key: "volume", label: "Vol", w: 4 }, { key: "satuan", label: "Sat", w: 5 }, { key: "harga", label: "Harga (Rp)", w: 9 }];
 
   function stateKosong(def) {
     return { identitas: { judul: def.judul, kota: "Dompu" }, penandatangan: { kiri: { head: "Menyetujui", jabatan: "Kepala Subbagian Tata Usaha," }, kanan: { jabatan: "Ketua Tim," }, bawah: { head: "Mengetahui", jabatan: "Kepala Balai," } },
-      tim: [], alat: clone(def.alatBawaan || []), rab: [], notes: {}, ...clone(def.stateAwal()) };
+      penandatanganRPK: ttdRPKAwal(), tim: [], alat: clone(def.alatBawaan || []), rab: [], notes: {}, notesRPK: {}, ...clone(def.stateAwal()) };
+  }
+  // Isian yang belum ada di data tersimpan versi lama
+  function lengkapi(st) {
+    st.penandatanganRPK = st.penandatanganRPK || ttdRPKAwal();
+    st.notesRPK = st.notesRPK || {};
+    st.notes = st.notes || {};
+    return st;
   }
 
   /* ---------- Komponen isian ---------- */
@@ -124,16 +134,18 @@
     draw();
     return box;
   }
-  // Datalist untuk kolom dengan daftar usulan
-  const lists = new Map();
+  // Datalist untuk kolom dengan daftar usulan (satu datalist per daftar, karena nama kolom yang sama bisa punya daftar berbeda antarkegiatan)
+  const lists = new WeakMap();
+  let nList = 0;
   function listId(c) {
-    const id = "dl-" + c.key;
-    if (!lists.has(id)) {
+    let id = lists.get(c.list);
+    if (!id) {
+      id = "dl-" + ++nList;
       const dl = document.createElement("datalist");
       dl.id = id;
       dl.innerHTML = c.list.map((v) => `<option value="${esc(v)}"></option>`).join("");
       document.body.appendChild(dl);
-      lists.set(id, dl);
+      lists.set(c.list, id);
     }
     return id;
   }
@@ -161,7 +173,7 @@
 
   function pilihKegiatan(id) {
     def = KEGIATAN.find((k) => k.id === id) || KEGIATAN[0];
-    S = store.get(saveKey()) || (def.contoh ? muatContoh(false) : stateKosong(def));
+    S = lengkapi(store.get(saveKey()) || (def.contoh ? muatContoh(false) : stateKosong(def)));
     if (location.hash !== "#" + def.id) history.replaceState(null, "", "#" + def.id);
     $("kegDesc").textContent = def.ringkas || "";
     renderSide();
@@ -169,7 +181,9 @@
   }
   function muatContoh(apply = true) {
     const c = clone(def.contoh);
-    const st = { ...stateKosong(def), ...def.dariContoh(c) };
+    const st = lengkapi({ ...stateKosong(def), ...def.dariContoh(c) });
+    Object.keys(st).forEach((k) => st[k] === undefined && delete st[k]);
+    if (!st.penandatanganRPK) st.penandatanganRPK = ttdRPKAwal();
     if (apply) { S = st; changed(false); renderSide(); renderMain(); }
     return st;
   }
@@ -182,7 +196,7 @@
     src.innerHTML = `<p class="muted">Isi data langsung di tab <b>Data</b>, muat file ekspor patroli SMART yang memakai kategori <code>${esc(def.kategoriSMART)}</code>, atau muat data contoh.</p>
       <label class="drop" for="smartFile"><b>Pilih file patroli SMART</b><span>.zip atau .xml (Patrol → Export). Bisa beberapa file sekaligus.</span></label>
       <input id="smartFile" type="file" accept=".zip,.xml" multiple hidden>
-      <details class="sub-d"><summary>Kamus Data Model (opsional)</summary><p class="muted">Label kategori Metode Teknis dan jenis raptor sudah tersedia. Muat ekspor Data Model SMART (.xml) bila ada jenis yang labelnya belum terbaca.</p><input id="dmFile" type="file" accept=".xml"><p class="status" id="dmStatus"></p></details>
+      <details class="sub-d"><summary>Kamus Data Model (opsional)</summary><p class="muted">Label kategori Metode Teknis sudah tersedia. Muat ekspor Data Model SMART (.xml) bila ada pilihan (misalnya nama jenis) yang labelnya belum terbaca.</p><input id="dmFile" type="file" accept=".xml"><p class="status" id="dmStatus"></p></details>
       <div class="btnrow">${def.contoh ? `<button class="btn small" id="contohBtn" type="button">Muat contoh: ${esc(def.contoh.nama)}</button>` : ""}<button class="btn small ghost" id="kosongBtn" type="button">Kosongkan</button></div>
       <p class="status" id="srcStatus"></p>`;
     side.appendChild(card(`<span class="step">1</span> Sumber data`, src));
@@ -190,14 +204,19 @@
     side.appendChild(card(`<span class="step">2</span> Parameter metode`, def.formParameter(S, changed, { fieldGrid, field, tableEditor })));
     // 3. Identitas
     side.appendChild(card(`<span class="step">3</span> Identitas kegiatan`, fieldGrid(IDENTITAS, S.identitas, () => changed()), false));
-    // 4. Penandatangan
+    // 4. Penandatangan LPK dan RPK
     const ttd = document.createElement("div");
-    TTD.forEach(([k, label]) => {
-      S.penandatangan[k] = S.penandatangan[k] || {};
-      const box = div(`<p class="muted" style="margin:10px 0 0"><b>${label}</b></p>`);
-      box.appendChild(fieldGrid([{ key: "head", label: "Baris atas", half: true }, { key: "jabatan", label: "Jabatan", half: true }, { key: "nama", label: "Nama", half: true }, { key: "nip", label: "NIP", half: true }], S.penandatangan[k], () => changed()));
-      ttd.appendChild(box);
-    });
+    const ttdSet = (judul, daftar, obj, ket) => {
+      ttd.appendChild(div(`<p style="margin:12px 0 0;font-weight:600;font-size:.86rem">${judul}</p>${ket ? `<p class="muted" style="margin:2px 0 0">${ket}</p>` : ""}`));
+      daftar.forEach(([k, label]) => {
+        obj[k] = obj[k] || {};
+        const box = div(`<p class="muted" style="margin:10px 0 0"><b>${label}</b></p>`);
+        box.appendChild(fieldGrid([{ key: "head", label: "Baris atas", half: true }, { key: "jabatan", label: "Jabatan", half: true }, { key: "nama", label: "Nama", half: true }, { key: "nip", label: "NIP", half: true }], obj[k], () => changed()));
+        ttd.appendChild(box);
+      });
+    };
+    ttdSet("LPK", TTD, S.penandatangan);
+    ttdSet("RPK", TTD_RPK, S.penandatanganRPK, "Nama dan NIP yang dikosongkan memakai penandatangan LPK (kanan dan bawah).");
     side.appendChild(card(`<span class="step">4</span> Penandatangan`, ttd, false));
     // 5. Tim, alat, anggaran
     side.appendChild(card(`<span class="step">5</span> Tim pelaksana`, tableEditor(S.tim, KOL_TIM, () => changed()), false));
@@ -221,7 +240,7 @@
       try { dmDict = SMART.parseDataModelXML(await f.text()); $("dmStatus").textContent = `Kamus dimuat: ${Object.keys(dmDict.items).length} label pilihan.`; $("dmStatus").className = "status ok"; }
       catch (err) { $("dmStatus").textContent = err.message; $("dmStatus").className = "status err"; }
     });
-    if ($("contohBtn")) $("contohBtn").addEventListener("click", () => { if (!S.perjumpaanDiubah || confirm("Ganti semua isian dengan data contoh?")) { muatContoh(); status("Data contoh dimuat.", "ok"); } });
+    if ($("contohBtn")) $("contohBtn").addEventListener("click", () => { if (!(S.diubah || S.perjumpaanDiubah) || confirm("Ganti semua isian dengan data contoh?")) { muatContoh(); status("Data contoh dimuat.", "ok"); } });
     $("kosongBtn").addEventListener("click", () => { if (confirm("Kosongkan semua isian kegiatan ini?")) { S = stateKosong(def); changed(false); renderSide(); renderMain(); } });
   }
   const status = (msg, cls = "") => { const el = $("srcStatus"); if (el) { el.textContent = msg; el.className = "status " + cls; } };
@@ -262,24 +281,26 @@
       $("csvBtn").addEventListener("click", () => X.csv(def.csvHasil(hasil, S), `analisis_${def.id}_${X.safeName(S.identitas.lokasi || "")}.csv`));
       return;
     }
-    // LPK
-    const notesAuto = def.narasi(hasil, S);
-    const notes = { ...notesAuto, ...S.notes };
-    const html = def.lpk(hasil, S, notes);
-    main.innerHTML = `<div class="toolbar noprint"><button class="btn primary" id="docxBtn" type="button">Unduh Word (.docx)</button><button class="btn" id="printBtn" type="button">Cetak / PDF</button><span class="sep"></span><button class="btn ghost small" id="resetNotes" type="button">Kembalikan narasi otomatis</button><span class="tip" id="lpkTip">Teks berlatar kuning bisa disunting langsung. Suntingan disimpan di browser ini.</span></div><article class="paper" id="report">${html}</article>`;
+    // RPK atau LPK: narasi otomatis + suntingan tersimpan (terpisah untuk RPK dan LPK)
+    const isRPK = tab === "rpk", jenis = isRPK ? "RPK" : "LPK", nKey = isRPK ? "notesRPK" : "notes";
+    S[nKey] = S[nKey] || {};
+    const notesAuto = isRPK ? def.narasiRPK(hasil, S) : def.narasi(hasil, S);
+    const notes = { ...notesAuto, ...S[nKey] };
+    const html = isRPK ? def.rpk(hasil, S, notes) : def.lpk(hasil, S, notes);
+    main.innerHTML = `<div class="toolbar noprint"><button class="btn primary" id="docxBtn" type="button">Unduh ${jenis} Word (.docx)</button><button class="btn" id="printBtn" type="button">Cetak / PDF</button><span class="sep"></span><button class="btn ghost small" id="resetNotes" type="button">Kembalikan narasi otomatis</button><span class="tip" id="lpkTip">${isRPK ? "RPK disusun sebelum kegiatan: metode dan rumus analisis sudah lengkap tanpa menunggu data lapangan. " : ""}Teks berlatar kuning bisa disunting langsung. Suntingan disimpan di browser ini.</span></div><article class="paper" id="report">${html}</article>`;
     $("report").addEventListener("input", (e) => {
       const n = e.target.closest("[data-note]");
       if (!n) return;
-      S.notes[n.dataset.note] = n.innerText.replace(/\n{3,}/g, "\n\n").replace(/\n$/, "");
+      S[nKey][n.dataset.note] = n.innerText.replace(/\n{3,}/g, "\n\n").replace(/\n$/, "");
       changed(false);
     });
     $("printBtn").addEventListener("click", () => window.print());
-    $("resetNotes").addEventListener("click", () => { if (confirm("Hapus semua suntingan narasi dan pakai narasi otomatis?")) { S.notes = {}; changed(); } });
+    $("resetNotes").addEventListener("click", () => { if (confirm(`Hapus semua suntingan narasi ${jenis} dan pakai narasi otomatis?`)) { S[nKey] = {}; changed(); } });
     $("docxBtn").addEventListener("click", async () => {
       const btn = $("docxBtn"), tip = $("lpkTip");
       btn.disabled = true;
       try {
-        await X.docx($("report"), (m) => (tip.textContent = m), { title: `LPK ${S.identitas.judul}`, fileName: `LPK_${X.safeName(def.id)}_${X.safeName(S.identitas.nomorST || S.identitas.mulai || "")}.docx` });
+        await X.docx($("report"), (m) => (tip.textContent = m), { title: `${jenis} ${S.identitas.judul}`, fileName: `${jenis}_${X.safeName(def.id)}_${X.safeName(S.identitas.nomorST || S.identitas.mulai || "")}.docx` });
         tip.textContent = "File Word sudah diunduh. Saat dibuka, pilih Yes untuk memperbarui daftar isi.";
       } catch (e) { console.error(e); tip.textContent = "Gagal membuat Word: " + e.message; }
       btn.disabled = false;
@@ -288,7 +309,7 @@
 
   function init() {
     const sel = $("kegSel");
-    sel.innerHTML = KEGIATAN.map((k) => `<option value="${k.id}">${esc(k.judul)}</option>`).join("") + `<option disabled>Kegiatan PEH lainnya menyusul…</option>`;
+    sel.innerHTML = KEGIATAN.map((k) => `<option value="${k.id}">${esc(k.judul)}</option>`).join("");
     sel.addEventListener("change", () => pilihKegiatan(sel.value));
     document.querySelectorAll(".tab").forEach((b) => b.addEventListener("click", () => { tab = b.dataset.tab; renderMain(); }));
     window.addEventListener("peh:redraw", () => renderMain());
