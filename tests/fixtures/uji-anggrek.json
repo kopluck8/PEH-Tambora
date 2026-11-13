@@ -1,0 +1,29 @@
+{
+ "nama": "Data uji sintetis anggrek",
+ "identitas": {"judul": "Identifikasi Jenis Anggrek", "lokasi": "Jalur Pendakian Doro Ncanga, Resor Doro Ncanga", "resort": "Resor Doro Ncanga", "sptn": "SPTN Wilayah II Kempo/Pekat", "mulai": "2024-03-04", "selesai": "2024-03-08", "nomorST": "", "kota": "Dompu", "tanggalLaporan": "", "sumberAnggaran": "DIPA BA. 29 Balai Taman Nasional Tambora Tahun Anggaran 2024"},
+ "rab": [{"uraian": "Belanja Bahan: Alat dan Bahan", "volume": "1", "satuan": "KEG", "harga": "2000000"}],
+ "param": {"luasPlot": 400, "nPlot": "", "kriteriaH": "krebs"},
+ "data": {
+  "plot": [
+   {"kode": "P1", "jalur": "Jalur A", "grid": "1411", "tanggal": "2024-03-05", "x": 118.0012, "y": -8.2511, "ketinggian": 620, "habitat": "Hutan musim", "keterangan": ""},
+   {"kode": "P2", "jalur": "Jalur A", "grid": "1411", "tanggal": "2024-03-05", "x": 118.0031, "y": -8.2498, "ketinggian": 680, "habitat": "Hutan musim", "keterangan": ""},
+   {"kode": "P3", "jalur": "Jalur A", "grid": "1412", "tanggal": "2024-03-05", "x": 118.0052, "y": -8.2481, "ketinggian": 745, "habitat": "Hutan hujan tropis", "keterangan": ""},
+   {"kode": "P4", "jalur": "Jalur B", "grid": "1510", "tanggal": "2024-03-06", "x": 118.0101, "y": -8.2433, "ketinggian": 810, "habitat": "Hutan hujan tropis", "keterangan": ""},
+   {"kode": "P5", "jalur": "Jalur B", "grid": "1510", "tanggal": "2024-03-06", "x": 118.0122, "y": -8.2419, "ketinggian": 865, "habitat": "Tepi sungai", "keterangan": "Tanpa temuan"},
+   {"kode": "P6", "jalur": "Jalur B", "grid": "1511", "tanggal": "2024-03-06", "x": 118.014, "y": -8.2402, "ketinggian": 910, "habitat": "Hutan hujan tropis", "keterangan": ""}
+  ],
+  "temuan": [
+   {"tanggal": "2024-03-05", "plot": "P1", "jenis": "", "latin": "Bulbophyllum biflorum", "n": 4, "caraHidup": "Epifit", "inang": "Walikukun", "tinggiTempel": 3.5, "fenologi": "Vegetatif", "ketinggian": 620, "x": 118.0012, "y": -8.2511, "keterangan": ""},
+   {"tanggal": "2024-03-05", "plot": "P1", "jenis": "Anggrek tanah ungu", "latin": "Spathoglottis plicata", "n": 2, "caraHidup": "Terestrial", "inang": "", "tinggiTempel": "", "fenologi": "Berbunga", "ketinggian": 620, "x": 118.0013, "y": -8.251, "keterangan": ""},
+   {"tanggal": "2024-03-05", "plot": "P2", "jenis": "", "latin": "Bulbophyllum biflorum", "n": 3, "caraHidup": "Epifit", "inang": "Weru", "tinggiTempel": 5, "fenologi": "Kuncup", "ketinggian": 680, "x": 118.0031, "y": -8.2498, "keterangan": ""},
+   {"tanggal": "2024-03-05", "plot": "P2", "jenis": "", "latin": "Appendicula reflexa", "n": 1, "caraHidup": "Epifit", "inang": "Walikukun", "tinggiTempel": 2, "fenologi": "Vegetatif", "ketinggian": 680, "x": 118.0032, "y": -8.2497, "keterangan": ""},
+   {"tanggal": "2024-03-05", "plot": "P3", "jenis": "", "latin": "Calanthe triplicata", "n": 5, "caraHidup": "Terestrial", "inang": "", "tinggiTempel": "", "fenologi": "Berbunga", "ketinggian": 745, "x": 118.0052, "y": -8.2481, "keterangan": "Foto bunga"},
+   {"tanggal": "2024-03-05", "plot": "P3", "jenis": "Common Rattlesnake Orchid", "latin": "Coelogyne imbricata", "n": 2, "caraHidup": "Epifit", "inang": "Weru", "tinggiTempel": 6, "fenologi": "Vegetatif", "ketinggian": 745, "x": 118.0053, "y": -8.248, "keterangan": ""},
+   {"tanggal": "2024-03-06", "plot": "P4", "jenis": "", "latin": "Bulbophyllum lepidum", "n": 6, "caraHidup": "Epifit", "inang": "Walikukun", "tinggiTempel": 4, "fenologi": "Berbunga", "ketinggian": 810, "x": 118.0101, "y": -8.2433, "keterangan": ""},
+   {"tanggal": "2024-03-06", "plot": "P4", "jenis": "", "latin": "Crepidium junghuhnii", "n": 1, "caraHidup": "Terestrial", "inang": "", "tinggiTempel": "", "fenologi": "Vegetatif", "ketinggian": 810, "x": 118.0102, "y": -8.2432, "keterangan": ""},
+   {"tanggal": "2024-03-06", "plot": "P6", "jenis": "", "latin": "Bulbophyllum biflorum", "n": 2, "caraHidup": "Epifit", "inang": "Wunut", "tinggiTempel": 7, "fenologi": "Vegetatif", "ketinggian": 910, "x": 118.014, "y": -8.2402, "keterangan": ""},
+   {"tanggal": "2024-03-06", "plot": "P6", "jenis": "", "latin": "Agrostophyllum tenue", "n": 3, "caraHidup": "Epifit", "inang": "Wunut", "tinggiTempel": 8, "fenologi": "Berbuah", "ketinggian": 910, "x": 118.0141, "y": -8.2401, "keterangan": ""}
+  ]
+ },
+ "catatanLapangan": ""
+}

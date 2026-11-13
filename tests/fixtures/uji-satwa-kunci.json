@@ -1,0 +1,26 @@
+{
+ "nama": "Data uji sintetis satwa kunci",
+ "identitas": {"judul": "Monitoring Populasi dan Persebaran Satwa Liar Spesies Kunci", "lokasi": "Jalur Pendakian Pancasila, Resor Pancasila", "resort": "Resor Pancasila", "sptn": "SPTN Wilayah II Pekat", "mulai": "2024-05-06", "selesai": "2024-05-11", "nomorST": "", "kota": "Dompu", "tanggalLaporan": "", "sumberAnggaran": "DIPA BA. 29 Balai Taman Nasional Tambora Tahun Anggaran 2024"},
+ "rab": [{"uraian": "Belanja Bahan: Alat dan Bahan", "volume": "1", "satuan": "KEG", "harga": "1200000"}],
+ "param": {"satwaKunci": "Rusa timor, Elang flores", "jenisUtama": "Rusa timor", "metodeKepadatan": "king", "luasArea": 250},
+ "data": {
+  "jalur": [
+   {"kode": "J1", "nama": "Jalur pendakian lama", "tanggal": "2024-05-07", "panjang": 4200, "ekosistem": "Hutan hujan tropis dataran rendah", "x": 117.9225, "y": -8.2193, "keterangan": ""},
+   {"kode": "J2", "nama": "Jalur pendakian baru", "tanggal": "2024-05-08", "panjang": 5100, "ekosistem": "Hutan pegunungan atas", "x": 117.9305, "y": -8.2275, "keterangan": ""},
+   {"kode": "J3", "nama": "Jalur Sorinomo", "tanggal": "2024-05-09", "panjang": 3600, "ekosistem": "Hutan pegunungan bawah", "x": 117.9294, "y": -8.2276, "keterangan": "Tanpa temuan elang flores"}
+  ],
+  "temuan": [
+   {"tanggal": "2024-05-07", "waktu": "08.10", "jalur": "J1", "jenis": "Rusa timor", "latin": "Rusa timorensis", "tipe": "Jejak kaki", "n": 3, "taksir": 3, "umur": "Baru (≤ 1 minggu)", "habitat": "Hutan hujan tropis dataran rendah", "x": 117.9225, "y": -8.2193, "ketinggian": 1250, "keterangan": ""},
+   {"tanggal": "2024-05-07", "waktu": "10.40", "jalur": "J1", "jenis": "Rusa timor", "latin": "Rusa timorensis", "tipe": "Kotoran (onggokan)", "n": 30, "umur": "Lama (> 1 minggu)", "habitat": "Hutan hujan tropis dataran rendah", "x": 117.9241, "y": -8.2211, "ketinggian": 1420, "keterangan": ""},
+   {"tanggal": "2024-05-08", "waktu": "07.05", "jalur": "J2", "jenis": "Rusa timor", "latin": "Rusa timorensis", "tipe": "Perjumpaan langsung", "n": 10, "jarak": 120, "jantan": 2, "betina": 5, "dewasa": 7, "muda": 1, "anak": 2, "habitat": "Hutan pegunungan atas", "x": 117.94618, "y": -8.23531, "ketinggian": 1980, "keterangan": "Dua kelompok di punggungan"},
+   {"tanggal": "2024-05-08", "waktu": "09.30", "jalur": "J2", "jenis": "Rusa timor", "latin": "Rusa timorensis", "tipe": "Perjumpaan langsung", "n": 2, "jarak": 60, "betina": 1, "dewasa": 1, "anak": 1, "habitat": "Savana", "x": 117.94734, "y": -8.23621, "ketinggian": 2150, "keterangan": ""},
+   {"tanggal": "2024-05-08", "waktu": "11.15", "jalur": "J2", "jenis": "Elang flores", "latin": "Nisaetus floris", "tipe": "Perjumpaan langsung", "n": 1, "jarak": 200, "dewasa": 1, "habitat": "Hutan pegunungan atas", "x": 117.9441, "y": -8.233, "ketinggian": 1890, "keterangan": "Soaring"},
+   {"tanggal": "2024-05-09", "waktu": "06.50", "jalur": "J3", "jenis": "Rusa timor", "latin": "Rusa timorensis", "tipe": "Perjumpaan langsung", "n": 1, "jarak": 10, "betina": 1, "dewasa": 1, "habitat": "Hutan pegunungan bawah", "x": 117.929, "y": -8.227, "ketinggian": 1320, "keterangan": ""},
+   {"tanggal": "2024-05-09", "waktu": "08.20", "jalur": "J3", "jenis": "Rusa timor", "latin": "Rusa timorensis", "tipe": "Jejak kaki", "n": 6, "taksir": 6, "umur": "Baru (≤ 1 minggu)", "habitat": "Hutan pegunungan bawah", "x": 117.9305, "y": -8.2275, "ketinggian": 1340, "keterangan": ""},
+   {"tanggal": "2024-05-09", "waktu": "08.45", "jalur": "J3", "jenis": "Rusa timor", "latin": "Rusa timorensis", "tipe": "Kotoran (onggokan)", "n": 75, "umur": "Baru (≤ 1 minggu)", "habitat": "Hutan pegunungan bawah", "x": 117.9305, "y": -8.2276, "ketinggian": 1345, "keterangan": ""},
+   {"tanggal": "2024-05-09", "waktu": "09.10", "jalur": "J3", "jenis": "Rusa timor", "latin": "Rusa timorensis", "tipe": "Jejak kaki", "n": 8, "taksir": 8, "umur": "Baru (≤ 1 minggu)", "habitat": "Hutan pegunungan bawah", "x": 117.9294, "y": -8.2276, "ketinggian": 1360, "keterangan": ""},
+   {"tanggal": "2024-05-09", "waktu": "10.00", "jalur": "J3", "jenis": "Rusa timor", "latin": "Rusa timorensis", "tipe": "Garukan ranggah", "n": 1, "taksir": 1, "umur": "Baru (≤ 1 minggu)", "habitat": "Hutan pegunungan bawah", "x": 117.93, "y": -8.229, "ketinggian": 1400, "keterangan": ""}
+  ]
+ },
+ "catatanLapangan": ""
+}
