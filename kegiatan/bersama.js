@@ -63,7 +63,7 @@
   const dasarObs = (o) => ({ tanggal: o.tanggal || "", waktu: String(o.waktu || "").replace(":", "."), x: o.x ?? "", y: o.y ?? "" });
 
   // Baris vegetasi dari observasi SMART (dipakai banyak kegiatan)
-  const petaVegetasi = (o, v) => { const [jenis, latin] = jenisDari(v, "jenistumbuhan"); return { ...dasarObs(o), petak: String(v("noplot") || ""), tingkat: v("tingkatpertumbuhan"), jenis, latin, n: Number(v("jumlah")) || 1, diameter: v("diametercm"), keliling: v("kelilingcm"), tinggi: v("tinggim"), keterangan: v("keterangan") }; };
+  const petaVegetasi = (o, v) => { const [jenis, latin] = jenisDari(v, "jenistumbuhan"); return { ...dasarObs(o), petak: String(v("noplot") || ""), tingkat: v("tingkatpertumbuhan"), jenis, latin, n: Number(v("jumlah")) || 1, diameter: v("dbhpohoncm"), keliling: v("kelilingcm"), tinggi: v("tinggipohonm"), keterangan: v("keterangan") }; };
   const inputVegetasi = (rows, P) => ({ mode: "petak", rows: (rows || []).map((r) => ({ ...r, n: r.n === "" || r.n === undefined ? 1 : r.n })), luas: { semai: P.luasSemai, pancang: P.luasPancang, tiang: P.luasTiang, pohon: P.luasPohon, "tumbuhan bawah": P.luasSemai }, nPetak: P.nPetak });
   const optVegetasi = (P) => ({ luas: { semai: P.luasSemai, pancang: P.luasPancang, tiang: P.luasTiang, pohon: P.luasPohon } });
   const paramVegetasi = (def = {}) => [

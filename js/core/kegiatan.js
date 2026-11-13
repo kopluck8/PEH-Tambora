@@ -6,7 +6,7 @@
  *   id, kode, judul, ringkas, objek, kategoriSMART, kamusSMART, alat, contoh,
  *   tabel: [{ key, judul, ket, kolom: [{ key, label, type, list, options, w }], smart: { sub, map(o, v) }, baruBaris() }],
  *   parameter: [{ key, label, type, options, half, step, def }], paramInfo,
- *   modul: [{ m, id, judul, judulMetode, objek, input(S, P, A), opt(P, S) }],
+ *   modul: [{ m, id, judul, judulMetode, objek, opsional, input(S, P, A), opt(P, S) }],
  *   teks: { latar, maksud, ruanglingkup, lokasi, lokasiRPK, metode, anPengantar, hasilLokasi, pembahasan, saran, dasar: [..] },
  *   lokasiTabel(S, P) → { cap, spec } (opsional), isian: [{ key, label, rows }] (teks tambahan di tab Data)
  * }
@@ -38,6 +38,8 @@
     const defaults = () => Object.fromEntries((cfg.parameter || []).filter((f) => f.key).map((f) => [f.key, f.def ?? ""]));
     const kosongData = () => Object.fromEntries(cfg.tabel.map((t) => [t.key, []]));
     const isi = (S) => { S.param = { ...defaults(), ...(S.param || {}) }; S.data = { ...kosongData(), ...(S.data || {}) }; S.teks = S.teks || {}; return S; };
+    // Modul opsional (mis. vegetasi habitat) tidak tampil di LPK bila datanya kosong; RPK tetap memuat metodenya
+    const tampil = (m, A, rpk) => rpk || !m.opsional || !!(A[m.id] && !A[m.id].kosong);
     const ctxM = (m, P, S) => {
       const mod = M[m.m], opt = typeof m.opt === "function" ? m.opt(P, S) : m.opt || {};
       return { id: m.id, judul: m.judul || mod.judul, objek: m.objek || cfg.objek, opt, lv: 3 };
@@ -96,10 +98,10 @@
     }
 
     /* ---------- Bagian laporan ---------- */
-    function metodeAnalisis(A, S, notes, N) {
+    function metodeAnalisis(A, S, notes, N, rpk) {
       const out = [noteBlock(notes, "an_pengantar")];
       let i = 0;
-      cfg.modul.forEach((m) => {
+      cfg.modul.filter((m) => tampil(m, A, rpk)).forEach((m) => {
         const c = ctxM(m, S.param, S), mod = M[m.m];
         i++;
         out.push(N.h3(`${i}) ${m.judulMetode || c.judul}`), noteBlock(notes, `an_${m.id}`, 3), mod.metode(c, A[m.id] || {}));
@@ -112,7 +114,7 @@
       const out = [N.h3(`1) ${cfg.judulLokasi || "Lokasi dan Unit Pengamatan"}`), noteBlock(notes, "hasil_lokasi", 3)];
       if (cfg.lokasiTabel) { const lt = cfg.lokasiTabel(S, S.param); if (lt && lt.spec.rows.length) out.push(tabelHtml(N, lt)); }
       let i = 1;
-      cfg.modul.forEach((m) => {
+      cfg.modul.filter((m) => tampil(m, A, false)).forEach((m) => {
         const c = ctxM(m, S.param, S), r = A[m.id], mod = M[m.m];
         i++;
         out.push(N.h3(`${i}) ${c.judul}`), noteBlock(notes, `hasil_${m.id}`, 3));
@@ -160,7 +162,7 @@
     function rpk(A, S, notes) {
       isi(S);
       const N = numbering();
-      return D.rpk(S, notes, N, { judul: cfg.judul, dasarTambahan: cfg.teks.dasar || [], objekPeta: cfg.objekPeta || cfg.objek, metodeAnalisis: metodeAnalisis(A, S, notes, N), tallysheet: D.tallysheet(N, cfg.tabel.filter((t) => !t.tanpaTally)) });
+      return D.rpk(S, notes, N, { judul: cfg.judul, dasarTambahan: cfg.teks.dasar || [], objekPeta: cfg.objekPeta || cfg.objek, metodeAnalisis: metodeAnalisis(A, S, notes, N, true), tallysheet: D.tallysheet(N, cfg.tabel.filter((t) => !t.tanpaTally)) });
     }
 
     /* ---------- Tab Hasil Analisis ---------- */
@@ -171,7 +173,7 @@
         const c = ctxM(m, P, S), r = A[m.id], mod = M[m.m];
         if (r && r.galat) { blok.push(`<div class="res"><h2>${esc(c.judul)}</h2><div class="callout"><b>Perhitungan gagal.</b> ${esc(r.galat)}</div></div>`); return; }
         if (!r || r.kosong) { blok.push(`<div class="res"><h2>${esc(c.judul)}</h2><p class="muted">${esc(mod.narHasil(r || { kosong: true }, c))}</p></div>`); return; }
-        kpi.push(...mod.kpi(r, c));
+        mod.kpi(r, c).forEach((x) => { if (!kpi.some((y) => String(y[1]).split(" (")[0] === String(x[1]).split(" (")[0])) kpi.push(x); });
         const tabs = [...mod.tabel(r, c), ...(mod.lampiran ? mod.lampiran(r, c) : [])];
         blok.push(`<div class="res"><h2>${esc(c.judul)}</h2><p class="muted">${esc(mod.narHasil(r, c))}</p>${tabs.map((x) => `<h3>${esc(x.cap)}</h3>${R_.resTable(x.spec)}`).join("")}${mod.kalkExtra ? mod.kalkExtra(r, c) : ""}${mod.gambar ? mod.gambar(r, c).replace('class="map"', 'class="map" style="margin:10px 0;max-width:640px"').replace("<img ", '<img style="width:100%;height:auto;border:1px solid var(--line);border-radius:8px" ') : ""}</div>`);
       });

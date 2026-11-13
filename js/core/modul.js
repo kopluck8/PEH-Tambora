@@ -343,7 +343,9 @@
     },
     narHasil(r, c) {
       if (r.kosong) return `Data belum cukup untuk menduga kekayaan jenis ${c.objek} (perlu paling sedikit dua unit contoh).`;
-      return `Dari ${nTxt(r.m)} unit contoh tercatat ${nTxt(r.S)} jenis ${c.objek}. Sebanyak ${r.Q1} jenis hanya ditemukan di satu unit dan ${r.Q2} jenis di dua unit. Dugaan jumlah jenis menurut Chao2 adalah ${num(r.chao2, 1)} jenis dan menurut Jackknife orde satu ${num(r.jack1, 1)} ± ${num(r.seJack, 1)} jenis, sehingga kelengkapan inventarisasi sekitar ${num(r.lengkap, 0)}%. ${r.nEkor ? (r.baruAkhir === 0 ? `Kurva akumulasi jenis sudah mendatar: ${nTxt(r.nEkor)} unit terakhir tidak menambah jenis baru.` : `Kurva akumulasi jenis masih menanjak: ${nTxt(r.nEkor)} unit terakhir masih menambah ${r.baruAkhir} jenis baru.`) : ""}`;
+      const q1 = r.Q1 ? `Sebanyak ${r.Q1} jenis hanya ditemukan di satu unit` : "Tidak ada jenis yang hanya ditemukan di satu unit";
+      const q2 = r.Q2 ? ` dan ${r.Q2} jenis ditemukan tepat di dua unit` : r.Q1 ? ", sedangkan tidak ada jenis yang ditemukan tepat di dua unit" : "";
+      return `Dari ${nTxt(r.m)} unit contoh tercatat ${nTxt(r.S)} jenis ${c.objek}. ${q1}${q2}. Dugaan jumlah jenis menurut Chao2 adalah ${num(r.chao2, 1)} jenis dan menurut Jackknife orde satu ${num(r.jack1, 1)} ± ${num(r.seJack, 1)} jenis, sehingga kelengkapan inventarisasi sekitar ${num(r.lengkap, 0)}%. ${r.nEkor ? (r.baruAkhir === 0 ? `Kurva akumulasi jenis sudah mendatar: ${nTxt(r.nEkor)} unit terakhir tidak menambah jenis baru.` : `Kurva akumulasi jenis masih menanjak: ${nTxt(r.nEkor)} unit terakhir masih menambah ${r.baruAkhir} jenis baru.`) : ""}`;
     },
     hitungHtml(r, c) {
       if (r.kosong) return "";
@@ -371,16 +373,16 @@
   M.persen = {
     judul: "Persentase Kategori",
     hitung(inp) { const r = ST.persen(inp.items || []); return { ...r, kosong: !r.y }; },
-    narMetode(c) { return `Persentase setiap ${c.opt.label || "kategori"} ${c.objek} dihitung dari frekuensi kategori tersebut terhadap seluruh catatan, dengan persamaan:`; },
-    metode(c) { const lv = c.lv; return [blk([R("P = "), F("x", "y"), R(" × 100%")], lv), ket([["P", `persentase ${esc(c.opt.label || "kategori")} (%)`], ["x", `frekuensi satu ${esc(c.opt.label || "kategori")}`], ["y", "jumlah seluruh catatan"]], lv)].join(""); },
+    narMetode(c) { return `Persentase setiap ${c.opt.label || "kategori"} ${c.objek} dihitung dari frekuensi kategori tersebut terhadap seluruh ${c.opt.satuan || "catatan"}, dengan persamaan:`; },
+    metode(c) { const lv = c.lv; return [blk([R("P = "), F("x", "y"), R(" × 100%")], lv), ket([["P", `persentase ${esc(c.opt.label || "kategori")} (%)`], ["x", `frekuensi satu ${esc(c.opt.label || "kategori")}`], ["y", `jumlah seluruh ${esc(c.opt.satuan || "catatan")}`]], lv)].join(""); },
     narHasil(r, c) {
       if (r.kosong) return `Belum ada catatan ${c.opt.label || "kategori"} ${c.objek}.`;
       const top = r.rows.slice(0, 3);
-      return `Dari ${nTxt(r.y)} catatan, ${c.opt.label || "kategori"} yang paling banyak adalah ${daftarKata(top.map((x) => `${x.k.toLowerCase()} (${num(x.p, 1)}%)`))}.`;
+      return `Dari ${nTxt(r.y)} ${c.opt.satuan || "catatan"}, ${c.opt.label || "kategori"} yang paling banyak adalah ${daftarKata(top.map((x) => `${x.k.toLowerCase()} (${num(x.p, 1)}%)`))}.`;
     },
     hitungHtml(r, c) { if (r.kosong) return ""; const a = r.rows[0]; return blk([R("P = "), F(num(a.x), num(r.y)), R(` × 100% = ${num(a.p, 2)}%`)], c.lv); },
     spec(r, c) { return { head: ["No", L.cap1(c.opt.label || "Kategori"), "Frekuensi", "Persentase (%)"], rows: r.rows.map((x, i) => [k(i + 1), t(esc(x.k)), n(x.x, 0), n(x.p, 2)]), total: [[{ t: "Jumlah", cs: 2 }, n(r.y, 0), n(100, 2)]] }; },
-    tabel(r, c) { return r.kosong ? [] : [{ cap: `Persentase ${L.cap1(c.opt.label || "Kategori")} ${L.cap1(c.objek)}`, spec: this.spec(r, c) }]; },
+    tabel(r, c) { return r.kosong ? [] : [{ cap: c.opt.cap || `Persentase ${L.cap1(c.opt.label || "Kategori")} ${L.cap1(c.objek)}`, spec: this.spec(r, c) }]; },
     simpulan(r, c) { return r.kosong ? "" : `${L.cap1(c.opt.label || "kategori")} ${c.objek} yang paling sering tercatat adalah ${r.rows[0].k.toLowerCase()} (${num(r.rows[0].p, 1)}%)`; },
     kpi() { return []; }
   };
@@ -402,23 +404,26 @@
       const fam = new Map(); baris.forEach((b) => { if (b.famili) fam.set(b.famili, (fam.get(b.famili) || 0) + 1); });
       return { kosong: !baris.length, baris, S: baris.length, N: baris.reduce((s, b) => s + b.n, 0), famili: [...fam.entries()].sort((a, b) => b[1] - a[1]), kol };
     },
-    narMetode(c) { return `Data hasil identifikasi dianalisis secara deskriptif: daftar jenis ${c.objek}, famili, jumlah temuan, dan lokasi ditemukannya, dilengkapi foto dan ciri pengenal tiap jenis.`; },
+    narMetode(c) { return `Data hasil identifikasi dianalisis secara deskriptif: daftar jenis ${c.objek}, ${c.opt.kelompok || "famili"}, jumlah temuan, dan lokasi ditemukannya, dilengkapi foto dan ciri pengenal tiap jenis.`; },
     metode() { return ""; },
     narHasil(r, c) {
       if (r.kosong) return `Belum ada data jenis ${c.objek}.`;
       const f = r.famili;
-      return `Teridentifikasi ${nTxt(r.S)} jenis ${c.objek}${f.length ? ` dari ${nTxt(f.length)} famili` : ""} dengan jumlah ${r.N} ${c.opt.satuan || "individu"}.${f.length ? ` Famili dengan jenis terbanyak adalah ${daftarKata(f.slice(0, 3).map(([nmF, x]) => `${nmF} (${x} jenis)`))}.` : ""}`;
+      const kl = c.opt.kelompok || "famili";
+      const banyak = f.filter(([, x]) => x > 1).slice(0, 3);
+      const fTxt = banyak.length ? ` ${L.cap1(kl)} dengan jenis terbanyak adalah ${daftarKata(banyak.map(([nmF, x]) => `${nmF} (${x} jenis)`))}.` : f.length > 1 ? ` Setiap ${kl} diwakili oleh satu jenis.` : "";
+      return `Teridentifikasi ${nTxt(r.S)} jenis ${c.objek}${f.length ? ` dari ${nTxt(f.length)} ${kl}` : ""} dengan jumlah ${r.N} ${c.opt.satuan || "individu"}.${fTxt}`;
     },
     hitungHtml() { return ""; },
     spec(r, c) {
       const kol = r.kol;
-      return { head: ["No", ...(r.famili.length ? ["Famili"] : []), "Nama Jenis", "Nama Ilmiah", `Jumlah (${c.opt.satuan || "individu"})`, ...kol.map((x) => x.label), "Unit/Lokasi Temuan"],
+      return { head: ["No", ...(r.famili.length ? [L.cap1(c.opt.kelompok || "famili")] : []), "Nama Jenis", "Nama Ilmiah", `Jumlah (${c.opt.satuan || "individu"})`, ...kol.map((x) => x.label), "Unit/Lokasi Temuan"],
         rows: r.baris.map((b) => [k(b.no), ...(r.famili.length ? [t(esc(b.famili))] : []), t(esc(b.jenis)), t(sci(b.latin)), n(b.n, 0), ...kol.map((x) => t(esc(b[x.key] || "-"))), t(esc(b.unit.join(", ") || "-"))]),
         total: [[{ t: "Jumlah", cs: r.famili.length ? 4 : 3 }, n(r.N, 0), ...kol.map(() => t("")), t("")]] };
     },
     tabel(r, c) { return r.kosong ? [] : [{ cap: `Daftar Jenis ${L.cap1(c.objek)} yang Ditemukan`, spec: this.spec(r, c) }]; },
-    simpulan(r, c) { return r.kosong ? "" : `Teridentifikasi ${nTxt(r.S)} jenis ${c.objek}${r.famili.length ? ` dari ${r.famili.length} famili` : ""}`; },
-    kpi(r) { return r.kosong ? [] : [[r.S, "jenis"], [r.famili.length || "-", "famili"]]; }
+    simpulan(r, c) { return r.kosong ? "" : `Teridentifikasi ${nTxt(r.S)} jenis ${c.objek}${r.famili.length ? ` dari ${r.famili.length} ${c.opt.kelompok || "famili"}` : ""}`; },
+    kpi(r, c) { return r.kosong ? [] : [[r.S, "jenis"], [r.famili.length || "-", (c && c.opt.kelompok) || "famili"]]; }
   };
 
   /* =====================================================================

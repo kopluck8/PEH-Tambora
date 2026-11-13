@@ -188,7 +188,7 @@
   function jejak(perUnit, a = 0.05, luasHa) {
     const s = perUnit.filter((x) => fin(x)).sort((x, y) => y - x);
     const Nk = s[0] || 0, Nk1 = s[1] || 0, N = 2 * Nk - Nk1;
-    const Nh0 = (Nk + (1 - a) / a) * (Nk - Nk1), Nh = Math.max(Nh0, N);
+    const Nh0 = Math.round((Nk + (1 - a) / a) * (Nk - Nk1) * 1e9) / 1e9, Nh = Math.max(Nh0, N);
     return { Nk, Nk1, a, N, Nh, nhSamaN: Nh0 < N, luasHa, Dmin: luasHa ? N / luasHa : 0, Dmax: luasHa ? Nh / luasHa : 0 };
   }
 

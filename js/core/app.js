@@ -181,8 +181,9 @@
   }
   function muatContoh(apply = true) {
     const c = clone(def.contoh);
-    const st = lengkapi({ ...stateKosong(def), ...def.dariContoh(c) });
-    Object.keys(st).forEach((k) => st[k] === undefined && delete st[k]);
+    const dc = def.dariContoh(c);
+    Object.keys(dc).forEach((k) => dc[k] === undefined && delete dc[k]);
+    const st = lengkapi({ ...stateKosong(def), ...dc });
     if (!st.penandatanganRPK) st.penandatanganRPK = ttdRPKAwal();
     if (apply) { S = st; changed(false); renderSide(); renderMain(); }
     return st;

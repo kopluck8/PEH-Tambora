@@ -46,7 +46,7 @@
         baruBaris: (last) => ({ tanggal: last.tanggal || "", plot: last.plot || "", x: last.x ?? "", y: last.y ?? "", n: 1 }) },
       { key: "sarang", judul: "Pohon Sarang", ket: "Satu baris untuk satu pohon sarang yang diperiksa.",
         kolom: [{ key: "kode", label: "Kode sarang", w: 5, tengah: true }, KOL.tanggal, KOL.x, KOL.y, ...K.kolJenis("Jenis pohon sarang", FLORA), { key: "tinggiPohon", label: "Tinggi pohon (m)", type: "number", w: 4 }, { key: "tinggiSarang", label: "Tinggi sarang (m)", type: "number", w: 4 }, KOL.diameter, { key: "kondisi", label: "Kondisi sarang", list: KONDISI, w: 9 }, { key: "jarakAir", label: "Jarak ke sumber air (m)", type: "number", w: 4.5 }, KOL.keterangan],
-        smart: { sub: "pohonsarang", map: (o, v) => { const [jenis, latin] = K.jenisDari(v, "jenistumbuhan"); return { ...K.dasarObs(o), kode: o.wpId || "", jenis, latin, tinggiPohon: v("tinggim"), tinggiSarang: v("tinggisarangm"), diameter: v("diametercm"), kondisi: v("kondisisarang"), jarakAir: v("jaraksumberairm"), keterangan: v("keterangan") }; } } },
+        smart: { sub: "pohonsarang", map: (o, v) => { const [jenis, latin] = K.jenisDari(v, "jenistumbuhan"); return { ...K.dasarObs(o), kode: o.wpId || "", jenis, latin, tinggiPohon: v("tinggipohonm"), tinggiSarang: v("tinggisarangm"), diameter: v("dbhpohoncm"), kondisi: v("kondisisarang"), jarakAir: v("jaraksumberairm"), keterangan: v("keterangan") }; } } },
       { key: "vegetasi", judul: "Vegetasi Sekitar Sarang", ket: "Analisis vegetasi pada petak bersarang di sekitar pohon sarang. Satu baris untuk satu individu (atau isi jumlah untuk semai dan pancang).",
         kolom: K.kolVegetasi([KOL.tinggi]), smart: { sub: "vegetasi", map: (o, v) => K.petaVegetasi(o, v) },
         baruBaris: (last) => ({ petak: last.petak || "", tingkat: last.tingkat || "", n: 1 }) }
@@ -75,10 +75,10 @@
       { m: "mcp", id: "jelajah", objek: "elang flores", input: (S, P) => ({ titik: titikJelajah(S, P), sistem: P.sistem, luasHabitat: P.luasHabitat, jelajahPasangan: P.jelajahPasangan }),
         opt: (P) => ({ pasangan: !!Number(P.luasHabitat), acuanJelajah: "Raharjaningtrah dan Zaini (2004): sekitar 38,5 km²" }) },
       { m: "persen", id: "aktivitas", judul: "Aktivitas Elang Flores saat Perjumpaan", objek: "elang flores", input: (S) => ({ items: temuan(S).filter((r) => String(r.aktivitas || "").trim()).map((r) => [r.aktivitas, 1]) }), opt: { label: "aktivitas" } },
-      { m: "komunitas", id: "burung", judul: "Keanekaragaman Jenis Burung di Habitat Elang Flores", objek: "burung",
+      { m: "komunitas", id: "burung", opsional: true, judul: "Keanekaragaman Jenis Burung di Habitat Elang Flores", objek: "burung",
         input: (S) => ({ rows: K.unik(S.data.perjumpaan, "jenis").length > 1 ? S.data.perjumpaan : [] }), opt: (P) => ({ kriteriaH: P.kriteriaH, indeks: ["H", "E", "R", "Di"] }) },
-      { m: "sarang", id: "sarang", objek: "elang flores", input: (S) => ({ rows: S.data.sarang.map((r) => ({ ...r, jumlahSarang: 1 })) }) },
-      { m: "vegetasi", id: "vegetasi", judul: "Vegetasi Sekitar Pohon Sarang", objek: "vegetasi sekitar sarang", input: (S, P) => K.inputVegetasi(S.data.vegetasi, P), opt: (P) => K.optVegetasi(P) }
+      { m: "sarang", id: "sarang", opsional: true, objek: "elang flores", input: (S) => ({ rows: S.data.sarang.map((r) => ({ ...r, jumlahSarang: 1 })) }) },
+      { m: "vegetasi", id: "vegetasi", opsional: true, judul: "Vegetasi Sekitar Pohon Sarang", objek: "vegetasi sekitar sarang", input: (S, P) => K.inputVegetasi(S.data.vegetasi, P), opt: (P) => K.optVegetasi(P) }
     ],
     lokasiTabel: (S) => ({ cap: "Plot Pengamatan Elang Flores", spec: K.specDari(K.terisi(S.data.plot, "kode", "x"), [{ key: "kode", label: "Kode Plot", tengah: true }, { key: "x", label: "X", type: "number", d: 5 }, { key: "y", label: "Y", type: "number", d: 5 }, { key: "ketinggian", label: "Ketinggian (mdpl)", type: "number" }, { key: "habitat", label: "Tipe Habitat" }, { key: "jarakSarang", label: "Jarak ke Sarang (m)", type: "number" }]) }),
     teks: {

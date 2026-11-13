@@ -14,6 +14,8 @@
   const sum = (a) => a.reduce((s, v) => s + v, 0);
   const mean = (a) => (a.length ? sum(a) / a.length : 0);
   const str = (v) => String(v ?? "").trim();
+  // Angka dengan desimal seperlunya (325 → "325", 7,16 → "7,16")
+  const numL = (v, d = 2) => (Number.isFinite(Number(v)) ? Number(v).toLocaleString("id-ID", { minimumFractionDigits: 0, maximumFractionDigits: d }) : "-");
 
   /* =====================================================================
    * 8. Transek garis: King (Tobing 2008), Hayne (Santosa dkk. 2014), jalur berlebar tetap
@@ -37,7 +39,8 @@
         const dj = kk.map((r) => toN(r.jarak)).filter((v) => fin(v) && v > 0);
         return { id: str(x.id), panjang: nOr(x.panjang, 0), kontak: kk.length, individu: sum(kk.map((r) => nOr(r.n, 0))), dbar: mean(dj) };
       });
-      return { kosong: !N || !L_, metode, L: L_, ul, nTransek: tr.length, N, nKontak: kontak.length, jarak, king, hayne, jalur, w, D, haPerInd: D ? 1 / D : Infinity, A, populasi: A && D ? D * A : null, perT };
+      const haAmat = metode === "jalur" ? jalur.ha : metode === "king" ? king.ha : 0;
+      return { kosong: !N || !L_, metode, L: L_, ul, nTransek: tr.length, N, nKontak: kontak.length, jarak, king, hayne, jalur, w, D, haPerInd: D ? 1 / D : Infinity, A, populasi: A && D ? D * A : null, IS: A && haAmat ? (haAmat / A) * 100 : null, perT };
     },
     narMetode(c) {
       const m = c.opt.metode || "king";
@@ -55,7 +58,7 @@
       else if (m === "hayne") out.push(blk([Sub("D", "H"), R(" = "), F([R("x × R")], "2L")], lv), ...ragam);
       else out.push(blk([R("D = "), F("N", [Sub("L", "j"), R(" × "), Sub("P", "j")])], lv), blk([Sub("L", "j"), R(" = 2 × "), R("d̄")], lv),
         ket([["D", "kepadatan populasi (individu/ha)"], ["N", "jumlah individu yang terdeteksi saat pengamatan"], [Sub("L", "j"), "lebar jalur efektif (m)"], ["d̄", "rata-rata jarak kontak pengamat dengan satwa (m)"], [Sub("P", "j"), "panjang jalur yang ditempuh (m)"]], lv), ...ragam);
-      out.push(para("Dugaan populasi pada area pengamatan diperoleh dari kepadatan dikali luas area pengamatan (N = D × A).", lv));
+      out.push(para("Dugaan populasi pada area pengamatan diperoleh dari kepadatan dikali luas area pengamatan (N = D × A). Intensitas sampling (IS) adalah perbandingan luas area amatan dengan luas area pengamatan (IS = a/A × 100%).", lv));
       return out.join("");
     },
     narHasil(r, c) {
@@ -64,7 +67,7 @@
       if (r.metode === "king") s.push(`Rata-rata jarak kontak ${num(r.king.dbar, 2)} m sehingga luas area amatan ${num(r.king.ha, 2)} ha. Kepadatan populasi menurut metode King adalah ${fx(r.king.D, 4)} individu/ha atau 1 individu/${fx(r.king.haPerInd, 2)} ha.${r.hayne.n > 1 ? ` Dugaan Hayne sebagai pembanding adalah ${fx(r.hayne.Dind, 4)} ± ${fx(r.hayne.SEInd, 4)} individu/ha.` : ""}`);
       if (r.metode === "hayne") s.push(`Kepadatan populasi menurut Hayne adalah ${fx(r.hayne.Dind, 4)} ± ${fx(r.hayne.SEInd, 4)} individu/ha (rata-rata ukuran kelompok ${num(r.hayne.ukuranKelompok, 2)} individu).`);
       if (r.metode === "jalur") s.push(`Dengan lebar jalur ${num(r.w * 2)} m, kepadatan populasinya ${fx(r.jalur.D, 4)} individu/ha.`);
-      if (r.populasi !== null) s.push(`Dengan luas area pengamatan ${num(r.A, 2)} ha, dugaan populasi ${c.objek} sekitar ${num(r.populasi, 0)} individu.`);
+      if (r.populasi !== null) s.push(`Dengan luas area pengamatan ${numL(r.A)} ha${r.IS !== null ? ` dan intensitas sampling ${num(r.IS, 1)}%` : ""}, dugaan populasi ${c.objek} sekitar ${num(r.populasi, 0)} individu.`);
       return s.join(" ");
     },
     hitungHtml(r, c) {
@@ -76,6 +79,7 @@
         blk([Sub("D", "H"), R(" = "), F(`${num(r.hayne.n)} × ${fx(r.hayne.R, 6)}`, `2 × ${num(r.L)}`), R(` × 10.000 = ${fx(r.hayne.D, 4)} kelompok/ha`)], lv),
         blk([R("SE("), Sub("D", "H"), R(`) = `), Sqrt(fx(r.hayne.V, 8)), R(` = ${fx(r.hayne.SE, 4)}`)], lv));
       if (r.metode === "jalur") out.push(blk([R("D = "), F(num(r.jalur.N), `2 × ${num(r.w)} × ${num(r.L)}`), R(` × 10.000 = ${fx(r.jalur.D, 4)} ind/ha`)], lv));
+      if (r.IS !== null) out.push(blk([R("IS = "), F(num(r.metode === "jalur" ? r.jalur.ha : r.king.ha, 2), num(r.A, 2)), R(` × 100% = ${num(r.IS, 1)}%`)], lv));
       if (r.populasi !== null) out.push(blk([R(`N = ${fx(r.D, 4)} × ${num(r.A, 2)} = ${num(r.populasi, 0)} individu`)], lv));
       return out.join("");
     },
@@ -88,7 +92,8 @@
       const rows = [[t("Metode King: luas amatan (ha)"), n(r.king.ha, 2)], [t("Metode King: kepadatan (ind/ha)"), n(r.king.D, 4)], [t("Metode King: 1 individu per … ha"), n(r.king.haPerInd, 2)]];
       if (r.hayne.n) rows.push([t("Hayne: kepadatan kelompok (kelompok/ha)"), n(r.hayne.D, 4)], [t("Hayne: kepadatan individu (ind/ha)"), n(r.hayne.Dind, 4)], [t("Hayne: simpangan baku (ind/ha)"), n(r.hayne.SEInd, 4)]);
       if (r.w) rows.push([t(`Jalur berlebar ${num(r.w * 2)} m: kepadatan (ind/ha)`), n(r.jalur.D, 4)]);
-      if (r.populasi !== null) rows.push([t(`Dugaan populasi pada ${num(r.A, 2)} ha (individu)`), n(r.populasi, 0)]);
+      if (r.IS !== null) rows.push([t(`Intensitas sampling terhadap area ${numL(r.A)} ha (%)`), n(r.IS, 1)]);
+      if (r.populasi !== null) rows.push([t(`Dugaan populasi pada ${numL(r.A)} ha (individu)`), n(r.populasi, 0)]);
       return { head: ["Parameter", "Nilai"], rows };
     },
     tabel(r, c) { return r.kosong ? [] : [{ cap: `Rekapitulasi Perjumpaan Langsung ${L.cap1(c.objek)} per Transek`, spec: this.spec(r) }, { cap: `Dugaan Kepadatan Populasi ${L.cap1(c.objek)}`, spec: this.ringkas(r) }]; },
@@ -122,7 +127,7 @@
     },
     narHasil(r, c) {
       if (r.kosong) return `Belum ada data onggokan kotoran ${c.objek}.`;
-      if (!r.lengkap) return `Tercatat ${r.total} onggokan kotoran ${c.objek}; ${r.p} onggokan termasuk fase yang dihitung. Lengkapi interval waktu (t), laju defekasi (d), dan luas plot (a) di Parameter metode untuk menghitung kepadatan.`;
+      if (!r.lengkap) return `Tercatat ${nTxt(r.total)} onggokan kotoran ${c.objek}, ${r.p} di antaranya termasuk fase ${daftarKata(r.fase)} (berumur kurang dari satu bulan). Kepadatan populasi dari onggokan kotoran belum dihitung karena interval waktu penumpukan (t), laju defekasi (d), atau luas plot (a) belum ditetapkan; data onggokan dipakai sebagai petunjuk keberadaan dan intensitas penggunaan habitat.`;
       return `Tercatat ${r.total} onggokan kotoran ${c.objek}, ${r.p} di antaranya berumur kurang dari satu bulan (fase ${daftarKata(r.fase)}). Dengan interval waktu ${num(r.tt)} hari, laju defekasi ${num(r.d, 2)} onggokan/individu/hari, dan luas plot ${num(r.a, 2)} ha, kepadatan populasi ${c.objek} adalah ${fx(r.res.D, 4)} individu/ha atau 1 individu/${fx(r.res.haPerInd, 2)} ha.${r.res.populasi !== null ? ` Pada area pengamatan seluas ${num(r.A, 2)} ha, dugaan populasinya sekitar ${num(r.res.populasi, 0)} individu.` : ""}`;
     },
     hitungHtml(r, c) {
@@ -164,7 +169,7 @@
     },
     narHasil(r, c) {
       if (r.kosong) return `Belum ada data pasangan jejak kaki ${c.objek}.`;
-      return `Jumlah pasangan jejak terbanyak pertama (Nk) adalah ${r.Nk} dan terbanyak kedua (Nk1) adalah ${r.Nk1}. Dengan model Tikupadang dan Gunawan (1997) diperoleh taksiran populasi minimum (N) sebanyak ${nTxt(r.N)} individu dan taksiran maksimum (Nh) sebanyak ${r.Nh} individu${r.luas ? ` pada area sampel seluas ${num(r.luas, 2)} ha, atau kepadatan ${fx(r.Dmin, 4)} sampai ${fx(r.Dmax, 4)} individu/ha (1 individu/${fx(1 / r.Dmin, 0)} ha untuk taksiran minimum)` : ""}.${r.nhSamaN ? " Karena Nk sama dengan Nk1, taksiran maksimum disamakan dengan taksiran minimum." : ""}`;
+      return `Jumlah pasangan jejak terbanyak pertama (Nk) adalah ${r.Nk} dan terbanyak kedua (Nk1) adalah ${r.Nk1}. Dengan model Tikupadang dan Gunawan (1997) diperoleh taksiran populasi minimum (N) sebanyak ${nTxt(r.N)} individu dan taksiran maksimum (Nh) sebanyak ${numL(r.Nh, 1)} individu${r.luas ? ` pada area sampel seluas ${numL(r.luas)} ha, atau kepadatan ${fx(r.Dmin, 4)} sampai ${fx(r.Dmax, 4)} individu/ha (1 individu/${fx(1 / r.Dmin, 2)} ha untuk taksiran minimum)` : ""}.${r.nhSamaN ? " Karena Nk sama dengan Nk1, taksiran maksimum disamakan dengan taksiran minimum." : ""}`;
     },
     hitungHtml(r, c) {
       if (r.kosong) return "";
@@ -174,11 +179,11 @@
     },
     spec(r) {
       return { head: ["Transek/Lokasi", "Luas Area Sampel (ha)", "Jumlah Pasangan Jejak Kaki"], rows: r.per.map((x) => [k(esc(x.id)), x.luas ? n(x.luas, 2) : k("-"), n(x.n, 0)]),
-        total: [[t("Total"), n(r.luas, 2), n(sum(r.per.map((x) => x.n)), 0)], [t("Taksiran populasi minimum (N) / maksimum (Nh)"), { k: `${r.N} / ${r.Nh} individu`, cs: 2 }]] };
+        total: [[t("Total"), n(r.luas, 2), n(sum(r.per.map((x) => x.n)), 0)], [t("Taksiran populasi minimum (N) / maksimum (Nh)"), { k: `${r.N} / ${numL(r.Nh, 1)} individu`, cs: 2 }]] };
     },
     tabel(r, c) { return r.kosong ? [] : [{ cap: `Rekapitulasi Perjumpaan Jejak Kaki ${L.cap1(c.objek)}`, spec: this.spec(r) }]; },
-    simpulan(r, c) { return r.kosong ? "" : `Berdasarkan jejak kaki, populasi ${c.objek} diduga ${r.N} sampai ${r.Nh} individu${r.luas ? ` pada area sampel ${num(r.luas, 2)} ha` : ""}`; },
-    kpi(r) { return r.kosong ? [] : [[`${r.N}–${r.Nh}`, "individu (jejak)"]]; }
+    simpulan(r, c) { return r.kosong ? "" : `Berdasarkan jejak kaki, populasi ${c.objek} diduga ${r.N} sampai ${numL(r.Nh, 1)} individu${r.luas ? ` pada area sampel ${numL(r.luas)} ha` : ""}`; },
+    kpi(r) { return r.kosong ? [] : [[`${r.N}–${numL(r.Nh, 1)}`, "individu (jejak)"]]; }
   };
 
   /* =====================================================================
@@ -220,7 +225,8 @@
         blk([...kr("D"), F("Σ LBDS jenis ke-i", "luas seluruh petak contoh (ha)")], lv), blk([R("LBDS = "), F("1", "4"), R(" × π × "), Sup("d", "2")], lv),
         blk([...kr("DR"), F(Sub("D", "i"), "Σ D seluruh jenis"), R(" × 100%")], lv),
         blk([R("INP = KR + FR + DR"), R(" (tiang dan pohon); INP = KR + FR (semai dan pancang)")], lv),
-        ket([["K", "kerapatan (individu/ha)"], ["KR", "kerapatan relatif (%)"], ["F", "frekuensi"], ["FR", "frekuensi relatif (%)"], ["D", "dominansi (m²/ha)"], ["DR", "dominansi relatif (%)"], ["LBDS", "luas bidang dasar batang (m²)"], ["d", "diameter batang setinggi dada (m); bila yang diukur keliling, d = keliling/π"], ["INP", "indeks nilai penting (maksimal 300% untuk tiang dan pohon, 200% untuk semai dan pancang)"]], lv),
+        blk([R("H′ = −"), Sum([Sub("p", "i"), R(" × ln "), Sub("p", "i")]), R(";  "), Sub("p", "i"), R(" = "), F(Sub("n", "i"), "N")], lv),
+        ket([["K", "kerapatan (individu/ha)"], ["KR", "kerapatan relatif (%)"], ["F", "frekuensi"], ["FR", "frekuensi relatif (%)"], ["D", "dominansi (m²/ha)"], ["DR", "dominansi relatif (%)"], ["LBDS", "luas bidang dasar batang (m²)"], ["d", "diameter batang setinggi dada (m); bila yang diukur keliling, d = keliling/π"], ["INP", "indeks nilai penting (maksimal 300% untuk tiang dan pohon, 200% untuk semai dan pancang)"], ["H′", "indeks keanekaragaman Shannon-Wiener per tingkat pertumbuhan"], [Sub("n", "i"), "jumlah individu jenis ke-i"], ["N", "jumlah individu seluruh jenis pada tingkat tersebut"]], lv),
         para(`Tingkat pertumbuhan dan ukuran petak: semai (anakan, tinggi kurang dari 1,5 m) pada petak ${esc(c.opt.ukuranTxt?.semai || `${num(nOr(lu.semai, 4))} m²`)}; pancang (tinggi 1,5 m atau lebih, diameter kurang dari 10 cm) pada petak ${esc(c.opt.ukuranTxt?.pancang || `${num(nOr(lu.pancang, 25))} m²`)}; tiang (diameter 10 cm sampai kurang dari 20 cm) pada petak ${esc(c.opt.ukuranTxt?.tiang || `${num(nOr(lu.tiang, 100))} m²`)}; dan pohon (diameter 20 cm atau lebih) pada petak ${esc(c.opt.ukuranTxt?.pohon || `${num(nOr(lu.pohon, 400))} m²`)}.`, lv)].join("");
     },
     narHasil(r, c) {
@@ -439,7 +445,7 @@
       const oa = ST.persen(ti.filter((p) => str(p.openArea)).map((p) => [p.openArea, 1]));
       return { kosong: !a.N, ...a, nTitik: ti.length, kelasLap: kelas, openArea: oa, beda: ti.filter((p) => str(p.peta) && str(p.lapangan) && str(p.peta) !== str(p.lapangan)) };
     },
-    narMetode() { return "Kesesuaian hasil interpretasi citra dengan kondisi lapangan dinilai dengan matriks kesalahan (confusion matrix). Dari matriks tersebut dihitung akurasi keseluruhan (overall accuracy) dan koefisien kappa (Congalton, 1991; Cohen, 1960):"; },
+    narMetode(c) { return `Kesesuaian kelas ${c.opt.label || "tutupan lahan"} pada peta (hasil interpretasi citra atau peta indikatif) dengan kondisi lapangan dinilai dengan matriks kesalahan (confusion matrix). Dari matriks tersebut dihitung akurasi keseluruhan (overall accuracy) dan koefisien kappa (Congalton, 1991; Cohen, 1960):`; },
     metode(c) {
       const lv = c.lv;
       return [blk([R("OA = "), F(Sum(Sub("x", "ii")), "N"), R(" × 100%")], lv),
@@ -447,9 +453,10 @@
         ket([["OA", "akurasi keseluruhan (%)"], [Sub("x", "ii"), "jumlah titik yang kelas peta dan kelas lapangannya sama"], [Sub("x", "i+"), "jumlah titik pada baris kelas ke-i (kelas peta)"], [Sub("x", "+i"), "jumlah titik pada kolom kelas ke-i (kelas lapangan)"], ["N", "jumlah seluruh titik ground check"], ["κ", "koefisien kappa"]], lv),
         ket([["κ ≤ 0,40", "kesesuaian lemah sampai cukup"], ["0,40 < κ ≤ 0,60", "kesesuaian sedang"], ["0,60 < κ ≤ 0,80", "kesesuaian kuat"], ["κ > 0,80", "kesesuaian hampir sempurna"]], lv, "Kriteria kappa (Landis dan Koch, 1977):")].join("");
     },
-    narHasil(r) {
-      if (r.kosong) return "Belum ada titik ground check yang memuat kelas hasil interpretasi citra dan kelas lapangan.";
-      return `Ground check dilakukan pada ${nTxt(r.nTitik)} titik. Sebanyak ${r.sesuai} dari ${r.N} titik memiliki kelas lapangan yang sama dengan hasil interpretasi citra sehingga akurasi keseluruhan ${num(r.OA, 2)}% dengan koefisien kappa ${num(r.kappa, 3)} (${ST.kriteriaKappa(r.kappa).toLowerCase()}).${r.beda.length ? ` Ketidaksesuaian terdapat pada ${r.beda.length} titik, terutama ${daftarKata([...new Set(r.beda.map((p) => `${str(p.peta)} yang di lapangan berupa ${str(p.lapangan)}`))].slice(0, 3))}.` : ""}${r.openArea.y ? ` Menurut tipe open area: ${daftarKata(r.openArea.rows.map((x) => `${x.k} ${x.x} titik`))}.` : ""}`;
+    narHasil(r, c) {
+      const lb = (c && c.opt.label) || "tutupan lahan";
+      if (r.kosong) return `Belum ada titik ground check yang memuat kelas ${lb} pada peta dan di lapangan.`;
+      return `Ground check ${lb} dilakukan pada ${nTxt(r.nTitik)} titik. Sebanyak ${r.sesuai} dari ${r.N} titik memiliki kelas ${lb} di lapangan yang sama dengan peta sehingga akurasi keseluruhan ${num(r.OA, 2)}% dengan koefisien kappa ${num(r.kappa, 3)}, tergolong ${ST.kriteriaKappa(r.kappa).toLowerCase()}.${r.beda.length ? ` Ketidaksesuaian terdapat pada ${r.beda.length} titik, terutama ${daftarKata([...new Set(r.beda.map((p) => `${str(p.peta).toLowerCase()} yang di lapangan berupa ${str(p.lapangan).toLowerCase()}`))].slice(0, 3))}.` : ""}${r.openArea.y ? ` Menurut status open area, ${daftarKata(r.openArea.rows.map((x) => `${x.x} titik ${x.k.toLowerCase()}`))}.` : ""}`;
     },
     hitungHtml(r, c) { if (r.kosong) return ""; return blk([R("OA = "), F(num(r.sesuai), num(r.N)), R(` × 100% = ${num(r.OA, 2)}%;  κ = ${num(r.kappa, 3)}`)], c.lv); },
     spec(r) {
@@ -457,9 +464,9 @@
         rows: r.kelas.map((kk, i) => [t(esc(kk)), ...r.M[i].map((v) => n(v, 0)), n(r.baris[i], 0), n(r.per[i].pengguna, 1)]),
         total: [[t("Jumlah"), ...r.kolom.map((v) => n(v, 0)), n(r.N, 0), t("")], [t("Akurasi Pembuat (%)"), ...r.per.map((x) => n(x.pembuat, 1)), { t: `OA ${num(r.OA, 2)}%; κ ${num(r.kappa, 3)}`, cs: 2 }]] };
     },
-    rekap(r) { return { head: ["No", "Kelas Tutupan Lahan (Lapangan)", "Jumlah Titik", "Persentase (%)"], rows: r.kelasLap.rows.map((x, i) => [k(i + 1), t(esc(x.k)), n(x.x, 0), n(x.p, 2)]), total: [[{ t: "Jumlah", cs: 2 }, n(r.kelasLap.y, 0), n(100, 2)]] }; },
-    tabel(r) { return r.kosong ? [] : [{ cap: "Rekapitulasi Kelas Tutupan Lahan Hasil Ground Check", spec: this.rekap(r) }, { cap: "Matriks Kesalahan Hasil Interpretasi Citra terhadap Kondisi Lapangan", spec: this.spec(r) }]; },
-    simpulan(r) { return r.kosong ? "" : `Akurasi keseluruhan peta tutupan lahan terhadap kondisi lapangan adalah ${num(r.OA, 2)}% dengan koefisien kappa ${num(r.kappa, 3)} (${ST.kriteriaKappa(r.kappa).toLowerCase()})`; },
+    rekap(r, c) { return { head: ["No", `Kelas ${L.cap1((c && c.opt.label) || "tutupan lahan")} (Lapangan)`, "Jumlah Titik", "Persentase (%)"], rows: r.kelasLap.rows.map((x, i) => [k(i + 1), t(esc(x.k)), n(x.x, 0), n(x.p, 2)]), total: [[{ t: "Jumlah", cs: 2 }, n(r.kelasLap.y, 0), n(100, 2)]] }; },
+    tabel(r, c) { const lb = L.cap1((c && c.opt.label) || "tutupan lahan").replace(/\b\w/g, (x) => x.toUpperCase()); return r.kosong ? [] : [{ cap: `Rekapitulasi Kelas ${lb} Hasil Ground Check`, spec: this.rekap(r, c) }, { cap: `Matriks Kesalahan Peta ${lb} terhadap Kondisi Lapangan`, spec: this.spec(r) }]; },
+    simpulan(r, c) { return r.kosong ? "" : `Akurasi keseluruhan peta ${(c && c.opt.label) || "tutupan lahan"} terhadap kondisi lapangan adalah ${num(r.OA, 2)}% dengan koefisien kappa ${num(r.kappa, 3)}, tergolong ${ST.kriteriaKappa(r.kappa).toLowerCase()}`; },
     kpi(r) { return r.kosong ? [] : [[`${num(r.OA, 1)}%`, "akurasi keseluruhan"], [num(r.kappa, 3), "kappa"]]; }
   };
 
@@ -502,6 +509,52 @@
     tabel(r, c) { return r.kosong ? [] : [{ cap: c.opt.cap || `Hasil Skoring ${L.cap1(c.objek)}`, spec: this.spec(r, c) }]; },
     simpulan(r, c) { return r.kosong ? "" : `Skor tertinggi pada ${r.baris[0].nama} (${num(r.baris[0].total)} dari ${num(r.baris[0].maks)}${r.baris[0].kelas ? `, ${r.baris[0].kelas.toLowerCase()}` : ""})`; },
     kpi() { return []; }
+  };
+
+  /* =====================================================================
+   * 17. Kelimpahan dan sebaran jenis pada plot/petak pengamatan (anggrek, tumbuhan penting, dll.)
+   * inp: { rows: [{ jenis, latin, n, unit }], units: [id plot, termasuk plot tanpa temuan] | nUnit, luasUnit (m²) }
+   * Kelimpahan K = n/luas (ind/ha), KR; distribusi F = plot ditemukan/jumlah plot, FR; INP = KR + FR; H′ per jenis
+   * ===================================================================== */
+  M.kelimpahan = {
+    judul: "Kelimpahan dan Distribusi Jenis",
+    hitung(inp) {
+      const rows = (inp.rows || []).filter((r) => str(r.jenis) || str(r.latin));
+      const units = [...new Set([...(inp.units || []).map(str).filter(Boolean), ...rows.map((r) => str(r.unit)).filter(Boolean)])];
+      const nU = Math.max(nOr(inp.nUnit, 0), units.length), lu = nOr(inp.luasUnit, 0), luasHa = (nU * lu) / 10000;
+      const jenis = perJenis(rows).map((b) => ({ jenis: b.jenis, latin: b.latin, n: b.n, p: b.unit.size || 1 }));
+      const v = ST.vegetasi(jenis, nU, luasHa, false);
+      return { kosong: !v.rows.length || !nU, ...v, nU, luasUnit: lu, adaLuas: luasHa > 0 };
+    },
+    narMetode(c) { return `Kelimpahan ${c.objek} dihitung sebagai jumlah individu per satuan luas plot pengamatan dan distribusinya sebagai proporsi plot yang memuat jenis tersebut. Kedua nilai relatifnya dijumlahkan menjadi indeks nilai penting (INP)${c.opt.H === false ? "" : ", dan keanekaragaman dihitung dengan indeks Shannon-Wiener"}:`; },
+    metode(c) {
+      const lv = c.lv, H = c.opt.H !== false;
+      return [blk([Sub("K", "i"), R(" = "), F(Sub("n", "i"), "jumlah plot × luas plot (ha)"), R(";  "), Sub("KR", "i"), R(" = "), F(Sub("K", "i"), "Σ K"), R(" × 100%")], lv),
+        blk([Sub("F", "i"), R(" = "), F("jumlah plot ditemukan jenis ke-i", "jumlah seluruh plot"), R(";  "), Sub("FR", "i"), R(" = "), F(Sub("F", "i"), "Σ F"), R(" × 100%")], lv),
+        H ? blk([R("INP = KR + FR;  H′ = −"), Sum([Sub("p", "i"), R(" × ln "), Sub("p", "i")]), R(";  "), Sub("p", "i"), R(" = "), F(Sub("n", "i"), "N")], lv) : blk([R("INP = KR + FR")], lv),
+        ket([["K", "kelimpahan (individu/ha)"], ["KR", "kelimpahan relatif (%)"], ["F", "distribusi (frekuensi kehadiran pada plot)"], ["FR", "distribusi relatif (%)"], ["INP", "indeks nilai penting (maksimal 200%)"], [Sub("n", "i"), "jumlah individu jenis ke-i"], ...(H ? [["N", "jumlah individu seluruh jenis"], ["H′", "indeks keanekaragaman Shannon-Wiener"]] : [])], lv)].join("");
+    },
+    narHasil(r, c) {
+      if (r.kosong) return `Belum ada data ${c.objek} pada plot pengamatan.`;
+      const a = r.rows[0], f = [...r.rows].sort((x, y) => y.F - x.F)[0];
+      return `Pada ${nTxt(r.nU)} plot pengamatan${r.adaLuas ? ` (luas total ${num(r.luasHa, 2)} ha)` : ""} tercatat ${nTxt(r.S)} jenis ${c.objek} dengan ${r.N} individu. Jenis dengan INP tertinggi adalah ${nm(a)} (${num(a.INP, 2)}%)${r.adaLuas ? ` dengan kelimpahan ${num(a.K, 2)} individu/ha` : ""}, sedangkan jenis yang tersebar paling luas adalah ${nm(f)} (ditemukan pada ${f.p} dari ${r.nU} plot).${c.opt.H === false ? "" : ` Indeks keanekaragaman Shannon-Wiener (H′) seluruh jenis adalah ${num(r.H, 2)}.`}`;
+    },
+    hitungHtml(r, c) {
+      if (r.kosong) return "";
+      const x = r.rows[0], lv = c.lv;
+      return [para(`Contoh perhitungan untuk ${esc(x.jenis)}:`, lv),
+        ...(r.adaLuas ? [blk([R("K = "), F(num(x.n), `${num(r.nU)} × ${fx(r.luasUnit / 10000, 4)}`), R(` = ${num(x.K, 2)} ind/ha;  KR = ${num(x.KR, 2)}%`)], lv)] : []),
+        blk([R("F = "), F(num(x.p), num(r.nU)), R(` = ${num(x.F, 2)};  FR = ${num(x.FR, 2)}%;  INP = ${num(x.INP, 2)}%`)], lv)].join("");
+    },
+    spec(r, c) {
+      const H = !c || c.opt.H !== false;
+      return { head: ["No", "Nama Jenis", "Nama Ilmiah", "Jumlah Individu", "Jumlah Plot Ditemukan", "K (ind/ha)", "KR (%)", "F", "FR (%)", "INP (%)", ...(H ? ["pi", "−pi ln pi"] : [])],
+        rows: r.rows.map((x, i) => [k(i + 1), t(esc(x.jenis)), t(sci(x.latin)), n(x.n, 0), n(x.p, 0), r.adaLuas ? n(x.K, 2) : k("-"), n(x.KR, 2), n(x.F, 2), n(x.FR, 2), n(x.INP, 2), ...(H ? [n(x.pi, 4), n(-x.piLnPi, 4)] : [])]),
+        total: [[{ t: "Jumlah", cs: 3 }, n(r.N, 0), t(""), r.adaLuas ? n(r.sK, 2) : k("-"), n(100, 2), n(r.sF, 2), n(100, 2), n(200, 2), ...(H ? [n(1, 4), n(r.H, 4)] : [])]] };
+    },
+    tabel(r, c) { return r.kosong ? [] : [{ cap: `Kelimpahan, Distribusi, dan Indeks Nilai Penting ${L.cap1(c.objek)}`, spec: this.spec(r, c) }]; },
+    simpulan(r, c) { return r.kosong ? "" : `Jenis ${c.objek} dengan INP tertinggi adalah ${nm(r.rows[0])} (${num(r.rows[0].INP, 2)}%)${c.opt.H === false ? "" : `; keanekaragaman jenis H′ = ${num(r.H, 2)}`}`; },
+    kpi(r, c) { return r.kosong ? [] : c && c.opt.H === false ? [[r.nU, "plot pengamatan"]] : [[r.S, "jenis"], [num(r.H, 2), "H′"]]; }
   };
 
   /* =====================================================================
