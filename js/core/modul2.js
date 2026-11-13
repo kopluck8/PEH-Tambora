@@ -496,25 +496,75 @@
     metode(c) {
       const lv = c.lv, kr = c.opt.kriteria || [], out = [];
       if (kr.length) out.push(para(`Kriteria penilaian: ${esc(daftarKata(kr.map((x) => `${x.label} (skor ${x.min ?? 1}–${x.maks})`)))}.`, lv));
+      if (c.opt.metodeTambahan) out.push(para(esc(c.opt.metodeTambahan), lv));
       if (c.opt.basis === "total") out.push(blk([R("Skor total = "), Sum(Sub("s", "j"))], lv), ket([[Sub("s", "j"), "skor pada kriteria ke-j"]], lv));
       else out.push(blk([R("Nilai = "), F("skor aktual", "skor maksimal"), R(" × 100%")], lv));
       if (c.opt.kelas) out.push(ket(c.opt.kelas.map(([b, l], i, a) => [c.opt.basis === "total" ? (i === 0 ? `skor ≥ ${b}` : `${b} ≤ skor < ${a[i - 1][0]}`) : (i === 0 ? `≥ ${num(b)}%` : `${num(b)}% – < ${num(a[i - 1][0])}%`), esc(l)]), lv, `Kelas${c.opt.acuan ? ` (${esc(c.opt.acuan)})` : ""}:`));
       return out.join("");
     },
+    // Jumlah anggota tiap kelas, urut sesuai daftar kelas
+    perKelas(r, c) { return (c.opt.kelas || []).map(([, l]) => [l, r.baris.filter((b) => b.kelas === l).length]).filter(([, x]) => x); },
     narHasil(r, c) {
       if (r.kosong) return `Belum ada data skoring ${c.objek}.`;
-      const top = r.baris.filter((b) => b.total === r.baris[0].total);
-      return `Dari ${nTxt(r.baris.length)} ${c.objek} yang dinilai, skor tertinggi (${num(r.baris[0].total)} dari ${num(r.baris[0].maks)}) dimiliki oleh ${daftarKata(top.map((b) => b.nama + (b.latin ? ` (${b.latin})` : "")))}${top[0].kelas ? ` dengan kelas ${top[0].kelas.toLowerCase()}` : ""}. ${["", ...new Set(r.baris.map((b) => b.kelas).filter(Boolean))].slice(1).map((kk) => `${L.cap1(kk)}: ${r.baris.filter((b) => b.kelas === kk).length}`).join("; ")}${r.baris.some((b) => b.kelas) ? "." : ""}`;
+      const top = r.baris.filter((b) => b.total === r.baris[0].total), pk = this.perKelas(r, c);
+      return `Dari ${nTxt(r.baris.length)} ${c.objek} yang dinilai, skor tertinggi (${numL(r.baris[0].total)} dari ${numL(r.baris[0].maks)}) dimiliki oleh ${daftarKata(top.map((b) => b.nama + (b.latin && b.latin !== b.nama ? ` (${b.latin})` : "")))}${top[0].kelas ? ` dengan kelas ${top[0].kelas.toLowerCase()}` : ""}.${pk.length ? ` Menurut kelasnya, ${daftarKata(pk.map(([l, x]) => `${x} ${c.opt.satuan || c.objek} ${l.toLowerCase()}`))}.` : ""}`;
     },
-    hitungHtml(r, c) { if (r.kosong) return ""; const b = r.baris[0]; return c.opt.basis === "total" ? blk([R(`Skor total ${b.nama} = ${(b.nilai || []).map((v) => num(nOr(v, 0))).join(" + ")} = ${num(b.total)}`)], c.lv) : blk([R(`Nilai ${b.nama} = `), F(num(b.total), num(b.maks)), R(` × 100% = ${num(b.persen, 2)}%`)], c.lv); },
+    hitungHtml(r, c) { if (r.kosong) return ""; const b = r.baris[0]; return c.opt.basis === "total" ? blk([R(`Skor total ${b.nama} = ${(b.nilai || []).map((v) => numL(nOr(v, 0))).join(" + ")} = ${numL(b.total)}`)], c.lv) : blk([R(`Nilai ${b.nama} = `), F(numL(b.total), numL(b.maks)), R(` × 100% = ${num(b.persen, 2)}%`)], c.lv); },
     spec(r, c) {
-      const kr = r.kr;
+      const kr = r.kr, d = c.opt.desimal ?? 0;
       return { head: ["No", L.judul(c.opt.labelNama || "Nama"), ...(c.opt.latin ? ["Nama Ilmiah"] : []), ...kr.map((x) => esc(x.label)), "Jumlah Skor", ...(c.opt.basis === "total" ? [] : ["Nilai (%)"]), ...(c.opt.kelas ? ["Kelas"] : [])],
-        rows: r.baris.map((b, i) => [k(i + 1), t(esc(b.nama)), ...(c.opt.latin ? [t(sci(b.latin))] : []), ...kr.map((_, j) => n(nOr((b.nilai || [])[j], 0), 0)), n(b.total, 0), ...(c.opt.basis === "total" ? [] : [n(b.persen, 2)]), ...(c.opt.kelas ? [k(esc(b.kelas || "-"))] : [])]) };
+        rows: r.baris.map((b, i) => [k(i + 1), t(esc(b.nama)), ...(c.opt.latin ? [t(sci(b.latin))] : []), ...kr.map((_, j) => n(nOr((b.nilai || [])[j], 0), d)), n(b.total, d), ...(c.opt.basis === "total" ? [] : [n(b.persen, 2)]), ...(c.opt.kelas ? [k(esc(b.kelas || "-"))] : [])]) };
     },
     tabel(r, c) { return r.kosong ? [] : [{ cap: c.opt.cap || `Hasil Skoring ${L.judul(c.objek)}`, spec: this.spec(r, c) }]; },
-    simpulan(r, c) { return r.kosong ? "" : `Skor tertinggi pada ${r.baris[0].nama} (${num(r.baris[0].total)} dari ${num(r.baris[0].maks)}${r.baris[0].kelas ? `, ${r.baris[0].kelas.toLowerCase()}` : ""})`; },
-    kpi() { return []; }
+    simpulan(r, c) {
+      if (r.kosong) return "";
+      const pk = this.perKelas(r, c);
+      if (pk.length) return `Dari ${nTxt(r.baris.length)} ${c.objek} yang dinilai, ${daftarKata(pk.map(([l, x]) => `${x} ${c.opt.satuan || c.objek} ${c.opt.kataKelas ? `${c.opt.kataKelas} ` : ""}${l.toLowerCase()}`))}; skor tertinggi pada ${r.baris[0].nama} (${num(r.baris[0].persen, 1)}%)`;
+      return `Skor tertinggi pada ${r.baris[0].nama} (${numL(r.baris[0].total)} dari ${numL(r.baris[0].maks)}${r.baris[0].kelas ? `, ${r.baris[0].kelas.toLowerCase()}` : ""})`;
+    },
+    kpi(r, c) { const pk = r.kosong ? [] : this.perKelas(r, c); return pk.length ? [[pk[0][1], `${(c.opt.satuan || c.objek)} ${pk[0][0].toLowerCase()}`]] : []; }
+  };
+
+  /* =====================================================================
+   * 23. Kesesuaian lokasi: rata-rata skor kriteria per lokasi, dikelompokkan menurut faktor
+   * (skoring lokasi pelepasliaran: faktor ekologi, ekonomi, dan kelembagaan)
+   * inp: { rows: [{ lokasi, faktor, kriteria, skor }] } ; Nilai = Σ s_j / n
+   * ===================================================================== */
+  M.kesesuaian = {
+    judul: "Kesesuaian Lokasi",
+    hitung(inp) {
+      const rows = (inp.rows || []).filter((r) => str(r.lokasi) && str(r.skor) !== "" && Number.isFinite(Number(r.skor)));
+      const faktor = [...new Set(rows.map((r) => str(r.faktor)).filter(Boolean))], m = new Map();
+      rows.forEach((r) => {
+        const kk = str(r.lokasi);
+        if (!m.has(kk)) m.set(kk, { lokasi: kk, n: 0, total: 0, f: new Map(), rinci: [] });
+        const o = m.get(kk), v = Number(r.skor), f = str(r.faktor);
+        o.n++; o.total += v; o.rinci.push({ faktor: f, kriteria: str(r.kriteria), skor: v });
+        if (f) { const x = o.f.get(f) || { n: 0, t: 0 }; x.n++; x.t += v; o.f.set(f, x); }
+      });
+      const lokasi = [...m.values()].map((o) => ({ ...o, nilai: o.total / o.n })).sort((a, b) => b.nilai - a.nilai);
+      return { kosong: !lokasi.length, lokasi, faktor };
+    },
+    narMetode(c) { return `Setiap ${c.objek} dinilai pada sejumlah kriteria${c.opt.faktor ? ` yang dikelompokkan dalam faktor ${daftarKata(c.opt.faktor)}` : ""}. Skor setiap kriteria ditetapkan tim dari hasil pengamatan lapangan, lalu nilai skoring lokasi dihitung sebagai rata-rata skor seluruh kriteria. Lokasi dengan nilai tertinggi menjadi lokasi yang direkomendasikan:`; },
+    metode(c) { const lv = c.lv; return [blk([R("Nilai = "), F(Sum(Sub("s", "j")), "n")], lv), ket([["Nilai", `nilai skoring ${esc(c.objek)}`], [Sub("s", "j"), "skor kriteria ke-j"], ["n", "jumlah kriteria yang dinilai"]], lv)].join(""); },
+    narHasil(r, c) {
+      if (r.kosong) return `Belum ada data skoring ${c.objek}.`;
+      const a = r.lokasi, z = a[a.length - 1];
+      return `Dari ${nTxt(a.length)} ${c.objek} yang dinilai, nilai skoring tertinggi diperoleh ${daftarKata(a.slice(0, Math.min(2, a.length)).map((x) => `${x.lokasi} (${numL(x.nilai)})`))}${a.length > 2 ? `, sedangkan nilai terendah ${z.lokasi} (${numL(z.nilai)})` : ""}.`;
+    },
+    hitungHtml(r, c) { if (r.kosong) return ""; const x = r.lokasi[0]; return blk([R(`Nilai ${x.lokasi} = `), F(x.rinci.length <= 8 ? x.rinci.map((y) => numL(y.skor)).join(" + ") : numL(x.total), num(x.n)), R(` = ${numL(x.nilai)}`)], c.lv); },
+    spec(r) {
+      return { head: ["No", "Lokasi", ...r.faktor.map((f) => `${f} (rata-rata)`), "Jumlah Kriteria", "Nilai Skoring"],
+        rows: r.lokasi.map((x, i) => [k(i + 1), t(esc(x.lokasi)), ...r.faktor.map((f) => (x.f.has(f) ? n(x.f.get(f).t / x.f.get(f).n, 2) : k("-"))), n(x.n, 0), n(x.nilai, 2)]) };
+    },
+    tabel(r, c) { return r.kosong ? [] : [{ cap: c.opt.cap || `Nilai Skoring ${L.judul(c.objek)}`, spec: this.spec(r) }]; },
+    lampiran(r, c) {
+      if (r.kosong) return [];
+      let i = 0;
+      return [{ cap: `Rincian Skor Kriteria ${L.judul(c.objek)}`, spec: { head: ["No", "Lokasi", "Faktor", "Kriteria", "Skor"], rows: r.lokasi.flatMap((x) => x.rinci.map((y) => [k(++i), t(esc(x.lokasi)), t(esc(y.faktor || "-")), t(esc(y.kriteria || "-")), n(y.skor, 2)])) } }];
+    },
+    simpulan(r, c) { return r.kosong ? "" : `Nilai skoring ${c.objek} tertinggi diperoleh ${r.lokasi[0].lokasi} dengan nilai ${numL(r.lokasi[0].nilai)}`; },
+    kpi(r) { return r.kosong ? [] : [[numL(r.lokasi[0].nilai), "nilai skoring tertinggi"]]; }
   };
 
   /* =====================================================================

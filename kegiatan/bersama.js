@@ -19,7 +19,9 @@
   const jenisDari = (v, ...keys) => { for (const k of keys) { const s = v(k); if (s) return pisahJenis(s); } return ["", ""]; };
 
   // Daftar jenis TN Tambora (js/core/taksa.js): usulan nama, nama ilmiah, famili, status perlindungan, invasif
-  const TAKSA = (window.PEH_TAKSA || []).map((r) => ({ nama: r[0], latin: r[1], famili: r[2], kelompok: r[3], habitus: r[4], p106: r[5] === "D" ? "Dilindungi" : "", iucn: r[6], cites: r[7], invasif: !!r[8], lokal: r[9] || [] }));
+  // Status CITES di daftar jenis ("Appendix II", "Non Appendix", "Not Evaluated") menjadi label laporan
+  const citesLabel = (v) => { const s = String(v || "").trim(), m = s.match(/^appendix\s+(I{1,3})$/i); return m ? `Apendiks ${m[1].toUpperCase()}` : /^non\s*appendix$/i.test(s) ? "Tidak terdaftar" : /^not\s*evaluated$/i.test(s) ? "" : s; };
+  const TAKSA = (window.PEH_TAKSA || []).map((r) => ({ nama: r[0], latin: r[1], famili: r[2], kelompok: r[3], habitus: r[4], p106: r[5] === "D" ? "Dilindungi" : "", iucn: r[6], cites: citesLabel(r[7]), invasif: !!r[8], lokal: r[9] || [] }));
   const idxTaksa = new Map();
   TAKSA.forEach((t) => [t.nama, t.latin, ...t.lokal].filter(Boolean).forEach((k) => { const kk = k.toLowerCase(); if (!idxTaksa.has(kk)) idxTaksa.set(kk, t); }));
   const taksa = {

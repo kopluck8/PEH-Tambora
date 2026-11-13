@@ -153,7 +153,7 @@
       if (ix.includes("R")) bag.push(`indeks kekayaan jenis Margalef (R) ${num(r.R, 2)} (${r.kritR.toLowerCase()})`);
       if (ix.includes("Ds")) bag.push(`indeks Simpson (Ds) ${num(r.Ds, 2)} (${r.kritDs.toLowerCase()})`);
       if (bag.length) s.push(`Nilai ${daftarKata(bag)}.`);
-      if (ix.includes("Di")) s.push(dom.map(([kk, a]) => `${a.length === r.S ? `Seluruh jenis` : a.length > 6 ? `${nTxt(a.length)} jenis` : daftarKata(a.map(nm))} termasuk kategori ${kk.toLowerCase()}`).join("; ") + ".");
+      if (ix.includes("Di")) s.push(dom.map(([kk, a], i) => `${a.length === r.S ? `Seluruh jenis` : a.length > 6 ? `${i ? "sebanyak" : "Sebanyak"} ${nTxt(a.length)} jenis` : daftarKata(a.map(nm))} termasuk kategori ${kk.toLowerCase()}`).join("; ") + ".");
       return s.join(" ");
     },
     hitungHtml(r, c) {

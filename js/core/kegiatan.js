@@ -35,6 +35,9 @@
   }
 
   function kegiatan(cfg) {
+    // Catatan hasil memakai kunci "hasil_<id modul>"; "lokasi" sudah dipakai subbab Lokasi dan Unit Pengamatan
+    const bentrok = cfg.modul.find((m) => m.id === "lokasi");
+    if (bentrok) throw new Error(`Kegiatan ${cfg.id}: id modul "lokasi" bentrok dengan subbab lokasi, pakai id lain.`);
     const defaults = () => Object.fromEntries((cfg.parameter || []).filter((f) => f.key).map((f) => [f.key, f.def ?? ""]));
     const kosongData = () => Object.fromEntries(cfg.tabel.map((t) => [t.key, []]));
     const isi = (S) => { S.param = { ...defaults(), ...(S.param || {}) }; S.data = { ...kosongData(), ...(S.data || {}) }; S.teks = S.teks || {}; return S; };
@@ -84,7 +87,8 @@
         const c = ctxM(m, P, S), r = A[m.id], mod = M[m.m];
         out[`an_${m.id}`] = mod.narMetode(c);
         out[`hasil_${m.id}`] = r && !r.galat ? mod.narHasil(r, c) : `Perhitungan gagal: ${r && r.galat}`;
-        if (r && !r.kosong && !r.galat) simp.push(mod.simpulan(r, c));
+        // m.simpulan: false menghapus butir simpulan modul, fungsi (r, c, x) menggantinya
+        if (r && !r.kosong && !r.galat && m.simpulan !== false) simp.push(typeof m.simpulan === "function" ? m.simpulan(r, c, x) : mod.simpulan(r, c));
       });
       if (T.simpulanAkhir) simp.push(T.simpulanAkhir(x));
       out.kesimpulan = nomori(simp);

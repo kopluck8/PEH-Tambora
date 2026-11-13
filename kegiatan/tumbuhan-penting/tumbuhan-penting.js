@@ -17,7 +17,7 @@
   const vegIsi = (S) => K.terisi(S.data.vegetasi, "jenis", "latin").map((r) => ({ ...r, tingkat: String(r.tingkat || "").trim() || "Tumbuhan bawah" }));
   const nPetak = (S, P) => Number(P.nPetak) || petakIsi(S).length || "";
   // Status dari daftar jenis TN Tambora (js/core/taksa.js) untuk isian otomatis
-  const statusTaksa = (r) => { const t = K.taksa.cari(r.latin) || K.taksa.cari(r.jenis); return t ? { famili: t.famili || "", iucn: t.iucn || "", p106: t.p106 || "", cites: t.cites ? `Apendiks ${t.cites}` : "" } : {}; };
+  const statusTaksa = (r) => { const t = K.taksa.cari(r.latin) || K.taksa.cari(r.jenis); return t ? { famili: t.famili || "", iucn: t.iucn || "", p106: t.p106 || "", cites: t.cites || "" } : {}; };
   const isiStatus = (r) => { const t = statusTaksa(r); ["famili", "iucn", "p106", "cites"].forEach((k) => { if (!String(r[k] || "").trim() && t[k]) r[k] = t[k]; }); };
   const atributPenting = (r) => {
     const out = [], iu = String(r.iucn || "").trim();
