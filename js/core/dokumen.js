@@ -72,7 +72,7 @@
     body.push(N.h1("LAMPIRAN", "front", true), N.h2("1. Surat Tugas", "lamp"), para("Scan Surat Tugas dilampirkan pada halaman ini.", 1),
       `<div class="landscape">`, N.h2("2. Matriks Data Hasil Kegiatan", "lamp"), isiBagian(o.lampiranData) || para("Data hasil kegiatan dilampirkan pada halaman ini.", 1),
       N.h2("3. Matriks Analisis Data", "lamp", true), isiBagian(o.lampiranAnalisis) || para("Hasil analisis data dilampirkan pada halaman ini.", 1), `</div>`,
-      N.h2("4. Peta Kerja/Peta Hasil Kegiatan", "lamp", true), o.lampiranPeta || para(`Peta lokasi kegiatan dan sebaran titik ${esc(o.objekPeta || "pengamatan")} dilampirkan pada halaman ini.`, 1),
+      N.h2("4. Peta Kerja/Peta Hasil Kegiatan", "lamp", true), o.lampiranPeta || para(`Peta lokasi kegiatan dan sebaran ${esc(o.objekPeta || "titik pengamatan")} dilampirkan pada halaman ini.`, 1),
       N.h2("5. Dokumentasi Kegiatan", "lamp", true), para("Foto pelaksanaan kegiatan dilampirkan pada halaman ini.", 1));
     const cover = L.coverHtml({ jenis: "LAPORAN PELAKSANAAN KEGIATAN", judul: judulLengkap, balai: P.balai, logo: window.PEH_DEFAULT_LOGO, nomorST: I.nomorST, periode: periodeTxt, kota: I.kota, bulanTahun: L.bulanTahun(I.tanggalLaporan || I.selesai) });
     const kv = [["Judul Kegiatan", `Laporan Pelaksanaan Kegiatan ${judulLengkap}`], ["Waktu Kegiatan", periodeTxt || "……"], ["Lokasi Kegiatan", I.lokasi || "……"], ["Jumlah Dana", L.rupiah(rab.total) || "Rp……"],

@@ -49,7 +49,9 @@
     });
     return [...m.values()];
   }
-  M.util = { fin, toN, nOr, daftarKata, nm, fx, haTxt, perJenis, kunci };
+  // Huruf kecil untuk kategori di tengah kalimat; singkatan (SMART, MCP) dan kata berangka (P.106) tetap
+  const kecil = (s) => String(s ?? "").split(/(\s+)/).map((w) => (/[A-Z].*[A-Z]|\d/.test(w) ? w : w.toLowerCase())).join("");
+  M.util = { fin, toN, nOr, daftarKata, nm, fx, haTxt, perJenis, kunci, kecil };
 
   /* ---------- Render tabel dari spec (laporan, kalkulator, CSV) ---------- */
   const cellPaper = (c) => {
@@ -379,7 +381,7 @@
       if (r.kosong) return `Belum ada catatan ${c.opt.label || "kategori"} ${c.objek}.`;
       // Tiga teratas, ditambah kategori lain yang nilainya sama dengan urutan ketiga
       const top = r.rows.filter((x, i) => i < 3 || x.x === r.rows[2].x);
-      return `Dari ${nTxt(r.y)} ${c.opt.satuan || "catatan"}, ${c.opt.label || "kategori"} yang paling banyak adalah ${daftarKata(top.map((x) => `${x.k.toLowerCase()} (${num(x.p, 1)}%)`))}.`;
+      return `Dari ${nTxt(r.y)} ${c.opt.satuan || "catatan"}, ${c.opt.label || "kategori"} yang paling banyak adalah ${daftarKata(top.map((x) => `${kecil(x.k)} (${num(x.p, 1)}%)`))}.`;
     },
     hitungHtml(r, c) { if (r.kosong) return ""; const a = r.rows[0]; return blk([R("P = "), F(num(a.x), num(r.y)), R(` × 100% = ${num(a.p, 2)}%`)], c.lv); },
     spec(r, c) { return { head: ["No", L.judul(c.opt.label || "Kategori"), "Frekuensi", "Persentase (%)"], rows: r.rows.map((x, i) => [k(i + 1), t(esc(x.k)), n(x.x, 0), n(x.p, 2)]), total: [[{ t: "Jumlah", cs: 2 }, n(r.y, 0), n(100, 2)]] }; },
@@ -387,7 +389,7 @@
     simpulan(r, c) {
       if (r.kosong) return "";
       const atas = r.rows.filter((x) => x.x === r.rows[0].x);
-      return `${L.cap1(c.opt.label || "kategori")} ${c.objek} yang paling sering tercatat adalah ${daftarKata(atas.map((x) => x.k.toLowerCase()))} (${atas.length > 1 ? "masing-masing " : ""}${num(r.rows[0].p, 1)}%)`;
+      return `${L.cap1(c.opt.label || "kategori")} ${c.objek} yang paling sering tercatat adalah ${daftarKata(atas.map((x) => kecil(x.k)))} (${atas.length > 1 ? "masing-masing " : ""}${num(r.rows[0].p, 1)}%)`;
     },
     kpi() { return []; }
   };

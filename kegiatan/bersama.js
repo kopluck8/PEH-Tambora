@@ -123,6 +123,8 @@
   const SET_JAI = new Set([...JAI_LPK, ...taksa.semua.filter((t) => t.invasif).map((t) => t.latin)].map(kunciJenis).filter((x) => x.includes(" ")));
   const dikenalInvasif = (r) => { const t = taksa.cari(r.latin) || taksa.cari(r.jenis); return SET_JAI.has(kunciJenis(r.latin)) || (!!t && (t.invasif || SET_JAI.has(kunciJenis(t.latin)))); };
   // Daftar pilihan yang dipakai beberapa kegiatan: zona pengelolaan dan tipe ekosistem peta Balai
+  // Enam resor TN Tambora (batas resor pada repo dashboard SMART)
+  const RESOR = ["Resor Doro Ncanga", "Resor Doropeti", "Resor Kawinda Toi", "Resor Oi Katupa", "Resor Pancasila", "Resor Piong"];
   const ZONA = ["Zona Inti", "Zona Rimba", "Zona Pemanfaatan", "Zona Tradisional", "Zona Rehabilitasi", "Zona Khusus"];
   const EKOSISTEM = ["Hutan pamah (dataran rendah)", "Hutan musim/kering", "Hutan hujan tropis dataran rendah", "Hutan pegunungan bawah", "Hutan pegunungan atas", "Sub alpin", "Savana", "Riparian", "Ekosistem lainnya"];
   const SARAN_UMUM = {
@@ -133,5 +135,5 @@
     smart: "Data lapangan dicatat dengan SMART Mobile pada kategori Metode Teknis agar langsung tersimpan di basis data Balai dan dapat diolah ulang"
   };
 
-  window.PEHKeg = { TN, pisahJenis, jenisDari, taksa, kamus, KOL, TINGKAT, kolJenis, kolVegetasi, yaTidak, dasarObs, petaVegetasi, inputVegetasi, optVegetasi, paramVegetasi, paramKriteriaH, paramMetodeID, paramSistem, terisi, unik, cocok, resor, specDari, rentang, dilindungi, namaJenis, proyeksi, sasaran, maksPerUnit, SARAN_UMUM, ZONA, EKOSISTEM, dikenalInvasif, familiDari, kunciJenis, cap1: L.cap1 };
+  window.PEHKeg = { TN, pisahJenis, jenisDari, taksa, kamus, KOL, TINGKAT, kolJenis, kolVegetasi, yaTidak, dasarObs, petaVegetasi, inputVegetasi, optVegetasi, paramVegetasi, paramKriteriaH, paramMetodeID, paramSistem, terisi, unik, cocok, resor, specDari, rentang, dilindungi, namaJenis, proyeksi, sasaran, maksPerUnit, SARAN_UMUM, ZONA, EKOSISTEM, RESOR, dikenalInvasif, familiDari, kunciJenis, cap1: L.cap1 };
 })();

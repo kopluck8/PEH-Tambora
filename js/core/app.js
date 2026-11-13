@@ -194,7 +194,7 @@
     side.innerHTML = "";
     // 1. Sumber data
     const src = document.createElement("div");
-    src.innerHTML = `<p class="muted">Isi data langsung di tab <b>Data</b>, muat file ekspor patroli SMART yang memakai kategori <code>${esc(def.kategoriSMART)}</code>, atau muat data contoh.</p>
+    src.innerHTML = `<p class="muted">Isi data langsung di tab <b>Data</b>, muat file ekspor patroli SMART yang memakai kategori <code>${esc([].concat(def.kategoriSMART).join(", "))}</code>, atau muat data contoh.</p>
       <label class="drop" for="smartFile"><b>Pilih file patroli SMART</b><span>.zip atau .xml (Patrol → Export). Bisa beberapa file sekaligus.</span></label>
       <input id="smartFile" type="file" accept=".zip,.xml" multiple hidden>
       <details class="sub-d"><summary>Kamus Data Model (opsional)</summary><p class="muted">Label kategori Metode Teknis sudah tersedia. Muat ekspor Data Model SMART (.xml) bila ada pilihan (misalnya nama jenis) yang labelnya belum terbaca.</p><input id="dmFile" type="file" accept=".xml"><p class="status" id="dmStatus"></p></details>
@@ -255,7 +255,7 @@
       const dicts = [dmDict, window.PEH_DICT, ...(def.kamusSMART || []).map((n) => window[n])];
       const obs = PEHSmart.observasi(patrols, def.kategoriSMART, dicts);
       const info = PEHSmart.ringkas(patrols);
-      if (!obs.length) throw new Error(`Tidak ada observasi kategori "${def.kategoriSMART}" di file ini. Pastikan patroli dicatat dengan kategori Metode Teknis.`);
+      if (!obs.length) throw new Error(`Tidak ada observasi kategori "${[].concat(def.kategoriSMART).join(", ")}" di file ini. Pastikan patroli dicatat dengan kategori yang sesuai.`);
       const pesan = def.dariSMART(S, obs, info);
       if (info.mulai) S.identitas.mulai = info.mulai;
       if (info.selesai) S.identitas.selesai = info.selesai;

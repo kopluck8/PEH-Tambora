@@ -208,7 +208,7 @@
     function panelData(S, A, changed, U) {
       isi(S);
       const wrap = document.createElement("div");
-      wrap.appendChild(U.div(`<p class="muted">Isi tabel sesuai format isian lapangan, muat file patroli SMART dengan kategori <code>${esc(cfg.kategoriSMART)}</code>, atau impor CSV.${S.sumber ? ` Sumber data: ${esc(S.sumber)}.` : ""}</p>`));
+      wrap.appendChild(U.div(`<p class="muted">Isi tabel sesuai format isian lapangan, muat file patroli SMART dengan kategori <code>${esc([].concat(cfg.kategoriSMART).join(", "))}</code>, atau impor CSV.${S.sumber ? ` Sumber data: ${esc(S.sumber)}.` : ""}</p>`));
       cfg.tabel.forEach((tb, ti) => {
         const rows = S.data[tb.key];
         const box = document.createElement("div");

@@ -43,7 +43,7 @@
     id: "tumbuhan-penting", kode: "TUMPEN",
     judul: "Identifikasi Penyebaran dan Inventarisasi Tumbuhan Penting",
     ringkas: "Garis berpetak pada jalur pengamatan. Intensitas sampling, analisis vegetasi (K, F, D, INP, H′) per tingkat pertumbuhan, dan daftar tumbuhan penting menurut nilai ekologis, nilai ekonomi, endemisitas, serta status IUCN, CITES, dan P.106/2018.",
-    objek: "tumbuhan", objekPeta: "petak contoh dan sebaran tumbuhan penting",
+    objek: "tumbuhan", objekPeta: "petak contoh dan titik temuan tumbuhan penting",
     kategoriSMART: "metodeteknis.inventarisasitumbuhanpenting.",
     contoh: (window.PEH_CONTOH || {})["tumbuhan-penting"],
     alat: [{ nama: "Peta kerja", jumlah: "1", satuan: "lembar" }, { nama: "GPS", jumlah: "1", satuan: "unit" }, { nama: "Smartphone dengan aplikasi SMART Mobile", jumlah: "1", satuan: "unit" }, { nama: "Kamera", jumlah: "1", satuan: "unit" }, { nama: "Meteran dan tali rafia untuk petak contoh", jumlah: "1", satuan: "set" }, { nama: "Pita ukur diameter (phi band) atau meteran jahit", jumlah: "1", satuan: "buah" }, { nama: "Parang", jumlah: "1", satuan: "buah" }, { nama: "Alat dan bahan herbarium (kertas koran, alkohol 70%, plastik)", jumlah: "1", satuan: "set" }, { nama: "Buku panduan pengenalan jenis tumbuhan", jumlah: "1", satuan: "buah" }, { nama: "Tally sheet dan alat tulis", jumlah: "1", satuan: "set" }],

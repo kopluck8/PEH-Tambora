@@ -42,20 +42,22 @@
     };
   }
 
-  // Semua observasi dengan kategori berawalan `prefix` (mis. "metodeteknis.inventarisasiraptor.")
+  // Semua observasi dengan kategori berawalan `prefix` (mis. "metodeteknis.inventarisasiraptor."); prefix boleh berupa daftar,
+  // sub dihitung dari awalan pertama yang cocok (mis. ["metodeteknis.", "satwaliar."] untuk rekap lintas kategori)
   function observasi(patrols, prefix, dicts) {
-    const L = labeler(dicts);
+    const L = labeler(dicts), awalan = [].concat(prefix);
     const out = [];
     for (const p of patrols) for (const leg of p.legs) for (const day of leg.days) for (const wp of day.waypoints) {
       for (const ob of wp.observations) {
-        if (!ob.category.startsWith(prefix)) continue;
+        const pre = awalan.find((a) => ob.category.startsWith(a));
+        if (pre === undefined) continue;
         const attr = {};
         for (const a of ob.attributes) {
           const v = a.values[0];
           if (!v) continue;
           attr[a.key] = v.kind === "item" ? { key: v.value, label: L.item(a.key, v.value), kind: "item" } : { value: v.value, kind: v.kind };
         }
-        out.push({ patrol: p.id, kategori: ob.category, sub: ob.category.slice(prefix.length).replace(/\.$/, ""), attr, x: wp.x, y: wp.y, tanggal: day.date || wp.date, waktu: (wp.time || "").substr(0, 5), wpId: wp.id, foto: ob.photos.concat(wp.photos) });
+        out.push({ patrol: p.id, kategori: ob.category, sub: ob.category.slice(pre.length).replace(/\.$/, ""), attr, x: wp.x, y: wp.y, tanggal: day.date || wp.date, waktu: (wp.time || "").substr(0, 5), wpId: wp.id, foto: ob.photos.concat(wp.photos) });
       }
     }
     return out;

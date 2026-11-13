@@ -278,6 +278,8 @@
     const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${Hh}" viewBox="0 0 ${W} ${Hh}" font-family="Arial" font-size="12"><rect width="${W}" height="${Hh}" fill="#fff"/>${poly}${pts}<g transform="translate(${W - 40},40)"><path d="M0 -18 L7 6 L0 1 L-7 6 Z" fill="#1d2420"/><text y="22" text-anchor="middle">U</text></g><g transform="translate(${m},${Hh - 14})"><rect width="${(bar * s).toFixed(1)}" height="5" fill="#1d2420"/><text y="-4">${bar >= 1000 ? `${bar / 1000} km` : `${bar} m`}</text></g><text x="${m}" y="22">Titik perjumpaan (${ok.length}) dan poligon cembung minimum</text></svg>`;
     return "data:image/svg+xml;base64," + (typeof btoa === "function" ? btoa(unescape(encodeURIComponent(svg))) : Buffer.from(svg).toString("base64"));
   }
+  // opt.istilah "sebaran": luas daerah sebaran (extent of occurrence) seluruh catatan, bukan wilayah jelajah individu
+  const istilahMCP = (c) => (c.opt.istilah === "sebaran" ? "daerah sebaran" : "wilayah jelajah");
   M.mcp = {
     judul: "Wilayah Jelajah (Poligon Cembung Minimum)",
     hitung(inp) {
@@ -288,17 +290,20 @@
       const hab = nOr(inp.luasHabitat, 0), jp = nOr(inp.jelajahPasangan, 0);
       return { kosong: all.nUnik < 3 || !all.m2, sistem, titik, ...all, kel, hab, jp, pasangan: hab && jp ? hab / jp : null, peta: titik.length ? svgPeta(titik, all.hull, sistem) : "" };
     },
-    narMetode(c) { return `Luas wilayah jelajah (home range) ${c.objek} diduga dengan metode poligon cembung minimum (Minimum Convex Polygon, MCP; Mohr, 1947), yaitu poligon cembung terkecil yang memuat seluruh titik perjumpaan. Luas poligon dihitung dari koordinat titik sudut poligon yang sudah diproyeksikan ke satuan meter:`; },
+    narMetode(c) {
+      if (c.opt.istilah === "sebaran") return `Luas daerah sebaran (extent of occurrence) ${c.objek} dihitung dengan metode poligon cembung minimum (Minimum Convex Polygon, MCP), yaitu poligon cembung terkecil yang memuat seluruh lokasi perjumpaan yang diketahui (IUCN, 2012). Luas poligon dihitung dari koordinat titik sudut poligon yang sudah diproyeksikan ke satuan meter:`;
+      return `Luas wilayah jelajah (home range) ${c.objek} diduga dengan metode poligon cembung minimum (Minimum Convex Polygon, MCP; Mohr, 1947), yaitu poligon cembung terkecil yang memuat seluruh titik perjumpaan. Luas poligon dihitung dari koordinat titik sudut poligon yang sudah diproyeksikan ke satuan meter:`;
+    },
     metode(c) {
       const lv = c.lv, out = [blk([R("A = "), F("1", "2"), R(" × "), R("|"), Sum([Sub("x", "i"), Sub("y", "i+1"), R(" − "), Sub("x", "i+1"), Sub("y", "i")]), R("|")], lv),
-        ket([["A", "luas wilayah jelajah (m², dikonversi ke ha dan km²)"], [[Sub("x", "i"), ", ", Sub("y", "i")], "koordinat titik sudut ke-i poligon cembung (m)"]], lv)];
+        ket([["A", `luas ${istilahMCP(c)} (m², dikonversi ke ha dan km²)`], [[Sub("x", "i"), ", ", Sub("y", "i")], "koordinat titik sudut ke-i poligon cembung (m)"]], lv)];
       if (c.opt.pasangan) out.push(para("Perkiraan jumlah pasangan yang dapat ditampung habitat dihitung dari luas habitat sesuai dibagi luas wilayah jelajah satu pasangan:", lv), blk([Sub("N", "pasangan"), R(" ≈ "), F(Sub("A", "habitat"), Sub("A", "jelajah"))], lv),
         ket([[Sub("A", "habitat"), "luas habitat yang sesuai (km²)"], [Sub("A", "jelajah"), `luas wilayah jelajah satu pasangan (km²); acuan ${esc(c.opt.acuanJelajah || "Raharjaningtrah dan Rahman (2004): sekitar 38,5 km²")}`]], lv));
       return out.join("");
     },
     narHasil(r, c) {
-      if (r.kosong) return r.n ? `Perjumpaan ${c.objek} tercatat pada ${nTxt(r.nUnik)} titik berkoordinat berbeda, belum cukup untuk membentuk poligon wilayah jelajah (perlu paling sedikit tiga titik berbeda yang tidak segaris).` : `Belum ada titik perjumpaan ${c.objek} yang berkoordinat untuk membentuk poligon wilayah jelajah.`;
-      return `Dari ${nTxt(r.n)} titik perjumpaan (${r.nUnik} titik berbeda), poligon cembung minimum dibentuk oleh ${r.hull.length} titik sudut dengan luas ${num(r.ha, 2)} ha (${num(r.km2, 2)} km²) dan keliling ${num(r.keliling / 1000, 2)} km.${r.kel.length > 1 ? ` Menurut kelompok data: ${r.kel.map((g) => `${g.kelompok} ${g.nUnik >= 3 ? `${num(g.ha, 2)} ha` : "kurang dari tiga titik"}`).join("; ")}.` : ""}${r.pasangan !== null ? ` Dengan luas habitat ${num(r.hab, 2)} km² dan wilayah jelajah ${num(r.jp, 1)} km² per pasangan, habitat diperkirakan menampung sekitar ${num(r.pasangan, 1)} pasangan.` : ""}`;
+      if (r.kosong) return r.n ? `Perjumpaan ${c.objek} tercatat pada ${nTxt(r.nUnik)} titik berkoordinat berbeda, belum cukup untuk membentuk poligon ${istilahMCP(c)} (perlu paling sedikit tiga titik berbeda yang tidak segaris).` : `Belum ada titik perjumpaan ${c.objek} yang berkoordinat untuk membentuk poligon ${istilahMCP(c)}.`;
+      return `Dari ${nTxt(r.n)} ${c.opt.labelTitik || "titik perjumpaan"} (${r.nUnik} titik berbeda), poligon cembung minimum dibentuk oleh ${r.hull.length} titik sudut dengan luas ${num(r.ha, 2)} ha (${num(r.km2, 2)} km²) dan keliling ${num(r.keliling / 1000, 2)} km.${r.kel.length > 1 ? ` Menurut kelompok data: ${r.kel.map((g) => `${g.kelompok} ${g.nUnik >= 3 ? `${num(g.ha, 2)} ha` : "kurang dari tiga titik"}`).join("; ")}.` : ""}${r.pasangan !== null ? ` Dengan luas habitat ${num(r.hab, 2)} km² dan wilayah jelajah ${num(r.jp, 1)} km² per pasangan, habitat diperkirakan menampung sekitar ${num(r.pasangan, 1)} pasangan.` : ""}`;
     },
     hitungHtml(r, c) { if (r.kosong) return ""; return blk([R(`A = ${num(r.m2)} `), Sup("m", "2"), R(` = ${num(r.ha, 2)} ha = ${num(r.km2, 2)} `), Sup("km", "2")], c.lv) + (r.pasangan !== null ? blk([Sub("N", "pasangan"), R(" ≈ "), F(num(r.hab, 2), num(r.jp, 1)), R(` = ${num(r.pasangan, 1)} pasangan`)], c.lv) : ""); },
     spec(r) {
@@ -306,10 +311,10 @@
       return { head: ["No", geo ? "Bujur (X)" : "X (m)", geo ? "Lintang (Y)" : "Y (m)", "Keterangan"], rows: r.hull.map((p, i) => [k(i + 1), n(p.x, geo ? 6 : 0), n(p.y, geo ? 6 : 0), t(esc(p.label || p.kelompok || ""))]) };
     },
     kelSpec(r) { return { head: ["Kelompok Data", "Jumlah Titik", "Luas (ha)", "Luas (km²)", "Keliling (km)"], rows: r.kel.map((g) => [t(esc(g.kelompok)), n(g.n, 0), g.nUnik >= 3 ? n(g.ha, 2) : k("-"), g.nUnik >= 3 ? n(g.km2, 2) : k("-"), g.nUnik >= 3 ? n(g.keliling / 1000, 2) : k("-")]), total: [[t("Seluruh titik"), n(r.n, 0), n(r.ha, 2), n(r.km2, 2), n(r.keliling / 1000, 2)]] }; },
-    tabel(r, c) { if (r.kosong) return []; const out = [{ cap: `Titik Sudut Poligon Cembung Minimum ${L.judul(c.objek)}`, spec: this.spec(r) }]; if (r.kel.length > 1) out.push({ cap: `Luas Wilayah Jelajah ${L.judul(c.objek)} menurut Kelompok Data`, spec: this.kelSpec(r) }); return out; },
+    tabel(r, c) { if (r.kosong) return []; const out = [{ cap: `Titik Sudut Poligon Cembung Minimum ${L.judul(c.objek)}`, spec: this.spec(r) }]; if (r.kel.length > 1) out.push({ cap: `Luas ${L.judul(istilahMCP(c))} ${L.judul(c.objek)} menurut Kelompok Data`, spec: this.kelSpec(r) }); return out; },
     gambar(r, c) { return r.kosong || !r.peta ? "" : `<figure class="map"><img src="${r.peta}" alt="Sebaran titik perjumpaan dan poligon cembung minimum ${esc(c.objek)}"></figure>`; },
-    simpulan(r, c) { return r.kosong ? "" : `Luas wilayah jelajah ${c.objek} menurut poligon cembung minimum adalah ${num(r.ha, 2)} ha (${num(r.km2, 2)} km²)`; },
-    kpi(r) { return r.kosong ? [] : [[`${num(r.km2, 2)} km²`, "wilayah jelajah (MCP)"]]; }
+    simpulan(r, c) { return r.kosong ? "" : `Luas ${istilahMCP(c)} ${c.objek} menurut poligon cembung minimum adalah ${num(r.ha, 2)} ha (${num(r.km2, 2)} km²)`; },
+    kpi(r, c) { return r.kosong ? [] : [[`${num(r.km2, 2)} km²`, `${c ? istilahMCP(c) : "wilayah jelajah"} (MCP)`]]; }
   };
 
   /* =====================================================================
@@ -945,5 +950,88 @@
     tabel(r, c) { return r.kosong ? [] : [{ cap: `Jenis Pohon Sarang ${L.judul(c.objek)}`, spec: this.spec(r) }]; },
     simpulan(r, c) { return r.kosong ? "" : `Ditemukan ${r.pohon} pohon sarang ${c.objek} dengan ${r.sarang} sarang; jenis pohon yang paling banyak digunakan adalah ${nm(r.baris[0])}`; },
     kpi(r) { return r.kosong ? [] : [[r.pohon, "pohon sarang"], [r.sarang, "sarang"]]; }
+  };
+
+  /* =====================================================================
+   * 24. Rekapitulasi perjumpaan lintas tahun: jumlah catatan, lokasi, individu minimum, dan sarang
+   * (rekap perjumpaan elang flores seluruh kawasan dari monitoring, inventarisasi, patroli, dan laporan)
+   * inp: { rows: [{ tahun, unit, n, langsung }], sarang: [{ tahun, kode, aktif }] }
+   * N_min,t = Σ_j maks_i n_ij,t   (perjumpaan berulang di satu lokasi tidak dijumlahkan)
+   * ===================================================================== */
+  M.rekap = {
+    judul: "Rekapitulasi Perjumpaan",
+    hitung(inp) {
+      const rows = (inp.rows || []).filter((r) => str(r.tahun));
+      const sar = (inp.sarang || []).filter((s) => str(s.tahun));
+      const tahun = [...new Set([...rows, ...sar].map((r) => str(r.tahun)))].sort();
+      const units = [...new Set(rows.map((r) => str(r.unit) || "-"))].sort((a, b) => (a === "-") - (b === "-") || a.localeCompare(b));
+      const sel = new Map(), kunci = (u, th) => `${u}|${th}`;
+      rows.forEach((r) => {
+        const kk = kunci(str(r.unit) || "-", str(r.tahun));
+        if (!sel.has(kk)) sel.set(kk, { maks: 0, catatan: 0 });
+        const o = sel.get(kk);
+        o.catatan++;
+        if (r.langsung !== false) o.maks = Math.max(o.maks, nOr(r.n, 0));
+      });
+      const perTahun = tahun.map((th) => {
+        const rr = rows.filter((r) => str(r.tahun) === th), u = units.filter((x) => sel.has(kunci(x, th)));
+        const ns = new Map();
+        sar.filter((s) => str(s.tahun) === th).forEach((s, i) => { const kk = str(s.kode) || `#${i}`; ns.set(kk, ns.get(kk) || !!s.aktif); });
+        return { tahun: th, catatan: rr.length, lokasi: u.filter((x) => x !== "-").length, Nmin: sum(u.map((x) => sel.get(kunci(x, th)).maks)), sarang: ns.size, aktif: [...ns.values()].filter(Boolean).length };
+      });
+      const perUnit = units.map((u) => ({ unit: u, catatan: sum(tahun.map((th) => (sel.get(kunci(u, th)) || { catatan: 0 }).catatan)), sel: tahun.map((th) => sel.get(kunci(u, th)) || null) }));
+      const puncak = perTahun.filter((p) => p.catatan).sort((a, b) => b.Nmin - a.Nmin || b.tahun.localeCompare(a.tahun))[0] || null;
+      return { kosong: !rows.length && !sar.length, tahun, units, perTahun, perUnit, catatan: rows.length, adaSarang: sar.length > 0, puncak };
+    },
+    narMetode(c) {
+      const u = c.opt.unitLabel || "lokasi";
+      return `Seluruh catatan perjumpaan ${c.objek} dari kegiatan monitoring, inventarisasi, patroli, dan laporan direkapitulasi menurut ${u} dan tahun. Satu individu dapat terlihat lebih dari sekali di ${u} yang sama, sehingga jumlah individu di setiap ${u} pada satu tahun diambil dari jumlah terbanyak yang terlihat sekaligus dalam satu perjumpaan, bukan jumlah seluruh catatan. Jumlah individu minimum dalam satu tahun adalah jumlah dari nilai terbanyak tersebut di seluruh ${u}:`;
+    },
+    metode(c) {
+      const lv = c.lv, u = c.opt.unitLabel || "lokasi";
+      return [blk([Sub("N", "min,t"), R(" = "), Sum([R("maks "), Sub("n", "ij,t")])], lv),
+        ket([[Sub("N", "min,t"), `jumlah individu minimum ${esc(c.objek)} pada tahun t`], [Sub("n", "ij,t"), `jumlah individu yang terlihat pada perjumpaan ke-i di ${esc(u)} ke-j pada tahun t`], ["maks", `nilai terbanyak dari seluruh perjumpaan di satu ${esc(u)}`]], lv),
+        para("Catatan berupa suara, jejak, atau sarang tanpa individu yang terlihat ikut dihitung sebagai catatan dan lokasi, tetapi tidak menambah jumlah individu minimum.", lv)].join("");
+    },
+    narHasil(r, c) {
+      if (r.kosong) return `Belum ada catatan perjumpaan ${c.objek}.`;
+      const u = c.opt.unitLabel || "lokasi", th = r.perTahun.filter((p) => p.catatan), awal = th[0], akhir = th[th.length - 1];
+      const rentang = r.tahun.length > 1 ? `Selama ${r.tahun[0]} sampai ${r.tahun[r.tahun.length - 1]}` : `Pada tahun ${r.tahun[0]}`;
+      const nU = r.units.filter((x) => x !== "-").length;
+      const out = [`${rentang} tercatat ${nTxt(r.catatan)} perjumpaan ${c.objek}${nU ? ` di ${nTxt(nU)} ${u}` : ""}.`];
+      if (th.length > 1) {
+        out.push(`Jumlah individu minimum tertinggi tercatat pada tahun ${r.puncak.tahun} (${r.puncak.Nmin} individu).`);
+        if (awal !== akhir) out.push(`Pada tahun ${akhir.tahun} jumlah individu minimum ${akhir.Nmin === awal.Nmin ? "sama dengan" : akhir.Nmin > awal.Nmin ? "lebih banyak daripada" : "lebih sedikit daripada"} tahun ${awal.tahun} (${akhir.Nmin} dan ${awal.Nmin} individu). Perbedaan ini juga dipengaruhi oleh banyaknya lokasi dan kegiatan pada setiap tahun, sehingga belum dapat dibaca langsung sebagai perubahan populasi.`);
+      } else if (th.length === 1) out.push(`Jumlah individu minimum adalah ${th[0].Nmin} individu.`);
+      if (r.adaSarang) { const s = r.perTahun.filter((p) => p.sarang); out.push(`Sarang yang diperiksa: ${s.map((p) => `${p.tahun} sebanyak ${p.sarang} sarang (${p.aktif} aktif)`).join("; ")}.`); }
+      return out.join(" ");
+    },
+    hitungHtml(r, c) {
+      if (r.kosong || !r.puncak) return "";
+      const th = r.puncak.tahun, vals = r.perUnit.map((p) => p.sel[r.tahun.indexOf(th)]).filter((x) => x && x.maks);
+      if (vals.length < 2) return "";
+      return blk([Sub("N", `min,${th}`), R(` = ${vals.map((x) => x.maks).join(" + ")} = ${r.puncak.Nmin} individu`)], c.lv);
+    },
+    spec(r) {
+      return { head: ["Tahun", "Jumlah Catatan", "Jumlah Lokasi", "Individu Minimum", ...(r.adaSarang ? ["Sarang Diperiksa", "Sarang Aktif"] : [])],
+        rows: r.perTahun.map((p) => [k(p.tahun), n(p.catatan, 0), n(p.lokasi, 0), n(p.Nmin, 0), ...(r.adaSarang ? [n(p.sarang, 0), n(p.aktif, 0)] : [])]) };
+    },
+    specUnit(r, c) {
+      return { head: ["No", L.judul(c.opt.unitLabel || "lokasi"), ...r.tahun, "Jumlah Catatan"],
+        rows: r.perUnit.map((p, i) => [k(i + 1), t(esc(p.unit === "-" ? "Tanpa lokasi" : p.unit)), ...p.sel.map((x) => (x ? k(x.maks ? String(x.maks) : "0") : k("-"))), n(p.catatan, 0)]),
+        total: [[{ t: "Individu minimum", cs: 2 }, ...r.perTahun.map((p) => n(p.Nmin, 0)), n(r.catatan, 0)]] };
+    },
+    tabel(r, c) {
+      if (r.kosong) return [];
+      const out = [{ cap: `Rekapitulasi Perjumpaan ${L.judul(c.objek)} per Tahun`, spec: this.spec(r) }];
+      if (r.units.length > 1 || r.tahun.length > 1) out.push({ cap: `Jumlah Individu Terbanyak ${L.judul(c.objek)} per ${L.judul(c.opt.unitLabel || "lokasi")} dan Tahun`, spec: this.specUnit(r, c), catatan: "Angka adalah jumlah individu terbanyak dalam satu perjumpaan; 0 berarti hanya tercatat suara, jejak, atau sarang; tanda - berarti tidak ada catatan." });
+      return out;
+    },
+    simpulan(r, c) {
+      if (r.kosong) return "";
+      const th = r.perTahun.filter((p) => p.catatan), nU = r.units.filter((x) => x !== "-").length;
+      return `Tercatat ${nTxt(r.catatan)} perjumpaan ${c.objek}${nU ? ` di ${nU} ${c.opt.unitLabel || "lokasi"}` : ""}${th.length > 1 ? ` selama ${r.tahun[0]} sampai ${r.tahun[r.tahun.length - 1]}; jumlah individu minimum tertinggi ${r.puncak.Nmin} individu pada tahun ${r.puncak.tahun}` : th.length ? ` dengan jumlah individu minimum ${th[0].Nmin} individu` : ""}`;
+    },
+    kpi(r) { return r.kosong ? [] : [[r.catatan, "catatan perjumpaan"], ...(r.puncak ? [[r.puncak.Nmin, `individu minimum (${r.puncak.tahun})`]] : [])]; }
   };
 })();
