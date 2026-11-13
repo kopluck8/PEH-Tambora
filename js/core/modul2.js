@@ -96,7 +96,7 @@
       if (r.populasi !== null) rows.push([t(`Dugaan populasi pada ${numL(r.A)} ha (individu)`), n(r.populasi, 0)]);
       return { head: ["Parameter", "Nilai"], rows };
     },
-    tabel(r, c) { return r.kosong ? [] : [{ cap: `Rekapitulasi Perjumpaan Langsung ${L.cap1(c.objek)} per Transek`, spec: this.spec(r) }, { cap: `Dugaan Kepadatan Populasi ${L.cap1(c.objek)}`, spec: this.ringkas(r) }]; },
+    tabel(r, c) { return r.kosong ? [] : [{ cap: `Rekapitulasi Perjumpaan Langsung ${L.judul(c.objek)} per Transek`, spec: this.spec(r) }, { cap: `Dugaan Kepadatan Populasi ${L.judul(c.objek)}`, spec: this.ringkas(r) }]; },
     simpulan(r, c) { return r.kosong ? "" : `Kepadatan populasi ${c.objek} dari perjumpaan langsung (${r.metode === "king" ? "metode King" : r.metode === "hayne" ? "metode Hayne" : "transek jalur"}) adalah ${fx(r.D, 4)} individu/ha atau 1 individu/${fx(r.haPerInd, 2)} ha${r.populasi !== null ? `, dengan dugaan populasi sekitar ${num(r.populasi, 0)} individu` : ""}`; },
     kpi(r) { return r.kosong ? [] : [[fx(r.D, 4), `ind/ha (${haTxt(r.haPerInd)})`], [`${num(r.L)} m`, "panjang transek"]]; }
   };
@@ -141,7 +141,7 @@
         rows: r.perU.map((u) => [k(esc(u.unit)), ...FASE.map((f) => n(u.fase[f] || 0, 0)), n(u.dihitung, 0)]),
         total: [[t("Jumlah"), ...FASE.map((f) => n(sum(r.perU.map((u) => u.fase[f] || 0)), 0)), n(r.p, 0)]] };
     },
-    tabel(r, c) { return r.kosong ? [] : [{ cap: `Rekapitulasi Onggokan Kotoran ${L.cap1(c.objek)} menurut Fase Dekomposisi`, spec: this.spec(r) }]; },
+    tabel(r, c) { return r.kosong ? [] : [{ cap: `Rekapitulasi Onggokan Kotoran ${L.judul(c.objek)} menurut Fase Dekomposisi`, spec: this.spec(r) }]; },
     simpulan(r, c) { return r.kosong || !r.lengkap ? "" : `Kepadatan populasi ${c.objek} berdasarkan onggokan kotoran adalah ${fx(r.res.D, 4)} individu/ha (1 individu/${fx(r.res.haPerInd, 2)} ha)`; },
     kpi(r) { return r.kosong ? [] : [[r.p, "onggokan dihitung"]]; }
   };
@@ -181,7 +181,7 @@
       return { head: ["Transek/Lokasi", "Luas Area Sampel (ha)", "Jumlah Pasangan Jejak Kaki"], rows: r.per.map((x) => [k(esc(x.id)), x.luas ? n(x.luas, 2) : k("-"), n(x.n, 0)]),
         total: [[t("Total"), n(r.luas, 2), n(sum(r.per.map((x) => x.n)), 0)], [t("Taksiran populasi minimum (N) / maksimum (Nh)"), { k: `${r.N} / ${numL(r.Nh, 1)} individu`, cs: 2 }]] };
     },
-    tabel(r, c) { return r.kosong ? [] : [{ cap: `Rekapitulasi Perjumpaan Jejak Kaki ${L.cap1(c.objek)}`, spec: this.spec(r) }]; },
+    tabel(r, c) { return r.kosong ? [] : [{ cap: `Rekapitulasi Perjumpaan Jejak Kaki ${L.judul(c.objek)}`, spec: this.spec(r) }]; },
     simpulan(r, c) { return r.kosong ? "" : `Berdasarkan jejak kaki, populasi ${c.objek} diduga ${r.N} sampai ${numL(r.Nh, 1)} individu${r.luas ? ` pada area sampel ${numL(r.luas)} ha` : ""}`; },
     kpi(r) { return r.kosong ? [] : [[`${r.N}–${numL(r.Nh, 1)}`, "individu (jejak)"]]; }
   };
@@ -231,7 +231,7 @@
     },
     narHasil(r, c) {
       if (r.kosong) return "Belum ada data vegetasi.";
-      return `Analisis vegetasi pada ${nTxt(r.P)} petak contoh mencatat ${nTxt(r.S)} jenis tumbuhan. ` + r.per.map((v) => `Pada tingkat ${v.tingkat} ditemukan ${v.S} jenis (${v.N} individu); jenis dengan INP tertinggi adalah ${daftarKata(v.rows.slice(0, 3).map((x) => `${nm(x)} (${num(x.INP, 2)}%)`))}, dengan indeks keanekaragaman H′ ${num(v.H, 2)}.`).join(" ");
+      return `Analisis vegetasi pada ${nTxt(r.P)} petak contoh mencatat ${nTxt(r.S)} jenis tumbuhan. ` + r.per.map((v) => `Pada tingkat ${v.tingkat} ditemukan ${v.S} jenis (${v.N} individu); jenis dengan INP tertinggi adalah ${daftarKata(v.rows.slice(0, 3).map((x) => `${nm(x)} dengan INP ${num(x.INP, 2)}%`))}, dengan indeks keanekaragaman H′ ${num(v.H, 2)}.`).join(" ");
     },
     hitungHtml(r, c) {
       if (r.kosong) return "";
@@ -248,8 +248,8 @@
         rows: v.rows.map((x, i) => [k(i + 1), t(esc(x.jenis) + (tanda && tanda(x) ? " *" : "")), t(sci(x.latin)), n(x.n, 0), n(x.p, 0), n(x.K, 2), n(x.KR, 2), n(x.F, 2), n(x.FR, 2), ...(D ? [n(x.D, 3), n(x.DR, 2)] : []), n(x.INP, 2)]),
         total: [[{ t: "Jumlah", cs: 3 }, n(v.N, 0), t(""), n(v.sK, 2), n(100, 2), n(v.sF, 2), n(100, 2), ...(D ? [n(v.sD, 3), n(100, 2)] : []), n(v.maksINP, 2)]] };
     },
-    tabel(r, c) { return r.kosong ? [] : r.per.map((v) => ({ cap: `Indeks Nilai Penting Tingkat ${L.cap1(v.tingkat)}`, spec: this.spec(v, c.opt.tanda), catatan: c.opt.tanda && v.rows.some(c.opt.tanda) ? c.opt.tandaKet || "* jenis yang ditandai" : "" })); },
-    simpulan(r) { return r.kosong ? "" : r.per.map((v) => `tingkat ${v.tingkat} didominasi ${nm(v.rows[0])} (INP ${num(v.rows[0].INP, 2)}%)`).join("; ").replace(/^./, (s) => s.toUpperCase()); },
+    tabel(r, c) { return r.kosong ? [] : r.per.map((v) => ({ cap: `Indeks Nilai Penting Tingkat ${L.judul(v.tingkat)}`, spec: this.spec(v, c.opt.tanda), catatan: c.opt.tanda && v.rows.some(c.opt.tanda) ? c.opt.tandaKet || "* jenis yang ditandai" : "" })); },
+    simpulan(r) { return r.kosong ? "" : r.per.map((v) => `tingkat ${v.tingkat} didominasi ${nm(v.rows[0])} dengan INP ${num(v.rows[0].INP, 2)}%`).join("; ").replace(/^./, (s) => s.toUpperCase()); },
     kpi(r) { return r.kosong ? [] : [[r.S, "jenis tumbuhan"], [r.P, "petak contoh"]]; }
   };
 
@@ -300,7 +300,7 @@
       return { head: ["No", geo ? "Bujur (X)" : "X (m)", geo ? "Lintang (Y)" : "Y (m)", "Keterangan"], rows: r.hull.map((p, i) => [k(i + 1), n(p.x, geo ? 6 : 0), n(p.y, geo ? 6 : 0), t(esc(p.label || p.kelompok || ""))]) };
     },
     kelSpec(r) { return { head: ["Kelompok Data", "Jumlah Titik", "Luas (ha)", "Luas (km²)", "Keliling (km)"], rows: r.kel.map((g) => [t(esc(g.kelompok)), n(g.n, 0), g.nUnik >= 3 ? n(g.ha, 2) : k("-"), g.nUnik >= 3 ? n(g.km2, 2) : k("-"), g.nUnik >= 3 ? n(g.keliling / 1000, 2) : k("-")]), total: [[t("Seluruh titik"), n(r.n, 0), n(r.ha, 2), n(r.km2, 2), n(r.keliling / 1000, 2)]] }; },
-    tabel(r, c) { if (r.kosong) return []; const out = [{ cap: `Titik Sudut Poligon Cembung Minimum ${L.cap1(c.objek)}`, spec: this.spec(r) }]; if (r.kel.length > 1) out.push({ cap: `Luas Wilayah Jelajah ${L.cap1(c.objek)} menurut Kelompok Data`, spec: this.kelSpec(r) }); return out; },
+    tabel(r, c) { if (r.kosong) return []; const out = [{ cap: `Titik Sudut Poligon Cembung Minimum ${L.judul(c.objek)}`, spec: this.spec(r) }]; if (r.kel.length > 1) out.push({ cap: `Luas Wilayah Jelajah ${L.judul(c.objek)} menurut Kelompok Data`, spec: this.kelSpec(r) }); return out; },
     gambar(r, c) { return r.kosong || !r.peta ? "" : `<figure class="map"><img src="${r.peta}" alt="Sebaran titik perjumpaan dan poligon cembung minimum ${esc(c.objek)}"></figure>`; },
     simpulan(r, c) { return r.kosong ? "" : `Luas wilayah jelajah ${c.objek} menurut poligon cembung minimum adalah ${num(r.ha, 2)} ha (${num(r.km2, 2)} km²)`; },
     kpi(r) { return r.kosong ? [] : [[`${num(r.km2, 2)} km²`, "wilayah jelajah (MCP)"]]; }
@@ -464,8 +464,8 @@
         rows: r.kelas.map((kk, i) => [t(esc(kk)), ...r.M[i].map((v) => n(v, 0)), n(r.baris[i], 0), n(r.per[i].pengguna, 1)]),
         total: [[t("Jumlah"), ...r.kolom.map((v) => n(v, 0)), n(r.N, 0), t("")], [t("Akurasi Pembuat (%)"), ...r.per.map((x) => n(x.pembuat, 1)), { t: `OA ${num(r.OA, 2)}%; κ ${num(r.kappa, 3)}`, cs: 2 }]] };
     },
-    rekap(r, c) { return { head: ["No", `Kelas ${L.cap1((c && c.opt.label) || "tutupan lahan")} (Lapangan)`, "Jumlah Titik", "Persentase (%)"], rows: r.kelasLap.rows.map((x, i) => [k(i + 1), t(esc(x.k)), n(x.x, 0), n(x.p, 2)]), total: [[{ t: "Jumlah", cs: 2 }, n(r.kelasLap.y, 0), n(100, 2)]] }; },
-    tabel(r, c) { const lb = L.cap1((c && c.opt.label) || "tutupan lahan").replace(/\b\w/g, (x) => x.toUpperCase()); return r.kosong ? [] : [{ cap: `Rekapitulasi Kelas ${lb} Hasil Ground Check`, spec: this.rekap(r, c) }, { cap: `Matriks Kesalahan Peta ${lb} terhadap Kondisi Lapangan`, spec: this.spec(r) }]; },
+    rekap(r, c) { return { head: ["No", `Kelas ${L.judul((c && c.opt.label) || "tutupan lahan")} (Lapangan)`, "Jumlah Titik", "Persentase (%)"], rows: r.kelasLap.rows.map((x, i) => [k(i + 1), t(esc(x.k)), n(x.x, 0), n(x.p, 2)]), total: [[{ t: "Jumlah", cs: 2 }, n(r.kelasLap.y, 0), n(100, 2)]] }; },
+    tabel(r, c) { const lb = L.judul((c && c.opt.label) || "tutupan lahan").replace(/\b\w/g, (x) => x.toUpperCase()); return r.kosong ? [] : [{ cap: `Rekapitulasi Kelas ${lb} Hasil Ground Check`, spec: this.rekap(r, c) }, { cap: `Matriks Kesalahan Peta ${lb} terhadap Kondisi Lapangan`, spec: this.spec(r) }]; },
     simpulan(r, c) { return r.kosong ? "" : `Akurasi keseluruhan peta ${(c && c.opt.label) || "tutupan lahan"} terhadap kondisi lapangan adalah ${num(r.OA, 2)}% dengan koefisien kappa ${num(r.kappa, 3)}, tergolong ${ST.kriteriaKappa(r.kappa).toLowerCase()}`; },
     kpi(r) { return r.kosong ? [] : [[`${num(r.OA, 1)}%`, "akurasi keseluruhan"], [num(r.kappa, 3), "kappa"]]; }
   };
@@ -503,10 +503,10 @@
     hitungHtml(r, c) { if (r.kosong) return ""; const b = r.baris[0]; return c.opt.basis === "total" ? blk([R(`Skor total ${b.nama} = ${(b.nilai || []).map((v) => num(nOr(v, 0))).join(" + ")} = ${num(b.total)}`)], c.lv) : blk([R(`Nilai ${b.nama} = `), F(num(b.total), num(b.maks)), R(` × 100% = ${num(b.persen, 2)}%`)], c.lv); },
     spec(r, c) {
       const kr = r.kr;
-      return { head: ["No", L.cap1(c.opt.labelNama || "Nama"), ...(c.opt.latin ? ["Nama Ilmiah"] : []), ...kr.map((x) => esc(x.label)), "Jumlah Skor", ...(c.opt.basis === "total" ? [] : ["Nilai (%)"]), ...(c.opt.kelas ? ["Kelas"] : [])],
+      return { head: ["No", L.judul(c.opt.labelNama || "Nama"), ...(c.opt.latin ? ["Nama Ilmiah"] : []), ...kr.map((x) => esc(x.label)), "Jumlah Skor", ...(c.opt.basis === "total" ? [] : ["Nilai (%)"]), ...(c.opt.kelas ? ["Kelas"] : [])],
         rows: r.baris.map((b, i) => [k(i + 1), t(esc(b.nama)), ...(c.opt.latin ? [t(sci(b.latin))] : []), ...kr.map((_, j) => n(nOr((b.nilai || [])[j], 0), 0)), n(b.total, 0), ...(c.opt.basis === "total" ? [] : [n(b.persen, 2)]), ...(c.opt.kelas ? [k(esc(b.kelas || "-"))] : [])]) };
     },
-    tabel(r, c) { return r.kosong ? [] : [{ cap: c.opt.cap || `Hasil Skoring ${L.cap1(c.objek)}`, spec: this.spec(r, c) }]; },
+    tabel(r, c) { return r.kosong ? [] : [{ cap: c.opt.cap || `Hasil Skoring ${L.judul(c.objek)}`, spec: this.spec(r, c) }]; },
     simpulan(r, c) { return r.kosong ? "" : `Skor tertinggi pada ${r.baris[0].nama} (${num(r.baris[0].total)} dari ${num(r.baris[0].maks)}${r.baris[0].kelas ? `, ${r.baris[0].kelas.toLowerCase()}` : ""})`; },
     kpi() { return []; }
   };
@@ -537,7 +537,7 @@
     narHasil(r, c) {
       if (r.kosong) return `Belum ada data ${c.objek} pada plot pengamatan.`;
       const a = r.rows[0], f = [...r.rows].sort((x, y) => y.F - x.F)[0];
-      return `Pada ${nTxt(r.nU)} plot pengamatan${r.adaLuas ? ` (luas total ${num(r.luasHa, 2)} ha)` : ""} tercatat ${nTxt(r.S)} jenis ${c.objek} dengan ${r.N} individu. Jenis dengan INP tertinggi adalah ${nm(a)} (${num(a.INP, 2)}%)${r.adaLuas ? ` dengan kelimpahan ${num(a.K, 2)} individu/ha` : ""}, sedangkan jenis yang tersebar paling luas adalah ${nm(f)} (ditemukan pada ${f.p} dari ${r.nU} plot).${c.opt.H === false ? "" : ` Indeks keanekaragaman Shannon-Wiener (H′) seluruh jenis adalah ${num(r.H, 2)}.`}`;
+      return `Pada ${nTxt(r.nU)} plot pengamatan${r.adaLuas ? ` (luas total ${num(r.luasHa, 2)} ha)` : ""} tercatat ${nTxt(r.S)} jenis ${c.objek} dengan ${r.N} individu. Jenis dengan INP tertinggi adalah ${nm(a)} dengan INP ${num(a.INP, 2)}%${r.adaLuas ? ` dan kelimpahan ${num(a.K, 2)} individu/ha` : ""}, sedangkan jenis yang tersebar paling luas adalah ${nm(f)} (ditemukan pada ${f.p} dari ${r.nU} plot).${c.opt.H === false ? "" : ` Indeks keanekaragaman Shannon-Wiener (H′) seluruh jenis adalah ${num(r.H, 2)}.`}`;
     },
     hitungHtml(r, c) {
       if (r.kosong) return "";
@@ -552,9 +552,178 @@
         rows: r.rows.map((x, i) => [k(i + 1), t(esc(x.jenis)), t(sci(x.latin)), n(x.n, 0), n(x.p, 0), r.adaLuas ? n(x.K, 2) : k("-"), n(x.KR, 2), n(x.F, 2), n(x.FR, 2), n(x.INP, 2), ...(H ? [n(x.pi, 4), n(-x.piLnPi, 4)] : [])]),
         total: [[{ t: "Jumlah", cs: 3 }, n(r.N, 0), t(""), r.adaLuas ? n(r.sK, 2) : k("-"), n(100, 2), n(r.sF, 2), n(100, 2), n(200, 2), ...(H ? [n(1, 4), n(r.H, 4)] : [])]] };
     },
-    tabel(r, c) { return r.kosong ? [] : [{ cap: `Kelimpahan, Distribusi, dan Indeks Nilai Penting ${L.cap1(c.objek)}`, spec: this.spec(r, c) }]; },
-    simpulan(r, c) { return r.kosong ? "" : `Jenis ${c.objek} dengan INP tertinggi adalah ${nm(r.rows[0])} (${num(r.rows[0].INP, 2)}%)${c.opt.H === false ? "" : `; keanekaragaman jenis H′ = ${num(r.H, 2)}`}`; },
+    tabel(r, c) { return r.kosong ? [] : [{ cap: `Kelimpahan, Distribusi, dan Indeks Nilai Penting ${L.judul(c.objek)}`, spec: this.spec(r, c) }]; },
+    simpulan(r, c) { return r.kosong ? "" : `Jenis ${c.objek} dengan INP tertinggi adalah ${nm(r.rows[0])} dengan INP ${num(r.rows[0].INP, 2)}%${c.opt.H === false ? "" : `; keanekaragaman jenis H′ = ${num(r.H, 2)}`}`; },
     kpi(r, c) { return r.kosong ? [] : c && c.opt.H === false ? [[r.nU, "plot pengamatan"]] : [[r.S, "jenis"], [num(r.H, 2), "H′"]]; }
+  };
+
+  /* =====================================================================
+   * 18. Tumbuhan asing invasif dalam analisis vegetasi: K, KR, F, FR, (DR), INP jenis invasif per tingkat pertumbuhan
+   * inp: { rows: baris vegetasi { petak, tingkat, jenis, latin, n, diameter }, isInv(r), basis: "komunitas"|"invasif",
+   *        luas: { semai, pancang, tiang, pohon, "tumbuhan bawah" } (m²), nPetak, grup: [{ nama, petak: [kode], nPetak }] }
+   * basis "komunitas": nilai relatif terhadap seluruh jenis di petak contoh; "invasif": terhadap jenis invasif saja
+   * ===================================================================== */
+  M.invasif = {
+    judul: "Kerapatan, Frekuensi, dan Indeks Nilai Penting Tumbuhan Asing Invasif",
+    hitung(inp) {
+      const isInv = inp.isInv || ((r) => /^ya$/i.test(str(r.invasif)));
+      const semua = (inp.rows || []).filter((r) => str(r.jenis) || str(r.latin));
+      const grup = (inp.grup || []).filter((g) => g.petak && g.petak.length);
+      const daftarGrup = grup.length ? grup : [{ nama: "", petak: null, nPetak: inp.nPetak }];
+      const kunci = M.util.kunci, basis = inp.basis === "invasif" ? "invasif" : "komunitas";
+      const per = [], lamp = [];
+      daftarGrup.forEach((g) => {
+        const rr = semua.filter((r) => !g.petak || g.petak.includes(str(r.petak)));
+        const inv = rr.filter(isInv);
+        if (!inv.length && basis === "invasif") return;
+        if (!rr.length) return;
+        const v = M.vegetasi.hitung({ mode: "petak", rows: basis === "invasif" ? inv : rr, luas: inp.luas, nPetak: g.nPetak });
+        const kunciInv = new Set(inv.map((r) => kunci(r.latin || r.jenis)));
+        v.per.forEach((tk) => {
+          const rows = tk.rows.filter((x) => kunciInv.has(kunci(x.latin || x.jenis)));
+          if (basis === "komunitas") lamp.push({ grup: g.nama, ...tk, tanda: kunciInv });
+          if (rows.length) per.push({ grup: g.nama, tingkat: tk.tingkat, P: v.P, luasPetak: tk.luasPetak, luasHa: tk.luasHa, adaD: tk.adaD, sK: tk.sK, sF: tk.sF, sD: tk.sD, Sall: tk.S, Nall: tk.N, maksINP: tk.maksINP, rows,
+            KRinv: sum(rows.map((x) => x.KR)), Ninv: sum(rows.map((x) => x.n)) });
+        });
+      });
+      const inv = semua.filter(isInv);
+      const nPetak = grup.length ? sum(grup.map((g) => nOr(g.nPetak, g.petak.length))) : nOr(inp.nPetak, 0) || new Set(semua.map((r) => str(r.petak)).filter(Boolean)).size;
+      return { kosong: !per.length, per, lamp, basis, S: new Set(inv.map((r) => kunci(r.latin || r.jenis))).size, N: sum(inv.map((r) => nOr(r.n, 1))),
+        petakInv: new Set(inv.map((r) => str(r.petak)).filter(Boolean)).size, nPetak, adaGrup: grup.length > 0, Sall: new Set(semua.map((r) => kunci(r.latin || r.jenis))).size };
+    },
+    narMetode(c) {
+      return `Kerapatan, frekuensi, dominansi, dan indeks nilai penting (INP) tumbuhan asing invasif dihitung dari data vegetasi pada petak contoh mengikuti Peraturan Direktur Jenderal KSDAE Nomor P.10/KSDAE/SET/KSA.0/9/2016. ${c.opt.basis === "invasif" ? "Nilai relatif dihitung terhadap seluruh jenis tumbuhan asing invasif yang tercatat." : "Nilai relatif dihitung terhadap seluruh jenis tumbuhan yang tercatat pada petak contoh, sehingga INP menunjukkan peran jenis invasif di dalam komunitas tumbuhan setempat."}${c.opt.perEkosistem ? " Perhitungan dipisahkan menurut tipe ekosistem petak contoh." : ""} Persamaan yang digunakan:`;
+    },
+    metode(c) {
+      const lv = c.lv, lu = c.opt.luas || {}, kr = (a) => [Sub(a, "i"), R(" = ")];
+      return [blk([...kr("K"), F("jumlah individu jenis ke-i", "luas seluruh petak contoh (ha)"), R(";  "), ...kr("KR"), F(Sub("K", "i"), "Σ K"), R(" × 100%")], lv),
+        blk([...kr("F"), F("jumlah petak ditemukan jenis ke-i", "jumlah seluruh petak contoh"), R(";  "), ...kr("FR"), F(Sub("F", "i"), "Σ F"), R(" × 100%")], lv),
+        blk([...kr("D"), F("Σ LBDS jenis ke-i", "luas seluruh petak contoh (ha)"), R(";  LBDS = "), F("1", "4"), R(" × π × "), Sup("d", "2"), R(";  "), ...kr("DR"), F(Sub("D", "i"), "Σ D"), R(" × 100%")], lv),
+        blk([R("INP = KR + FR (semai, pancang, tumbuhan bawah);  INP = KR + FR + DR (tiang dan pohon)")], lv),
+        ket([["K", "kerapatan (individu/ha)"], ["KR", "kerapatan relatif (%)"], ["F", "frekuensi"], ["FR", "frekuensi relatif (%)"], ["D", "dominansi (m²/ha)"], ["DR", "dominansi relatif (%)"], ["LBDS", "luas bidang dasar batang (m²)"], ["d", "diameter batang setinggi dada (m)"], ["INP", "indeks nilai penting (%)"], ["Σ", c.opt.basis === "invasif" ? "jumlah untuk seluruh jenis tumbuhan asing invasif" : "jumlah untuk seluruh jenis tumbuhan pada tingkat pertumbuhan yang sama"]], lv),
+        para(`Ukuran petak: semai dan tumbuhan bawah (termasuk herba, semak, dan rumput) ${num(nOr(lu.semai, 4))} m²; pancang (tinggi lebih dari 1,5 m, diameter kurang dari 10 cm) ${num(nOr(lu.pancang, 25))} m²; tiang (diameter 10 sampai 19 cm) ${num(nOr(lu.tiang, 100))} m²; pohon (diameter 20 cm atau lebih) ${num(nOr(lu.pohon, 400))} m².`, lv)].join("");
+    },
+    narHasil(r, c) {
+      if (r.kosong) return `Belum ada data ${c.objek} pada petak contoh.`;
+      const awal = `Tumbuhan asing invasif ditemukan pada ${nTxt(r.petakInv)} dari ${nTxt(r.nPetak)} petak contoh, terdiri atas ${nTxt(r.S)} jenis dengan ${r.N} individu${r.basis === "komunitas" ? ` dari ${r.Sall} jenis tumbuhan yang tercatat` : ""}.`;
+      const isi = r.per.map((v) => {
+        const a = v.rows[0];
+        return `Pada tingkat ${v.tingkat}${v.grup ? ` di ekosistem ${v.grup.toLowerCase()}` : ""}, INP tertinggi dimiliki ${nm(a)} dengan nilai ${num(a.INP, 2)}%${r.basis === "komunitas" ? `; jenis invasif menyusun ${num(v.KRinv, 2)}% kerapatan tingkat ini` : ""}.`;
+      });
+      return [awal, ...isi].join(" ");
+    },
+    hitungHtml(r, c) {
+      if (r.kosong) return "";
+      const v = r.per[0], x = v.rows[0], lv = c.lv;
+      return [para(`Contoh perhitungan untuk ${esc(x.jenis)} pada tingkat ${esc(v.tingkat)}${v.grup ? ` (ekosistem ${esc(v.grup.toLowerCase())})` : ""}, luas petak contoh ${num(v.P)} × ${num(v.luasPetak)} m² = ${fx(v.luasHa, 4)} ha:`, lv),
+        blk([R("K = "), F(num(x.n), fx(v.luasHa, 4)), R(` = ${num(x.K, 2)} ind/ha;  KR = `), F(num(x.K, 2), num(v.sK, 2)), R(` × 100% = ${num(x.KR, 2)}%`)], lv),
+        blk([R("F = "), F(num(x.p), num(v.P)), R(` = ${num(x.F, 2)};  FR = `), F(num(x.F, 2), num(v.sF, 2)), R(` × 100% = ${num(x.FR, 2)}%`)], lv),
+        ...(v.adaD ? [blk([R(`D = ${num(x.D, 3)} `), Sup("m", "2"), R(`/ha;  DR = ${num(x.DR, 2)}%`)], lv)] : []),
+        blk([R(`INP = ${num(x.KR, 2)} + ${num(x.FR, 2)}${v.adaD ? ` + ${num(x.DR, 2)}` : ""} = ${num(x.INP, 2)}%`)], lv)].join("");
+    },
+    spec(v) {
+      const D = v.adaD;
+      return { head: ["No", "Nama Jenis", "Nama Ilmiah", "Jumlah Individu", "Jumlah Petak Ditemukan", "K (ind/ha)", "KR (%)", "F", "FR (%)", ...(D ? ["D (m²/ha)", "DR (%)"] : []), "INP (%)"],
+        rows: v.rows.map((x, i) => [k(i + 1), t(esc(x.jenis)), t(sci(x.latin)), n(x.n, 0), n(x.p, 0), n(x.K, 2), n(x.KR, 2), n(x.F, 2), n(x.FR, 2), ...(D ? [n(x.D, 3), n(x.DR, 2)] : []), n(x.INP, 2)]),
+        total: [[{ t: "Jumlah jenis invasif", cs: 3 }, n(v.Ninv, 0), t(""), n(sum(v.rows.map((x) => x.K)), 2), n(v.KRinv, 2), n(sum(v.rows.map((x) => x.F)), 2), n(sum(v.rows.map((x) => x.FR)), 2), ...(D ? [n(sum(v.rows.map((x) => x.D)), 3), n(sum(v.rows.map((x) => x.DR)), 2)] : []), n(sum(v.rows.map((x) => x.INP)), 2)]] };
+    },
+    tabel(r) {
+      return r.kosong ? [] : r.per.map((v) => ({ cap: `Indeks Nilai Penting Tumbuhan Asing Invasif Tingkat ${L.judul(v.tingkat)}${v.grup ? ` pada Ekosistem ${L.judul(v.grup)}` : ""}`, spec: this.spec(v),
+        catatan: r.basis === "komunitas" ? `Nilai relatif dihitung terhadap seluruh ${v.Sall} jenis tumbuhan (${v.Nall} individu) pada tingkat ini.` : "" }));
+    },
+    lampiran(r) {
+      if (r.kosong || r.basis !== "komunitas") return [];
+      const kunci = M.util.kunci;
+      return r.lamp.map((v) => ({ cap: `Analisis Vegetasi Tingkat ${L.judul(v.tingkat)}${v.grup ? ` pada Ekosistem ${L.judul(v.grup)}` : ""}`, spec: M.vegetasi.spec(v, (x) => v.tanda.has(kunci(x.latin || x.jenis))), catatan: "* tumbuhan asing invasif" }));
+    },
+    simpulan(r) {
+      if (r.kosong) return "";
+      return `Tumbuhan asing invasif ditemukan pada ${r.petakInv} dari ${r.nPetak} petak contoh; INP tertinggi ${r.per.map((v) => `tingkat ${v.tingkat}${v.grup ? ` (${v.grup.toLowerCase()})` : ""} dimiliki ${nm(v.rows[0])} dengan nilai ${num(v.rows[0].INP, 2)}%`).join(", ")}`;
+    },
+    kpi(r) { return r.kosong ? [] : [[r.S, "jenis invasif"], [`${r.petakInv}/${r.nPetak}`, "petak berisi jenis invasif"]]; }
+  };
+
+  /* =====================================================================
+   * 19. Keinvasifan jenis tumbuhan asing (Modul Analisis Risiko Spesies Asing Invasif (Post Border), FORIS Indonesia dan Puslitbang Hutan, 2016)
+   * inp: { rows: [{ nama, latin, mapan, tahan, buah, biji, vegetatif, burung, hewan, air, angin, sengaja, tanpaSengaja, kontaminasi, ternak }] }
+   * Faktor 1 dan 2: rendah 0, medium 1, tinggi 2, sangat tinggi 3. Faktor 3: jumlah subfaktor 0 → 0, 1–2 → 1, 3–4 → 2, 5–6 → 3.
+   * Faktor 4 dan 5: jumlah subfaktor 0 → 0, 1–2 → 1, 3–5 → 2, 6–8 → 3. K = Σ skor / 15 × 10. "Tidak tahu" diberi 0 dan ditandai.
+   * ===================================================================== */
+  const INV_PETA = {
+    tingkat: { rendah: 0, medium: 1, tinggi: 2, "sangat tinggi": 3, "amat tinggi": 3 },
+    buah: { "1 tahun": 2, "2 sampai 3 tahun": 1, "2-3 tahun": 1, "2–3 tahun": 1, "lebih dari 3 tahun": 0, "> 3 tahun": 0, ">3 tahun": 0 },
+    biji: { banyak: 2, sedikit: 1, "tidak ada": 0, "tak ada": 0 },
+    vegetatif: { cepat: 2, lambat: 1, "tidak ada": 0, "tak ada": 0 },
+    sebar: { umum: 2, "kadang-kadang": 1, "mungkin tidak": 0 }
+  };
+  const INV_FAKTOR = [
+    { key: "mapan", label: "Kemampuan mapan di antara tumbuhan asli", pendek: "Mapan" },
+    { key: "tahan", label: "Ketahanan terhadap praktik pengelolaan", pendek: "Ketahanan" },
+    { key: "reproduksi", label: "Kemampuan reproduksi", pendek: "Reproduksi", sub: [["buah", "periode berbuah", "buah"], ["biji", "produksi biji", "biji"], ["vegetatif", "reproduksi vegetatif", "vegetatif"]], batas: [[5, 3], [3, 2], [1, 1], [0, 0]] },
+    { key: "alamiah", label: "Penyebaran jarak jauh (lebih dari 100 m) secara alamiah", pendek: "Penyebaran Alamiah", sub: [["burung", "oleh burung", "sebar"], ["hewan", "oleh hewan lain", "sebar"], ["air", "oleh air", "sebar"], ["angin", "oleh angin", "sebar"]], batas: [[6, 3], [3, 2], [1, 1], [0, 0]] },
+    { key: "manusia", label: "Penyebaran jarak jauh oleh manusia", pendek: "Penyebaran oleh Manusia", sub: [["sengaja", "penyebaran sengaja", "sebar"], ["tanpaSengaja", "penyebaran tanpa sengaja", "sebar"], ["kontaminasi", "mengontaminasi hasil bumi", "sebar"], ["ternak", "dibawa hewan ternak", "sebar"]], batas: [[6, 3], [3, 2], [1, 1], [0, 0]] }
+  ];
+  const INV_LABEL = { 0: "Rendah", 1: "Medium rendah", 2: "Medium tinggi", 3: "Tinggi" }, INV_LABEL12 = ["Rendah", "Medium", "Tinggi", "Sangat tinggi"];
+  const skorJawab = (v, peta, maks) => {
+    const s = str(v).toLowerCase();
+    if (!s || s === "tidak tahu" || s === "?") return { s: 0, ragu: true };
+    if (s in peta) return { s: peta[s], ragu: false };
+    const nn = toN(v);
+    return fin(nn) ? { s: Math.max(0, Math.min(maks, nn)), ragu: false } : { s: 0, ragu: true };
+  };
+  M.keinvasifan = {
+    judul: "Tingkat Keinvasifan Jenis",
+    FAKTOR: INV_FAKTOR,
+    hitung(inp) {
+      const baris = (inp.rows || []).filter((r) => str(r.nama) || str(r.latin)).map((r) => {
+        const f = INV_FAKTOR.map((fk) => {
+          if (!fk.sub) { const j = skorJawab(r[fk.key], INV_PETA.tingkat, 3); return { skor: j.s, ragu: j.ragu, label: INV_LABEL12[j.s] }; }
+          const js = fk.sub.map(([key, , peta]) => skorJawab(r[key], INV_PETA[peta], 2));
+          const jumlah = sum(js.map((j) => j.s)), skor = (fk.batas.find(([b]) => jumlah >= b) || [0, 0])[1];
+          return { skor, ragu: js.some((j) => j.ragu), jumlah, label: INV_LABEL[skor], subSkor: js.map((j) => j.s) };
+        });
+        const total = sum(f.map((x) => x.skor));
+        return { ...r, f, total, K: Math.round((total / 15) * 100) / 10, ragu: f.some((x) => x.ragu) };
+      }).sort((a, b) => b.total - a.total);
+      const rata = INV_FAKTOR.map((fk, i) => ({ label: fk.label, mean: baris.length ? mean(baris.map((b) => b.f[i].skor)) : 0 }));
+      return { kosong: !baris.length, baris, rata };
+    },
+    narMetode(c) { return `Tingkat keinvasifan setiap jenis tumbuhan asing invasif dinilai dengan lima faktor menurut Modul Analisis Risiko Spesies Asing Invasif (Post Border) (FORIS Indonesia dan Puslitbang Hutan, 2016), yaitu kemampuan mapan di antara tumbuhan asli, ketahanan terhadap praktik pengelolaan, kemampuan reproduksi, penyebaran jarak jauh (lebih dari 100 m) secara alamiah, dan penyebaran jarak jauh oleh manusia. Setiap faktor diberi skor 0 sampai 3, lalu skor kelima faktor dijumlahkan dan dikonversi menjadi nilai keinvasifan berskala 0 sampai 10:`; },
+    metode(c) {
+      const lv = c.lv;
+      return [ket([["Faktor 1 dan 2", "rendah = 0; medium = 1; tinggi = 2; sangat tinggi = 3"],
+        ["Faktor 3 (reproduksi)", "jumlah skor periode berbuah (1 tahun = 2; 2 sampai 3 tahun = 1; lebih dari 3 tahun = 0), produksi biji (banyak = 2; sedikit = 1; tidak ada = 0), dan reproduksi vegetatif (cepat = 2; lambat = 1; tidak ada = 0). Jumlah 5 sampai 6 = 3 (tinggi); 3 sampai 4 = 2 (medium tinggi); 1 sampai 2 = 1 (medium rendah); 0 = 0 (rendah)"],
+        ["Faktor 4 dan 5 (penyebaran)", "jumlah skor empat subfaktor, yaitu penyebaran oleh burung, hewan lain, air, dan angin (faktor 4) atau penyebaran sengaja, tanpa sengaja, kontaminasi hasil bumi, dan hewan ternak (faktor 5), masing-masing umum = 2; kadang-kadang = 1; mungkin tidak = 0. Jumlah 6 sampai 8 = 3 (tinggi); 3 sampai 5 = 2 (medium tinggi); 1 sampai 2 = 1 (medium rendah); 0 = 0 (rendah)"]], lv, "Skor faktor:"),
+        blk([R("K = "), F(Sum(Sub("s", "j")), "15"), R(" × 10")], lv),
+        ket([["K", "nilai keinvasifan (0 sampai 10)"], [Sub("s", "j"), "skor faktor keinvasifan ke-j (j = 1 sampai 5)"], ["15", "jumlah skor maksimal lima faktor"]], lv),
+        para("Jawaban tidak tahu diberi skor 0 dan faktornya ditandai (?) pada tabel hasil. Nilai keinvasifan merupakan satu dari tiga komponen analisis risiko jenis invasif bersama dampak (D) dan potensi distribusi (PD), dengan Risiko = K × D × PD; komponen dampak dan potensi distribusi dinilai tersendiri.", lv)].join("");
+    },
+    narHasil(r, c) {
+      if (r.kosong) return `Belum ada penilaian keinvasifan ${c.objek}.`;
+      const nmB = (b) => `${b.nama || b.latin}${b.nama && b.latin && b.nama !== b.latin ? ` (${b.latin})` : ""}`;
+      const top = r.baris.filter((b) => b.total === r.baris[0].total), lain = r.baris.filter((b) => b.total !== r.baris[0].total);
+      const fTop = [...r.rata].sort((a, b) => b.mean - a.mean)[0], ragu = r.baris.filter((b) => b.ragu);
+      return `Dari ${nTxt(r.baris.length)} jenis yang dinilai, nilai keinvasifan tertinggi dimiliki ${daftarKata(top.map(nmB))} dengan jumlah skor ${r.baris[0].total} dari 15 (K = ${num(r.baris[0].K, 1)}).${lain.length ? ` Jenis lainnya berturut-turut ${daftarKata(lain.slice(0, 6).map((b) => `${b.nama || b.latin} (K = ${num(b.K, 1)})`))}${lain.length > 6 ? ", dan seterusnya" : ""}.` : ""} Faktor dengan skor rata-rata tertinggi adalah ${fTop.label.toLowerCase()} (${num(fTop.mean, 1)} dari 3).${ragu.length ? ` Sebanyak ${nTxt(ragu.length)} jenis memiliki faktor yang dijawab tidak tahu atau belum dinilai, sehingga nilainya masih dapat bertambah.` : ""}`;
+    },
+    hitungHtml(r, c) {
+      if (r.kosong) return "";
+      const b = r.baris[0], lv = c.lv, out = [para(`Contoh perhitungan untuk ${esc(b.nama || b.latin)}:`, lv)];
+      INV_FAKTOR.forEach((fk, i) => { if (fk.sub) out.push(blk([R(`${fk.pendek}: ${b.f[i].subSkor.map((s) => num(s)).join(" + ")} = ${num(b.f[i].jumlah)}, skor ${num(b.f[i].skor)}`)], lv)); });
+      out.push(blk([R("K = "), F(b.f.map((x) => num(x.skor)).join(" + "), "15"), R(` × 10 = ${num(b.K, 1)}`)], lv));
+      return out.join("");
+    },
+    spec(r) {
+      return { head: ["No", "Nama Jenis", "Nama Ilmiah", ...INV_FAKTOR.map((x) => x.pendek), "Jumlah Skor", "Nilai Keinvasifan (K)"],
+        rows: r.baris.map((b, i) => [k(i + 1), t(esc(b.nama || "-")), t(sci(b.latin)), ...b.f.map((x) => k(`${x.skor}${x.ragu ? " ?" : ""}`)), n(b.total, 0), n(b.K, 1)]) };
+    },
+    rinci(r) {
+      const cols = INV_FAKTOR.flatMap((fk) => (fk.sub ? fk.sub.map(([key, label]) => ({ key, label })) : [{ key: fk.key, label: fk.pendek }]));
+      return { head: ["No", "Nama Jenis", ...cols.map((x) => L.judul(x.label))], rows: r.baris.map((b, i) => [k(i + 1), t(esc(b.nama || b.latin)), ...cols.map((x) => k(esc(str(b[x.key]) || "-")))]) };
+    },
+    tabel(r, c) { return r.kosong ? [] : [{ cap: c.opt.cap || `Skor Keinvasifan ${L.judul(c.objek)}`, spec: this.spec(r), catatan: r.baris.some((b) => b.ragu) ? "? = memuat jawaban tidak tahu atau belum dinilai (diberi skor 0)" : "" }]; },
+    lampiran(r, c) { return r.kosong ? [] : [{ cap: `Rincian Penilaian Keinvasifan ${L.judul(c.objek)}`, spec: this.rinci(r) }]; },
+    simpulan(r) { return r.kosong ? "" : `Nilai keinvasifan tertinggi dimiliki ${daftarKata(r.baris.filter((b) => b.total === r.baris[0].total).map((b) => b.nama || b.latin))} (jumlah skor ${r.baris[0].total} dari 15, K = ${num(r.baris[0].K, 1)})`; },
+    kpi(r) { return r.kosong ? [] : [[num(r.baris[0].K, 1), "nilai keinvasifan tertinggi"]]; }
   };
 
   /* =====================================================================
@@ -578,11 +747,11 @@
     metode(c) { const lv = c.lv; return [blk([R("x̄ = "), F(Sum(Sub("x", "i")), "n")], lv), blk([R("P = "), F("x", "y"), R(" × 100%")], lv), ket([["x̄", "rata-rata (jumlah sarang per pohon, tinggi sarang, atau jarak ke sumber air)"], [Sub("x", "i"), "nilai pada pohon sarang ke-i"], ["n", "jumlah pohon sarang"], ["P", "persentase pohon sarang suatu jenis pohon (%)"], ["x", "jumlah pohon sarang jenis tersebut"], ["y", "jumlah seluruh pohon sarang"]], lv)].join(""); },
     narHasil(r, c) {
       if (r.kosong) return `Belum ada data pohon sarang ${c.objek}.`;
-      return `Ditemukan ${nTxt(r.pohon)} pohon sarang dengan ${r.sarang} sarang ${c.objek} (rata-rata ${num(r.rata, 2)} sarang per pohon)${r.lokasi.length ? ` di ${daftarKata(r.lokasi)}` : ""}. Jenis pohon yang paling banyak digunakan adalah ${daftarKata(r.baris.slice(0, 3).map((b) => `${nm(b)} (${b.pohon} pohon, ${num(b.persen, 1)}%)`))}.${r.tinggi ? ` Tinggi sarang berkisar ${num(r.tinggi.min, 1)}–${num(r.tinggi.max, 1)} m dengan rata-rata ${num(r.tinggi.mean, 1)} m.` : ""}${r.jarakAir ? ` Jarak pohon sarang ke sumber air rata-rata ${num(r.jarakAir.mean, 0)} m (${num(r.jarakAir.min, 0)}–${num(r.jarakAir.max, 0)} m).` : ""}`;
+      return `Ditemukan ${nTxt(r.pohon)} pohon sarang dengan ${r.sarang} sarang ${c.objek} (rata-rata ${num(r.rata, 2)} sarang per pohon)${r.lokasi.length ? ` di ${daftarKata(r.lokasi)}` : ""}. Jenis pohon yang paling banyak digunakan adalah ${daftarKata(r.baris.slice(0, 3).map((b) => `${nm(b)} sebanyak ${b.pohon} pohon (${num(b.persen, 1)}%)`))}.${r.tinggi ? ` Tinggi sarang berkisar ${num(r.tinggi.min, 1)}–${num(r.tinggi.max, 1)} m dengan rata-rata ${num(r.tinggi.mean, 1)} m.` : ""}${r.jarakAir ? ` Jarak pohon sarang ke sumber air rata-rata ${num(r.jarakAir.mean, 0)} m (${num(r.jarakAir.min, 0)}–${num(r.jarakAir.max, 0)} m).` : ""}`;
     },
     hitungHtml(r, c) { if (r.kosong) return ""; return blk([R("x̄ sarang = "), F(num(r.sarang), num(r.pohon)), R(` = ${num(r.rata, 2)} sarang/pohon`)], c.lv); },
     spec(r) { return { head: ["No", "Jenis Pohon", "Nama Ilmiah", "Jumlah Pohon Sarang", "Persentase (%)", "Jumlah Sarang", "Rata-rata Tinggi Sarang (m)"], rows: r.baris.map((b, i) => [k(i + 1), t(esc(b.jenis)), t(sci(b.latin)), n(b.pohon, 0), n(b.persen, 2), n(b.sarang, 0), b.tinggi === null ? k("-") : n(b.tinggi, 1)]), total: [[{ t: "Jumlah", cs: 3 }, n(r.pohon, 0), n(100, 2), n(r.sarang, 0), r.tinggi ? n(r.tinggi.mean, 1) : k("-")]] }; },
-    tabel(r, c) { return r.kosong ? [] : [{ cap: `Jenis Pohon Sarang ${L.cap1(c.objek)}`, spec: this.spec(r) }]; },
+    tabel(r, c) { return r.kosong ? [] : [{ cap: `Jenis Pohon Sarang ${L.judul(c.objek)}`, spec: this.spec(r) }]; },
     simpulan(r, c) { return r.kosong ? "" : `Ditemukan ${r.pohon} pohon sarang ${c.objek} dengan ${r.sarang} sarang; jenis pohon yang paling banyak digunakan adalah ${nm(r.baris[0])}`; },
     kpi(r) { return r.kosong ? [] : [[r.pohon, "pohon sarang"], [r.sarang, "sarang"]]; }
   };

@@ -7,10 +7,9 @@
   "use strict";
   const K = window.PEHKeg, { KOL } = K, L = window.PEHLaporan;
   const KELAS = ["Hutan", "Hutan lahan kering primer", "Hutan lahan kering sekunder", "Hutan tanaman", "Semak belukar", "Savana", "Padang rumput", "Pertanian lahan kering", "Pertanian lahan kering campur semak", "Perkebunan", "Permukiman", "Lahan terbuka", "Tubuh air"];
-  const EKOSISTEM = ["Hutan pamah (dataran rendah)", "Hutan musim/kering", "Hutan hujan tropis dataran rendah", "Hutan pegunungan bawah", "Hutan pegunungan atas", "Sub alpin", "Savana", "Riparian", "Ekosistem lainnya"];
+  const { EKOSISTEM, ZONA } = K;
   const STATUS = ["Non open area", "Open area", "Open area alami", "Open area buatan"];
   const PENYEBAB = ["Pertanian/perladangan", "Perkebunan", "Permukiman", "Bekas kebakaran", "Bekas pembalakan", "Jalan atau sarana", "Bencana alam", "Lainnya"];
-  const ZONA = ["Zona Inti", "Zona Rimba", "Zona Pemanfaatan", "Zona Tradisional", "Zona Rehabilitasi", "Zona Khusus"];
   const titikIsi = (S) => K.terisi(S.data.titik, "kode", "peta", "lapangan");
   const kelompok = (rows, key) => { const m = new Map(); rows.forEach((r) => { const k = String(r[key] || "").trim(); if (k) m.set(k, (m.get(k) || 0) + 1); }); return [...m.entries()].sort((a, b) => b[1] - a[1]); };
   const terbuka = (r) => /^open/i.test(String(r.openArea || "").trim());

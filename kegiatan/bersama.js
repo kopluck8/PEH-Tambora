@@ -112,6 +112,9 @@
   const cocok = (r, target) => { const t = String(target || "").trim().toLowerCase(); if (!t) return true; return [r.jenis, r.latin].some((s) => String(s || "").toLowerCase().includes(t)); };
   // Wilayah kerja dalam kalimat
   const resor = (x) => (x.I.resort ? `${/^resor/i.test(x.I.resort) ? "" : "Resor "}${x.I.resort}` : x.lokasi);
+  // Daftar pilihan yang dipakai beberapa kegiatan: zona pengelolaan dan tipe ekosistem peta Balai
+  const ZONA = ["Zona Inti", "Zona Rimba", "Zona Pemanfaatan", "Zona Tradisional", "Zona Rehabilitasi", "Zona Khusus"];
+  const EKOSISTEM = ["Hutan pamah (dataran rendah)", "Hutan musim/kering", "Hutan hujan tropis dataran rendah", "Hutan pegunungan bawah", "Hutan pegunungan atas", "Sub alpin", "Savana", "Riparian", "Ekosistem lainnya"];
   const SARAN_UMUM = {
     kapasitas: "Perlu peningkatan kapasitas pelaksana dalam metode survei lapangan, identifikasi jenis, dan pengolahan data",
     alat: "Perlu dukungan peralatan yang memadai (GPS, kamera dengan lensa panjang, binokuler, dan perangkat SMART Mobile) agar data lebih lengkap dan akurat",
@@ -120,5 +123,5 @@
     smart: "Data lapangan dicatat dengan SMART Mobile pada kategori Metode Teknis agar langsung tersimpan di basis data Balai dan dapat diolah ulang"
   };
 
-  window.PEHKeg = { TN, pisahJenis, jenisDari, taksa, kamus, KOL, TINGKAT, kolJenis, kolVegetasi, yaTidak, dasarObs, petaVegetasi, inputVegetasi, optVegetasi, paramVegetasi, paramKriteriaH, paramMetodeID, paramSistem, terisi, unik, cocok, resor, specDari, rentang, dilindungi, namaJenis, proyeksi, sasaran, maksPerUnit, SARAN_UMUM, cap1: L.cap1 };
+  window.PEHKeg = { TN, pisahJenis, jenisDari, taksa, kamus, KOL, TINGKAT, kolJenis, kolVegetasi, yaTidak, dasarObs, petaVegetasi, inputVegetasi, optVegetasi, paramVegetasi, paramKriteriaH, paramMetodeID, paramSistem, terisi, unik, cocok, resor, specDari, rentang, dilindungi, namaJenis, proyeksi, sasaran, maksPerUnit, SARAN_UMUM, ZONA, EKOSISTEM, cap1: L.cap1 };
 })();

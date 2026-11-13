@@ -54,6 +54,9 @@
   const fmtNip = (nip) => { const d = String(nip || "").replace(/\D/g, ""); return d.length === 18 ? `${d.substr(0, 8)} ${d.substr(8, 6)} ${d.substr(14, 1)} ${d.substr(15)}` : String(nip || ""); };
   const nb = (s) => String(s).replace(/ /g, " ");
   const cap1 = (s) => String(s || "").charAt(0).toUpperCase() + String(s || "").slice(1);
+  // Huruf besar di awal setiap kata untuk judul tabel, kecuali kata tugas ("Daftar Jenis Tumbuhan Asing Invasif yang Ditemukan")
+  const KATA_KECIL = new Set(["dan", "di", "ke", "dari", "yang", "pada", "untuk", "dengan", "atau", "per", "oleh", "dalam", "terhadap", "sebagai", "menurut"]);
+  const judul = (s) => String(s || "").split(" ").map((w, i) => (i > 0 && KATA_KECIL.has(w.toLowerCase()) ? w.toLowerCase() : w.replace(/^([("'[]*)(\S)/, (m, a, h) => a + h.toUpperCase()))).join(" ");
   // Nama ilmiah dalam kurung dicetak miring: "Elang bondol (Haliastur indus)"
   const italicLatin = (html) => html.replace(/\(([A-Z][a-z]+ [a-z]+(?: [a-z]+)?)\)/g, "(<i>$1</i>)");
   const sci = (s) => `<i>${esc(s)}</i>`;
@@ -152,6 +155,6 @@
     return `<table class="data gantt"><thead><tr><th rowspan="2">No</th><th rowspan="2">Tahapan Kegiatan</th>${months.map((x) => `<th colspan="${x.n}">${BULAN[x.m]} ${x.y}</th>`).join("")}</tr><tr>${days.map((d) => `<th class="d">${parseISO(d).getUTCDate()}</th>`).join("")}</tr></thead><tbody>${ok.map((r, i) => `<tr><td class="c">${i + 1}.</td><td>${esc(r[0])}</td>${days.map((d) => `<td class="${d >= r[1] && d <= r[2] ? "on" : ""}"></td>`).join("")}</tr>`).join("")}</tbody></table>`;
   }
 
-  window.PEHLaporan = { esc, BULAN, HARI, parseISO, addDays, validISO, tglPanjang, periodeSd, jumlahHari, bulanTahun, terbilang, nTxt, num, numVal, rp, rupiah, fmtNip, nb, cap1, italicLatin, sci, terbilangRupiah,
+  window.PEHLaporan = { esc, BULAN, HARI, parseISO, addDays, validISO, tglPanjang, periodeSd, jumlahHari, bulanTahun, terbilang, nTxt, num, numVal, rp, rupiah, fmtNip, nb, cap1, judul, italicLatin, sci, terbilangRupiah,
     DEFAULT_PROFIL, kopHtml, titleHtml, coverHtml, sign, kvTable, pengesahanHtml, tocHtml, closingHtml, lampiranIndex, numbering, para, noteBlock, olList, timTable, alatTable, rabRows, rabTable, ganttTable };
 })();

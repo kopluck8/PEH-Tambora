@@ -182,7 +182,7 @@
       if (r.indeks.includes("Ds")) rows.push([t("Indeks keanekaragaman Simpson (Ds)"), n(r.Ds, 2), k(esc(r.kritDs))]);
       return { head: ["Indeks", "Nilai", "Kriteria"], rows: [[t("Jumlah jenis (S)"), n(r.S, 0), t("")], [t("Jumlah individu (N)"), n(r.N, 0), t("")], ...rows] };
     },
-    tabel(r, c) { return r.kosong ? [] : [{ cap: `Komposisi Jenis dan Indeks Dominansi ${L.cap1(c.objek)}`, spec: this.spec(r) }, { cap: `Indeks Komunitas ${L.cap1(c.objek)}`, spec: this.ringkas(r) }]; },
+    tabel(r, c) { return r.kosong ? [] : [{ cap: `Komposisi Jenis dan Indeks Dominansi ${L.judul(c.objek)}`, spec: this.spec(r) }, { cap: `Indeks Komunitas ${L.judul(c.objek)}`, spec: this.ringkas(r) }]; },
     simpulan(r, c) {
       if (r.kosong) return "";
       const bag = [];
@@ -241,7 +241,7 @@
         rows: r.baris.map((b) => [k(b.no), t(esc(b.jenis)), t(sci(b.latin)), n(b.Xi, 0), n(b.perHa, 4), k(haTxt(b.haPerInd))]),
         total: [[{ t: "Jumlah", cs: 3 }, n(r.N, 0), n(r.D.perHa, 4), k(haTxt(r.D.haPerInd))]] };
     },
-    tabel(r, c) { return r.kosong ? [] : [{ cap: `Kepadatan Populasi ${L.cap1(c.objek)} pada Plot Pengamatan`, spec: this.spec(r) }]; },
+    tabel(r, c) { return r.kosong ? [] : [{ cap: `Kepadatan Populasi ${L.judul(c.objek)} pada Plot Pengamatan`, spec: this.spec(r) }]; },
     simpulan(r, c) { return r.kosong ? "" : `Kepadatan populasi ${c.objek} pada ${r.nPlot} plot pengamatan (${fx(r.luas.ha)} ha) adalah ${fx(r.D.perHa, 4)} individu/ha atau 1 individu/${fx(r.D.haPerInd, 2)} ha`; },
     kpi(r) { return r.kosong ? [] : [[`${fx(r.luas.ha)} ha`, `${r.nPlot} plot`], [fx(r.D.perHa, 4), `ind/ha (${haTxt(r.D.haPerInd)})`]]; }
   };
@@ -309,7 +309,7 @@
         rows: r.baris.map((b) => [t(esc(b.jenis)), n(b.tpl.id, 3), k(b.kritTpl), n(b.plot.id, 3), k(b.kritPlot), n(b.morisita, 3)]),
         total: [[t("Gabungan"), n(r.gabTpl.id, 3), k(r.gabTpl.kriteria), n(r.gabPlot.id, 3), k(r.gabPlot.kriteria), n(r.morisita, 3)]] };
     },
-    tabel(r, c) { return r.kosong ? [] : [{ cap: `Pola Sebaran ${L.cap1(c.objek)}`, spec: this.spec(r) }]; },
+    tabel(r, c) { return r.kosong ? [] : [{ cap: `Pola Sebaran ${L.judul(c.objek)}`, spec: this.spec(r) }]; },
     kalkExtra(r) {
       if (r.kosong) return "";
       const beda = r.gabTpl.kriteria !== r.gabPlot.kriteria || r.baris.some((b) => b.kritTpl !== b.kritPlot);
@@ -360,8 +360,8 @@
         [t("Chao2"), n(r.chao2, 2)], [t("Jackknife orde satu"), k(`${num(r.jack1, 2)} ± ${num(r.seJack, 2)}`)], [t("Chao1 (dari jumlah individu)"), n(r.chao1, 2)], [t("Kelengkapan inventarisasi (S<sub>obs</sub>/Chao2)"), k(`${num(r.lengkap, 1)}%`)]] };
     },
     akumulasi(r) { return { head: ["Unit ke-", "Unit contoh", "Jenis baru", "Jumlah jenis kumulatif"], rows: r.akumulasi.map((a) => [k(a.ke), t(esc(a.unit)), n(a.baru, 0), n(a.kumulatif, 0)]) }; },
-    tabel(r, c) { return r.kosong ? [] : [{ cap: `Pendugaan Kekayaan Jenis ${L.cap1(c.objek)}`, spec: this.spec(r) }]; },
-    lampiran(r, c) { return r.kosong ? [] : [{ cap: `Kurva Akumulasi Jenis ${L.cap1(c.objek)}`, spec: this.akumulasi(r) }]; },
+    tabel(r, c) { return r.kosong ? [] : [{ cap: `Pendugaan Kekayaan Jenis ${L.judul(c.objek)}`, spec: this.spec(r) }]; },
+    lampiran(r, c) { return r.kosong ? [] : [{ cap: `Kurva Akumulasi Jenis ${L.judul(c.objek)}`, spec: this.akumulasi(r) }]; },
     simpulan(r, c) { return r.kosong ? "" : `Dugaan kekayaan jenis ${c.objek} adalah ${num(r.chao2, 1)} jenis (Chao2) dan ${num(r.jack1, 1)} jenis (Jackknife), dengan kelengkapan inventarisasi sekitar ${num(r.lengkap, 0)}%`; },
     kpi(r) { return r.kosong ? [] : [[num(r.chao2, 1), "dugaan jenis (Chao2)"], [`${num(r.lengkap, 0)}%`, "kelengkapan"]]; }
   };
@@ -381,8 +381,8 @@
       return `Dari ${nTxt(r.y)} ${c.opt.satuan || "catatan"}, ${c.opt.label || "kategori"} yang paling banyak adalah ${daftarKata(top.map((x) => `${x.k.toLowerCase()} (${num(x.p, 1)}%)`))}.`;
     },
     hitungHtml(r, c) { if (r.kosong) return ""; const a = r.rows[0]; return blk([R("P = "), F(num(a.x), num(r.y)), R(` × 100% = ${num(a.p, 2)}%`)], c.lv); },
-    spec(r, c) { return { head: ["No", L.cap1(c.opt.label || "Kategori"), "Frekuensi", "Persentase (%)"], rows: r.rows.map((x, i) => [k(i + 1), t(esc(x.k)), n(x.x, 0), n(x.p, 2)]), total: [[{ t: "Jumlah", cs: 2 }, n(r.y, 0), n(100, 2)]] }; },
-    tabel(r, c) { return r.kosong ? [] : [{ cap: c.opt.cap || `Persentase ${L.cap1(c.opt.label || "Kategori")} ${L.cap1(c.objek)}`, spec: this.spec(r, c) }]; },
+    spec(r, c) { return { head: ["No", L.judul(c.opt.label || "Kategori"), "Frekuensi", "Persentase (%)"], rows: r.rows.map((x, i) => [k(i + 1), t(esc(x.k)), n(x.x, 0), n(x.p, 2)]), total: [[{ t: "Jumlah", cs: 2 }, n(r.y, 0), n(100, 2)]] }; },
+    tabel(r, c) { return r.kosong ? [] : [{ cap: c.opt.cap || `Persentase ${L.judul(c.opt.label || "Kategori")} ${L.judul(c.objek)}`, spec: this.spec(r, c) }]; },
     simpulan(r, c) { return r.kosong ? "" : `${L.cap1(c.opt.label || "kategori")} ${c.objek} yang paling sering tercatat adalah ${r.rows[0].k.toLowerCase()} (${num(r.rows[0].p, 1)}%)`; },
     kpi() { return []; }
   };
@@ -412,16 +412,17 @@
       const kl = c.opt.kelompok || "famili";
       const banyak = f.filter(([, x]) => x > 1).slice(0, 3);
       const fTxt = banyak.length ? ` ${L.cap1(kl)} dengan jenis terbanyak adalah ${daftarKata(banyak.map(([nmF, x]) => `${nmF} (${x} jenis)`))}.` : f.length > 1 ? ` Setiap ${kl} diwakili oleh satu jenis.` : "";
-      return `Teridentifikasi ${nTxt(r.S)} jenis ${c.objek}${f.length ? ` dari ${nTxt(f.length)} ${kl}` : ""} dengan jumlah ${r.N} ${c.opt.satuan || "individu"}.${fTxt}`;
+      const tanpa = f.length ? r.baris.filter((b) => !b.famili).length : 0;
+      return `Teridentifikasi ${nTxt(r.S)} jenis ${c.objek}${f.length ? ` dari ${nTxt(f.length)} ${kl}${tanpa ? ` (${tanpa} jenis belum diketahui ${kl}nya)` : ""}` : ""} dengan jumlah ${r.N} ${c.opt.satuan || "individu"}.${fTxt}`;
     },
     hitungHtml() { return ""; },
     spec(r, c) {
       const kol = r.kol;
-      return { head: ["No", ...(r.famili.length ? [L.cap1(c.opt.kelompok || "famili")] : []), "Nama Jenis", "Nama Ilmiah", `Jumlah (${c.opt.satuan || "individu"})`, ...kol.map((x) => x.label), "Unit/Lokasi Temuan"],
+      return { head: ["No", ...(r.famili.length ? [L.judul(c.opt.kelompok || "famili")] : []), "Nama Jenis", "Nama Ilmiah", `Jumlah (${c.opt.satuan || "individu"})`, ...kol.map((x) => x.label), "Unit/Lokasi Temuan"],
         rows: r.baris.map((b) => [k(b.no), ...(r.famili.length ? [t(esc(b.famili))] : []), t(esc(b.jenis)), t(sci(b.latin)), n(b.n, 0), ...kol.map((x) => t(esc(b[x.key] || "-"))), t(esc(b.unit.join(", ") || "-"))]),
         total: [[{ t: "Jumlah", cs: r.famili.length ? 4 : 3 }, n(r.N, 0), ...kol.map(() => t("")), t("")]] };
     },
-    tabel(r, c) { return r.kosong ? [] : [{ cap: `Daftar Jenis ${L.cap1(c.objek)} yang Ditemukan`, spec: this.spec(r, c) }]; },
+    tabel(r, c) { return r.kosong ? [] : [{ cap: `Daftar Jenis ${L.judul(c.objek)} yang Ditemukan`, spec: this.spec(r, c) }]; },
     simpulan(r, c) { return r.kosong ? "" : `Teridentifikasi ${nTxt(r.S)} jenis ${c.objek}${r.famili.length ? ` dari ${r.famili.length} ${c.opt.kelompok || "famili"}` : ""}`; },
     kpi(r, c) { return r.kosong ? [] : [[r.S, "jenis"], [r.famili.length || "-", (c && c.opt.kelompok) || "famili"]]; }
   };
@@ -446,7 +447,7 @@
     },
     hitungHtml(r, c) { return r.kosong || r.SR === null ? "" : blk([R("SR = "), F(num(r.J), num(r.B)), R(` = ${num(r.SR, 2)}`)], c.lv); },
     spec(r) { return { head: ["Jantan", "Betina", "Nisbah Kelamin (J/B)", "Anak", "Muda", "Dewasa"], rows: [[n(r.J, 0), n(r.B, 0), r.SR === null ? k("-") : n(r.SR, 2), n(r.A, 0), n(r.Mu, 0), n(r.D, 0)]] }; },
-    tabel(r, c) { return r.kosong ? [] : [{ cap: `Struktur Populasi ${L.cap1(c.objek)} dari Perjumpaan Langsung`, spec: this.spec(r) }]; },
+    tabel(r, c) { return r.kosong ? [] : [{ cap: `Struktur Populasi ${L.judul(c.objek)} dari Perjumpaan Langsung`, spec: this.spec(r) }]; },
     simpulan(r, c) {
       if (r.kosong) return "";
       const bag = [];
