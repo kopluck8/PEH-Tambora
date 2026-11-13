@@ -401,7 +401,9 @@
   M.daftar = {
     judul: "Daftar Jenis",
     hitung(inp, opt = {}) {
-      const g = perJenis(inp.rows || []).sort((a, b) => String(a.rows[0].famili || "").localeCompare(String(b.rows[0].famili || "")) || a.jenis.localeCompare(b.jenis));
+      const famOf = (b) => String((b.rows.find((r) => r.famili) || {}).famili || "");
+      // Jenis yang belum diketahui familinya diletakkan di akhir daftar
+      const g = perJenis(inp.rows || []).sort((a, b) => (famOf(a) === "") - (famOf(b) === "") || famOf(a).localeCompare(famOf(b)) || a.jenis.localeCompare(b.jenis));
       const kol = opt.kolom || [];
       const baris = g.map((b, i) => {
         const o = { no: i + 1, jenis: b.jenis, latin: b.latin, n: b.n, temu: b.rows.length, unit: [...b.unit], famili: (b.rows.find((r) => r.famili) || {}).famili || "" };
@@ -411,7 +413,7 @@
       const fam = new Map(); baris.forEach((b) => { if (b.famili) fam.set(b.famili, (fam.get(b.famili) || 0) + 1); });
       return { kosong: !baris.length, baris, S: baris.length, N: baris.reduce((s, b) => s + b.n, 0), famili: [...fam.entries()].sort((a, b) => b[1] - a[1]), kol };
     },
-    narMetode(c) { return `Data hasil identifikasi dianalisis secara deskriptif: daftar jenis ${c.objek}, ${c.opt.kelompok || "famili"}, jumlah temuan, dan lokasi ditemukannya, dilengkapi foto dan ciri pengenal tiap jenis.`; },
+    narMetode(c) { return c.opt.metodeTxt || `Data hasil identifikasi dianalisis secara deskriptif: daftar jenis ${c.objek}, ${c.opt.kelompok || "famili"}, jumlah temuan, dan lokasi ditemukannya, dilengkapi foto dan ciri pengenal tiap jenis.`; },
     metode() { return ""; },
     narHasil(r, c) {
       if (r.kosong) return `Belum ada data jenis ${c.objek}.`;

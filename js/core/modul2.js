@@ -1071,4 +1071,82 @@
     },
     kpi(r) { return r.kosong ? [] : [[r.catatan, "catatan perjumpaan"], ...(r.puncak ? [[r.puncak.Nmin, `individu minimum (${r.puncak.tahun})`]] : [])]; }
   };
+
+  /* =====================================================================
+   * 25. Karakteristik tipe ekosistem dari grid verifikasi kawasan bernilai kehati tinggi
+   * inp: { grid: [{ kode, tipe, zona, ketinggian }], veg: [{ grid, petak, tingkat, jenis, latin, n, diameter }], satwa: [{ grid, jenis, latin }] }
+   * opt: { kriteriaH, luas: { semai, pancang, tiang, pohon } (m²), sisiGrid (km) }
+   * H′ tumbuhan per tipe ekosistem dihitung dari jumlah individu seluruh tingkat pertumbuhan;
+   * jenis dominan adalah jenis dengan INP tertinggi pada tingkat tertinggi yang tercatat (pohon, tiang, pancang, semai)
+   * ===================================================================== */
+  const BELUM = "Belum ditentukan";
+  const kritH = (h, k) => (ST.KRITERIA_H[k] || ST.KRITERIA_H.template).fn(h);
+  M.ekosistem = {
+    judul: "Karakteristik Tipe Ekosistem",
+    hitung(inp, opt = {}) {
+      const grid = (inp.grid || []).filter((g) => str(g.kode) || str(g.tipe));
+      const tipeOf = (g) => str(g.tipe) || BELUM;
+      const peta = new Map(grid.filter((g) => str(g.kode)).map((g) => [str(g.kode).toLowerCase(), tipeOf(g)]));
+      const tipeDari = (r) => peta.get(str(r.grid).toLowerCase()) || "";
+      const veg = (inp.veg || []).filter((r) => str(r.jenis) || str(r.latin)), sat = (inp.satwa || []).filter((r) => str(r.jenis) || str(r.latin));
+      const luas = opt.luas || {}, normT = M.vegetasi.normT;
+      const rows = [...new Set(grid.map(tipeOf))].map((tp) => {
+        const gs = grid.filter((g) => tipeOf(g) === tp), v = veg.filter((r) => tipeDari(r) === tp), s = sat.filter((r) => tipeDari(r) === tp);
+        const alt = gs.map((g) => toN(g.ketinggian)).filter((x) => fin(x) && x > 0);
+        const pj = perJenis(v), sh = ST.shannon(pj.map((b) => b.n));
+        const petak = new Set(v.map((r) => str(r.petak)).filter(Boolean));
+        const tk = ["pohon", "tiang", "pancang", "semai", "tumbuhan bawah"].find((x) => v.some((r) => normT(r.tingkat) === x));
+        let dom = null;
+        if (tk) {
+          const rr = v.filter((r) => normT(r.tingkat) === tk), P_ = new Set(rr.map((r) => str(r.petak)).filter(Boolean)).size || petak.size || 1;
+          const lu = nOr(luas[tk] ?? luas[tk.replace(/ /g, "")], 0) || nOr(luas.semai, 4), pakaiD = tk === "pohon" || tk === "tiang";
+          const jenis = perJenis(rr).map((b) => ({ jenis: b.jenis, latin: b.latin, n: b.n, p: new Set(b.rows.map((x) => str(x.petak)).filter(Boolean)).size || 1, lbds: sum(b.rows.map((x) => ST.lbds(toN(x.diameter)) * nOr(x.n, 1))) }));
+          const vv = ST.vegetasi(jenis, P_, (P_ * lu) / 10000, pakaiD);
+          if (vv.rows[0]) dom = { jenis: vv.rows[0].jenis, latin: vv.rows[0].latin, INP: vv.rows[0].INP, tingkat: tk };
+        }
+        return { tipe: tp, grid: gs.length, kode: gs.map((g) => str(g.kode)).filter(Boolean), alt: alt.length ? { min: Math.min(...alt), max: Math.max(...alt) } : null, zona: [...new Set(gs.map((g) => str(g.zona)).filter(Boolean))],
+          petak: petak.size, S: pj.length, N: sh.N, H: pj.length > 1 ? sh.H : pj.length ? 0 : null, dom, satwa: new Set(s.map((r) => M.util.kunci(r.latin || r.jenis))).size };
+      }).sort((a, b) => b.grid - a.grid || b.S - a.S);
+      const lepas = veg.filter((r) => !tipeDari(r)).length + sat.filter((r) => !tipeDari(r)).length;
+      return { kosong: !grid.length, rows, nGrid: grid.length, lepas, adaVeg: veg.length > 0, adaSatwa: sat.length > 0 };
+    },
+    narMetode(c) {
+      const sg = nOr(c.opt.sisiGrid, 1);
+      return `Karakteristik setiap tipe ekosistem disusun dari hasil verifikasi grid berukuran ${numL(sg)} km × ${numL(sg)} km: jumlah grid, rentang ketinggian, zona pengelolaan, jumlah jenis tumbuhan dan satwa yang tercatat, jenis tumbuhan dengan indeks nilai penting (INP) tertinggi, dan indeks keanekaragaman jenis tumbuhan Shannon-Wiener (H′) yang dihitung dari seluruh individu pada tipe ekosistem tersebut:`;
+    },
+    metode(c) {
+      const lv = c.lv;
+      return [blk([R("H′ = −"), Sum([Sub("p", "i"), R(" × ln "), Sub("p", "i")]), R(";  "), Sub("p", "i"), R(" = "), F(Sub("n", "i"), "N")], lv),
+        ket([["H′", "indeks keanekaragaman jenis tumbuhan pada satu tipe ekosistem"], [Sub("n", "i"), "jumlah individu jenis ke-i pada seluruh petak contoh di tipe ekosistem tersebut"], ["N", "jumlah individu seluruh jenis pada tipe ekosistem tersebut"]], lv),
+        para(`Kriteria keanekaragaman: ${esc((ST.KRITERIA_H[c.opt.kriteriaH] || ST.KRITERIA_H.template).label.replace(/H'/g, "H′"))}.`, lv)].join("");
+    },
+    altTxt: (a) => (!a ? "" : a.min === a.max ? `${numL(a.min, 0)} mdpl` : `${numL(a.min, 0)} sampai ${numL(a.max, 0)} mdpl`),
+    narHasil(r, c) {
+      if (r.kosong) return "Belum ada data grid verifikasi.";
+      const kecilT = (s) => (s === BELUM ? "tipe yang belum ditentukan" : M.util.kecil(s));
+      const tipe = r.rows.map((x) => `${kecilT(x.tipe)} ${x.grid} grid${x.alt ? ` (${this.altTxt(x.alt)})` : ""}`);
+      const out = [`Grid verifikasi berjumlah ${nTxt(r.nGrid)} dan mencakup ${nTxt(r.rows.length)} tipe ekosistem, yaitu ${daftarKata(tipe)}.`];
+      r.rows.filter((x) => x.S).forEach((x) => out.push(`Pada ${kecilT(x.tipe)} tercatat ${nTxt(x.S)} jenis tumbuhan${x.H !== null && x.S > 1 ? ` (H′ = ${num(x.H, 2)}, ${kritH(x.H, c.opt.kriteriaH).toLowerCase()})` : ""}${x.dom ? ` dengan jenis dominan ${nm(x.dom)} pada tingkat ${x.dom.tingkat} (INP ${num(x.dom.INP, 2)}%)` : ""}${x.satwa ? `, serta ${nTxt(x.satwa)} jenis satwa` : ""}.`));
+      if (r.lepas) out.push(`Sebanyak ${nTxt(r.lepas)} baris data vegetasi atau satwa tidak memiliki kode grid yang cocok dengan tabel grid, sehingga tidak masuk ringkasan per tipe ekosistem.`);
+      return out.join(" ");
+    },
+    hitungHtml(r, c) {
+      const x = r.rows.find((y) => y.S > 1);
+      if (!x) return "";
+      return para(`Contoh perhitungan untuk ${esc(x.tipe === BELUM ? "tipe yang belum ditentukan" : x.tipe)}: ${nTxt(x.S)} jenis dengan ${num(x.N)} individu menghasilkan H′ = ${num(x.H, 2)} (${esc(kritH(x.H, c.opt.kriteriaH).toLowerCase())}).`, c.lv);
+    },
+    spec(r) {
+      return { head: ["No", "Tipe Ekosistem", "Jumlah Grid", "Ketinggian (mdpl)", "Zona", "Jumlah Jenis Tumbuhan", "H′ Tumbuhan", "Jenis Dominan (INP %)", "Jumlah Jenis Satwa"],
+        rows: r.rows.map((x, i) => [k(i + 1), t(esc(x.tipe)), n(x.grid, 0), k(esc(x.alt ? (x.alt.min === x.alt.max ? numL(x.alt.min, 0) : `${numL(x.alt.min, 0)}–${numL(x.alt.max, 0)}`) : "-")), t(esc(x.zona.join(", ") || "-")),
+          r.adaVeg ? n(x.S, 0) : k("-"), x.H === null ? k("-") : n(x.H, 2), x.dom ? t(`${esc(x.dom.jenis)}${x.dom.latin && x.dom.latin.toLowerCase() !== x.dom.jenis.toLowerCase() ? ` (${sci(x.dom.latin)})` : ""}, ${esc(x.dom.tingkat)} (${num(x.dom.INP, 2)})`) : k("-"), r.adaSatwa ? n(x.satwa, 0) : k("-")]),
+        total: [[{ t: "Jumlah grid", cs: 2 }, n(r.nGrid, 0), { t: "", cs: 6 }]] };
+    },
+    tabel(r) { return r.kosong ? [] : [{ cap: "Karakteristik Tipe Ekosistem pada Grid Verifikasi", spec: this.spec(r), catatan: "H′ dihitung dari seluruh individu tumbuhan pada tipe ekosistem tersebut; jenis dominan diambil dari tingkat pertumbuhan tertinggi yang tercatat." }]; },
+    simpulan(r) {
+      if (r.kosong) return "";
+      const kecilT = (s) => (s === BELUM ? "tipe yang belum ditentukan" : M.util.kecil(s)), adaS = r.rows.filter((x) => x.S), top = adaS.slice().sort((a, b) => b.S - a.S)[0];
+      return `Grid yang diverifikasi mencakup ${nTxt(r.rows.length)} tipe ekosistem, yaitu ${daftarKata(r.rows.map((x) => kecilT(x.tipe)))}${adaS.length > 1 && top ? `; jumlah jenis tumbuhan terbanyak tercatat pada ${kecilT(top.tipe)}, yaitu ${top.S} jenis` : ""}`;
+    },
+    kpi(r) { return r.kosong ? [] : [[r.rows.length, "tipe ekosistem"], [r.nGrid, "grid"]]; }
+  };
 })();

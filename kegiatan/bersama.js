@@ -116,8 +116,10 @@
   const resor = (x) => (x.I.resort ? `${/^resor/i.test(x.I.resort) ? "" : "Resor "}${x.I.resort}` : x.lokasi);
   // Jenis yang dinyatakan invasif di LPK IAS Balai (Doropeti, Pancasila, dan Kawinda Toi 2023, termasuk temuan SPTN Wilayah I Kore 2020)
   const JAI_LPK = ["Ageratum conyzoides", "Bidens pilosa", "Chromolaena odorata", "Crassocephalum crepidioides", "Emilia sonchifolia", "Euphorbia hirta", "Hyptis capitata", "Imperata cylindrica", "Lantana camara", "Mimosa diplotricha", "Momordica balsamina", "Psidium guajava", "Solanum torvum", "Themeda arguens", "Acacia auriculiformis"];
-  // Famili jenis invasif yang belum tercatat familinya di daftar jenis TN Tambora
-  const FAMILI = { ageratum: "Asteraceae", bidens: "Asteraceae", chromolaena: "Asteraceae", crassocephalum: "Asteraceae", emilia: "Asteraceae", euphorbia: "Euphorbiaceae", jatropha: "Euphorbiaceae", hyptis: "Lamiaceae", imperata: "Poaceae", themeda: "Poaceae", ischaemum: "Poaceae", cyperus: "Cyperaceae", lantana: "Verbenaceae", mimosa: "Fabaceae", acacia: "Fabaceae", crotalaria: "Fabaceae", momordica: "Cucurbitaceae", psidium: "Myrtaceae", solanum: "Solanaceae", anacardium: "Anacardiaceae" };
+  // Famili menurut genus untuk jenis yang belum tercatat familinya di daftar jenis TN Tambora (jenis invasif, tumbuhan dan satwa umum)
+  const FAMILI = { ageratum: "Asteraceae", bidens: "Asteraceae", chromolaena: "Asteraceae", crassocephalum: "Asteraceae", emilia: "Asteraceae", euphorbia: "Euphorbiaceae", jatropha: "Euphorbiaceae", hyptis: "Lamiaceae", imperata: "Poaceae", themeda: "Poaceae", ischaemum: "Poaceae", cyperus: "Cyperaceae", lantana: "Verbenaceae", mimosa: "Fabaceae", acacia: "Fabaceae", crotalaria: "Fabaceae", momordica: "Cucurbitaceae", psidium: "Myrtaceae", solanum: "Solanaceae", anacardium: "Anacardiaceae",
+    crypteronia: "Crypteroniaceae", celtis: "Cannabaceae", trema: "Cannabaceae", biophytum: "Oxalidaceae", vitex: "Lamiaceae", elaeocarpus: "Elaeocarpaceae",
+    rusa: "Cervidae", cervus: "Cervidae", muntiacus: "Cervidae", sus: "Suidae", macaca: "Cercopithecidae", paradoxurus: "Viverridae", pteropus: "Pteropodidae", hystrix: "Hystricidae", varanus: "Varanidae", python: "Pythonidae" };
   const familiDari = (r, t) => (t && t.famili) || FAMILI[String(r.latin || "").trim().split(/\s+/)[0].toLowerCase()] || "";
   const kunciJenis = (s) => String(s || "").trim().toLowerCase().split(/\s+/).slice(0, 2).join(" ");
   const SET_JAI = new Set([...JAI_LPK, ...taksa.semua.filter((t) => t.invasif).map((t) => t.latin)].map(kunciJenis).filter((x) => x.includes(" ")));
