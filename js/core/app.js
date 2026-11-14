@@ -277,11 +277,14 @@
   }
 
   /* ---------- Pesan singkat dan dialog konfirmasi ---------- */
-  function toast(pesan, jenis = "") {
+  function toast(pesan, jenis = "", kunci = "") {
     const box = $("toasts");
     if (!box) return;
+    // pesan berkunci menggantikan pesan sebelumnya dengan kunci sama (mis. "Membaca file..." diganti hasilnya)
+    if (kunci) box.querySelectorAll(`[data-kunci="${kunci}"]`).forEach((x) => x.remove());
     const t = document.createElement("div");
     t.className = "toast" + (jenis ? " " + jenis : "");
+    if (kunci) t.dataset.kunci = kunci;
     t.innerHTML = `<span>${esc(pesan)}</span>`;
     if (jenis === "err") {
       const b = document.createElement("button");
@@ -305,7 +308,7 @@
   const status = (msg, cls = "") => {
     const el = $("srcStatus");
     if (el) { el.textContent = msg; el.className = "status " + cls; }
-    toast(msg, cls === "err" ? "err" : "");
+    toast(msg, cls === "err" ? "err" : "", "status");
   };
 
   /* ---------- Memilih kegiatan dan memuat isian ---------- */
@@ -345,7 +348,7 @@
     src.innerHTML = `<p class="muted">Isi data langsung di tab <b>Data</b>, muat file ekspor patroli SMART yang memakai kategori <code>${esc([].concat(def.kategoriSMART).join(", "))}</code>, atau muat data contoh.</p>
       <label class="drop" for="smartFile">${IKON.unggah}<b>Pilih file patroli SMART</b><span>.zip atau .xml (Patrol → Export). Bisa beberapa file sekaligus, atau seret file ke sini.</span></label>
       <details class="sub-d"><summary>Kamus Data Model (opsional)</summary><p class="muted">Label kategori Metode Teknis sudah tersedia. Muat ekspor Data Model SMART (.xml) bila ada pilihan (misalnya nama jenis) yang labelnya belum terbaca.</p><label class="vh" for="dmFile">File ekspor Data Model SMART</label><input id="dmFile" type="file" accept=".xml"><p class="status" id="dmStatus"></p></details>
-      <div class="btnrow">${def.contoh ? `<button class="btn small" id="contohBtn" type="button">Muat contoh: ${esc(def.contoh.nama)}</button>` : ""}<button class="btn small ghost" id="kosongBtn" type="button">Kosongkan</button></div>
+      ${def.contoh ? `<p class="muted contoh-nama">Data contoh: ${esc(def.contoh.nama)}.</p>` : ""}<div class="btnrow">${def.contoh ? `<button class="btn small" id="contohBtn" type="button">Muat data contoh</button>` : ""}<button class="btn small ghost" id="kosongBtn" type="button">Kosongkan</button></div>
       <p class="status" id="srcStatus"></p>`;
     side.appendChild(card(`<span class="step">1</span> Sumber data`, src));
     // 2. Parameter metode (khusus kegiatan)
@@ -536,7 +539,7 @@
   }
   function metaKegiatan() {
     const I = S.identitas || {}, lok = I.resort || I.lokasi, per = L.validISO(I.mulai) ? L.periodeSd(I.mulai, I.selesai) : "";
-    return [`<b>${esc(lok || "Lokasi belum diisi")}</b>`, per && esc(per), `${jumlahBaris(S)} baris data`, S.sumber && esc(S.sumber)].filter(Boolean).join(" • ");
+    return [`<b>${esc(lok || "Lokasi belum diisi")}</b>`, per && esc(per), `${jumlahBaris(S)} baris data`, S.sumber && `sumber: ${esc(S.sumber)}`].filter(Boolean).join(" • ");
   }
   function setTahap(j) {
     if (!def || j < 0 || j >= TAHAP.length) return;
@@ -641,6 +644,7 @@
   const subBilah = () => `${view === "kegiatan" ? TAHAP.find((t) => t.id === tab).label + " • " : ""}${kelompokOf(def)} • ${ketData(def)}`;
   function renderPlayer() {
     const pl = $("player");
+    pl.classList.toggle("kosong", !def);
     if (!def) {
       pl.removeAttribute("style");
       pl.innerHTML = `<div class="np"><span class="art sm kosong" aria-hidden="true"></span><div class="np-txt"><p class="np-t">Belum ada kegiatan yang dibuka</p><p class="np-s">Pilih kegiatan dari daftar</p></div></div>`;
@@ -695,10 +699,35 @@
     zb.title = (ui.zoom == null ? "Pas lebar aktif; klik untuk ukuran 100%" : "Klik untuk pas lebar") + ket;
     zb.setAttribute("aria-pressed", String(ui.zoom == null));
     v.textContent = kertas ? (ui.zoom == null ? "Pas" : pct + "%") : "";
+    fokusGulir();
+  }
+  // Wadah yang hanya bisa digeser ke samping (tabel lebar, lampiran lanskap, kertas di ponsel) harus bisa
+  // dicapai dengan Tab supaya isinya bisa digeser dengan tombol panah
+  function fokusGulir() {
+    const m = $("main");
+    if (!m) return;
+    [m, ...m.querySelectorAll(".res, .landscape, .paper")].forEach((el) => {
+      const gulir = el.scrollWidth > el.clientWidth + 1 && /auto|scroll/.test(getComputedStyle(el).overflowX);
+      if (gulir && !el.hasAttribute("tabindex")) {
+        el.tabIndex = 0;
+        el.dataset.gulir = "";
+        if (!el.hasAttribute("role") && !el.hasAttribute("aria-label")) {
+          const j = el.querySelector("h2, h3, caption");
+          // div diberi peran region; article dan section sudah punya peran sendiri, cukup diberi nama
+          if (el.tagName === "DIV") el.setAttribute("role", "region");
+          el.setAttribute("aria-label", el.classList.contains("paper") ? "Pratinjau dokumen" : (j ? j.textContent.trim().slice(0, 80) : "Tabel lebar"));
+          el.dataset.gulirLabel = "";
+        }
+      } else if (!gulir && "gulir" in el.dataset) {
+        el.removeAttribute("tabindex");
+        delete el.dataset.gulir;
+        if ("gulirLabel" in el.dataset) { if (el.tagName === "DIV") el.removeAttribute("role"); el.removeAttribute("aria-label"); delete el.dataset.gulirLabel; }
+      }
+    });
   }
 
   /* ---------- Panel dan daftar sebagai laci (layar sedang dan ponsel) ---------- */
-  const panelTerbuka = () => (lebar() ? !ui.panelOff : document.body.classList.contains("drawer-panel"));
+  const panelTerbuka = () => (lebar() ? !ui.panelOff && !!def : document.body.classList.contains("drawer-panel"));
   function togglePanel(buka = !panelTerbuka()) {
     if (lebar()) { ui.panelOff = !buka; simpanUI(); terapkanUI(); terapkanZoom(); }
     else bukaLaci("panel", buka);
@@ -706,7 +735,8 @@
   let pemicu = null;
   function bukaLaci(nama, buka, opsi = {}) {
     const b = document.body;
-    if (lebar()) return;
+    // Di layar lebar laci tidak dibuka, tetapi laci yang tersisa dari layar sempit tetap bisa ditutup
+    if (buka && lebar()) return;
     b.classList.remove(nama === "lib" ? "drawer-panel" : "drawer-lib");
     b.classList.toggle("drawer-" + nama, buka);
     $("scrim").hidden = !b.classList.contains("drawer-lib") && !b.classList.contains("drawer-panel");
@@ -722,7 +752,8 @@
   function terapkanUI() {
     const b = document.body, wide = lebar();
     b.classList.toggle("lib-ciut", wide ? ui.libMini : !ponsel() && !b.classList.contains("drawer-lib"));
-    b.classList.toggle("panel-off", wide && ui.panelOff);
+    // Tanpa kegiatan yang dibuka, panel isian di layar lebar disembunyikan supaya beranda lebih lega
+    b.classList.toggle("panel-off", wide && (ui.panelOff || !def));
     sinkronTombol();
   }
   function sinkronTombol() {
@@ -764,6 +795,7 @@
       if (location.hash !== kanon) history.replaceState(null, "", kanon);
     } else view = "beranda";
     document.body.dataset.view = view;
+    terapkanUI();
     renderLibrary();
     renderView();
     if (view === "beranda") renderPlayer();
@@ -785,6 +817,14 @@
       if (t.closest("#hapusSaring")) { saring.kel = ""; $("cari").value = ""; saring.q = ""; $("cariHapus").hidden = true; renderLibrary(); isiHome(); return; }
       if (t.closest("#panelBtn")) { togglePanel(); return; }
       if (t.closest("#zoomBtn")) { ui.zoom = ui.zoom == null ? 100 : null; simpanUI(); terapkanZoom(); return; }
+      // Judul di bilah bawah saat kegiatan itu sedang dibuka: kembali ke atas halaman kegiatan
+      const np = t.closest(".np-t, .np-art");
+      if (np && view === "kegiatan" && np.getAttribute("href") === location.hash) {
+        e.preventDefault();
+        const sc = $("viewScroll");
+        if (sc) sc.scrollTo({ top: 0, behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
+        return;
+      }
       if (t.closest(".lib-item")) setTimeout(() => tutupLaci({ kembali: false }), 0);
     });
     const cari = $("cari");
@@ -819,7 +859,7 @@
     document.addEventListener("keydown", (e) => { if (e.key === "Escape" && !document.querySelector("dialog[open]")) tutupLaci(); });
     const ubahLayar = () => { tutupLaci({ kembali: false }); terapkanUI(); terapkanZoom(); };
     ["(min-width: 1100px)", "(max-width: 760px)"].forEach((q) => { const m = window.matchMedia(q); if (m.addEventListener) m.addEventListener("change", ubahLayar); else m.addListener(ubahLayar); });
-    if (window.ResizeObserver) new ResizeObserver(() => { if (ui.zoom == null) terapkanZoom(); }).observe($("mainView"));
+    if (window.ResizeObserver) new ResizeObserver(() => terapkanZoom()).observe($("mainView"));
     // File yang diseret ke mana saja di halaman kegiatan dibaca sebagai patroli SMART (browser tidak membuka file itu)
     window.addEventListener("dragover", (e) => { if (e.dataTransfer && [...e.dataTransfer.types].includes("Files")) e.preventDefault(); });
     window.addEventListener("drop", (e) => {

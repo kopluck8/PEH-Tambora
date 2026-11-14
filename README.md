@@ -6,7 +6,9 @@ Aplikasi web statis (tanpa server), sama seperti [Generator LPK SMART Patrol](ht
 
 ## Kegiatan
 
-Setiap kegiatan punya alamat sendiri: tambahkan id di kolom kedua di belakang alamat aplikasi, misalnya `https://kopluck8.github.io/PEH-Tambora/#burung`.
+Setiap kegiatan punya alamat sendiri: tambahkan id di kolom kedua di belakang alamat aplikasi, misalnya `https://kopluck8.github.io/PEH-Tambora/#burung`. Tab juga bisa langsung dituju: `#burung/rpk`, `#burung/hasil`, atau `#burung/lpk` (tanpa nama tab, yang terbuka tab Data). Alamat tanpa id membuka beranda.
+
+Kegiatan dikelompokkan menjadi **Satwa**, **Tumbuhan**, dan **Ekosistem**. Uma Ani (pohon sarang lebah madu hutan) masuk kelompok Tumbuhan karena yang didata adalah pohon sarangnya.
 
 | Kegiatan | Id | Analisis | Data contoh |
 | --- | --- | --- | --- |
@@ -29,17 +31,19 @@ Data contoh disalin dari lampiran LPK Balai tanpa nama petugas. Kegiatan yang be
 
 ## Cara pakai
 
-1. Buka `index.html` (atau alamat GitHub Pages), lalu pilih kegiatan.
-2. **Sumber data** (panel kiri), salah satu atau gabungan dari:
+1. Buka `index.html` (atau alamat GitHub Pages). Beranda menampilkan kegiatan yang terakhir dibuka dan semua kegiatan per kelompok. Pilih kegiatan dari beranda atau dari daftar **Kegiatan** di kiri. Daftar itu bisa dicari (judul, kode, atau metode), disaring per kelompok, diurutkan, dan kegiatan yang sering dipakai bisa disematkan di atasnya.
+2. **Sumber data** (panel **Isian** di kanan), salah satu atau gabungan dari:
    - isi langsung di tab **Data**, atau impor CSV per tabel (formatnya sama dengan tombol *Unduh CSV* di tabel itu);
-   - pilih file ekspor patroli **SMART** (`.zip` atau `.xml`, bisa beberapa sekaligus) yang dicatat dengan kategori **Metode Teknis**. Kategori yang dibaca setiap kegiatan tertulis di panel. Bila ada pilihan yang labelnya belum terbaca, muat juga ekspor Data Model SMART Balai;
-   - **Muat contoh** (untuk kegiatan yang punya data contoh).
-3. Isi **Parameter metode**, identitas kegiatan, penandatangan LPK dan RPK, tim, alat, dan anggaran.
-4. Tab **RPK** menyusun rencana kegiatan dan bisa dibuat sebelum ada data lapangan. Tab **Hasil Analisis** menampilkan tabel hitungan (unduh CSV). Tab **LPK** menampilkan laporan lengkap. Teks berlatar kuning bisa disunting langsung; unduh **Word (.docx)** atau **Cetak / PDF**.
+   - pilih file ekspor patroli **SMART** (`.zip` atau `.xml`, bisa beberapa sekaligus) yang dicatat dengan kategori **Metode Teknis**: lewat tombol hijau di tab Data, kotak di panel Isian, atau seret file ke halaman kegiatan. Kategori yang dibaca setiap kegiatan tertulis di panel. Bila ada pilihan yang labelnya belum terbaca, muat juga ekspor Data Model SMART Balai;
+   - **Muat data contoh** (untuk kegiatan yang punya data contoh).
+3. Isi **Parameter metode**, identitas kegiatan, penandatangan LPK dan RPK, tim, alat, dan anggaran di panel Isian.
+4. Tab **RPK** menyusun rencana kegiatan dan bisa dibuat sebelum ada data lapangan. Tab **Hasil Analisis** menampilkan tabel hitungan. Tab **LPK** menampilkan laporan lengkap. Tombol hijau besar di setiap tab menjalankan langkah utamanya: muat patroli SMART (Data), unduh CSV (Hasil Analisis), unduh Word (RPK dan LPK). Teks berlatar kuning bisa disunting langsung; **Cetak / PDF** ada di sebelahnya.
+
+Bilah bawah selalu menampilkan kegiatan yang sedang dibuka: tombol langkah sebelumnya dan berikutnya (RPK, Data, Hasil Analisis, LPK), tombol hijau yang sama dengan tombol di halaman, tombol untuk menyembunyikan panel Isian, dan zoom pratinjau RPK/LPK (bawaan: pas lebar). Daftar kegiatan bisa diciutkan menjadi kolom sampul saja. Di layar di bawah 1100 px, daftar dan panel Isian menjadi laci yang dibuka dari tombolnya; di ponsel ada navigasi bawah Beranda, Kegiatan, dan Isian. Tampilan memakai tema gelap; kertas RPK dan LPK tetap putih dan hasil cetaknya sama dengan sebelumnya.
 
 Bab metode analisis di RPK dan LPK memuat rumus beserta simbol dan keterangannya, seperti LPK raptor 2021. Rumus tampil sebagai MathML di pratinjau dan menjadi equation Word saat diunduh. Format dokumen mengikuti Memorandum M.57/T.41/TU/PEG/02/2026 (laporan kegiatan keteknisan): sampul, lembar pengesahan, daftar isi dan tabel, pendahuluan, kegiatan yang dilaksanakan, hasil, simpulan dan saran, penutup, dan lampiran.
 
-Isian disimpan di browser (per kegiatan). Pustaka dari CDN (perlu internet sekali): JSZip 3.10.1 (membaca .zip SMART) dan docx 8.5.0 (membuat Word).
+Isian disimpan di browser (per kegiatan), begitu juga sematan, urutan daftar, kegiatan terakhir, dan pengaturan tampilan. Pustaka dari CDN (perlu internet sekali): JSZip 3.10.1 (membaca .zip SMART) dan docx 8.5.0 (membuat Word).
 
 ## Data model SMART: Metode Teknis
 
@@ -89,9 +93,9 @@ Perjumpaan dengan jarak lebih dari jari-jari plot dicatat tetapi tidak dihitung,
 
 ```
 index.html                 halaman aplikasi
-css/style.css              tampilan (sama dengan Generator LPK SMART Patrol)
+css/style.css              tampilan gelap (beranda, daftar kegiatan, panel isian, bilah bawah), pratinjau kertas, dan aturan cetak
 js/core/                   inti yang dipakai semua kegiatan
-  app.js                   kerangka: pilihan kegiatan, isian bersama, tab RPK/Data/Hasil/LPK, penyimpanan
+  app.js                   kerangka: beranda, daftar kegiatan, panel isian, bilah bawah, alamat halaman, tab RPK/Data/Hasil/LPK, penyimpanan
   kegiatan.js              mesin generator: satu konfigurasi menjadi tab Data, Hasil, RPK, dan LPK
   modul.js, modul2.js      modul analisis siap pakai (hitungan, narasi metode dengan rumus, tabel, simpulan)
   stats.js                 rumus umum (luas plot, kepadatan, Shannon, dominansi, dispersi, King, Hayne, MCP)
@@ -118,7 +122,7 @@ tests/                     uji rumus, contoh ekspor patroli, dan data uji sintet
 
 ```js
 window.PEH.kegiatan({
-  id: "burung", kode: "BURUNG", judul: "...", ringkas: "...", objek: "burung",
+  id: "burung", kode: "BURUNG", kelompok: "Satwa", judul: "...", ringkas: "...", objek: "burung",
   kategoriSMART: "metodeteknis.inventarisasiburung.",   // boleh daftar, misalnya ["metodeteknis.x.", "satwaliar."]
   tabel: [{ key: "perjumpaan", judul: "Perjumpaan Burung", kolom: [...],
     smart: { sub: "perjumpaanburung", map: (o, v) => { const [jenis, latin] = K.jenisDari(v, "jenissatwa"); return { ...K.dasarObs(o), jenis, latin, n: Number(v("jumlah")) || 1 }; } } }],
@@ -128,6 +132,7 @@ window.PEH.kegiatan({
 });
 ```
 
+   - `kode` (2 sampai 8 huruf kapital, tidak boleh sama dengan kegiatan lain) tampil di sampul kegiatan. `kelompok` (`Satwa`, `Tumbuhan`, atau `Ekosistem`) menentukan rak di beranda, saringan daftar, dan warna sampul. Uji memeriksa keduanya.
    - `modul` memakai modul di `js/core/modul.js` dan `modul2.js` (`komunitas`, `titik`, `dispersi`, `penduga`, `persen`, `daftar`, `struktur`, `transek`, `pellet`, `jejak`, `vegetasi`, `mcp`, `karbon`, `tutupan`, `skor`, `kesesuaian`, `kelimpahan`, `invasif`, `keinvasifan`, `sampling`, `deskripsi`, `perkiraan`, `sarang`, `rekap`, `ekosistem`). Setiap modul menyediakan hitungan, narasi metode dengan rumus, narasi hasil, tabel, dan butir simpulan. `opsional: true` menyembunyikan modul di LPK bila datanya kosong (RPK tetap memuat metodenya). `simpulan: false` menghapus butir simpulan modul, atau berikan fungsi untuk menggantinya. Id modul `lokasi` sudah dipakai subbab lokasi.
    - `smart.map(o, v)` menerima observasi dan fungsi `v(key)` yang mengembalikan nilai atribut (label untuk pilihan daftar). `smart.sub` boleh daftar kategori level 2; `smart.gabung: true` menggabungkan observasi pada waypoint yang sama menjadi satu baris.
    - `kegiatan/bersama.js` (`window.PEHKeg`) berisi kolom umum (`KOL`, `kolJenis`, `kolVegetasi`), `dasarObs` (tanggal, waktu, dan koordinat waypoint), `jenisDari` (nama lokal dan ilmiah dari atribut jenis), `pas` (menyamakan nilai dengan label daftar), dan `resorObs` (resor dari stasiun patroli).
