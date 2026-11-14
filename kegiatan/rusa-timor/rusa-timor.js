@@ -23,6 +23,7 @@
   window.PEH.kegiatan({
     id: "rusa-timor", kode: "RUSA",
     judul: "Inventarisasi dan Monitoring Satwa Kunci Rusa Timor",
+    kelompok: "Satwa",
     ringkas: "Transek garis. Kepadatan populasi (King dan Hayne), struktur populasi, dugaan populasi dari jejak kaki dan onggokan kotoran, pola sebaran, tanda keberadaan, dan vegetasi habitat.",
     objek: "rusa timor", objekPeta: "transek dan titik perjumpaan rusa timor",
     kategoriSMART: "metodeteknis.monitoringrusatimor.",

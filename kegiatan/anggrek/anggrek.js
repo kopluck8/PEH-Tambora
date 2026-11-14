@@ -17,6 +17,7 @@
   window.PEH.kegiatan({
     id: "anggrek", kode: "ANGGREK",
     judul: "Identifikasi Jenis Anggrek",
+    kelompok: "Tumbuhan",
     ringkas: "Transek jalur dengan plot pengamatan. Daftar jenis per genus, kelimpahan, distribusi, INP, keanekaragaman Shannon-Wiener, pendugaan kekayaan jenis, cara hidup, pohon inang, dan fenologi.",
     objek: "anggrek", objekPeta: "jalur pengamatan dan titik temuan anggrek",
     kategoriSMART: "metodeteknis.identifikasianggrek.",

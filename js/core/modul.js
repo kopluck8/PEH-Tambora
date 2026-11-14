@@ -315,7 +315,7 @@
     kalkExtra(r) {
       if (r.kosong) return "";
       const beda = r.gabTpl.kriteria !== r.gabPlot.kriteria || r.baris.some((b) => b.kritTpl !== b.kritPlot);
-      return `<h3>Perbandingan rumus indeks dispersi</h3><p class="muted">Laporan memakai: <b>${r.tpl ? "rumus template Analisa data.xlsx" : "rumus per unit pengamatan (Ludwig dan Reynolds)"}</b>. Ganti di panel kiri, Parameter metode. χ² = ${num(r.chi.chi2, 3)} (db ${r.chi.df}).</p>${resTable(this.banding(r))}${beda ? `<div class="callout"><b>Hasil kedua rumus berbeda.</b> Rumus template menghitung ragam dari total individu, seolah-olah sebaran per unit tidak diketahui. Rumus per unit memakai jumlah individu yang benar-benar tercatat di setiap unit, sesuai definisi Ludwig dan Reynolds (1988).</div>` : ""}`;
+      return `<h3>Perbandingan rumus indeks dispersi</h3><p class="muted">Laporan memakai: <b>${r.tpl ? "rumus template Analisa data.xlsx" : "rumus per unit pengamatan (Ludwig dan Reynolds)"}</b>. Ganti di panel Isian, Parameter metode. χ² = ${num(r.chi.chi2, 3)} (db ${r.chi.df}).</p>${resTable(this.banding(r))}${beda ? `<div class="callout"><b>Hasil kedua rumus berbeda.</b> Rumus template menghitung ragam dari total individu, seolah-olah sebaran per unit tidak diketahui. Rumus per unit memakai jumlah individu yang benar-benar tercatat di setiap unit, sesuai definisi Ludwig dan Reynolds (1988).</div>` : ""}`;
     },
     simpulan(r, c) { return r.kosong ? "" : `Secara keseluruhan ${c.objek} memiliki pola sebaran ${r.gab.kriteria.toLowerCase()} (ID = ${num(r.gab.id, 3)})`; },
     kpi(r) { return r.kosong ? [] : [[num(r.gab.id, 3), `ID (${r.gab.kriteria})`]]; }

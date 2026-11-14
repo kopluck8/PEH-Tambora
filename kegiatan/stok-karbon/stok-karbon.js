@@ -24,6 +24,7 @@
   window.PEH.kegiatan({
     id: "stok-karbon", kode: "KARBON",
     judul: "Pengumpulan Data Penghitungan Stok Karbon",
+    kelompok: "Ekosistem",
     ringkas: "Plot lingkaran bersarang di sepanjang transek. Cadangan karbon lima pool (atas permukaan, bawah permukaan, serasah/nekromas/tumbuhan bawah, kayu mati, tanah) dan komposisi tegakan.",
     objek: "tegakan", objekPeta: "transek dan plot ukur karbon",
     kategoriSMART: "metodeteknis.stokkarbon.",

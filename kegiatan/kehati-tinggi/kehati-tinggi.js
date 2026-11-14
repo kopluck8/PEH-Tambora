@@ -39,6 +39,7 @@
   window.PEH.kegiatan({
     id: "kehati-tinggi", kode: "KEHATI",
     judul: "Inventarisasi dan Verifikasi Kawasan dengan Nilai Keanekaragaman Hayati Tinggi",
+    kelompok: "Ekosistem",
     ringkas: "Verifikasi tipe ekosistem pada grid areal kehati tinggi, analisis vegetasi (INP dan H′ per tingkat pertumbuhan), daftar jenis tumbuhan dan satwa beserta status perlindungannya, dan karakteristik setiap tipe ekosistem.",
     objek: "keanekaragaman hayati", objekPeta: "grid verifikasi dan tipe ekosistem",
     kategoriSMART: ["metodeteknis.verifikasikehatitinggi.", "groundcheck.", "satwaliar."],

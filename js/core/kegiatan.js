@@ -183,7 +183,7 @@
         blok.push(`<div class="res"><h2>${esc(c.judul)}</h2><p class="muted">${esc(mod.narHasil(r, c))}</p>${tabs.map((x) => `<h3>${esc(x.cap)}</h3>${R_.resTable(x.spec)}`).join("")}${mod.kalkExtra ? mod.kalkExtra(r, c) : ""}${mod.gambar ? mod.gambar(r, c).replace('class="map"', 'class="map" style="margin:10px 0;max-width:640px"').replace("<img ", '<img style="width:100%;height:auto;border:1px solid var(--line);border-radius:8px" ') : ""}</div>`);
       });
       const adaData = cfg.tabel.some((tb) => (S.data[tb.key] || []).length);
-      if (!adaData) return `<div class="empty"><h2>Belum ada data</h2><p>Isi tabel di tab Data, muat file patroli SMART, atau muat data contoh di panel kiri. Tab RPK bisa dipakai sebelum data lapangan tersedia.</p></div>`;
+      if (!adaData) return `<div class="empty"><h2>Belum ada data</h2><p>Isi tabel di tab Data, muat file patroli SMART, atau muat data contoh di panel Isian. Tab RPK bisa dipakai sebelum data lapangan tersedia.</p></div>`;
       return `${kpi.length ? `<div class="kpi">${kpi.slice(0, 8).map(([v, l]) => `<div><b>${esc(v)}</b><span>${esc(l)}</span></div>`).join("")}</div>` : ""}${blok.join("")}`;
     }
     function csvHasil(A, S) {
@@ -273,7 +273,7 @@
     }
 
     const def = {
-      id: cfg.id, kode: cfg.kode, judul: cfg.judul, ringkas: cfg.ringkas, kategoriSMART: cfg.kategoriSMART, kamusSMART: cfg.kamusSMART || [], contoh: cfg.contoh, alatBawaan: cfg.alat || [],
+      id: cfg.id, kode: cfg.kode, kelompok: cfg.kelompok, judul: cfg.judul, ringkas: cfg.ringkas, kategoriSMART: cfg.kategoriSMART, kamusSMART: cfg.kamusSMART || [], contoh: cfg.contoh, alatBawaan: cfg.alat || [],
       stateAwal: () => ({ param: defaults(), data: kosongData(), teks: {}, catatanLapangan: "" }),
       dariContoh: (c) => ({ identitas: c.identitas, penandatangan: c.penandatangan, penandatanganRPK: c.penandatanganRPK, tim: c.tim || [], alat: c.alat || cfg.alat || [], rab: c.rab || [], param: { ...defaults(), ...(c.param || {}) }, data: { ...kosongData(), ...JSON.parse(JSON.stringify(c.data || {})) }, teks: c.teks || {}, catatanLapangan: c.catatanLapangan || "", sumber: c.nama }),
       formParameter, panelData, dariSMART, hitung, hasilHtml, csvHasil, narasi, lpk, narasiRPK, rpk, cfg

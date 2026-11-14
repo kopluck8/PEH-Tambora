@@ -37,6 +37,7 @@
   window.PEH.kegiatan({
     id: "uma-ani", kode: "UMAANI",
     judul: "Identifikasi Jenis, Jumlah, dan Sebaran Pohon Sarang Lebah Madu Hutan (Uma Ani)",
+    kelompok: "Tumbuhan",
     ringkas: "Penelusuran pohon sarang lebah madu hutan (Apis dorsata). Jenis pohon sarang, jumlah sarang, tinggi sarang, jarak ke sumber air, perbandingan dengan survei sebelumnya pada pohon yang sama, daerah sebaran (MCP), dan vegetasi di sekitar sarang.",
     objek: "lebah madu hutan", objekPeta: "pohon sarang lebah madu hutan (uma ani)",
     kategoriSMART: "metodeteknis.sebaranumaani.",

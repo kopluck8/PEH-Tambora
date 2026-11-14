@@ -18,6 +18,7 @@
   window.PEH.kegiatan({
     id: "ground-check", kode: "GC",
     judul: "Ground Check Verifikasi Tutupan Lahan/Open Area dan Tipe Ekosistem",
+    kelompok: "Ekosistem",
     ringkas: "Verifikasi lapangan peta tutupan lahan, status open area, dan tipe ekosistem. Matriks kesalahan, akurasi keseluruhan, kappa, rekap open area per penyebab dan zona, serta analisis vegetasi petak contoh.",
     objek: "titik ground check", objekPeta: "titik ground check tutupan lahan dan tipe ekosistem",
     kategoriSMART: ["metodeteknis.groundchecktutupanlahan.", "groundcheck."],

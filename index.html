@@ -2,35 +2,85 @@
 <html lang="id">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>PEH Tambora</title>
 <meta name="description" content="Kalkulator analisis data serta generator RPK dan LPK kegiatan teknis Pengendali Ekosistem Hutan Balai TN Tambora.">
+<meta name="theme-color" content="#000000">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<!-- Huruf Figtree (SIL Open Font License) dimuat tanpa menahan tampilan; bila tidak terunduh, huruf sistem dipakai -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400..900&amp;display=swap" media="print" onload="this.media='all'">
 <link rel="stylesheet" href="css/style.css">
 </head>
-<body>
-<header class="app-head noprint">
-  <div class="brand">
-    <svg viewBox="0 0 24 24" width="28" height="28" aria-hidden="true"><path fill="currentColor" d="M12 2 3 6v6c0 5 3.8 9.4 9 10 5.2-.6 9-5 9-10V6l-9-4Zm0 2.2 7 3.1V12c0 3.9-2.9 7.4-7 8-4.1-.6-7-4.1-7-8V7.3l7-3.1ZM8 15l2.5-4 2 2.5L14.5 9 17 15H8Z"/></svg>
-    <div><h1>PEH Tambora: Kalkulator Analisis, Generator RPK dan LPK</h1><p>Kegiatan teknis Pengendali Ekosistem Hutan, Balai TN Tambora. Semua data diproses di browser.</p></div>
-  </div>
-</header>
+<body data-view="beranda">
+<a class="skip" href="#mainView">Langsung ke isi</a>
+<div class="app">
+  <header class="topbar noprint">
+    <a class="brand" href="#beranda" title="Beranda PEH Tambora">
+      <svg viewBox="0 0 24 24" width="32" height="32" aria-hidden="true"><path fill="currentColor" d="M12 2 3 6v6c0 5 3.8 9.4 9 10 5.2-.6 9-5 9-10V6l-9-4Zm0 2.2 7 3.1V12c0 3.9-2.9 7.4-7 8-4.1-.6-7-4.1-7-8V7.3l7-3.1ZM8 15l2.5-4 2 2.5L14.5 9 17 15H8Z"/></svg>
+      <span>PEH Tambora</span>
+    </a>
+    <div class="topnav">
+      <a class="round-btn" id="homeBtn" href="#beranda" aria-label="Beranda" title="Beranda"></a>
+      <div class="search" role="search">
+        <label class="vh" for="cari">Cari kegiatan</label>
+        <span class="search-ic" id="cariIkon"></span>
+        <input id="cari" type="search" placeholder="Cari kegiatan, kode, atau metode" autocomplete="off" spellcheck="false">
+        <button type="button" class="icon-btn search-x" id="cariHapus" aria-label="Hapus pencarian" title="Hapus pencarian" hidden></button>
+      </div>
+    </div>
+    <p class="savestate" id="saveState" aria-live="polite"></p>
+  </header>
 
-<div class="keg-pick noprint">
-  <label for="kegSel">Kegiatan</label>
-  <select id="kegSel"></select>
-  <p class="muted" id="kegDesc"></p>
+  <nav class="library noprint" id="library" aria-label="Daftar kegiatan">
+    <div class="lib-head">
+      <button type="button" class="lib-toggle" id="libToggle" aria-controls="libList" aria-expanded="true"></button>
+      <button type="button" class="icon-btn lib-close" id="libClose" aria-label="Tutup daftar kegiatan" title="Tutup daftar kegiatan"></button>
+    </div>
+    <div class="chips" id="libChips" role="group" aria-label="Saring menurut kelompok"></div>
+    <div class="lib-tools">
+      <label for="urut">Urutkan</label>
+      <select id="urut">
+        <option value="bawaan">Urutan bawaan</option>
+        <option value="terakhir">Terakhir dibuka</option>
+        <option value="abjad">Abjad</option>
+      </select>
+    </div>
+    <ul class="lib-list" id="libList"></ul>
+  </nav>
+
+  <main class="view" id="mainView" tabindex="-1"></main>
+
+  <aside class="panel noprint" id="panel" aria-labelledby="panelTitle">
+    <div class="panel-head">
+      <div><h2 id="panelTitle">Isian kegiatan</h2><p id="panelSub"></p></div>
+      <button type="button" class="icon-btn" id="panelClose" aria-label="Tutup panel isian" title="Tutup panel isian"></button>
+    </div>
+    <div class="panel-body" id="side"></div>
+  </aside>
+
+  <footer class="player noprint" id="player" aria-label="Kegiatan yang sedang dibuka"></footer>
+
+  <nav class="tabbar noprint" aria-label="Navigasi utama">
+    <a href="#beranda" id="tbHome"><span class="tb-ic"></span><span>Beranda</span></a>
+    <button type="button" id="tbLib" aria-controls="library" aria-expanded="false"><span class="tb-ic"></span><span>Kegiatan</span></button>
+    <button type="button" id="tbPanel" aria-controls="panel" aria-expanded="false"><span class="tb-ic"></span><span>Isian</span></button>
+  </nav>
 </div>
-<nav class="tabs noprint" role="tablist" aria-label="Tahap">
-  <button type="button" role="tab" class="tab" data-tab="rpk">RPK <small>rencana</small></button>
-  <button type="button" role="tab" class="tab on" data-tab="data">Data <small>isian lapangan</small></button>
-  <button type="button" role="tab" class="tab" data-tab="hasil">Hasil Analisis <small>kalkulator</small></button>
-  <button type="button" role="tab" class="tab" data-tab="lpk">LPK <small>laporan</small></button>
-</nav>
 
-<main class="layout">
-  <aside class="side noprint" id="side"></aside>
-  <div class="main" id="main"></div>
-</main>
+<button type="button" class="scrim noprint" id="scrim" aria-label="Tutup" tabindex="-1" hidden></button>
+<input id="smartFile" type="file" accept=".zip,.xml" multiple hidden>
+<div class="toasts noprint" id="toasts" aria-live="polite"></div>
+<dialog class="dlg" id="tanya" aria-labelledby="tanyaJudul" aria-describedby="tanyaIsi">
+  <form method="dialog">
+    <h2 id="tanyaJudul"></h2>
+    <p id="tanyaIsi"></p>
+    <div class="dlg-foot">
+      <button type="submit" class="btn ghost" value="batal">Batal</button>
+      <button type="submit" class="btn primary" value="ya" id="tanyaYa">Lanjutkan</button>
+    </div>
+  </form>
+</dialog>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/docx@8.5.0/build/index.umd.js"></script>
