@@ -42,6 +42,7 @@
   window.PEH.kegiatan({
     id: "rekap-elang-flores", kode: "REKAP",
     judul: "Rekapitulasi Perjumpaan dan Sebaran Elang Flores",
+    kelompok: "Satwa",
     ringkas: "Rekap seluruh catatan perjumpaan elang flores dari monitoring, inventarisasi raptor, patroli SMART, dan laporan masyarakat. Jumlah individu minimum per lokasi dan tahun, daerah sebaran (MCP), status sarang, sumber data, dan aktivitas.",
     objek: "elang flores", objekPeta: "titik perjumpaan dan sarang elang flores",
     kategoriSMART: ["metodeteknis.", "satwaliar."],

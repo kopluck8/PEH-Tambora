@@ -38,6 +38,14 @@ test("ke-14 generator terdaftar; hasil hitungan dan narasi LPK/RPK tanpa NaN, un
   }
 });
 
+test("setiap kegiatan punya kelompok (Satwa, Tumbuhan, Ekosistem) dan kode unik untuk daftar kegiatan dan sampulnya", () => {
+  const semua = APP.PEH.KEGIATAN;
+  semua.forEach((k) => assert.ok(["Satwa", "Tumbuhan", "Ekosistem"].includes(k.kelompok), `${k.id}: kelompok "${k.kelompok}" tidak dikenal`));
+  const kode = semua.map((k) => k.kode);
+  kode.forEach((x, i) => assert.ok(/^[A-Z]{2,8}$/.test(x || ""), `${semua[i].id}: kode "${x}" harus 2 sampai 8 huruf kapital`));
+  assert.strictEqual(new Set(kode).size, kode.length, "kode kegiatan ada yang sama");
+});
+
 test("burung: kepadatan dan Shannon-Wiener sama dengan LPK Resort Doropeti Februari 2023", () => {
   const A = hitung("burung");
   assert.strictEqual(A.kepadatan.nPlot, 36);

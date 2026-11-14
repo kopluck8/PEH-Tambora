@@ -38,6 +38,7 @@
   window.PEH.kegiatan({
     id: "jenis-invasif", kode: "IAS",
     judul: "Inventarisasi Tumbuhan Asing Invasif (Invasive Alien Species)",
+    kelompok: "Tumbuhan",
     ringkas: "Petak contoh pada lokasi sasaran. Kerapatan, frekuensi, dan INP tumbuhan asing invasif di dalam komunitas tumbuhan, skor keinvasifan lima faktor, serta sebaran perjumpaan menurut zona dan lokasi sasaran.",
     objek: "tumbuhan asing invasif", objekPeta: "petak contoh dan perjumpaan tumbuhan asing invasif",
     kategoriSMART: "metodeteknis.inventarisasijenisinvasif.",

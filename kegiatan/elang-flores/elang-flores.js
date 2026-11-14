@@ -31,6 +31,7 @@
   window.PEH.kegiatan({
     id: "elang-flores", kode: "ELFLO",
     judul: "Monitoring Satwa Kunci Elang Flores",
+    kelompok: "Satwa",
     ringkas: "Titik pengamatan (IPA) di sepanjang jalur. Kepadatan populasi, struktur populasi, pola sebaran, wilayah jelajah (MCP), aktivitas, burung lain di habitatnya, pohon sarang, dan vegetasi sekitar sarang.",
     objek: "elang flores", objekPeta: "plot pengamatan, titik perjumpaan elang flores, dan pohon sarang",
     kategoriSMART: "metodeteknis.monitoringelangflores.",

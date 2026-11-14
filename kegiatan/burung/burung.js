@@ -15,6 +15,7 @@
   window.PEH.kegiatan({
     id: "burung", kode: "BURUNG",
     judul: "Identifikasi dan Inventarisasi Jenis Burung",
+    kelompok: "Satwa",
     ringkas: "Titik hitung dan transek jalur. Kepadatan populasi, keanekaragaman Shannon-Wiener, kemerataan, kekayaan jenis, dominansi, pendugaan kekayaan jenis, dan aktivitas burung.",
     objek: "burung", objekPeta: "plot pengamatan dan titik perjumpaan burung",
     kategoriSMART: "metodeteknis.inventarisasiburung.",

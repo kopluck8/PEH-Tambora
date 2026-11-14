@@ -42,6 +42,7 @@
   window.PEH.kegiatan({
     id: "tumbuhan-penting", kode: "TUMPEN",
     judul: "Identifikasi Penyebaran dan Inventarisasi Tumbuhan Penting",
+    kelompok: "Tumbuhan",
     ringkas: "Garis berpetak pada jalur pengamatan. Intensitas sampling, analisis vegetasi (K, F, D, INP, H′) per tingkat pertumbuhan, dan daftar tumbuhan penting menurut nilai ekologis, nilai ekonomi, endemisitas, serta status IUCN, CITES, dan P.106/2018.",
     objek: "tumbuhan", objekPeta: "petak contoh dan titik temuan tumbuhan penting",
     kategoriSMART: "metodeteknis.inventarisasitumbuhanpenting.",

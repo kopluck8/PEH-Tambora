@@ -42,6 +42,7 @@
   window.PEH.kegiatan({
     id: "pelepasliaran", kode: "LEPAS",
     judul: "Identifikasi dan Kajian Lokasi Pelepasliaran Satwa",
+    kelompok: "Satwa",
     ringkas: "Transek garis dan daftar MacKinnon untuk burung, penilaian fungsi pohon sebagai penarik burung (Handayani, 2015), komposisi guild, kelimpahan relatif, dan skoring kesesuaian lokasi pelepasliaran.",
     objek: "burung", objekPeta: "lokasi pengamatan dan calon lokasi pelepasliaran",
     kategoriSMART: "metodeteknis.kajianpelepasliaran.",

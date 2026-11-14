@@ -295,7 +295,7 @@
 
   /* ---------- Tampilan kalkulator ---------- */
   function hasilHtml(A, S) {
-    if (!A.S) return `<div class="empty"><h2>Belum ada data perjumpaan</h2><p>Isi tabel di tab Data, muat file patroli SMART, atau muat data contoh di panel kiri.</p></div>`;
+    if (!A.S) return `<div class="empty"><h2>Belum ada data perjumpaan</h2><p>Isi tabel di tab Data, muat file patroli SMART, atau muat data contoh di panel Isian.</p></div>`;
     const p = A.pembanding, beda = p.template.gab.kriteria !== p.plot.gab.kriteria || p.template.jenis.some((x, i) => x.kriteria !== p.plot.jenis[i].kriteria);
     return `<div class="kpi"><div><b>${A.S}</b><span>jenis raptor</span></div><div><b>${A.N}</b><span>individu dalam plot</span></div><div><b>${num(A.luas.ha, A.luas.ha % 1 ? 2 : 0)} ha</b><span>${A.n} plot × r ${num(A.r)} m</span></div><div><b>${num(A.D.perHa, 4)}</b><span>ind/ha (${haTxt(A.D.haPerInd)})</span></div><div><b>${f2(A.H)}</b><span>H' (${esc(A.kritH)})</span></div><div><b>${f3(A.idGab.id)}</b><span>ID raptor (${esc(A.idGab.kriteria)})</span></div></div>
     <div class="res"><h2>Rekapitulasi data (seperti lembar Excel)</h2><table><thead><tr><th>No</th><th>Nama Indonesia</th><th>Nama Latin</th><th>Dewasa</th><th>Anak</th><th>Xi</th><th>Ind/Ha</th><th>1 ind/… Ha</th><th>Xi²</th><th>Pi</th><th>Pi ln Pi</th><th>Di (%)</th><th>Dominansi</th><th>Sxi²</th><th>x̄i</th><th>IDi</th><th>Pola Sebaran</th></tr></thead><tbody>
@@ -303,7 +303,7 @@
     <tr class="total"><td colspan="5" class="t">Σ</td><td>${A.N}</td><td>${num(A.D.perHa, 4)}</td><td>${haTxt(A.D.haPerInd)}</td><td>${A.sumXi2}</td><td>${f2(A.sumPi)}</td><td>${f2(A.sumPiLnPi)}</td><td colspan="6"></td></tr></tbody></table>
     <h3>Parameter</h3><table><tbody><tr><td class="t">Jumlah individu raptor (N)</td><td>${A.N}</td></tr><tr><td class="t">Jumlah plot (n)</td><td>${A.n}</td></tr><tr><td class="t">Jari-jari plot (r)</td><td>${num(A.r)} m</td></tr><tr><td class="t">Luas plot pengamatan (n × ${num(A.pi, 2)} × r²)</td><td>${num(A.luas.m2)} m² = ${num(A.luas.ha, 2)} ha</td></tr><tr><td class="t">Populasi raptor (D)</td><td>${num(A.D.perHa, 4)} ind/ha</td></tr><tr><td class="t">H'</td><td>${num(A.H, 4)} (${esc(A.kritH)})</td></tr><tr><td class="t">Sx² raptor; x̄ raptor; ID raptor</td><td>${num(A.idGab.s2, 6)}; ${num(A.idGab.mean, 6)}; ${num(A.idGab.id, 6)} (${esc(A.idGab.kriteria)})</td></tr></tbody></table></div>
     <div class="res"><h2>Perbandingan rumus indeks dispersi</h2>
-    <p class="muted">Laporan memakai: <b>${A.metodeID === "plot" ? "Per plot (Ludwig & Reynolds dengan data per plot)" : "Rumus template Analisa data.xlsx"}</b>. Ganti di panel kiri, Parameter metode.</p>
+    <p class="muted">Laporan memakai: <b>${A.metodeID === "plot" ? "Per plot (Ludwig & Reynolds dengan data per plot)" : "Rumus template Analisa data.xlsx"}</b>. Ganti di panel Isian, Parameter metode.</p>
     <table><thead><tr><th>Jenis</th><th>Plot perjumpaan</th><th>IDi template</th><th>Kriteria</th><th>IDi per plot</th><th>Kriteria</th></tr></thead><tbody>
     ${A.baris.map((b, i) => `<tr><td class="t">${esc(b.jenis)}</td><td class="t">${esc(b.plot.join(", "))}</td><td>${f3(p.template.jenis[i].id)}</td><td class="c">${p.template.jenis[i].kriteria}</td><td>${f3(p.plot.jenis[i].id)}</td><td class="c">${p.plot.jenis[i].kriteria}</td></tr>`).join("")}
     <tr class="total"><td class="t" colspan="2">ID raptor (gabungan)</td><td>${f3(p.template.gab.id)}</td><td class="c">${p.template.gab.kriteria}</td><td>${f3(p.plot.gab.id)}</td><td class="c">${p.plot.gab.kriteria}</td></tr></tbody></table>
@@ -423,6 +423,8 @@
   window.PEH.daftar({
     id: "raptor",
     judul: "Inventarisasi dan Sebaran Raptor",
+    kode: "RAPTOR",
+    kelompok: "Satwa",
     ringkas: "Metode point count. Kepadatan populasi, keanekaragaman Shannon-Wiener, dominansi, dan indeks dispersi; LPK format Memorandum M.57.",
     kategoriSMART: KAT,
     kamusSMART: ["PEH_JENIS_RAPTOR"],

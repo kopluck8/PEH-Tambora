@@ -26,6 +26,7 @@
   window.PEH.kegiatan({
     id: "satwa-kunci", kode: "SATKUN",
     judul: "Monitoring Populasi dan Persebaran Satwa Liar Spesies Kunci",
+    kelompok: "Satwa",
     ringkas: "Penyusuran jalur secara purposif. Perkiraan jumlah individu per jenis dan lokasi dari perjumpaan langsung dan tanda keberadaan, kepadatan populasi metode King, struktur populasi, onggokan kotoran (pellet count), dan sebaran temuan.",
     objek: "satwa kunci", objekPeta: "jalur pengamatan dan titik temuan satwa kunci",
     kategoriSMART: "metodeteknis.monitoringsatwakunci.",
